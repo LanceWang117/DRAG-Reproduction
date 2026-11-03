@@ -1,0 +1,11 @@
+{
+  "source_commit": "c035ee1b7e6bc9fa67d5a104df1c2175a8300666",
+  "version": "official-baseline",
+  "method": "Naive RAG",
+  "new_questions_requested": 100,
+  "return_code": 0,
+  "timed_out": false,
+  "elapsed_seconds": 919.0863982969895,
+  "peak_process_tree_sum_rss_bytes": 72590671872,
+  "resource_note": "RSS sum can double-count shared pages; cgroup includes file cache."
+}

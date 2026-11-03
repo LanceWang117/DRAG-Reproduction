@@ -1,0 +1,39 @@
+{
+  "pid": 14717,
+  "process_create_time": 1792202042.95,
+  "output_dir": "/workspace/Capstone_project/outputs/20261017T015401Z_drag_extra50_v1.0.1",
+  "version": "v1.0.1",
+  "source_commit": "3870c0ea3b675da63e4bc8047af07604073568f1",
+  "runner_sha256": "2e4ec63b0d14f5bf5c8d92b3a068f1dd8d7a14eb0d43b7d0ad0619a366e0d91e",
+  "new_questions": 50,
+  "total_fixed_questions": 100,
+  "datasets": [
+    {
+      "dataset": "TriviaQA",
+      "split": "dev",
+      "count": 10
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "count": 10
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "count": 10
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "count": 10
+    },
+    {
+      "dataset": "StrategyQA",
+      "split": "train",
+      "count": 10
+    }
+  ],
+  "max_runtime_seconds": 7200,
+  "note": "Timeout ends experiment, NOT Pod billing."
+}

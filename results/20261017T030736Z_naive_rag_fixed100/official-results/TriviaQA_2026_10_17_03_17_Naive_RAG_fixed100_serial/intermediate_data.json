@@ -1,0 +1,490 @@
+[
+    {
+        "id": "dev_7701",
+        "question": "Which Book of the Bible follows Job alphabetically?",
+        "golden_answers": [
+            "Yo'el",
+            "Joel",
+            "Joel (name)",
+            "Joel (disambiguation)",
+            "Yoel",
+            "Yoeil"
+        ],
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "11853425",
+                    "contents": "\"Biblia Hebraica Stuttgartensia\"\nthe biblical books generally follows the codex, even for the Ketuvim, where that order differs from most common printed Hebrew bibles. Thus the Book of Job comes after Psalms and before Proverbs, and the Megillot are in the order Ruth, Song of Songs, Ecclesiastes, Lamentations and Esther. The only difference is with Chronicles. The Torah: The \"\"Nevi'im\"\": The \"\"Ketuvim\"\" In September 2014 an edition of the BHS called Biblia Hebraica Stuttgartensia: A Reader's Edition (abbreviated as the BHS Reader) was published by the German Bible Society and Hendrickson Publishers. This edition features the same Hebrew text as the regular BHS,"
+                },
+                {
+                    "id": "9375223",
+                    "contents": "\"Testament of Job\"\nTestament of Job The Testament of Job is a book written in the 1st century BC or the 1st century AD (thus part of a tradition often called \"\"intertestamental literature\"\" by Christian scholars). The earliest surviving manuscript is in Coptic, of the 5th century; other early surviving manuscripts are in Greek and Old Slavonic. In folktale manner in the style of Jewish aggada , it elaborates upon the Book of Job making Job a king in Egypt. Like many other \"\"Testament of ...\"\" works in the Old Testament apocrypha, it gives the narrative a framing-tale of Job's last illness, in"
+                },
+                {
+                    "id": "2516511",
+                    "contents": "\"Book of Job\"\nBook of Job The Book of Job (; Hebrew: אִיוֹב \"\"Iyov\"\") is a book in the Ketuvim (\"\"Writings\"\") section of the Hebrew Bible (Tanakh), and the first poetic book in the Old Testament of the Christian Bible. Addressing the problem of theodicy – the vindication of the justice of God in the light of humanity's suffering – it is a rich theological work setting out a variety of perspectives. It has been widely praised for its literary qualities, with Alfred, Lord Tennyson calling it \"\"the greatest poem of ancient and modern times\"\". The Book of Job consists of a prose"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Biblia Hebraica Stuttgartensia\") the biblical books generally follows the codex, even for the Ketuvim, where that order differs from most common printed Hebrew bibles. Thus the Book of Job comes after Psalms and before Proverbs, and the Megillot are in the order Ruth, Song of Songs, Ecclesiastes, Lamentations and Esther. The only difference is with Chronicles. The Torah: The \"\"Nevi'im\"\": The \"\"Ketuvim\"\" In September 2014 an edition of the BHS called Biblia Hebraica Stuttgartensia: A Reader's Edition (abbreviated as the BHS Reader) was published by the German Bible Society and Hendrickson Publishers. This edition features the same Hebrew text as the regular BHS,\nDoc 2(Title: \"Testament of Job\") Testament of Job The Testament of Job is a book written in the 1st century BC or the 1st century AD (thus part of a tradition often called \"\"intertestamental literature\"\" by Christian scholars). The earliest surviving manuscript is in Coptic, of the 5th century; other early surviving manuscripts are in Greek and Old Slavonic. In folktale manner in the style of Jewish aggada , it elaborates upon the Book of Job making Job a king in Egypt. Like many other \"\"Testament of ...\"\" works in the Old Testament apocrypha, it gives the narrative a framing-tale of Job's last illness, in\nDoc 3(Title: \"Book of Job\") Book of Job The Book of Job (; Hebrew: אִיוֹב \"\"Iyov\"\") is a book in the Ketuvim (\"\"Writings\"\") section of the Hebrew Bible (Tanakh), and the first poetic book in the Old Testament of the Christian Bible. Addressing the problem of theodicy – the vindication of the justice of God in the light of humanity's suffering – it is a rich theological work setting out a variety of perspectives. It has been widely praised for its literary qualities, with Alfred, Lord Tennyson calling it \"\"the greatest poem of ancient and modern times\"\". The Book of Job consists of a prose<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Which Book of the Bible follows Job alphabetically?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "Psalms.",
+            "raw_pred": "The answer is: Psalms.",
+            "inference_elapsed_seconds": 5.879201125353575,
+            "metric_score": {
+                "em": 0.0,
+                "f1": 0,
+                "acc": 0.0,
+                "precision": 0,
+                "recall": 0
+            }
+        }
+    },
+    {
+        "id": "dev_2977",
+        "question": "\"Which one of four \"\"big cats\"\" in the Panthera genus is the only one found in the New World (i.e. Mexico, across much of Central America and south to Paraguay and northern Argentina)?\"",
+        "golden_answers": [
+            "Onca-pintada",
+            "Otorongo",
+            "Jaguar",
+            "Leo onca",
+            "Reproductive behavior of jaguars",
+            "Jaguar (panthera)",
+            "Panthera Onca",
+            "Oncas",
+            "Uthurunku",
+            "Onça",
+            "Jaguars",
+            "Onças",
+            "Panthera onca",
+            "P.Onca",
+            "Mating jaguars",
+            "Felis onca",
+            "Onca",
+            "Jaguar (animal)",
+            "Onça-pintada"
+        ],
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "12031349",
+                    "contents": "Jaguar\nJaguar The jaguar (\"\"Panthera onca\"\") is a wild cat species and the only extant member of the genus \"\"Panthera\"\" native to the Americas. The jaguar's present range extends from Southwestern United States and Mexico in North America, across much of Central America, and south to Paraguay and northern Argentina in South America. Though there are single cats now living within the western United States, the species has largely been extirpated from the United States since the early 20th century. It is listed as Near Threatened on the IUCN Red List; and its numbers are declining. Threats include loss and fragmentation"
+                },
+                {
+                    "id": "6888558",
+                    "contents": "\"South American jaguar\"\nSouth American jaguar The South American jaguar is a population of the jaguar in South America. Though a number of subspecies of jaguar have been proposed for South America, morphological and genetic research has not found any evidence for subspecific differentiation. It is considered to be the biggest cat in the New World. Initially, a number of subspecies were described for South America: Morphological research has failed to find evidence for subspecific differentiation. Jaguars are considered to be larger than cougars, and those in South America tend to be heavier than those in Central or North America. Within South America,"
+                },
+                {
+                    "id": "6414625",
+                    "contents": "\"South American jaguar\"\nSouth American jaguar The South American jaguar is a population of the jaguar in South America. Though a number of subspecies of jaguar have been proposed for South America, morphological and genetic research has not found any evidence for subspecific differentiation. It is considered to be the biggest cat in the New World. Initially, a number of subspecies were described for South America: Morphological research has failed to find evidence for subspecific differentiation. Jaguars are considered to be larger than cougars, and those in South America tend to be heavier than those in Central or North America. Within South America,"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: Jaguar) Jaguar The jaguar (\"\"Panthera onca\"\") is a wild cat species and the only extant member of the genus \"\"Panthera\"\" native to the Americas. The jaguar's present range extends from Southwestern United States and Mexico in North America, across much of Central America, and south to Paraguay and northern Argentina in South America. Though there are single cats now living within the western United States, the species has largely been extirpated from the United States since the early 20th century. It is listed as Near Threatened on the IUCN Red List; and its numbers are declining. Threats include loss and fragmentation\nDoc 2(Title: \"South American jaguar\") South American jaguar The South American jaguar is a population of the jaguar in South America. Though a number of subspecies of jaguar have been proposed for South America, morphological and genetic research has not found any evidence for subspecific differentiation. It is considered to be the biggest cat in the New World. Initially, a number of subspecies were described for South America: Morphological research has failed to find evidence for subspecific differentiation. Jaguars are considered to be larger than cougars, and those in South America tend to be heavier than those in Central or North America. Within South America,\nDoc 3(Title: \"South American jaguar\") South American jaguar The South American jaguar is a population of the jaguar in South America. Though a number of subspecies of jaguar have been proposed for South America, morphological and genetic research has not found any evidence for subspecific differentiation. It is considered to be the biggest cat in the New World. Initially, a number of subspecies were described for South America: Morphological research has failed to find evidence for subspecific differentiation. Jaguars are considered to be larger than cougars, and those in South America tend to be heavier than those in Central or North America. Within South America,<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: \"Which one of four \"\"big cats\"\" in the Panthera genus is the only one found in the New World (i.e. Mexico, across much of Central America and south to Paraguay and northern Argentina)?\"<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "Jaguar.",
+            "raw_pred": "The answer is: Jaguar.",
+            "inference_elapsed_seconds": 4.840199586004019,
+            "metric_score": {
+                "em": 1.0,
+                "f1": 1.0,
+                "acc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0
+            }
+        }
+    },
+    {
+        "id": "dev_4976",
+        "question": "Who became the first President of the newly formed Republic of Tanzania in 1964, a position he held until his retirement in 1985?",
+        "golden_answers": [
+            "Mwalimu",
+            "Nyerere, Julius Kambarage",
+            "Julius Nyerere",
+            "Nyerere",
+            "Mwalimu J.K. Nyerere",
+            "Mwalimu Nyerere",
+            "JULIUS NYERERE",
+            "Julius Kambarage Neyrere",
+            "Julius Nyrere",
+            "Julius K. Nyerere",
+            "A Candle on Kilimanjaro",
+            "Juilius Kambarage Nyerere",
+            "Kambarage Nyerere",
+            "Julius Kambarage Nyerere",
+            "Mwalimu Julius Kambarage Nyerere"
+        ],
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "1118858",
+                    "contents": "\"Politics of Tanzania\"\na socialist leader who led Tanganyika from colonial rule, was elected President in 1961. One of Africa’s most respected figures, Julius Nyerere was seen as a politician of principle and intelligence. Known as \"\"Mwalimu\"\" (teacher), he proposed a widely acclaimed vision of education. From independence in 1961 until the mid-1980s, Tanzania was a one-party state, with a socialist model of economic development. Beginning in the mid-1980s, under the administration of President Ali Hassan Mwinyi, Tanzania undertook a number of political and economic reforms. In January and February 1992, the government decided to adopt multiparty democracy. Legal and constitutional changes led"
+                },
+                {
+                    "id": "2111611",
+                    "contents": "\"Articles of Union\"\nbe found. The United Republic of Tanzania was formed on 26 April 1964 as a result of the Union of Tanganyika and Zanzibar. Julius Kambarage Nyerere became the first President of the United Republic of Tanzania and Sheikh Abeid Karume became the First Vice President of the United Republic of Tanzania and the President of Zanzibar and Chairman of the Revolutionary Council. The late Rashidi Mfaume Kawawa became the second Vice President of Tanzania and leader of Government business in the National Assembly. Like other African countries, the people of Tanganyika opposed and fought against colonial invaders from the very"
+                },
+                {
+                    "id": "1118915",
+                    "contents": "\"Foreign relations of Tanzania\"\nInterpol, IOC, IOM, ISO, ITU, ITUC, MONUC, NAM, OAU, OPCW, PMAESA SADC, United Nations (see Permanent Representative of Tanzania to the United Nations), UNCTAD, UNESCO, UNHCR, UNIDO, UPU, WCO, WFTU, WHO, WIPO, WMO, WToO, WTO Tanzania has been a Commonwealth republic since 1964, when the Republic of Tanganyika and the People's Republic of Zanzibar and Pemba united after the Zanzibar Revolution. Foreign relations of Tanzania Tanzania's first president, Julius Nyerere also was one of the founding members of the Non-Aligned Movement, and, during the Cold War era, Tanzania played an important role in regional and international organisations, such as the"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Politics of Tanzania\") a socialist leader who led Tanganyika from colonial rule, was elected President in 1961. One of Africa’s most respected figures, Julius Nyerere was seen as a politician of principle and intelligence. Known as \"\"Mwalimu\"\" (teacher), he proposed a widely acclaimed vision of education. From independence in 1961 until the mid-1980s, Tanzania was a one-party state, with a socialist model of economic development. Beginning in the mid-1980s, under the administration of President Ali Hassan Mwinyi, Tanzania undertook a number of political and economic reforms. In January and February 1992, the government decided to adopt multiparty democracy. Legal and constitutional changes led\nDoc 2(Title: \"Articles of Union\") be found. The United Republic of Tanzania was formed on 26 April 1964 as a result of the Union of Tanganyika and Zanzibar. Julius Kambarage Nyerere became the first President of the United Republic of Tanzania and Sheikh Abeid Karume became the First Vice President of the United Republic of Tanzania and the President of Zanzibar and Chairman of the Revolutionary Council. The late Rashidi Mfaume Kawawa became the second Vice President of Tanzania and leader of Government business in the National Assembly. Like other African countries, the people of Tanganyika opposed and fought against colonial invaders from the very\nDoc 3(Title: \"Foreign relations of Tanzania\") Interpol, IOC, IOM, ISO, ITU, ITUC, MONUC, NAM, OAU, OPCW, PMAESA SADC, United Nations (see Permanent Representative of Tanzania to the United Nations), UNCTAD, UNESCO, UNHCR, UNIDO, UPU, WCO, WFTU, WHO, WIPO, WMO, WToO, WTO Tanzania has been a Commonwealth republic since 1964, when the Republic of Tanganyika and the People's Republic of Zanzibar and Pemba united after the Zanzibar Revolution. Foreign relations of Tanzania Tanzania's first president, Julius Nyerere also was one of the founding members of the Non-Aligned Movement, and, during the Cold War era, Tanzania played an important role in regional and international organisations, such as the<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Who became the first President of the newly formed Republic of Tanzania in 1964, a position he held until his retirement in 1985?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "Julius Kambarage Nyerere.",
+            "raw_pred": "The answer is: Julius Kambarage Nyerere.",
+            "inference_elapsed_seconds": 5.028716457076371,
+            "metric_score": {
+                "em": 1.0,
+                "f1": 1.0,
+                "acc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0
+            }
+        }
+    },
+    {
+        "id": "dev_3280",
+        "question": "What is the name given to horse racing over hedges, ditches and other obstacles set on a regular course?",
+        "golden_answers": [
+            "Steeplechases",
+            "Steeplechaser",
+            "Steeplechase racing in Australia",
+            "Jumps race",
+            "Steeplechase",
+            "Steeple Chase",
+            "Steeple-chasing",
+            "Steeplechasing",
+            "Steeplechase racing in the United States",
+            "Jumps races",
+            "Jumps racing",
+            "Horse racing steeplechase",
+            "Steeple chase",
+            "Chase (racing)",
+            "Steeplechase (horse racing)"
+        ],
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "1006401",
+                    "contents": "\"National Hunt racing\"\nNational Hunt racing In horse racing in the United Kingdom, France and Ireland, National Hunt racing requires horses to jump fences and ditches. National Hunt racing in the UK is informally known as \"\"jumps\"\" and is divided into two major distinct branches: hurdles and steeplechases. Alongside these there are \"\"bumpers\"\", which are National Hunt flat races. In a hurdles race, the horses jump over obstacles called hurdles; in a steeplechase the horses jump over a variety of obstacles that can include plain fences, water jump or an open ditch. In the UK the biggest National Hunt events of the year"
+                },
+                {
+                    "id": "14272229",
+                    "contents": "\"Steeplechase (horse racing)\"\nSteeplechase (horse racing) A steeplechase is a distance horse race in which competitors are required to jump diverse fence and ditch obstacles. Steeplechasing is primarily conducted in Ireland (where it originated), the United Kingdom, Canada, United States, Australia and France. The name is derived from early races in which orientation of the course was by reference to a church steeple, jumping fences and ditches and generally traversing the many intervening obstacles in the countryside. Modern usage of the term \"\"steeplechase\"\" differs between countries. In Ireland and the United Kingdom, it refers only to races run over large, fixed obstacles, in"
+                },
+                {
+                    "id": "14272254",
+                    "contents": "\"Steeplechase (horse racing)\"\nevents at the national level, including the US, Great Britain, and Canada. Steeplechase (horse racing) A steeplechase is a distance horse race in which competitors are required to jump diverse fence and ditch obstacles. Steeplechasing is primarily conducted in Ireland (where it originated), the United Kingdom, Canada, United States, Australia and France. The name is derived from early races in which orientation of the course was by reference to a church steeple, jumping fences and ditches and generally traversing the many intervening obstacles in the countryside. Modern usage of the term \"\"steeplechase\"\" differs between countries. In Ireland and the United"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"National Hunt racing\") National Hunt racing In horse racing in the United Kingdom, France and Ireland, National Hunt racing requires horses to jump fences and ditches. National Hunt racing in the UK is informally known as \"\"jumps\"\" and is divided into two major distinct branches: hurdles and steeplechases. Alongside these there are \"\"bumpers\"\", which are National Hunt flat races. In a hurdles race, the horses jump over obstacles called hurdles; in a steeplechase the horses jump over a variety of obstacles that can include plain fences, water jump or an open ditch. In the UK the biggest National Hunt events of the year\nDoc 2(Title: \"Steeplechase (horse racing)\") Steeplechase (horse racing) A steeplechase is a distance horse race in which competitors are required to jump diverse fence and ditch obstacles. Steeplechasing is primarily conducted in Ireland (where it originated), the United Kingdom, Canada, United States, Australia and France. The name is derived from early races in which orientation of the course was by reference to a church steeple, jumping fences and ditches and generally traversing the many intervening obstacles in the countryside. Modern usage of the term \"\"steeplechase\"\" differs between countries. In Ireland and the United Kingdom, it refers only to races run over large, fixed obstacles, in\nDoc 3(Title: \"Steeplechase (horse racing)\") events at the national level, including the US, Great Britain, and Canada. Steeplechase (horse racing) A steeplechase is a distance horse race in which competitors are required to jump diverse fence and ditch obstacles. Steeplechasing is primarily conducted in Ireland (where it originated), the United Kingdom, Canada, United States, Australia and France. The name is derived from early races in which orientation of the course was by reference to a church steeple, jumping fences and ditches and generally traversing the many intervening obstacles in the countryside. Modern usage of the term \"\"steeplechase\"\" differs between countries. In Ireland and the United<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: What is the name given to horse racing over hedges, ditches and other obstacles set on a regular course?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "Steeplechase.",
+            "raw_pred": "The answer is: Steeplechase.",
+            "inference_elapsed_seconds": 4.973254692740738,
+            "metric_score": {
+                "em": 1.0,
+                "f1": 1.0,
+                "acc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0
+            }
+        }
+    },
+    {
+        "id": "dev_6718",
+        "question": "Which is the most easterly of these Libyan cities: Benghazi, Misrata, Sirte, Tobruk, Tripoli?",
+        "golden_answers": [
+            "Antipyrgos (Titular See)",
+            "Antipyrgus",
+            "Tobruk, Libya",
+            "Tubruq",
+            "TOBRUK",
+            "Antipyrgos",
+            "Tobruk"
+        ],
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "7937996",
+                    "contents": "Misrata\nline and port is proposed in 2008. It is also served by Misurata Airport. Misrata ] Misurata (, ) is a city in the Misrata District in northwestern Libya, situated to the east of Tripoli and west of Benghazi on the Mediterranean coast near Cape Misurata. With a population of about 281,000, it is the third-largest city in Libya, after Tripoli and Benghazi. It is the capital city of the Misrata District and has been called the trade capital of Libya. The harbor is at Qasr Ahmad. The name \"\"Misurata\"\" derives from the Misrata tribe, a section of the larger"
+                },
+                {
+                    "id": "17855147",
+                    "contents": "Misrata\nTripoli and west of Benghazi. The location of the city creates a dualism of sea and sand, bounded by the sea to the north and east and to the south by golden sands dotted with palm and olive trees. Like Benghazi and Tripoli, Misurata is divided into two distinct sections. Older Misurata consists of small stone houses and narrow arched streets while the newer part of the city, which began to develop in the 20th century, consists of modern buildings, homes, factories and industrial areas. Aside from its distinct location, which makes it a centre for the exchange of commodities"
+                },
+                {
+                    "id": "18094362",
+                    "contents": "Sirte\nSirte Sirte (; , ; from ), also spelled \"\"Sirt\"\", \"\"Surt\"\", \"\"Sert\"\" or \"\"Syrte\"\", is a city in Libya. It is located south of the Gulf of Sirte, between Tripoli and Benghazi. It is famously known for its battles, ethnic groups, and loyalism to Muammar Gaddafi. Also due to its development, it was the capital of Libya as Tripoli's successor after the Fall of Tripoli since 1 September 2011 to 20 October 2011. The settlement was established in the early 20th century by the Italians, at the site of a 19th-century fortress built by the Ottomans. It grew into a"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: Misrata) line and port is proposed in 2008. It is also served by Misurata Airport. Misrata ] Misurata (, ) is a city in the Misrata District in northwestern Libya, situated to the east of Tripoli and west of Benghazi on the Mediterranean coast near Cape Misurata. With a population of about 281,000, it is the third-largest city in Libya, after Tripoli and Benghazi. It is the capital city of the Misrata District and has been called the trade capital of Libya. The harbor is at Qasr Ahmad. The name \"\"Misurata\"\" derives from the Misrata tribe, a section of the larger\nDoc 2(Title: Misrata) Tripoli and west of Benghazi. The location of the city creates a dualism of sea and sand, bounded by the sea to the north and east and to the south by golden sands dotted with palm and olive trees. Like Benghazi and Tripoli, Misurata is divided into two distinct sections. Older Misurata consists of small stone houses and narrow arched streets while the newer part of the city, which began to develop in the 20th century, consists of modern buildings, homes, factories and industrial areas. Aside from its distinct location, which makes it a centre for the exchange of commodities\nDoc 3(Title: Sirte) Sirte Sirte (; , ; from ), also spelled \"\"Sirt\"\", \"\"Surt\"\", \"\"Sert\"\" or \"\"Syrte\"\", is a city in Libya. It is located south of the Gulf of Sirte, between Tripoli and Benghazi. It is famously known for its battles, ethnic groups, and loyalism to Muammar Gaddafi. Also due to its development, it was the capital of Libya as Tripoli's successor after the Fall of Tripoli since 1 September 2011 to 20 October 2011. The settlement was established in the early 20th century by the Italians, at the site of a 19th-century fortress built by the Ottomans. It grew into a<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Which is the most easterly of these Libyan cities: Benghazi, Misrata, Sirte, Tobruk, Tripoli?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "Misrata.",
+            "raw_pred": "The answer is: Misrata.",
+            "inference_elapsed_seconds": 4.936335384845734,
+            "metric_score": {
+                "em": 0.0,
+                "f1": 0,
+                "acc": 0.0,
+                "precision": 0,
+                "recall": 0
+            }
+        }
+    },
+    {
+        "id": "dev_4345",
+        "question": "What is the biggest city on the Yangtze river?",
+        "golden_answers": [
+            "Economy of Shanghai",
+            "Sanghai",
+            "Shang-Hai",
+            "Shang Hai",
+            "Zanhae",
+            "Shanghai Municipality, China",
+            "Shanghae",
+            "Shang-hai",
+            "Venice of the Orient",
+            "Shanghai Municipal Area",
+            "Municipality of Shanghai",
+            "Shangkai",
+            "Shangai (architectural images)",
+            "Shanghai municipality",
+            "Shanghai people",
+            "Zanhe",
+            "Shang hai",
+            "CN-31",
+            "Shanghai, China",
+            "沪",
+            "Shàng Hai",
+            "Shanghai china",
+            "City of Shanghai",
+            "Shangha",
+            "SHCN",
+            "Shanghai Municipality",
+            "Snaghai",
+            "Schanghai",
+            "Shanghai",
+            "S'hai",
+            "Shanghi",
+            "Shànghǎi",
+            "Shanghai (China)",
+            "Zånhae",
+            "Shanghai Shi",
+            "China Shanghai",
+            "UN/LOCODE:CNSHA",
+            "Shnaghai",
+            "Shanghai (architectural images)",
+            "Shanghai (architecture images)",
+            "Air pollution in Shanghai",
+            "Paris of China",
+            "Shang-hae",
+            "Shangai",
+            "ShangHai",
+            "滬",
+            "Shànghǎi Shì",
+            "上海市",
+            "上海"
+        ],
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "10021451",
+                    "contents": "\"Bridges and tunnels across the Yangtze River\"\nBridges and tunnels across the Yangtze River The bridges and tunnels across the Yangtze River carry rail and road traffic across China's longest and largest river and form a vital part of the country's transportation infrastructure. The river bisects China proper from west to east, and every major north-south bound highway and railway must cross the Yangtze. Large urban centers along the river such as Chongqing, Wuhan, and Nanjing also have urban mass transit rail lines crossing the Yangtze. Pontoon bridges have been used by militaries for two thousand years on the Yangtze, but until the completion of the Wuhan"
+                },
+                {
+                    "id": "12676451",
+                    "contents": "\"Yangtze River Delta\"\nthe major metropolitan areas of Hangzhou, Suzhou, Ningbo, and Nanjing, home to nearly 105 million people (of which an estimated 80 million are urban residents). It is the centre of Chinese economic development, and surpasses other concentrations of metropolitan areas (including the Pearl River delta) in China in terms of economic growth, productivity and per capita income. In 1982, the Chinese government set up the Shanghai Economic Area. Besides Shanghai, four cities in Jiangsu (Suzhou, Wuxi, Changzhou, Nantong) and five cities in Zhejiang (Hangzhou, Jiaxing, Shaoxing, Huzhou, Ningbo) were included. In 1992, a 14-city cooperative joint meeting was launched. Besides"
+                },
+                {
+                    "id": "12676450",
+                    "contents": "\"Yangtze River Delta\"\nindustry. During the Qianlong era (1735-1796) of the Qing dynasty, Shanghai began developing rapidly and became the largest port in the Far East. From late 19th century to early 20th century, Shanghai was the biggest commercial centre in the Far East. The Yangtze River Delta became the first industrialized area in China. After the Chinese economic reform program, which began in 1978, Shanghai again became the most important economic centre in mainland China, and is emerging to become one of Asia's centres for commerce. In modern times, the Yangtze Delta metropolitan region is centred at Shanghai, and also flanked by"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Bridges and tunnels across the Yangtze River\") Bridges and tunnels across the Yangtze River The bridges and tunnels across the Yangtze River carry rail and road traffic across China's longest and largest river and form a vital part of the country's transportation infrastructure. The river bisects China proper from west to east, and every major north-south bound highway and railway must cross the Yangtze. Large urban centers along the river such as Chongqing, Wuhan, and Nanjing also have urban mass transit rail lines crossing the Yangtze. Pontoon bridges have been used by militaries for two thousand years on the Yangtze, but until the completion of the Wuhan\nDoc 2(Title: \"Yangtze River Delta\") the major metropolitan areas of Hangzhou, Suzhou, Ningbo, and Nanjing, home to nearly 105 million people (of which an estimated 80 million are urban residents). It is the centre of Chinese economic development, and surpasses other concentrations of metropolitan areas (including the Pearl River delta) in China in terms of economic growth, productivity and per capita income. In 1982, the Chinese government set up the Shanghai Economic Area. Besides Shanghai, four cities in Jiangsu (Suzhou, Wuxi, Changzhou, Nantong) and five cities in Zhejiang (Hangzhou, Jiaxing, Shaoxing, Huzhou, Ningbo) were included. In 1992, a 14-city cooperative joint meeting was launched. Besides\nDoc 3(Title: \"Yangtze River Delta\") industry. During the Qianlong era (1735-1796) of the Qing dynasty, Shanghai began developing rapidly and became the largest port in the Far East. From late 19th century to early 20th century, Shanghai was the biggest commercial centre in the Far East. The Yangtze River Delta became the first industrialized area in China. After the Chinese economic reform program, which began in 1978, Shanghai again became the most important economic centre in mainland China, and is emerging to become one of Asia's centres for commerce. In modern times, the Yangtze Delta metropolitan region is centred at Shanghai, and also flanked by<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: What is the biggest city on the Yangtze river?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "I don't have information about the biggest city on the Yangtze river.",
+            "raw_pred": "I don't have information about the biggest city on the Yangtze river.",
+            "inference_elapsed_seconds": 5.107745396904647,
+            "metric_score": {
+                "em": 0.0,
+                "f1": 0.15384615384615383,
+                "acc": 0.0,
+                "precision": 0.1,
+                "recall": 0.3333333333333333
+            }
+        }
+    },
+    {
+        "id": "dev_8735",
+        "question": "Lady Gaga raised the ire of PETA earlier this month when she wore what tot he VMAs?",
+        "golden_answers": [
+            "A meat dress",
+            "Vanitas: Flesh Dress for an Albino Anorectic",
+            "Meat Dress"
+        ],
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "14527553",
+                    "contents": "\"Lady Gaga\"\nhits ... [Gaga] has sported outfits made from plastic bubbles, Kermit the Frog dolls, and raw meat.\"\" Gaga wore a dress made of raw beef to the 2010 MTV Video Music Awards, which was supplemented by boots, a purse, and a hat also made out of raw beef. Partly awarded in recognition of the dress, \"\"Vogue\"\" named her one of the Best Dressed people of 2010 and \"\"Time\"\" named the dress the Fashion Statement of the year. It attracted the attention of worldwide media; the animal rights organization PETA found it offensive. The meat dress was displayed at the National"
+                },
+                {
+                    "id": "18646553",
+                    "contents": "\"2010 MTV Video Music Awards\"\nWhile accepting her award for Video of the Year, presented by legendary singer and actress Cher, Lady Gaga wore a dress made entirely from cuts of raw meat. The dress bore a resemblance to an artwork, \"\"Vanitas: Flesh Dress for an Albino Anorectic\"\", created by Canadian artist Jana Sterbak in 1987. Along with the dress, her hat, shoes, and purse were all made from meat as well. PETA president Ingrid Newkirk issued a statement concerning the controversial outfit. After questioning whether the meat was real or not, Newkirk was quick to disparage Gaga saying, \"\"Meat is the decomposing flesh of"
+                },
+                {
+                    "id": "18037739",
+                    "contents": "\"Lady Gaga's meat dress\"\n/ I'll bet you've never seen a skirt steak worn this way\"\") and had a dancer dressed in a similar outfit in the music video. Following the VMAs, media outlets attempted to analyse the meaning of the dress with suggestions by BBC News ranging from anti-fashion, to feminism, aging and decay, and society's attitude towards meat. Chef Fergus Henderson explained this meat attitude as \"\"People often don't want meat to look like meat. They want it to be neatly wrapped in plastic from a supermarket.\"\" People for the Ethical Treatment of Animals (PETA) condemned the dress, releasing a statement that"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Lady Gaga\") hits ... [Gaga] has sported outfits made from plastic bubbles, Kermit the Frog dolls, and raw meat.\"\" Gaga wore a dress made of raw beef to the 2010 MTV Video Music Awards, which was supplemented by boots, a purse, and a hat also made out of raw beef. Partly awarded in recognition of the dress, \"\"Vogue\"\" named her one of the Best Dressed people of 2010 and \"\"Time\"\" named the dress the Fashion Statement of the year. It attracted the attention of worldwide media; the animal rights organization PETA found it offensive. The meat dress was displayed at the National\nDoc 2(Title: \"2010 MTV Video Music Awards\") While accepting her award for Video of the Year, presented by legendary singer and actress Cher, Lady Gaga wore a dress made entirely from cuts of raw meat. The dress bore a resemblance to an artwork, \"\"Vanitas: Flesh Dress for an Albino Anorectic\"\", created by Canadian artist Jana Sterbak in 1987. Along with the dress, her hat, shoes, and purse were all made from meat as well. PETA president Ingrid Newkirk issued a statement concerning the controversial outfit. After questioning whether the meat was real or not, Newkirk was quick to disparage Gaga saying, \"\"Meat is the decomposing flesh of\nDoc 3(Title: \"Lady Gaga's meat dress\") / I'll bet you've never seen a skirt steak worn this way\"\") and had a dancer dressed in a similar outfit in the music video. Following the VMAs, media outlets attempted to analyse the meaning of the dress with suggestions by BBC News ranging from anti-fashion, to feminism, aging and decay, and society's attitude towards meat. Chef Fergus Henderson explained this meat attitude as \"\"People often don't want meat to look like meat. They want it to be neatly wrapped in plastic from a supermarket.\"\" People for the Ethical Treatment of Animals (PETA) condemned the dress, releasing a statement that<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Lady Gaga raised the ire of PETA earlier this month when she wore what tot he VMAs?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "a dress made of raw meat.",
+            "raw_pred": "The answer is: a dress made of raw meat.",
+            "inference_elapsed_seconds": 5.174622502177954,
+            "metric_score": {
+                "em": 0.0,
+                "f1": 0.5714285714285715,
+                "acc": 0.0,
+                "precision": 0.4,
+                "recall": 1.0
+            }
+        }
+    },
+    {
+        "id": "dev_4016",
+        "question": "\"On 1 May 1707, who became the first sovereign of the \"\"Kingdom of Great Britain\"\"?\"",
+        "golden_answers": [
+            "Anne, Queen of the UK",
+            "Queen Anne I",
+            "Brandy Nan",
+            "Queen anne",
+            "Queen Anne of England",
+            "Queen Anne I of Great Britain",
+            "Queen Anne I of England",
+            "Anne Regina",
+            "Queen Ann",
+            "Last Queen of England",
+            "Queen Anne",
+            "Queen Anne of Great Britain",
+            "Mrs Morley",
+            "Anne, Queen of Great Britain",
+            "Anne I of the United Kingdom",
+            "Anne, Queen of Scotland",
+            "Anne of Britain",
+            "Anne, Queen of the United Kingdom",
+            "Anne I of Great Britain",
+            "Anne, Queen of England",
+            "Mary and Anne of Denmark",
+            "Anne I of England"
+        ],
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "8713893",
+                    "contents": "\"Kingdom of Great Britain\"\nof England and Scotland and the first monarch of Great Britain. A Treaty of Union was agreed in 1706 following negotiations between representatives of the parliaments of England and Scotland, and each parliament then passed separate Acts of Union to ratify it. The Acts came into effect on 1 May 1707, uniting the separate Parliaments and crowns of England and Scotland and forming a single Kingdom of Great Britain. Anne became the first monarch to occupy the unified British throne, and in line with Article 22 of the Treaty of Union, Scotland and England each sent members to the new"
+                },
+                {
+                    "id": "8713881",
+                    "contents": "\"Kingdom of Great Britain\"\nKingdom of Great Britain The Kingdom of Great Britain, officially called simply Great Britain, was a sovereign state in western Europe from 1 May 1707 to 31 December 1800. The state came into being following the Treaty of Union in 1706, ratified by the Acts of Union 1707, which united the kingdoms of England (which included Wales) and Scotland to form a single kingdom encompassing the whole island of Great Britain and its outlying islands, with the exception of the Isle of Man and the Channel Islands. It also did not include Ireland, which remained a separate realm. The unitary"
+                },
+                {
+                    "id": "1158139",
+                    "contents": "\"History of the United Kingdom\"\n\"\"Britain\"\" and (after 1945) to the \"\"United Kingdom\"\" or \"\"UK\"\". The Kingdom of Great Britain came into being on 1 May 1707, as a result of the political union of the Kingdom of England (which included Wales) and the Kingdom of Scotland under the Treaty of Union. This combined the two kingdoms into a single kingdom, and merged the two parliaments into a single parliament of Great Britain. Queen Anne became the first monarch of the new Great Britain. Although now a single kingdom, certain institutions of Scotland and England remained separate, such as Scottish and English law; and the"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Kingdom of Great Britain\") of England and Scotland and the first monarch of Great Britain. A Treaty of Union was agreed in 1706 following negotiations between representatives of the parliaments of England and Scotland, and each parliament then passed separate Acts of Union to ratify it. The Acts came into effect on 1 May 1707, uniting the separate Parliaments and crowns of England and Scotland and forming a single Kingdom of Great Britain. Anne became the first monarch to occupy the unified British throne, and in line with Article 22 of the Treaty of Union, Scotland and England each sent members to the new\nDoc 2(Title: \"Kingdom of Great Britain\") Kingdom of Great Britain The Kingdom of Great Britain, officially called simply Great Britain, was a sovereign state in western Europe from 1 May 1707 to 31 December 1800. The state came into being following the Treaty of Union in 1706, ratified by the Acts of Union 1707, which united the kingdoms of England (which included Wales) and Scotland to form a single kingdom encompassing the whole island of Great Britain and its outlying islands, with the exception of the Isle of Man and the Channel Islands. It also did not include Ireland, which remained a separate realm. The unitary\nDoc 3(Title: \"History of the United Kingdom\") \"\"Britain\"\" and (after 1945) to the \"\"United Kingdom\"\" or \"\"UK\"\". The Kingdom of Great Britain came into being on 1 May 1707, as a result of the political union of the Kingdom of England (which included Wales) and the Kingdom of Scotland under the Treaty of Union. This combined the two kingdoms into a single kingdom, and merged the two parliaments into a single parliament of Great Britain. Queen Anne became the first monarch of the new Great Britain. Although now a single kingdom, certain institutions of Scotland and England remained separate, such as Scottish and English law; and the<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: \"On 1 May 1707, who became the first sovereign of the \"\"Kingdom of Great Britain\"\"?\"<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "Queen Anne.",
+            "raw_pred": "The answer is: Queen Anne.",
+            "inference_elapsed_seconds": 5.696562529541552,
+            "metric_score": {
+                "em": 1.0,
+                "f1": 1.0,
+                "acc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0
+            }
+        }
+    },
+    {
+        "id": "dev_8164",
+        "question": "Ocean is NOT recognised International Hydrographic Bureau?",
+        "golden_answers": [
+            "Great Southern Ocean",
+            "South Polar Ocean",
+            "Australia and the Southern Ocean",
+            "South Ocean",
+            "South ocean",
+            "Antarctic ocean",
+            "Antartic ocean",
+            "Southern Icy Ocean",
+            "Antartic Ocean",
+            "South-Polar Ocean",
+            "Australia and the southern ocean",
+            "Austral Ocean",
+            "Southern ocean",
+            "South polar ocean",
+            "Southern Ocean",
+            "The Southern Ocean",
+            "Antarctic Ocean",
+            "Southern Oceans"
+        ],
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "12000380",
+                    "contents": "\"International Hydrographic Organization\"\nInternational Hydrographic Organization The International Hydrographic Organization (IHO) is the inter-governmental organisation representing hydrography. A principal aim of the IHO is to ensure that the world’s seas, oceans and navigable waters are properly surveyed and charted. It does this through the setting of international standards, the co-ordination of the endeavours of the world's national hydrographic offices, and through its capacity building programme. The IHO enjoys observer status at the United Nations where it is the recognised competent authority on hydrographic surveying and nautical charting. When referring to hydrography and nautical charting in Conventions and similar Instruments, it is the IHO"
+                },
+                {
+                    "id": "16686680",
+                    "contents": "\"Southern Ocean\"\nthe 60th parallel has not yet been adopted. Others regard the seasonally-fluctuating Antarctic Convergence as the natural boundary. Borders and names for oceans and seas were internationally agreed when the International Hydrographic Bureau (IHB), the precursor to the IHO, convened the First International Conference on 24 July 1919. The IHO then published these in its \"\"Limits of Oceans and Seas\"\", the first edition being 1928. Since the first edition, the limits of the Southern Ocean have moved progressively southwards; since 1953, it has been omitted from the official publication and left to local hydrographic offices to determine their own limits."
+                },
+                {
+                    "id": "12000381",
+                    "contents": "\"International Hydrographic Organization\"\nstandards and specifications that are normally used. The IHO was established in 1921 as the International Hydrographic Bureau (IHB). The present name was adopted in 1970 as part of a new international Convention on the IHO adopted by the then member nations. The former name International Hydrographic Bureau was retained to describe the IHO secretariat until 8 November 2016, when a revision to the Convention on the IHO entered into force. Thereafter the IHB became known as the \"\"IHO Secretariat\"\", comprising an elected Secretary-General and two supporting Directors, together with a small staff of 17, at the Organization's headquarters in"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"International Hydrographic Organization\") International Hydrographic Organization The International Hydrographic Organization (IHO) is the inter-governmental organisation representing hydrography. A principal aim of the IHO is to ensure that the world’s seas, oceans and navigable waters are properly surveyed and charted. It does this through the setting of international standards, the co-ordination of the endeavours of the world's national hydrographic offices, and through its capacity building programme. The IHO enjoys observer status at the United Nations where it is the recognised competent authority on hydrographic surveying and nautical charting. When referring to hydrography and nautical charting in Conventions and similar Instruments, it is the IHO\nDoc 2(Title: \"Southern Ocean\") the 60th parallel has not yet been adopted. Others regard the seasonally-fluctuating Antarctic Convergence as the natural boundary. Borders and names for oceans and seas were internationally agreed when the International Hydrographic Bureau (IHB), the precursor to the IHO, convened the First International Conference on 24 July 1919. The IHO then published these in its \"\"Limits of Oceans and Seas\"\", the first edition being 1928. Since the first edition, the limits of the Southern Ocean have moved progressively southwards; since 1953, it has been omitted from the official publication and left to local hydrographic offices to determine their own limits.\nDoc 3(Title: \"International Hydrographic Organization\") standards and specifications that are normally used. The IHO was established in 1921 as the International Hydrographic Bureau (IHB). The present name was adopted in 1970 as part of a new international Convention on the IHO adopted by the then member nations. The former name International Hydrographic Bureau was retained to describe the IHO secretariat until 8 November 2016, when a revision to the Convention on the IHO entered into force. Thereafter the IHB became known as the \"\"IHO Secretariat\"\", comprising an elected Secretary-General and two supporting Directors, together with a small staff of 17, at the Organization's headquarters in<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Ocean is NOT recognised International Hydrographic Bureau?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "Southern Ocean.",
+            "raw_pred": "The answer is: Southern Ocean.",
+            "inference_elapsed_seconds": 5.60513336583972,
+            "metric_score": {
+                "em": 1.0,
+                "f1": 1.0,
+                "acc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0
+            }
+        }
+    },
+    {
+        "id": "dev_5802",
+        "question": "To which island paradise in Celtic mythology was King Arthur taken after his death?",
+        "golden_answers": [
+            "The Avalon Ballroom",
+            "The Avalon",
+            "Avalon Ballroom",
+            "AVALON"
+        ],
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "8377328",
+                    "contents": "Avalon\nAvalon Avalon (; , Old French \"\"Avalon\"\", ; literally meaning \"\"the isle of fruit [or apple] trees\"\") is a legendary island featured in the Arthurian legend. It first appears in Geoffrey of Monmouth's 1136 pseudo-historical account \"\"Historia Regum Britanniae\"\" (\"\"The History of the Kings of Britain\"\") as the place where King Arthur's sword Excalibur was forged and later where Arthur was taken to recover from his wounds after the Battle of Camlann. Avalon was associated from an early date with mystical practices and figures such as Morgan le Fay. It is traditionally identified as the former island of Glastonbury Tor."
+                },
+                {
+                    "id": "17611849",
+                    "contents": "\"Avalon, New South Wales\"\nthe mythical Avalon, a legendary island in Celtic languages mythology. According to legends, Avalon was an earthly paradise and the final resting place of King Arthur. The first land grant in the area was to John Farrell in 1827. A land grant was made to Father John Joseph Therry in 1833, who fought hard for the recognition of the Catholic Church in the colony. He built a church in this area but his plans for a settlement never eventuated. In the 1920s, the area was still known as 'Priest's Flat'. Arthur J Small handled a subdivision in 1921 and chose"
+                },
+                {
+                    "id": "4831774",
+                    "contents": "\"A Glastonbury Romance\"\nfinding an origin for the Grail of medieval romance in earlier Celtic myth. The novel also plays up the associations between Glastonbury and King Arthur's burial place of the island of Avalon, which have been present since the 20th century. At the novel's end, much of the city is flooded, in reference to the myth that held Glastonbury to be the original Avalon. The novel closes with a drowning John Geard looking to Glastonbury Tor (itself referred to repeatedly as the domain of the mythic Welsh spirit Gwyn-ap-Nudd) in hopes of seeing the Grail, followed by a short passage comparing"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: Avalon) Avalon Avalon (; , Old French \"\"Avalon\"\", ; literally meaning \"\"the isle of fruit [or apple] trees\"\") is a legendary island featured in the Arthurian legend. It first appears in Geoffrey of Monmouth's 1136 pseudo-historical account \"\"Historia Regum Britanniae\"\" (\"\"The History of the Kings of Britain\"\") as the place where King Arthur's sword Excalibur was forged and later where Arthur was taken to recover from his wounds after the Battle of Camlann. Avalon was associated from an early date with mystical practices and figures such as Morgan le Fay. It is traditionally identified as the former island of Glastonbury Tor.\nDoc 2(Title: \"Avalon, New South Wales\") the mythical Avalon, a legendary island in Celtic languages mythology. According to legends, Avalon was an earthly paradise and the final resting place of King Arthur. The first land grant in the area was to John Farrell in 1827. A land grant was made to Father John Joseph Therry in 1833, who fought hard for the recognition of the Catholic Church in the colony. He built a church in this area but his plans for a settlement never eventuated. In the 1920s, the area was still known as 'Priest's Flat'. Arthur J Small handled a subdivision in 1921 and chose\nDoc 3(Title: \"A Glastonbury Romance\") finding an origin for the Grail of medieval romance in earlier Celtic myth. The novel also plays up the associations between Glastonbury and King Arthur's burial place of the island of Avalon, which have been present since the 20th century. At the novel's end, much of the city is flooded, in reference to the myth that held Glastonbury to be the original Avalon. The novel closes with a drowning John Geard looking to Glastonbury Tor (itself referred to repeatedly as the domain of the mythic Welsh spirit Gwyn-ap-Nudd) in hopes of seeing the Grail, followed by a short passage comparing<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: To which island paradise in Celtic mythology was King Arthur taken after his death?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "Avalon.",
+            "raw_pred": "The answer is: Avalon.",
+            "inference_elapsed_seconds": 4.2707650400698185,
+            "metric_score": {
+                "em": 1.0,
+                "f1": 1.0,
+                "acc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0
+            }
+        }
+    }
+]

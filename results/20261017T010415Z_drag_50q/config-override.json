@@ -1,0 +1,27 @@
+{
+  "model2path": {
+    "e5": "/workspace/Capstone_project/models/e5-base-v2",
+    "llama3-8B-instruct": "/workspace/Capstone_project/models/Llama-3.1-8B-Instruct"
+  },
+  "framework": "vllm",
+  "generator_model": "llama3-8B-instruct",
+  "gpu_id": "0",
+  "faiss_gpu": false,
+  "index_path": "/workspace/Capstone_project/source_repos/Debate-Augmented-RAG/wiki_corpus/e5_flat_inner.index",
+  "corpus_path": "/workspace/Capstone_project/source_repos/Debate-Augmented-RAG/wiki_corpus/wiki18_100w.jsonl",
+  "data_dir": "/workspace/Capstone_project/outputs/20261017T010415Z_drag_50q/fixed-dataset",
+  "dataset_name": "NQ",
+  "split": [
+    "dev"
+  ],
+  "seed": 2024,
+  "random_sample": false,
+  "save_intermediate_data": true,
+  "metrics": [
+    "em",
+    "f1",
+    "acc",
+    "precision",
+    "recall"
+  ]
+}

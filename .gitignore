@@ -1,0 +1,18 @@
+# Downloaded resources and machine-specific files do not belong in Git.
+models/
+wiki_corpus/
+dataset/
+cache/
+envs/
+downloads/
+new-runs/
+config.local.json
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.DS_Store

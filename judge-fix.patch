@@ -1,0 +1,339 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+new file mode 100644
+index 0000000..b4409ab
+--- /dev/null
++++ b/CHANGELOG.md
+@@ -0,0 +1,20 @@
++# Local Reproduction Versions
++
++These are local project versions, not official upstream releases.
++
++## v1.0.1 - Retrieval Judge output validation
++
++- Replace the substring-based early-stop condition with a validated single-role verdict.
++- Retry once only when the initial verdict is malformed; retain initial prompt and valid-output behavior.
++- If retry is still invalid, leave the query pool unchanged and proceed within the existing round limit.
++- Save initial/retry text, retry prompt, normalized decision and decision status for auditing.
++- Add dependency-free parser/policy tests and real query-stage tests with fake model/retriever calls.
++- No changes to response debate, corpus, retriever, base model, metrics or round limits.
++
++See docs/JUDGE_PARSING_FIX.md for evidence, policy and experiment protocol.
++
++## v1.0.0 - Unmodified baseline
++
++Exact official upstream commit c035ee1b7e6bc9fa67d5a104df1c2175a8300666.
++The initial 50-question NQ run used this version. External setup/monitor scripts
++are not part of the upstream repository. This tag does not include large data or credentials.
+diff --git a/docs/JUDGE_PARSING_FIX.md b/docs/JUDGE_PARSING_FIX.md
+new file mode 100644
+index 0000000..9345075
+--- /dev/null
++++ b/docs/JUDGE_PARSING_FIX.md
+@@ -0,0 +1,77 @@
++# Retrieval Judge Parsing Defect and Local Fix
++
++## Evidence and location
++
++Baseline upstream commit: c035ee1b7e6bc9fa67d5a104df1c2175a8300666 (local v1.0.0).
++Location: model/drag.py, DebateAugmentedRAG.query_stage_debate.
++
++The prompt asks for one winning agent name, but the original code uses:
++
++```python
++if "Proponent" in moderator_output:
++    return query_pool
++```
++
++Observed output in the initial one-question test:
++
++```text
++Proponent Agent 1:
++Opponent Agent 1:
++```
++
++The program stops despite no unambiguous verdict. In the subsequent 50-question
++NQ pilot, 46 of 64 initial retrieval Judge outputs contained both labels.
++The baseline preserves this behavior; the initial bad formatting is an LLM
++instruction-following failure, while accepting it is a code validation defect.
++This does NOT establish the authors' experiments had the same failure frequency
++or that this defect explains any score difference from the paper.
++
++## v1.0.1 repair policy
++
++1. Accept only a full-string single-role name: Proponent or Opponent, optionally
++   followed by Agent and a numeric identifier, case-insensitively. A final period
++   or exclamation mark is tolerated. Role determines the decision, not agent ID.
++2. Keep the original first Judge prompt. Valid initial outputs need no extra call.
++3. On invalid initial output, ask the same Judge once more using the same evidence
++   and arguments plus the bad output and an explicit single-label instruction.
++4. Validate retry identically. Do not pick the first/last mentioned name, map
++   ambiguity to Opponent, or infer a winner from free-form reasoning.
++5. If still invalid, record an unresolved verdict, keep the query pool unchanged,
++   and move to the next existing retrieval round. After the configured limit,
++   return the current pool. Unresolved never means convergence or a winning side.
++
++Initial prompt/output fields remain unchanged. New per-round fields:
++Decision (Proponent, Opponent or null), DecisionStatus (valid_initial,
++valid_retry or unresolved), and, if retried, RetryInputPrompt/RetryOutput.
++
++An extra LLM call occurs only for invalid initial verdicts, at most once per
++retrieval round. Up to 3 configured rounds imply at most 3 retry calls per
++question. Runtime or retrieval frequency can increase. Accuracy need not improve;
++stricter protocol validity is the immediate goal, not score tuning.
++
++## Verification
++
++Run `python -m unittest discover -s tests -v`. Parser/policy tests need only the
++standard library. Integration tests need the existing DRAG runtime but use fake
++model/retriever calls and do not load GPU weights or the large index.
++Set DRAG_REQUIRE_INTEGRATION=1 to fail rather than skip missing-runtime tests.
++
++## Paired rerun protocol
++
++Retain all baseline outputs. Extract its exact 50 ordered IDs and original
++question/gold-answer rows into a fixed subset. Rerun v1.0.1 on that subset with
++the same Llama revision, full corpus/index, seed, generation parameters and 3/3
++round limits. Record code commit/tag, data checksum, environment, timing/resources,
++Judge retries/unresolved rates, EM/F1 and paired question-level changes.
++This is a bug-fix variant, NOT an unchanged official-paper reproduction.
++
++## Paper comparison before the fix
++
++ACL 2025 Table 1, NQ: DRAG EM 36.80, F1 50.38; Naive RAG EM 38.20, F1 50.08.
++Paper section 4.1: 500 randomly sampled questions per dataset. Our 50-question
++v1.0.0 pilot: EM 34.00, F1 50.3812. Difference: -2.80 percentage points EM,
++essentially zero at two-decimal F1 precision. One question changes our EM by
++2 points. Different sample sizes/selections prevent a like-for-like equivalence
++claim; no evidence here establishes the bug caused that gap.
++
++Source: https://aclanthology.org/2025.acl-long.770.pdf (Table 1; section 4.1).
+diff --git a/model/drag.py b/model/drag.py
+index 7b60c0f..ca7f2c9 100644
+--- a/model/drag.py
++++ b/model/drag.py
+@@ -6,6 +6,7 @@ from flashrag.utils import get_generator, get_retriever
+ from tqdm import tqdm
+ 
+ from .utils import *
++from .judge_decision import resolve_judge_decision
+ 
+ 
+ class DebateAugmentedRAG(BasicPipeline):
+@@ -103,9 +104,31 @@ class DebateAugmentedRAG(BasicPipeline):
+             item.update_output(f"QueryStage_Moderator_Round{round}_InputPrompt", moderator_input_prompt)
+             item.update_output(f"QueryStage_Moderator_Round{round}_Output", moderator_output)
+             
+-            if "Proponent" in moderator_output: # Proponent wins the debate round and the query stage ends
++            def retry_judge():
++                retry_message = moderator_message + [
++                    {"role": "assistant", "content": moderator_output},
++                    {"role": "user", "content": (
++                        "Your previous output was not a valid single-agent verdict. "
++                        "Evaluate the same arguments and select exactly one winner. "
++                        "Reply with exactly Proponent or Opponent. "
++                        "Do not list both names, add punctuation, or explain."
++                    )}
++                ]
++                retry_prompt = self.prompt_template.get_string(messages=retry_message)
++                retry_output = self.generator.generate(retry_prompt)[0]
++                item.update_output(f"QueryStage_Moderator_Round{round}_RetryInputPrompt", retry_prompt)
++                item.update_output(f"QueryStage_Moderator_Round{round}_RetryOutput", retry_output)
++                return retry_output
++
++            verdict = resolve_judge_decision(moderator_output, retry_judge)
++            item.update_output(f"QueryStage_Moderator_Round{round}_Decision", verdict.decision)
++            item.update_output(f"QueryStage_Moderator_Round{round}_DecisionStatus", verdict.status)
++            if verdict.decision is None:
++                # An invalid verdict cannot authorize either stopping or query refinement.
++                continue
++            if verdict.decision == "Proponent": # Proponent wins the debate round and the query stage ends
+                 return query_pool
+-            else: # Opponent wins the debate round and the query stage continues
++            else: # A validated Opponent verdict allows query refinement
+                 opponent_output = agents_messages["Opponent Agent 0"][1]
+                 # Update the query pool
+                 query_pool_tmp = self.maintain_query_pool(query_pool, opponent_output)
+@@ -306,4 +329,4 @@ Deliver a brief, strong argument with clear reasoning, then you must choose only
+                 min_distance = distance
+                 most_similar_key = key
+ 
+-        return most_similar_key
+\ No newline at end of file
++        return most_similar_key
+diff --git a/model/judge_decision.py b/model/judge_decision.py
+new file mode 100644
+index 0000000..c3332e4
+--- /dev/null
++++ b/model/judge_decision.py
+@@ -0,0 +1,31 @@
++"""Validate retrieval Judge decisions without inferring a winner from prose."""
++from dataclasses import dataclass
++import re
++from typing import Callable, Optional
++
++
++@dataclass(frozen=True)
++class JudgeDecision:
++    decision: Optional[str]
++    status: str
++    retry_output: Optional[str] = None
++
++
++def parse_judge_decision(output: str) -> Optional[str]:
++    if not isinstance(output, str):
++        return None
++    match = re.fullmatch(
++        r"(Proponent|Opponent)(?:\s+Agent(?:\s+\d+)?)?[.!]?",
++        output.strip(), re.IGNORECASE,
++    )
++    return match.group(1).capitalize() if match else None
++
++
++def resolve_judge_decision(output: str, retry: Callable[[], str]) -> JudgeDecision:
++    decision = parse_judge_decision(output)
++    if decision is not None:
++        return JudgeDecision(decision, 'valid_initial')
++    retry_output = retry()
++    decision = parse_judge_decision(retry_output)
++    status = 'valid_retry' if decision is not None else 'unresolved'
++    return JudgeDecision(decision, status, retry_output)
+diff --git a/tests/test_judge_decision.py b/tests/test_judge_decision.py
+new file mode 100644
+index 0000000..449d0f9
+--- /dev/null
++++ b/tests/test_judge_decision.py
+@@ -0,0 +1,63 @@
++import importlib.util
++from pathlib import Path
++import sys
++import unittest
++from unittest.mock import Mock
++
++
++ROOT = Path(__file__).resolve().parents[1]
++spec = importlib.util.spec_from_file_location('drag_judge_decision', ROOT / 'model/judge_decision.py')
++module = importlib.util.module_from_spec(spec)
++sys.modules[spec.name] = module
++spec.loader.exec_module(module)
++parse = module.parse_judge_decision
++resolve = module.resolve_judge_decision
++
++
++class JudgeDecisionTests(unittest.TestCase):
++    def test_single_role_formats(self):
++        for text, expected in (
++            ('Proponent', 'Proponent'), ('Opponent', 'Opponent'),
++            ('  opponent agent 0\n', 'Opponent'),
++            ('Proponent Agent', 'Proponent'),
++            ('Proponent Agent 1.', 'Proponent'),
++        ):
++            with self.subTest(text=text):
++                self.assertEqual(parse(text), expected)
++
++    def test_invalid_outputs_do_not_choose_either_side(self):
++        for text in ('Proponent Agent 1: \nOpponent Agent 1:',
++                     'Proponent or Opponent', 'Opponent beats Proponent',
++                     'Not Proponent', 'I choose Proponent',
++                     'Proponent\nProponent', 'Proponent Agent 0:', '', None):
++            with self.subTest(text=text):
++                self.assertIsNone(parse(text))
++
++    def test_valid_output_does_not_add_a_model_call(self):
++        retry = Mock()
++        result = resolve('Opponent Agent 0', retry)
++        self.assertEqual((result.decision, result.status), ('Opponent', 'valid_initial'))
++        retry.assert_not_called()
++
++    def test_invalid_output_retries_once_and_accepts_either_valid_side(self):
++        for choice in ('Proponent', 'Opponent'):
++            retry = Mock(return_value=choice)
++            result = resolve('Proponent Agent 1:\nOpponent Agent 1:', retry)
++            self.assertEqual((result.decision, result.status), (choice, 'valid_retry'))
++            self.assertEqual(result.retry_output, choice)
++            retry.assert_called_once_with()
++
++    def test_second_invalid_output_is_explicitly_unresolved(self):
++        retry = Mock(return_value='Neither is convincing')
++        result = resolve('Proponent and Opponent', retry)
++        self.assertIsNone(result.decision)
++        self.assertEqual(result.status, 'unresolved')
++        retry.assert_called_once_with()
++
++    def test_generation_errors_are_not_hidden_as_decisions(self):
++        with self.assertRaises(RuntimeError):
++            resolve('invalid', Mock(side_effect=RuntimeError('generation failed')))
++
++
++if __name__ == '__main__':
++    unittest.main()
+diff --git a/tests/test_query_judge_integration.py b/tests/test_query_judge_integration.py
+new file mode 100644
+index 0000000..f9a3113
+--- /dev/null
++++ b/tests/test_query_judge_integration.py
+@@ -0,0 +1,65 @@
++"""Exercise the real query-stage method with fake inference and retrieval."""
++import os
++from types import SimpleNamespace
++import unittest
++from unittest.mock import Mock
++
++try:
++    from model.drag import DebateAugmentedRAG
++    IMPORT_ERROR = None
++except ImportError as error:
++    IMPORT_ERROR = error
++
++
++class QueryJudgeIntegrationTests(unittest.TestCase):
++    def setUp(self):
++        if IMPORT_ERROR is not None:
++            if os.environ.get('DRAG_REQUIRE_INTEGRATION') == '1':
++                self.fail(str(IMPORT_ERROR))
++            self.skipTest(f'Full DRAG runtime required: {IMPORT_ERROR}')
++
++    def make_pipeline(self, outputs, rounds=1):
++        pipeline = object.__new__(DebateAugmentedRAG)
++        pipeline.max_query_debate_rounds = rounds
++        pipeline.agents_messages_query_stage = {'Proponent Agent 0': [], 'Opponent Agent 0': []}
++        pipeline.generator = SimpleNamespace(generate=Mock(side_effect=[[v] for v in outputs]))
++        pipeline.retriever = SimpleNamespace(search=Mock(return_value=['evidence']))
++        pipeline.prompt_template = SimpleNamespace(get_string=lambda **kwargs: kwargs['messages'])
++        pipeline.format_query_pool = lambda pool: 'Evidence summary'
++        pipeline.maintain_query_pool = Mock(return_value={'refined': ['new evidence']})
++        records = {}
++        item = SimpleNamespace(question='question', update_output=records.__setitem__)
++        return pipeline, item, records
++
++    def test_valid_proponent_stops_without_retry_or_update(self):
++        p, item, records = self.make_pipeline(['argument', 'argument', 'Proponent'])
++        self.assertEqual(p.query_stage_debate(item), {'question': ['evidence']})
++        self.assertEqual(p.generator.generate.call_count, 3)
++        p.maintain_query_pool.assert_not_called()
++        self.assertEqual(records['QueryStage_Moderator_Round0_DecisionStatus'], 'valid_initial')
++
++    def test_ambiguous_verdict_does_not_stop_before_retry(self):
++        p, item, records = self.make_pipeline([
++            'argument', 'proposal', 'Proponent Agent 1:\nOpponent Agent 1:', 'Opponent'
++        ])
++        self.assertEqual(p.query_stage_debate(item), {'refined': ['new evidence']})
++        p.maintain_query_pool.assert_called_once_with({'question': ['evidence']}, 'proposal')
++        self.assertEqual(p.generator.generate.call_count, 4)
++        self.assertEqual(records['QueryStage_Moderator_Round0_Decision'], 'Opponent')
++
++    def test_retry_can_select_proponent(self):
++        p, item, records = self.make_pipeline(['argument', 'argument', 'invalid', 'Proponent'])
++        self.assertEqual(p.query_stage_debate(item), {'question': ['evidence']})
++        p.maintain_query_pool.assert_not_called()
++        self.assertEqual(records['QueryStage_Moderator_Round0_RetryOutput'], 'Proponent')
++
++    def test_persistent_invalid_verdicts_are_bounded_and_never_update_pool(self):
++        p, item, records = self.make_pipeline(['argument', 'argument', 'invalid', 'invalid'] * 3, rounds=3)
++        self.assertEqual(p.query_stage_debate(item), {'question': ['evidence']})
++        p.maintain_query_pool.assert_not_called()
++        self.assertEqual(p.generator.generate.call_count, 12)
++        self.assertEqual(records['QueryStage_Moderator_Round2_DecisionStatus'], 'unresolved')
++
++
++if __name__ == '__main__':
++    unittest.main()

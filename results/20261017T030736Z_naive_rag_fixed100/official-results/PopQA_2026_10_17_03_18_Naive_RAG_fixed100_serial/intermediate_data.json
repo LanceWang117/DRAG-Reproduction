@@ -1,0 +1,535 @@
+[
+    {
+        "id": "test_9138",
+        "question": "Who was the screenwriter for A Teacher?",
+        "metadata": {
+            "subj": "A Teacher",
+            "prop": "screenwriter",
+            "obj": "Hannah Fidell",
+            "subj_id": 527379,
+            "prop_id": 533,
+            "obj_id": 538129,
+            "s_aliases": "[\"Teacher\"]",
+            "o_aliases": "[\"Hannah Margalit Fidell\"]",
+            "s_uri": "http://www.wikidata.org/entity/Q17121918",
+            "o_uri": "http://www.wikidata.org/entity/Q17305996",
+            "s_wiki_title": "A Teacher",
+            "o_wiki_title": "Hannah Fidell",
+            "s_pop": 17376,
+            "o_pop": 2560
+        },
+        "golden_answers": [
+            "Hannah Fidell",
+            "Hannah Margalit Fidell"
+        ],
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "3378112",
+                    "contents": "\"A Teacher\"\nA Teacher A Teacher is a 2013 independent drama film about a female high school teacher's illicit sexual relationship with a male student that turns from infatuation into obsession. It is the first feature film directed by Hannah Fidell. Principal photography for the film took place in Austin, Texas. The film had its premiere at the 2013 Sundance Film Festival on January 20, 2013. The film was released on video on demand on August 20, 2013, prior to being released in a limited release on September 6, 2013, in the United States. The film starts with Diana Watts (Lindsay Burdge)"
+                },
+                {
+                    "id": "992423",
+                    "contents": "\"A Teacher\"\ntrysts with teenager Will Brittain... Writer-director Hannah Fidell works in a style that's arty but simple: naturalistic lighting, camera movement that always follows character movement, and a modernist score (by Brian McOmber, formerly of Dirty Projectors) that conveys dread without ever suggesting outright horror.\"\" A Teacher A Teacher is a 2013 independent drama film about a female high school teacher's illicit sexual relationship with a male student that turns from infatuation into obsession. It is the first feature film directed by Hannah Fidell. Principal photography for the film took place in Austin, Texas. The film had its premiere at the"
+                },
+                {
+                    "id": "15121586",
+                    "contents": "\"The School Teacher\"\nThe School Teacher L'insegnante (internationally released as The School Teacher and Sexy Schoolteacher) is a 1975 commedia sexy all'italiana directed by Nando Cicero. The film had a great commercial success and generated an \"\"Insegnante\"\" film series, that consists of six titles, three of them starred by Edwige Fenech in the main role. \"\"L'insegnante\"\" represents the first major role for Alvaro Vitali, who in a short time would become a star of the genre. Fenech reprises the name of Giovanna from her previous box-office hit \"\"Giovannona Long-Thigh\"\". The film was followed by \"\"The Schoolteacher Goes to Boys' High\"\". A rich Sicilian:"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"A Teacher\") A Teacher A Teacher is a 2013 independent drama film about a female high school teacher's illicit sexual relationship with a male student that turns from infatuation into obsession. It is the first feature film directed by Hannah Fidell. Principal photography for the film took place in Austin, Texas. The film had its premiere at the 2013 Sundance Film Festival on January 20, 2013. The film was released on video on demand on August 20, 2013, prior to being released in a limited release on September 6, 2013, in the United States. The film starts with Diana Watts (Lindsay Burdge)\nDoc 2(Title: \"A Teacher\") trysts with teenager Will Brittain... Writer-director Hannah Fidell works in a style that's arty but simple: naturalistic lighting, camera movement that always follows character movement, and a modernist score (by Brian McOmber, formerly of Dirty Projectors) that conveys dread without ever suggesting outright horror.\"\" A Teacher A Teacher is a 2013 independent drama film about a female high school teacher's illicit sexual relationship with a male student that turns from infatuation into obsession. It is the first feature film directed by Hannah Fidell. Principal photography for the film took place in Austin, Texas. The film had its premiere at the\nDoc 3(Title: \"The School Teacher\") The School Teacher L'insegnante (internationally released as The School Teacher and Sexy Schoolteacher) is a 1975 commedia sexy all'italiana directed by Nando Cicero. The film had a great commercial success and generated an \"\"Insegnante\"\" film series, that consists of six titles, three of them starred by Edwige Fenech in the main role. \"\"L'insegnante\"\" represents the first major role for Alvaro Vitali, who in a short time would become a star of the genre. Fenech reprises the name of Giovanna from her previous box-office hit \"\"Giovannona Long-Thigh\"\". The film was followed by \"\"The Schoolteacher Goes to Boys' High\"\". A rich Sicilian:<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Who was the screenwriter for A Teacher?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "There is no information about the screenwriter for A Teacher in the given documents.",
+            "raw_pred": "There is no information about the screenwriter for A Teacher in the given documents.",
+            "inference_elapsed_seconds": 11.533556465059519,
+            "metric_score": {
+                "em": 0.0,
+                "f1": 0,
+                "acc": 0.0,
+                "precision": 0,
+                "recall": 0
+            }
+        }
+    },
+    {
+        "id": "test_1354",
+        "question": "What genre is Needle?",
+        "metadata": {
+            "subj": "Needle",
+            "prop": "genre",
+            "obj": "science fiction",
+            "subj_id": 2336155,
+            "prop_id": 91,
+            "obj_id": 844831,
+            "s_aliases": "[\"From Outer Space\"]",
+            "o_aliases": "[\"SF\",\"scifi\",\"sci Fi\",\"sci-Fi\",\"science-fiction\",\"sci fi\",\"sciencefiction\"]",
+            "s_uri": "http://www.wikidata.org/entity/Q6986574",
+            "o_uri": "http://www.wikidata.org/entity/Q24925",
+            "s_wiki_title": "Needle (novel)",
+            "o_wiki_title": "Science fiction",
+            "s_pop": 186,
+            "o_pop": 155784
+        },
+        "golden_answers": [
+            "science fiction",
+            "SF",
+            "scifi",
+            "sci Fi",
+            "sci-Fi",
+            "science-fiction",
+            "sci fi",
+            "sciencefiction"
+        ],
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "20714966",
+                    "contents": "\"Needle (band)\"\nNeedle (band) [needle] is an American industrial rock band formed in Philadelphia in 1995. The group's musical style primarily consists of aggressive electronic dance music. [needle] has seen extraordinary popularity in the Philadelphia and New York City underground music scenes with original distribution through Sony Music via Ruffhouse Records' Contract Records sub-label. The band was originally founded by high school mates Jeffrey D. Erb and Lee Daniels after the dissolution of their former band Sri Lanka (band). Erb and Daniels have performed all of the music on their releases, with Erb playing bass guitar, writing rhythm tracks, keyboards and performing"
+                },
+                {
+                    "id": "20714972",
+                    "contents": "\"Needle (band)\"\non their next full-length studio release, when a hard disk crash caused all of their new material and original tracks to be lost. In 2018, the band announced that they are currently working on a new studio album entitled \"\"Cocksucker\"\". Needle (band) [needle] is an American industrial rock band formed in Philadelphia in 1995. The group's musical style primarily consists of aggressive electronic dance music. [needle] has seen extraordinary popularity in the Philadelphia and New York City underground music scenes with original distribution through Sony Music via Ruffhouse Records' Contract Records sub-label. The band was originally founded by high school"
+                },
+                {
+                    "id": "5246731",
+                    "contents": "\"The Needles (band)\"\nThe Needles (band) The Needles were a four-piece band who formed in their mid-teens in late 1990s Aberdeen, relocating to Glasgow in 2001. Influenced heavily by 1960s garage punk and late 70s new wave/powerpop, their first limited-edition single on newly formed indie label Lithium Records sold out within weeks of its release, and the follow-up \"\"We Got the Soul\"\" continued the momentum, garnering positive notices in the \"\"Melody Maker\"\" and NME, as well as airplay on Radio 1's Evening Session. Various delays and false dawns followed, and although they continued to release records for a good few years afterwards, switching"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Needle (band)\") Needle (band) [needle] is an American industrial rock band formed in Philadelphia in 1995. The group's musical style primarily consists of aggressive electronic dance music. [needle] has seen extraordinary popularity in the Philadelphia and New York City underground music scenes with original distribution through Sony Music via Ruffhouse Records' Contract Records sub-label. The band was originally founded by high school mates Jeffrey D. Erb and Lee Daniels after the dissolution of their former band Sri Lanka (band). Erb and Daniels have performed all of the music on their releases, with Erb playing bass guitar, writing rhythm tracks, keyboards and performing\nDoc 2(Title: \"Needle (band)\") on their next full-length studio release, when a hard disk crash caused all of their new material and original tracks to be lost. In 2018, the band announced that they are currently working on a new studio album entitled \"\"Cocksucker\"\". Needle (band) [needle] is an American industrial rock band formed in Philadelphia in 1995. The group's musical style primarily consists of aggressive electronic dance music. [needle] has seen extraordinary popularity in the Philadelphia and New York City underground music scenes with original distribution through Sony Music via Ruffhouse Records' Contract Records sub-label. The band was originally founded by high school\nDoc 3(Title: \"The Needles (band)\") The Needles (band) The Needles were a four-piece band who formed in their mid-teens in late 1990s Aberdeen, relocating to Glasgow in 2001. Influenced heavily by 1960s garage punk and late 70s new wave/powerpop, their first limited-edition single on newly formed indie label Lithium Records sold out within weeks of its release, and the follow-up \"\"We Got the Soul\"\" continued the momentum, garnering positive notices in the \"\"Melody Maker\"\" and NME, as well as airplay on Radio 1's Evening Session. Various delays and false dawns followed, and although they continued to release records for a good few years afterwards, switching<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: What genre is Needle?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "industrial rock.",
+            "raw_pred": "The answer is: industrial rock.",
+            "inference_elapsed_seconds": 11.892321926541626,
+            "metric_score": {
+                "em": 0.0,
+                "f1": 0,
+                "acc": 0.0,
+                "precision": 0,
+                "recall": 0
+            }
+        }
+    },
+    {
+        "id": "test_10581",
+        "question": "Who was the composer of Broken?",
+        "metadata": {
+            "subj": "Broken",
+            "prop": "composer",
+            "obj": "Trent Reznor",
+            "subj_id": 971821,
+            "prop_id": 639,
+            "obj_id": 941649,
+            "s_aliases": "[\"The Broken Movie\"]",
+            "o_aliases": "[\"Michael Trent Reznor\"]",
+            "s_uri": "http://www.wikidata.org/entity/Q2925977",
+            "o_uri": "http://www.wikidata.org/entity/Q282722",
+            "s_wiki_title": "Broken (1993 film)",
+            "o_wiki_title": "Trent Reznor",
+            "s_pop": 2013,
+            "o_pop": 79535
+        },
+        "golden_answers": [
+            "Trent Reznor",
+            "Michael Trent Reznor"
+        ],
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "9072865",
+                    "contents": "\"Broken (Kate Ryan song)\"\nBroken (Kate Ryan song) \"\"Broken\"\" is the second single from Kate Ryan's new album, \"\"Electroshock\"\". It was in Belgium on iTunes on 7 October 2011. The song is written By Anders Hansson, Kate Ryan, Negin Djafari,Bernard Ansong and was produced by Anders Hansson, Felix Persson & Märta Grauers with additional production of Eightysix (Andras Vleminckx) & Jérôme \"\"Deekly\"\" Riouffreyt. The song features vocals from Narcz Privé a.k.a. Narco. On 27 June 2012, as a celebration of the release of the album, Ryan shared via her Facebook page the original version of the song, which doesn't include Narco's vocals. This version"
+                },
+                {
+                    "id": "15918734",
+                    "contents": "\"Broken (Jake Bugg song)\"\nBroken (Jake Bugg song) \"\"Broken\"\" is a song by British singer songwriter Jake Bugg. It was released as the seventh and final single from his self-titled debut album (2012). It was released as a digital download in the United Kingdom on 21 June 2013. The song peaked at number 44 on the UK Singles Chart. There are two versions of the song: the original which featured on Jake Bugg's debut album, and a re-recording which is not on the album but was released as an official single in 2013. The former was written by Jake Bugg and Crispin Hunt, with"
+                },
+                {
+                    "id": "13001115",
+                    "contents": "\"Broken Saints\"\nBroken Saints Broken Saints is an award-winning, partially Flash-animated film series by Brooke Burgess, Ian Kirby, and Andrew West. First published in 2001, it is one of the earliest examples of a motion comic. Like a comic, characters on the most part remain in static poses and dialogue is indicated by speech balloons. However, rather than exclusively using sequential panels, animated sequences are used to switch scenes and help advance the story, while music (composed by Tobias Tinker and Quentin Grey, as well as classical pieces by Mozart and others) and sound effects are included, lending a more cinematic experience"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Broken (Kate Ryan song)\") Broken (Kate Ryan song) \"\"Broken\"\" is the second single from Kate Ryan's new album, \"\"Electroshock\"\". It was in Belgium on iTunes on 7 October 2011. The song is written By Anders Hansson, Kate Ryan, Negin Djafari,Bernard Ansong and was produced by Anders Hansson, Felix Persson & Märta Grauers with additional production of Eightysix (Andras Vleminckx) & Jérôme \"\"Deekly\"\" Riouffreyt. The song features vocals from Narcz Privé a.k.a. Narco. On 27 June 2012, as a celebration of the release of the album, Ryan shared via her Facebook page the original version of the song, which doesn't include Narco's vocals. This version\nDoc 2(Title: \"Broken (Jake Bugg song)\") Broken (Jake Bugg song) \"\"Broken\"\" is a song by British singer songwriter Jake Bugg. It was released as the seventh and final single from his self-titled debut album (2012). It was released as a digital download in the United Kingdom on 21 June 2013. The song peaked at number 44 on the UK Singles Chart. There are two versions of the song: the original which featured on Jake Bugg's debut album, and a re-recording which is not on the album but was released as an official single in 2013. The former was written by Jake Bugg and Crispin Hunt, with\nDoc 3(Title: \"Broken Saints\") Broken Saints Broken Saints is an award-winning, partially Flash-animated film series by Brooke Burgess, Ian Kirby, and Andrew West. First published in 2001, it is one of the earliest examples of a motion comic. Like a comic, characters on the most part remain in static poses and dialogue is indicated by speech balloons. However, rather than exclusively using sequential panels, animated sequences are used to switch scenes and help advance the story, while music (composed by Tobias Tinker and Quentin Grey, as well as classical pieces by Mozart and others) and sound effects are included, lending a more cinematic experience<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Who was the composer of Broken?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "Tobias Tinker and Quentin Grey, as well as classical pieces by Mozart and others.",
+            "raw_pred": "The answer is: Tobias Tinker and Quentin Grey, as well as classical pieces by Mozart and others.",
+            "inference_elapsed_seconds": 17.53885122947395,
+            "metric_score": {
+                "em": 0.0,
+                "f1": 0,
+                "acc": 0.0,
+                "precision": 0,
+                "recall": 0
+            }
+        }
+    },
+    {
+        "id": "test_13722",
+        "question": "What is the capital of Appenzell Ausserrhoden?",
+        "metadata": {
+            "subj": "Appenzell Ausserrhoden",
+            "prop": "capital",
+            "obj": "Herisau",
+            "subj_id": 123467,
+            "prop_id": 422,
+            "obj_id": 2133818,
+            "s_aliases": "[\"AR\",\"Kanton Appenzell Ausserrhoden\",\"Appenzell Outer Rhodes\",\"Canton of Appenzell Ausserrhoden\"]",
+            "o_aliases": "[\"Herisau AR\"]",
+            "s_uri": "http://www.wikidata.org/entity/Q12079",
+            "o_uri": "http://www.wikidata.org/entity/Q63970",
+            "s_wiki_title": "Appenzell Ausserrhoden",
+            "o_wiki_title": "Herisau",
+            "s_pop": 2001,
+            "o_pop": 1469
+        },
+        "golden_answers": [
+            "Herisau",
+            "Herisau AR",
+            "Trogen",
+            "Trogen AR"
+        ],
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "11802005",
+                    "contents": "\"Canton of Appenzell Ausserrhoden\"\nCanton of Appenzell Ausserrhoden The canton of Appenzell Ausserrhoden (; in English sometimes Appenzell Outer Rhodes) is a canton of Switzerland. The seat of the government and parliament is Herisau, judicial authorities are in Trogen. Appenzell Ausserrhoden is located in the north east of Switzerland, bordering the cantons of St. Gallen and Appenzell Innerrhoden. Settlement in Appenzell started in the 7th and the 8th century alongside the river Glatt. The monastery of St. Gallen was of great influence on the local population. In 907 Herisau is mentioned for the first time, the canton (Appenzell: \"\"abbatis cella\"\") is named first in"
+                },
+                {
+                    "id": "8443146",
+                    "contents": "\"Appenzell (village)\"\nAppenzell (village) Appenzell is a village, a statistic town, but not a municipality, and the capital of the canton of Appenzell Innerrhoden in Switzerland. Appenzell has no municipal government of its own; rather, the different parts of Appenzell belong to and are governed by the districts (and municipalities) Appenzell, Schwende and Rüte. Because of that, for firefighting, energy and water, the village Appenzell has a special-purpose municipality, the Feuerschaugemeinde. In 1071 the village was referred to as \"\"Abbacella\"\". By 1223 this changed to \"\"Abbatiscella\"\", meaning the Abbot's cell. This refers to the abbot of the Abbey of Saint Gall. The"
+                },
+                {
+                    "id": "11802019",
+                    "contents": "\"Canton of Appenzell Ausserrhoden\"\nin Appenzell Inerrhoden. The right of foreigners to vote is determined by each municipality. The 20 municipalities (\"\"Einwohnergemeinden\"\") are: The population of the canton (as of ) is . , the population included 6,959 foreigners, or about 13.22% of the total population. Due to the split of Appenzell, the majority of the population () is Protestant (51%) with a Roman Catholic minority (31%). Canton of Appenzell Ausserrhoden The canton of Appenzell Ausserrhoden (; in English sometimes Appenzell Outer Rhodes) is a canton of Switzerland. The seat of the government and parliament is Herisau, judicial authorities are in Trogen. Appenzell Ausserrhoden"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Canton of Appenzell Ausserrhoden\") Canton of Appenzell Ausserrhoden The canton of Appenzell Ausserrhoden (; in English sometimes Appenzell Outer Rhodes) is a canton of Switzerland. The seat of the government and parliament is Herisau, judicial authorities are in Trogen. Appenzell Ausserrhoden is located in the north east of Switzerland, bordering the cantons of St. Gallen and Appenzell Innerrhoden. Settlement in Appenzell started in the 7th and the 8th century alongside the river Glatt. The monastery of St. Gallen was of great influence on the local population. In 907 Herisau is mentioned for the first time, the canton (Appenzell: \"\"abbatis cella\"\") is named first in\nDoc 2(Title: \"Appenzell (village)\") Appenzell (village) Appenzell is a village, a statistic town, but not a municipality, and the capital of the canton of Appenzell Innerrhoden in Switzerland. Appenzell has no municipal government of its own; rather, the different parts of Appenzell belong to and are governed by the districts (and municipalities) Appenzell, Schwende and Rüte. Because of that, for firefighting, energy and water, the village Appenzell has a special-purpose municipality, the Feuerschaugemeinde. In 1071 the village was referred to as \"\"Abbacella\"\". By 1223 this changed to \"\"Abbatiscella\"\", meaning the Abbot's cell. This refers to the abbot of the Abbey of Saint Gall. The\nDoc 3(Title: \"Canton of Appenzell Ausserrhoden\") in Appenzell Inerrhoden. The right of foreigners to vote is determined by each municipality. The 20 municipalities (\"\"Einwohnergemeinden\"\") are: The population of the canton (as of ) is . , the population included 6,959 foreigners, or about 13.22% of the total population. Due to the split of Appenzell, the majority of the population () is Protestant (51%) with a Roman Catholic minority (31%). Canton of Appenzell Ausserrhoden The canton of Appenzell Ausserrhoden (; in English sometimes Appenzell Outer Rhodes) is a canton of Switzerland. The seat of the government and parliament is Herisau, judicial authorities are in Trogen. Appenzell Ausserrhoden<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: What is the capital of Appenzell Ausserrhoden?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "Herisau.",
+            "raw_pred": "The answer is: Herisau.",
+            "inference_elapsed_seconds": 4.289732339791954,
+            "metric_score": {
+                "em": 1.0,
+                "f1": 1.0,
+                "acc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0
+            }
+        }
+    },
+    {
+        "id": "test_7825",
+        "question": "What is Florence the capital of?",
+        "metadata": {
+            "subj": "Florence",
+            "prop": "capital of",
+            "obj": "Tuscany",
+            "subj_id": 718085,
+            "prop_id": 97,
+            "obj_id": 149113,
+            "s_aliases": "[\"Firenze\",\"Florence, Italy\",\"Florence, Tuscany\",\"Florencia\",\"Florentia\",\"Florenz\",\"Firenca\",\"Florencie\",\"Fiur\\u00e4nza\",\"Florentzia\",\"Firense\",\"Firenz\",\"Firenzi\"]",
+            "o_aliases": "[\"Toscana\"]",
+            "s_uri": "http://www.wikidata.org/entity/Q2044",
+            "o_uri": "http://www.wikidata.org/entity/Q1273",
+            "s_wiki_title": "Florence",
+            "o_wiki_title": "Tuscany",
+            "s_pop": 78903,
+            "o_pop": 47800
+        },
+        "golden_answers": [
+            "Tuscany",
+            "Toscana",
+            "Republic of Florence",
+            "Repubblica Fiorentina",
+            "Florentine Republic",
+            "Repubblica di Firenze",
+            "Province of Florence",
+            "Florence",
+            "Florence province",
+            "Firenze province",
+            "provincia di Firenze",
+            "Firenze",
+            "Kingdom of Italy",
+            "Regno d’Italia",
+            "Italy",
+            "IT"
+        ],
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "3245911",
+                    "contents": "Florence\nFlorence Florence ( ; ) is the capital city of the Italian region of Tuscany. It is the most populous city in Tuscany, with 383,084 inhabitants in 2013, and over 1,520,000 in its metropolitan area. Florence was a centre of medieval European trade and finance and one of the wealthiest cities of that era. It is considered the birthplace of the Renaissance, and has been called \"\"the Athens of the Middle Ages\"\". A turbulent political history includes periods of rule by the powerful Medici family and numerous religious and republican revolutions. From 1865 to 1871 the city was the capital"
+                },
+                {
+                    "id": "16849082",
+                    "contents": "\"Metropolitan City of Florence\"\nMetropolitan City of Florence The Metropolitan City of Florence () is a metropolitan city in the Tuscany region, Italy. Its capital is the city of Florence. It replaced the Province of Florence. It was first created by the reform of local authorities (Law 142/1990) and then established by the Law 56/2014. It has been operative since January 1, 2015. The Metropolitcan City of Florence is bordered by the Metropolitan City of Bologna in the north, the province of Ravenna and Forlì-Cesena in the north-east, the province of Prato, Pistoia and Lucca in the north-west, the province of Pisa in the"
+                },
+                {
+                    "id": "5088707",
+                    "contents": "\"Metropolitan City of Florence\"\nrespectively. Tourism is also an important industry. Empoli is known for its ancient glass-making industry. Metropolitan City of Florence The Metropolitan City of Florence () is a metropolitan city in the Tuscany region, Italy. Its capital is the city of Florence. It replaced the Province of Florence. It was first created by the reform of local authorities (Law 142/1990) and then established by the Law 56/2014. It has been operative since January 1, 2015. The Metropolitcan City of Florence is bordered by the Metropolitan City of Bologna in the north, the province of Ravenna and Forlì-Cesena in the north-east, the"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: Florence) Florence Florence ( ; ) is the capital city of the Italian region of Tuscany. It is the most populous city in Tuscany, with 383,084 inhabitants in 2013, and over 1,520,000 in its metropolitan area. Florence was a centre of medieval European trade and finance and one of the wealthiest cities of that era. It is considered the birthplace of the Renaissance, and has been called \"\"the Athens of the Middle Ages\"\". A turbulent political history includes periods of rule by the powerful Medici family and numerous religious and republican revolutions. From 1865 to 1871 the city was the capital\nDoc 2(Title: \"Metropolitan City of Florence\") Metropolitan City of Florence The Metropolitan City of Florence () is a metropolitan city in the Tuscany region, Italy. Its capital is the city of Florence. It replaced the Province of Florence. It was first created by the reform of local authorities (Law 142/1990) and then established by the Law 56/2014. It has been operative since January 1, 2015. The Metropolitcan City of Florence is bordered by the Metropolitan City of Bologna in the north, the province of Ravenna and Forlì-Cesena in the north-east, the province of Prato, Pistoia and Lucca in the north-west, the province of Pisa in the\nDoc 3(Title: \"Metropolitan City of Florence\") respectively. Tourism is also an important industry. Empoli is known for its ancient glass-making industry. Metropolitan City of Florence The Metropolitan City of Florence () is a metropolitan city in the Tuscany region, Italy. Its capital is the city of Florence. It replaced the Province of Florence. It was first created by the reform of local authorities (Law 142/1990) and then established by the Law 56/2014. It has been operative since January 1, 2015. The Metropolitcan City of Florence is bordered by the Metropolitan City of Bologna in the north, the province of Ravenna and Forlì-Cesena in the north-east, the<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: What is Florence the capital of?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "the Italian region of Tuscany.",
+            "raw_pred": "The answer is: the Italian region of Tuscany.",
+            "inference_elapsed_seconds": 4.323570122011006,
+            "metric_score": {
+                "em": 0.0,
+                "f1": 0.4,
+                "acc": 1.0,
+                "precision": 0.25,
+                "recall": 1.0
+            }
+        }
+    },
+    {
+        "id": "test_2839",
+        "question": "Who is the father of Frederick Converse Beach?",
+        "metadata": {
+            "subj": "Frederick Converse Beach",
+            "prop": "father",
+            "obj": "Alfred Ely Beach",
+            "subj_id": 1823884,
+            "prop_id": 257,
+            "obj_id": 890672,
+            "s_aliases": "[]",
+            "o_aliases": "[]",
+            "s_uri": "http://www.wikidata.org/entity/Q5497568",
+            "o_uri": "http://www.wikidata.org/entity/Q2644938",
+            "s_wiki_title": "Frederick Converse Beach",
+            "o_wiki_title": "Alfred Ely Beach",
+            "s_pop": 117,
+            "o_pop": 958
+        },
+        "golden_answers": [
+            "Alfred Ely Beach"
+        ],
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "12032500",
+                    "contents": "\"Frederick Converse Beach\"\nFrederick Converse Beach Frederick Converse Beach (March 27, 1848 – June 18, 1918), son of Alfred Ely Beach, was editor of the magazine \"\"Scientific American\"\" and of the new \"\"Encyclopedia Americana\"\" in the early 1900s, and an inventor of a photolithographic process. He was born on March 27, 1848, in Brooklyn, New York to Alfred Ely Beach. He graduated from Yale's Sheffield Scientific School in 1868. In 1896 he became a director of the Scientific American. In 1889 he was the editor of American Photography. From 1902 he was editor in chief of the Encyclopedia Americana. He died on June"
+                },
+                {
+                    "id": "11258055",
+                    "contents": "\"Frederick Converse Beach\"\n18, 1918, in Stamford, Connecticut. Frederick Converse Beach Frederick Converse Beach (March 27, 1848 – June 18, 1918), son of Alfred Ely Beach, was editor of the magazine \"\"Scientific American\"\" and of the new \"\"Encyclopedia Americana\"\" in the early 1900s, and an inventor of a photolithographic process. He was born on March 27, 1848, in Brooklyn, New York to Alfred Ely Beach. He graduated from Yale's Sheffield Scientific School in 1868. In 1896 he became a director of the Scientific American. In 1889 he was the editor of American Photography. From 1902 he was editor in chief of the Encyclopedia"
+                },
+                {
+                    "id": "14789083",
+                    "contents": "\"Edward L. Beach Sr.\"\nofficer and author. In 1895, Beach married Lucie Adelaide Quin of New York, but they had no children. She died in 1915 of breast cancer. In 1917, Beach was married for the second time to Marie Justine Alice Fouché (1888-1970), a Haitian-Dominican woman of French ancestry. She is the daughter of Elisabeth Marguerite Cora Geffrard (1866-1900) and Joseph Philippe Fouché (1859-1899). Her maternal grandmother is Rosa Amelia Heureaux (1830-1901), a close relative of Dominican presidents Ulises \"\"Lillis\"\" Heureaux (1845-1899), Rafael Leonidas Trujillo Molina (1891-1961), and Joaquin Antonio Balaguer Ricardo (1906-2002). Beach and his second wife had three children: Edward L."
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Frederick Converse Beach\") Frederick Converse Beach Frederick Converse Beach (March 27, 1848 – June 18, 1918), son of Alfred Ely Beach, was editor of the magazine \"\"Scientific American\"\" and of the new \"\"Encyclopedia Americana\"\" in the early 1900s, and an inventor of a photolithographic process. He was born on March 27, 1848, in Brooklyn, New York to Alfred Ely Beach. He graduated from Yale's Sheffield Scientific School in 1868. In 1896 he became a director of the Scientific American. In 1889 he was the editor of American Photography. From 1902 he was editor in chief of the Encyclopedia Americana. He died on June\nDoc 2(Title: \"Frederick Converse Beach\") 18, 1918, in Stamford, Connecticut. Frederick Converse Beach Frederick Converse Beach (March 27, 1848 – June 18, 1918), son of Alfred Ely Beach, was editor of the magazine \"\"Scientific American\"\" and of the new \"\"Encyclopedia Americana\"\" in the early 1900s, and an inventor of a photolithographic process. He was born on March 27, 1848, in Brooklyn, New York to Alfred Ely Beach. He graduated from Yale's Sheffield Scientific School in 1868. In 1896 he became a director of the Scientific American. In 1889 he was the editor of American Photography. From 1902 he was editor in chief of the Encyclopedia\nDoc 3(Title: \"Edward L. Beach Sr.\") officer and author. In 1895, Beach married Lucie Adelaide Quin of New York, but they had no children. She died in 1915 of breast cancer. In 1917, Beach was married for the second time to Marie Justine Alice Fouché (1888-1970), a Haitian-Dominican woman of French ancestry. She is the daughter of Elisabeth Marguerite Cora Geffrard (1866-1900) and Joseph Philippe Fouché (1859-1899). Her maternal grandmother is Rosa Amelia Heureaux (1830-1901), a close relative of Dominican presidents Ulises \"\"Lillis\"\" Heureaux (1845-1899), Rafael Leonidas Trujillo Molina (1891-1961), and Joaquin Antonio Balaguer Ricardo (1906-2002). Beach and his second wife had three children: Edward L.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Who is the father of Frederick Converse Beach?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "Alfred Ely Beach.",
+            "raw_pred": "The answer is: Alfred Ely Beach.",
+            "inference_elapsed_seconds": 4.1970532815903425,
+            "metric_score": {
+                "em": 1.0,
+                "f1": 1.0,
+                "acc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0
+            }
+        }
+    },
+    {
+        "id": "test_8671",
+        "question": "Who was the screenwriter for Loch Ness?",
+        "metadata": {
+            "subj": "Loch Ness",
+            "prop": "screenwriter",
+            "obj": "John Fusco",
+            "subj_id": 1068929,
+            "prop_id": 533,
+            "obj_id": 1939221,
+            "s_aliases": "[]",
+            "o_aliases": "[]",
+            "s_uri": "http://www.wikidata.org/entity/Q3257706",
+            "o_uri": "http://www.wikidata.org/entity/Q577234",
+            "s_wiki_title": "Loch Ness (film)",
+            "o_wiki_title": "John Fusco",
+            "s_pop": 3386,
+            "o_pop": 2748
+        },
+        "golden_answers": [
+            "John Fusco"
+        ],
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "10675538",
+                    "contents": "\"Loch Ness (film)\"\nLoch Ness (film) Loch Ness is a 1996 family drama film starring Ted Danson and Joely Richardson. It was written by John Fusco and directed by Jon Henderson. At Loch Ness, Scotland, scientist Dr. Abernathy is killed by slipping off some rocks, after seeing something in the loch and taking a single photograph of it. Months later, American zoologist and freshman college tutor, Dr. John Dempsey, is asked to replace Abernathy and dispel the myth of the Loch Ness Monster. Dempsey is reluctant to do so, having ruined his career by trying to prove the existence of the Sasquatch. He"
+                },
+                {
+                    "id": "16146448",
+                    "contents": "\"Loch Ness (film)\"\nhotel lobby area were shot at John Nike OBE DL's Coppid Beech Hotel in Binfield, Bracknell, Berkshire, England. The film score by Trevor Jones was released on Perseverance Records 9 September 2005. Originally Rod Stewart's cover of \"\"Rhythm of My Heart\"\" was used during the closing credits of the film, however that is not the version heard on this CD. According to Jones in the CD's liner notes: Starboy Award, 1996, Oulu International Children's Film Festival. Loch Ness (film) Loch Ness is a 1996 family drama film starring Ted Danson and Joely Richardson. It was written by John Fusco and"
+                },
+                {
+                    "id": "19048264",
+                    "contents": "\"The Loch Ness Horror\"\nThe Loch Ness Horror The Loch Ness Horror is a 1981 independent monster movie directed by Larry Buchanan. The film was written by Larry Buchanan and Lyn Schubert. The Loch Ness Monster is feeding on unsuspecting swimmers and eventually goes on a killing spree. There are three subplots: the monster's egg that is ready to hatch, a scientist who wants to capture the beast, and a mysterious sunken Nazi bomber plane which the military is trying to cover up. The film was made on an infamously low budget and on location at Lake Tahoe, California, whose surrounding countryside passes poorly"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Loch Ness (film)\") Loch Ness (film) Loch Ness is a 1996 family drama film starring Ted Danson and Joely Richardson. It was written by John Fusco and directed by Jon Henderson. At Loch Ness, Scotland, scientist Dr. Abernathy is killed by slipping off some rocks, after seeing something in the loch and taking a single photograph of it. Months later, American zoologist and freshman college tutor, Dr. John Dempsey, is asked to replace Abernathy and dispel the myth of the Loch Ness Monster. Dempsey is reluctant to do so, having ruined his career by trying to prove the existence of the Sasquatch. He\nDoc 2(Title: \"Loch Ness (film)\") hotel lobby area were shot at John Nike OBE DL's Coppid Beech Hotel in Binfield, Bracknell, Berkshire, England. The film score by Trevor Jones was released on Perseverance Records 9 September 2005. Originally Rod Stewart's cover of \"\"Rhythm of My Heart\"\" was used during the closing credits of the film, however that is not the version heard on this CD. According to Jones in the CD's liner notes: Starboy Award, 1996, Oulu International Children's Film Festival. Loch Ness (film) Loch Ness is a 1996 family drama film starring Ted Danson and Joely Richardson. It was written by John Fusco and\nDoc 3(Title: \"The Loch Ness Horror\") The Loch Ness Horror The Loch Ness Horror is a 1981 independent monster movie directed by Larry Buchanan. The film was written by Larry Buchanan and Lyn Schubert. The Loch Ness Monster is feeding on unsuspecting swimmers and eventually goes on a killing spree. There are three subplots: the monster's egg that is ready to hatch, a scientist who wants to capture the beast, and a mysterious sunken Nazi bomber plane which the military is trying to cover up. The film was made on an infamously low budget and on location at Lake Tahoe, California, whose surrounding countryside passes poorly<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Who was the screenwriter for Loch Ness?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "John Fusco.",
+            "raw_pred": "The answer is: John Fusco.",
+            "inference_elapsed_seconds": 4.529771285131574,
+            "metric_score": {
+                "em": 1.0,
+                "f1": 1.0,
+                "acc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0
+            }
+        }
+    },
+    {
+        "id": "test_7",
+        "question": "What is Leona Detiège's occupation?",
+        "metadata": {
+            "subj": "Leona Detiège",
+            "prop": "occupation",
+            "obj": "politician",
+            "subj_id": 777898,
+            "prop_id": 22,
+            "obj_id": 2834605,
+            "s_aliases": "[\"Leona Detiege\"]",
+            "o_aliases": "[\"political leader\",\"political figure\",\"polit.\",\"pol\"]",
+            "s_uri": "http://www.wikidata.org/entity/Q2261198",
+            "o_uri": "http://www.wikidata.org/entity/Q82955",
+            "s_wiki_title": "Leona Detiège",
+            "o_wiki_title": "Politician",
+            "s_pop": 124,
+            "o_pop": 25692
+        },
+        "golden_answers": [
+            "politician",
+            "political leader",
+            "political figure",
+            "polit.",
+            "pol"
+        ],
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "15530629",
+                    "contents": "\"Leona Detiège\"\nLeona Detiège Leona Maria Detiège (born Antwerp, 26 November 1942) is a Belgian politician. She was a member of the Belgian Socialist Party and is till member of its successor Flemish social-democratic party. Until 2014, she was a federal senator, succeeding Marleen Temmerman in October 2012. From 1995 till 2003 she was the mayor of Antwerp. Detiège was born in Antwerp. She is the daughter of former mayor of Antwerp, Frans Detiège, and mother of Maya Detiège, a federal representative. Leona Detiège was a civil servant at the Belgian ministry of Economic Affairs, at the economic planning office, head-master of"
+                },
+                {
+                    "id": "5451557",
+                    "contents": "\"Frans Detiège\"\nFrans Detiège Andreas Frans Theodoor Detiège (Antwerp, 22 December 1909 - 1 November 1980) was a Belgian politician for the social democratic Belgian Socialist Party, a member of the Parliament (1947-1974) and mayor of Antwerp (1976), after he had been (1947-1976) alderman for social affairs in the postwar period of mayor Lode Craeybeckx. Frans Detiège was the father of Leona Detiège and grandfather of Maya Detiège. He held a degree \"\"Licentiaat Handelswetenschappen\"\" (equivalent to a Master of Business Administration) and studied at the Handelshogeschool (college now integrated in University of Antwerp, located at the Schilderstraat 41, Antwerpen. From 1930-1947 he"
+                },
+                {
+                    "id": "15530630",
+                    "contents": "\"Leona Detiège\"\nthe \"\"Volkshogeschool Emile Vandervelde\"\" (adult-university, evening classes) in Antwerp. From 1970 to 1974 she worked for several ministers as cabinetcollaborator. Political mandates : 1974 - 1977 : member of the Provincial Council of Antwerp. 1977 - 1991 : member of Parliament, MP 1991 - 1995 : member of Senate 1988 - 1992 federal Secretary of State#Belgium for pensions 1992 - 1995 Flemish minister of employment and social affairs 1995 Mayor or burgemaster of Antwerp. she left that post in 2003 but remained from 1995 till 2006 counselor. She holds the title of Commandeur in the Order of Leopold. Leona Detiège"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Leona Detiège\") Leona Detiège Leona Maria Detiège (born Antwerp, 26 November 1942) is a Belgian politician. She was a member of the Belgian Socialist Party and is till member of its successor Flemish social-democratic party. Until 2014, she was a federal senator, succeeding Marleen Temmerman in October 2012. From 1995 till 2003 she was the mayor of Antwerp. Detiège was born in Antwerp. She is the daughter of former mayor of Antwerp, Frans Detiège, and mother of Maya Detiège, a federal representative. Leona Detiège was a civil servant at the Belgian ministry of Economic Affairs, at the economic planning office, head-master of\nDoc 2(Title: \"Frans Detiège\") Frans Detiège Andreas Frans Theodoor Detiège (Antwerp, 22 December 1909 - 1 November 1980) was a Belgian politician for the social democratic Belgian Socialist Party, a member of the Parliament (1947-1974) and mayor of Antwerp (1976), after he had been (1947-1976) alderman for social affairs in the postwar period of mayor Lode Craeybeckx. Frans Detiège was the father of Leona Detiège and grandfather of Maya Detiège. He held a degree \"\"Licentiaat Handelswetenschappen\"\" (equivalent to a Master of Business Administration) and studied at the Handelshogeschool (college now integrated in University of Antwerp, located at the Schilderstraat 41, Antwerpen. From 1930-1947 he\nDoc 3(Title: \"Leona Detiège\") the \"\"Volkshogeschool Emile Vandervelde\"\" (adult-university, evening classes) in Antwerp. From 1970 to 1974 she worked for several ministers as cabinetcollaborator. Political mandates : 1974 - 1977 : member of the Provincial Council of Antwerp. 1977 - 1991 : member of Parliament, MP 1991 - 1995 : member of Senate 1988 - 1992 federal Secretary of State#Belgium for pensions 1992 - 1995 Flemish minister of employment and social affairs 1995 Mayor or burgemaster of Antwerp. she left that post in 2003 but remained from 1995 till 2006 counselor. She holds the title of Commandeur in the Order of Leopold. Leona Detiège<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: What is Leona Detiège's occupation?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "Politician.",
+            "raw_pred": "The answer is: Politician.",
+            "inference_elapsed_seconds": 5.954470886848867,
+            "metric_score": {
+                "em": 1.0,
+                "f1": 1.0,
+                "acc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0
+            }
+        }
+    },
+    {
+        "id": "test_6082",
+        "question": "Who was the director of In Time?",
+        "metadata": {
+            "subj": "In Time",
+            "prop": "director",
+            "obj": "Andrew Niccol",
+            "subj_id": 2090963,
+            "prop_id": 526,
+            "obj_id": 1173465,
+            "s_aliases": "[]",
+            "o_aliases": "[\"Andrew M. Niccol\"]",
+            "s_uri": "http://www.wikidata.org/entity/Q628082",
+            "o_uri": "http://www.wikidata.org/entity/Q360737",
+            "s_wiki_title": "In Time",
+            "o_wiki_title": "Andrew Niccol",
+            "s_pop": 94721,
+            "o_pop": 14341
+        },
+        "golden_answers": [
+            "Andrew Niccol",
+            "Andrew M. Niccol"
+        ],
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "2497466",
+                    "contents": "\"In Time\"\nIn Time In Time is a 2011 American dystopian science fiction action thriller film written, directed, and produced by Andrew Niccol. Justin Timberlake, Amanda Seyfried and Cillian Murphy star as people in a society where people stop aging at 25. Instead, a new economic system uses time as currency, and each person has a clock on their arm that counts down how long they have to live. The film was released on October 28, 2011. In 2169, people are genetically engineered to stop aging on their 25th birthday. Everyone then develops a countdown on their forearm set for a year."
+                },
+                {
+                    "id": "10990",
+                    "contents": "\"In Time\"\n\"\"one of the 99%\"\" and calls the character \"\"a Rolex Robin Hood\"\". \"\"In Time\"\" grossed $12 million on its opening weekend, debuting at number three behind \"\"Puss in Boots\"\", and \"\"Paranormal Activity 3\"\". The film declined later on during its 14 weekend box office run. The film eventually grossed over $37.5 million in the US and $136.4 million internationally for a worldwide total of $173.9 million. In Time In Time is a 2011 American dystopian science fiction action thriller film written, directed, and produced by Andrew Niccol. Justin Timberlake, Amanda Seyfried and Cillian Murphy star as people in a society"
+                },
+                {
+                    "id": "10626937",
+                    "contents": "\"Voyage in Time\"\nVoyage in Time Voyage in Time () is a 63-minute feature documentary that documents the travels in Italy of the director Andrei Tarkovsky with the script writer Tonino Guerra in preparation for the making of his film \"\"Nostalghia\"\". In addition to the preparation of Nostalghia, their conversations cover a wide range of matters, filmmaking or not. Notably, Tarkovsky reveals his filmmaking philosophy and his admiration of films by, among others, Robert Bresson, Jean Vigo, Michelangelo Antonioni, Federico Fellini, Ingmar Bergman. The film was screened in the Un Certain Regard section at the 1995 Cannes Film Festival. This is the only"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"In Time\") In Time In Time is a 2011 American dystopian science fiction action thriller film written, directed, and produced by Andrew Niccol. Justin Timberlake, Amanda Seyfried and Cillian Murphy star as people in a society where people stop aging at 25. Instead, a new economic system uses time as currency, and each person has a clock on their arm that counts down how long they have to live. The film was released on October 28, 2011. In 2169, people are genetically engineered to stop aging on their 25th birthday. Everyone then develops a countdown on their forearm set for a year.\nDoc 2(Title: \"In Time\") \"\"one of the 99%\"\" and calls the character \"\"a Rolex Robin Hood\"\". \"\"In Time\"\" grossed $12 million on its opening weekend, debuting at number three behind \"\"Puss in Boots\"\", and \"\"Paranormal Activity 3\"\". The film declined later on during its 14 weekend box office run. The film eventually grossed over $37.5 million in the US and $136.4 million internationally for a worldwide total of $173.9 million. In Time In Time is a 2011 American dystopian science fiction action thriller film written, directed, and produced by Andrew Niccol. Justin Timberlake, Amanda Seyfried and Cillian Murphy star as people in a society\nDoc 3(Title: \"Voyage in Time\") Voyage in Time Voyage in Time () is a 63-minute feature documentary that documents the travels in Italy of the director Andrei Tarkovsky with the script writer Tonino Guerra in preparation for the making of his film \"\"Nostalghia\"\". In addition to the preparation of Nostalghia, their conversations cover a wide range of matters, filmmaking or not. Notably, Tarkovsky reveals his filmmaking philosophy and his admiration of films by, among others, Robert Bresson, Jean Vigo, Michelangelo Antonioni, Federico Fellini, Ingmar Bergman. The film was screened in the Un Certain Regard section at the 1995 Cannes Film Festival. This is the only<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Who was the director of In Time?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "Andrew Niccol.",
+            "raw_pred": "The answer is: Andrew Niccol.",
+            "inference_elapsed_seconds": 5.389712044969201,
+            "metric_score": {
+                "em": 1.0,
+                "f1": 1.0,
+                "acc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0
+            }
+        }
+    },
+    {
+        "id": "test_6154",
+        "question": "Who was the director of Romance?",
+        "metadata": {
+            "subj": "Romance",
+            "prop": "director",
+            "obj": "Clarence Brown",
+            "subj_id": 535246,
+            "prop_id": 526,
+            "obj_id": 1303995,
+            "s_aliases": "[]",
+            "o_aliases": "[\"Clarence Leon Brown\"]",
+            "s_uri": "http://www.wikidata.org/entity/Q1724081",
+            "o_uri": "http://www.wikidata.org/entity/Q435029",
+            "s_wiki_title": "Romance (1930 film)",
+            "o_wiki_title": "Clarence Brown",
+            "s_pop": 679,
+            "o_pop": 1861
+        },
+        "golden_answers": [
+            "Clarence Brown",
+            "Clarence Leon Brown"
+        ],
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "17250724",
+                    "contents": "\"Romance (1999 film)\"\nRomance (1999 film) Romance (Romance X) is a 1999 French art house film written and directed by Catherine Breillat. It stars Caroline Ducey, Rocco Siffredi, Sagamore Stévenin and François Berléand. The film features explicit copulation scenes, especially one showing Caroline Ducey's coitus with Rocco Siffredi. \"\"Romance\"\" is one of several arthouse films featuring explicit, unsimulated sex, such as \"\"The Brown Bunny\"\" (2003), \"\"9 Songs\"\" (2004), \"\"All About Anna\"\" (2005), and \"\"Shortbus\"\" (2006). A young woman named Marie lives with her boyfriend, Paul, who refuses to have sex with her. She searches for intimacy beyond the bounds of traditional sexual limitations."
+                },
+                {
+                    "id": "17250727",
+                    "contents": "\"Romance (1999 film)\"\nas one of a series of \"\"Erotica\"\" art house cinema. Romance (1999 film) Romance (Romance X) is a 1999 French art house film written and directed by Catherine Breillat. It stars Caroline Ducey, Rocco Siffredi, Sagamore Stévenin and François Berléand. The film features explicit copulation scenes, especially one showing Caroline Ducey's coitus with Rocco Siffredi. \"\"Romance\"\" is one of several arthouse films featuring explicit, unsimulated sex, such as \"\"The Brown Bunny\"\" (2003), \"\"9 Songs\"\" (2004), \"\"All About Anna\"\" (2005), and \"\"Shortbus\"\" (2006). A young woman named Marie lives with her boyfriend, Paul, who refuses to have sex with her. She"
+                },
+                {
+                    "id": "4137165",
+                    "contents": "\"Romance (1983 film)\"\nRomance (1983 film) Romance is a 1983 Indian Bollywood film produced and directed by Ramanand Sagar. It stars Kumar Gaurav and Poonam Dhillon in pivotal roles. \"\"Romance\"\" (1983) is a colourful, lively story of two teenage lovers of the jet age; Sonia, a half English girl, and Amar an Indian Youth, whose romance blossoms across thousands of miles and crosses all barriers. British based Mr. and Mrs. Roy are thrilled when their son announces that he is going to marry a Caucasian woman. Soon they are blessed when a daughter, Sonia, is born. Tragically, their son passes away, leaving them"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Romance (1999 film)\") Romance (1999 film) Romance (Romance X) is a 1999 French art house film written and directed by Catherine Breillat. It stars Caroline Ducey, Rocco Siffredi, Sagamore Stévenin and François Berléand. The film features explicit copulation scenes, especially one showing Caroline Ducey's coitus with Rocco Siffredi. \"\"Romance\"\" is one of several arthouse films featuring explicit, unsimulated sex, such as \"\"The Brown Bunny\"\" (2003), \"\"9 Songs\"\" (2004), \"\"All About Anna\"\" (2005), and \"\"Shortbus\"\" (2006). A young woman named Marie lives with her boyfriend, Paul, who refuses to have sex with her. She searches for intimacy beyond the bounds of traditional sexual limitations.\nDoc 2(Title: \"Romance (1999 film)\") as one of a series of \"\"Erotica\"\" art house cinema. Romance (1999 film) Romance (Romance X) is a 1999 French art house film written and directed by Catherine Breillat. It stars Caroline Ducey, Rocco Siffredi, Sagamore Stévenin and François Berléand. The film features explicit copulation scenes, especially one showing Caroline Ducey's coitus with Rocco Siffredi. \"\"Romance\"\" is one of several arthouse films featuring explicit, unsimulated sex, such as \"\"The Brown Bunny\"\" (2003), \"\"9 Songs\"\" (2004), \"\"All About Anna\"\" (2005), and \"\"Shortbus\"\" (2006). A young woman named Marie lives with her boyfriend, Paul, who refuses to have sex with her. She\nDoc 3(Title: \"Romance (1983 film)\") Romance (1983 film) Romance is a 1983 Indian Bollywood film produced and directed by Ramanand Sagar. It stars Kumar Gaurav and Poonam Dhillon in pivotal roles. \"\"Romance\"\" (1983) is a colourful, lively story of two teenage lovers of the jet age; Sonia, a half English girl, and Amar an Indian Youth, whose romance blossoms across thousands of miles and crosses all barriers. British based Mr. and Mrs. Roy are thrilled when their son announces that he is going to marry a Caucasian woman. Soon they are blessed when a daughter, Sonia, is born. Tragically, their son passes away, leaving them<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Who was the director of Romance?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "Catherine Breillat.",
+            "raw_pred": "The answer is: Catherine Breillat.",
+            "inference_elapsed_seconds": 3.9685644237324595,
+            "metric_score": {
+                "em": 0.0,
+                "f1": 0,
+                "acc": 0.0,
+                "precision": 0,
+                "recall": 0
+            }
+        }
+    }
+]

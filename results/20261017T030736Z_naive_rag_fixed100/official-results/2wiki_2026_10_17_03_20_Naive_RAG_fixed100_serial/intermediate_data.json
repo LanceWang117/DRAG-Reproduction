@@ -1,0 +1,1198 @@
+[
+    {
+        "id": "dev_1774",
+        "question": "Are director of film Ghosts Of Mississippi and director of film The Silence (1998 Film) both from the same country?",
+        "golden_answers": [
+            "no"
+        ],
+        "metadata": {
+            "type": "bridge_comparison",
+            "supporting_facts": {
+                "title": [
+                    "Ghosts of Mississippi",
+                    "The Silence (1998 film)",
+                    "Rob Reiner",
+                    "Mohsen Makhmalbaf"
+                ],
+                "sent_id": [
+                    0,
+                    1,
+                    0,
+                    0
+                ]
+            },
+            "context": {
+                "title": [
+                    "Brian Johnson (special effects artist)",
+                    "Ben Cura",
+                    "Jason Moore (director)",
+                    "Rob Reiner",
+                    "The Silence (1998 film)",
+                    "Hanro Smitsman",
+                    "Ian Barry (director)",
+                    "Ghosts of Mississippi",
+                    "Peter Levin",
+                    "Mohsen Makhmalbaf"
+                ],
+                "content": [
+                    [
+                        "Brian Johnson( born 1939 or 1940) is a British designer and director of film and television special effects."
+                    ],
+                    [
+                        "Ben Cura( born 30 September 1988) is a British- Argentine actor and director of film, television and theatre."
+                    ],
+                    [
+                        "Jason Moore( born October 22, 1970) is an American director of film, theatre and television."
+                    ],
+                    [
+                        "Robert Reiner( born March 6, 1947) is an American actor and filmmaker.",
+                        "As an actor, Reiner first came to national prominence with the role of Michael Stivic on\" All in the Family\"( 1971 – 1979), a role that earned him two Emmy Awards during the 1970s.",
+                        "As a director, Reiner was recognized by the Directors Guild of America( DGA) with nominations for the coming of age drama film\" Stand by Me\"( 1986), the romantic comedy\" When Harry Met Sally ...\"( 1989), and the military courtroom drama\" A Few Good Men\"( 1992).",
+                        "He also directed the psychological horror- thriller\" Misery\"( 1990), the romantic comedy fantasy adventure\" The Princess Bride\"( 1987), and the heavy metal mockumentary\" This Is Spinal Tap\"( 1984)."
+                    ],
+                    [
+                        "The Silence is an Iranian film from 1998.",
+                        "It is directed by Iranian film maker Mohsen Makhmalbaf.",
+                        "The movie is about a little boy who has the onerous task of earning money for his family, but is always enchanted and distracted by music.",
+                        "It is set in Tajikistan."
+                    ],
+                    [
+                        "Hanro Smitsman, born in 1967 in Breda( Netherlands), is a writer and director of film and television."
+                    ],
+                    [
+                        "Ian Barry is an Australian director of film and TV."
+                    ],
+                    [
+                        "Ghosts of Mississippi is a 1996 American biographical courtroom drama film directed by Rob Reiner and starring Alec Baldwin, Whoopi Goldberg and James Woods.",
+                        "The plot is based on the true story of the 1994 trial of Byron De La Beckwith, the white supremacist accused of the 1963 assassination of civil rights activist Medgar Evers.",
+                        "James Woods was nominated for an Academy Award for Best Supporting Actor for his role of Byron De La Beckwith.",
+                        "The original music score was composed by Marc Shaiman and the cinematography is by John Seale."
+                    ],
+                    [
+                        "Peter Levin is an American director of film, television and theatre."
+                    ],
+                    [
+                        "Mohsen Makhmalbaf(\" Mohsen Makhmalbaaf\"; born May 29, 1957) is an Iranian film director, writer, film editor, and producer.",
+                        "He has made more than 20 feature films, won some 50 awards and been a juror in more than 15 major film festivals.",
+                        "His award- winning films include\" Kandahar\"; his latest documentary is\" The Gardener\" and latest feature\" The President\".",
+                        "Makhmalbaf's films have been widely presented at international film festivals in the past ten years.",
+                        "The director belongs to the new wave movement of Iranian cinema.",
+                        "\" Time\" selected Makhmalbaf's 2001 film\" Kandahar\" as one of the top 100 films of all time.",
+                        "In 2006, he was a member of the Jury at the Venice Film Festival.",
+                        "Makhmalbaf left Iran in 2005 shortly after the election of Mahmoud Ahmadinejad, sixth President of Iran, and has lived in Paris since the events of the 2009 Iranian presidential election."
+                    ]
+                ]
+            }
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "14224173",
+                    "contents": "\"Ghosts of Mississippi\"\nGhosts of Mississippi Ghosts of Mississippi is a 1996 American biographical courtroom drama film directed by Rob Reiner and starring Alec Baldwin, Whoopi Goldberg and James Woods. The plot is based on the true story of the 1994 trial of Byron De La Beckwith, the white supremacist accused of the 1963 assassination of civil rights activist Medgar Evers. James Woods was nominated for an Academy Award for Best Supporting Actor for his role of Byron De La Beckwith. The original music score was composed by Marc Shaiman and the cinematography is by John Seale. Medgar Evers was a black civil"
+                },
+                {
+                    "id": "17172917",
+                    "contents": "\"Silence (2016 film)\"\nSilence (2016 film) Silence is a 2016 historical period drama film directed by Martin Scorsese and with a screenplay by Jay Cocks and Scorsese, based on the 1966 novel of the same name by Shūsaku Endō. Set in Nagasaki, Japan, the film was shot entirely in Taiwan, using studios in Taipei and Taichung and locations in Hualien County. The film stars Andrew Garfield, Adam Driver, Liam Neeson, Tadanobu Asano and Ciarán Hinds. The plot follows two 17th-century Jesuit priests who travel from Portugal to Edo-era Japan via Macau to locate their missing mentor and spread Catholic Christianity. The story is"
+                },
+                {
+                    "id": "11643532",
+                    "contents": "\"Ghosts of Mississippi\"\nby Muddy Waters, Tony Bennett, Robert Johnson and B.B. King. The movie received mixed reviews from critics, with Rotten Tomatoes giving it a 43% rating based on 30 reviews. The film was not a theatrical success, making only half of its budget back. Ghosts of Mississippi Ghosts of Mississippi is a 1996 American biographical courtroom drama film directed by Rob Reiner and starring Alec Baldwin, Whoopi Goldberg and James Woods. The plot is based on the true story of the 1994 trial of Byron De La Beckwith, the white supremacist accused of the 1963 assassination of civil rights activist Medgar"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Ghosts of Mississippi\") Ghosts of Mississippi Ghosts of Mississippi is a 1996 American biographical courtroom drama film directed by Rob Reiner and starring Alec Baldwin, Whoopi Goldberg and James Woods. The plot is based on the true story of the 1994 trial of Byron De La Beckwith, the white supremacist accused of the 1963 assassination of civil rights activist Medgar Evers. James Woods was nominated for an Academy Award for Best Supporting Actor for his role of Byron De La Beckwith. The original music score was composed by Marc Shaiman and the cinematography is by John Seale. Medgar Evers was a black civil\nDoc 2(Title: \"Silence (2016 film)\") Silence (2016 film) Silence is a 2016 historical period drama film directed by Martin Scorsese and with a screenplay by Jay Cocks and Scorsese, based on the 1966 novel of the same name by Shūsaku Endō. Set in Nagasaki, Japan, the film was shot entirely in Taiwan, using studios in Taipei and Taichung and locations in Hualien County. The film stars Andrew Garfield, Adam Driver, Liam Neeson, Tadanobu Asano and Ciarán Hinds. The plot follows two 17th-century Jesuit priests who travel from Portugal to Edo-era Japan via Macau to locate their missing mentor and spread Catholic Christianity. The story is\nDoc 3(Title: \"Ghosts of Mississippi\") by Muddy Waters, Tony Bennett, Robert Johnson and B.B. King. The movie received mixed reviews from critics, with Rotten Tomatoes giving it a 43% rating based on 30 reviews. The film was not a theatrical success, making only half of its budget back. Ghosts of Mississippi Ghosts of Mississippi is a 1996 American biographical courtroom drama film directed by Rob Reiner and starring Alec Baldwin, Whoopi Goldberg and James Woods. The plot is based on the true story of the 1994 trial of Byron De La Beckwith, the white supremacist accused of the 1963 assassination of civil rights activist Medgar<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Are director of film Ghosts Of Mississippi and director of film The Silence (1998 Film) both from the same country?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "No. \n\nThe director of film Ghosts of Mississippi is Rob Reiner, who is from the United States. The director of film Silence (2016 film) is Martin Scorsese, who is also from the United States.",
+            "raw_pred": "The answer is: No. \n\nThe director of film Ghosts of Mississippi is Rob Reiner, who is from the United States. The director of film Silence (2016 film) is Martin Scorsese, who is also from the United States.",
+            "inference_elapsed_seconds": 4.761780513450503,
+            "metric_score": {
+                "em": 0.0,
+                "f1": 0,
+                "acc": 1.0,
+                "precision": 0,
+                "recall": 0
+            }
+        }
+    },
+    {
+        "id": "dev_7603",
+        "question": "Where was the husband of Nagammai born?",
+        "golden_answers": [
+            "Turmeric City",
+            "Erode"
+        ],
+        "metadata": {
+            "type": "compositional",
+            "supporting_facts": {
+                "title": [
+                    "Nagammai",
+                    "Periyar E. V. Ramasamy"
+                ],
+                "sent_id": [
+                    2,
+                    0
+                ]
+            },
+            "context": {
+                "title": [
+                    "Stan Marks",
+                    "Stan Rice",
+                    "Lapidoth",
+                    "Alan Pownall",
+                    "Andrew Upton",
+                    "Devisingh Ransingh Shekhawat",
+                    "James Randall Marsh",
+                    "Periyar E. V. Ramasamy",
+                    "Nagammai",
+                    "Jon Leach"
+                ],
+                "content": [
+                    [
+                        "Stan Marks is an Australian writer and journalist.",
+                        "He is the husband of Holocaust survivor Eva Marks."
+                    ],
+                    [
+                        "Stan Rice( November 7, 1942 – December 9, 2002) was an American poet and artist.",
+                        "He was the husband of author Anne Rice."
+                    ],
+                    [
+                        "Lapidoth(\" Lappidothtorches\") was the husband of Deborah the fourth Judge of Israel.",
+                        "Lapidoth is also a Hebrew male given name."
+                    ],
+                    [
+                        "Stephen Alan Fletcher Pownall( born 30 December 1986) is an English singer- songwriter and the husband of actress Gabriella Wilde."
+                    ],
+                    [
+                        "Andrew Upton( born 1 February 1966) is an Australian playwright, screenwriter, and director.",
+                        "He is the husband of actress Cate Blanchett."
+                    ],
+                    [
+                        "Devisingh Ransingh Shekhawat is the former and first First Gentleman of India as the husband of Pratibha Patil."
+                    ],
+                    [
+                        "James Randall Marsh( 1896- 1965) was an American artist and the husband of Anne Steele Marsh."
+                    ],
+                    [
+                        "Erode Venkatappa Ramasamy (17 September 1879 – 24 December 1973), commonly known as Periyar, also referred to as Thanthai Periyar, was an Indian social activist and politician who started the Self-Respect Movement and Dravidar Kazhagam.",
+                        "He is known as the 'Father of the Dravidian Movement'.",
+                        "He did notable work against Brahminical dominance, caste prevalence, and women oppression in Tamil Nadu.",
+                        "E.V. Ramasamy joined the Indian National Congress in 1919, but resigned in 1925 when he felt that the party was only serving the interests of Brahmins.",
+                        "He questioned the subjugation of non-Brahmin Dravidians as Brahmins enjoyed gifts and donations from non-Brahmins but opposed and discriminated against non-Brahmins in cultural and religious matters.",
+                        "In 1924, E.V. Ramasamy participated in non-violent agitation (satyagraha) in Vaikom, Kerala.",
+                        "From 1929 to 1932 Ramasamy made a tour of British Malaya, Europe, and Russia which influenced him.",
+                        "In 1939, E.V. Ramasamy became the head of the Justice Party, and in 1944, he changed its name to \"Dravidar Kazhagam\".",
+                        "The party later split with one group led by C. N. Annadurai forming the Dravida Munnetra Kazhagam (DMK) in 1949.",
+                        "While continuing the Self-Respect Movement, he advocated for an independent Dravida Nadu (\"land of the Dravidians)\".",
+                        "E.V. Ramasamy promoted the principles of rationalism, self-respect, women’s rights and eradication of caste.",
+                        "He opposed the exploitation and marginalisation of the non-Brahmin Dravidian people of South India and the imposition of what he considered Indo-Aryan India."
+                    ],
+                    [
+                        "Nagammai (1885–1933) was an Indian social activist and women's rights activist.",
+                        "She was known for her participation in the Temperance movement in India and the Vaikom Satyagraha.",
+                        "She was the wife of Periyar E. V. Ramasamy who headed the Self-Respect Movement."
+                    ],
+                    [
+                        "Jonathan Leach( born April 18, 1973) is a former professional tennis player from the United States.",
+                        "He is the husband of Lindsay Davenport."
+                    ]
+                ]
+            }
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "8855428",
+                    "contents": "Nagammai\nNagammai Nagammai (1885 – 1933) was an Indian social activist and women's rights activist. She known for her participation in Temperance movement in India and the Vaikom Satyagraha. She was the wife of Periyar E. V. Ramasamy who headed the Self-Respect Movement. Nagammai was born in 1885 to Rangasamy and Ponnuthai in Thathampatti, Salem, Madras presidency. She had no formal education. She was the cousin of Ramasamy and married him at the age of thirteen in 1898. The couple had a daughter who died in five months. In 1919, Ramasamy joined Indian National Congress. Nagammai actively supported his political career."
+                },
+                {
+                    "id": "9673722",
+                    "contents": "Naganna\nNaganna B. Naganna is an Indian film director and writer working in Kannada cinema. He is the son of acclaimed producer and distributor R. Lakshman. After working as an associate director in the K. S. L. Swamy directorial \"\"Jimmy Gallu\"\" in 1982, Naganna debuted as a director through the film \"\"Samrat\"\" in 1994. His well-known movies include \"\"O Premave\"\" (1999), \"\"Kotigobba\"\" (2001), \"\"Gokarna\"\" (2003), \"\"Vishnu Sena\"\" (2005) and \"\"Krantiveera Sangolli Rayanna\"\" (2012). For the historical drama, \"\"Sangolli Rayanna\"\", he won the Best director award at the Times of India film awards. Naganna headed the panel of the Karnataka State Film"
+                },
+                {
+                    "id": "3020333",
+                    "contents": "\"K. S. Narasimhaswamy\"\nK. S. Narasimhaswamy Dr. K. S. Narasimhaswamy (26 January 1915 – 27 December 2003) was an Indian poet in the Kannada language. His most popular collection of poems \"\"Mysooru Mallige\"\" has seen more than thirty two reprints and sought as an ideal gift for newly married couples in Karnataka. Narasimhaswamy has won awards including Sahitya Akademi Award and Kannada sahitya Academy Award. Shree Narasimhaswamy was born in Kikkeri in Mandya district. He had his early education in Mysore. In 1934 he joined Central College in Bangalore and completed his Bachelor of Arts degree. He married \"\"Venkamma\"\" in Tiptur in 1936."
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: Nagammai) Nagammai Nagammai (1885 – 1933) was an Indian social activist and women's rights activist. She known for her participation in Temperance movement in India and the Vaikom Satyagraha. She was the wife of Periyar E. V. Ramasamy who headed the Self-Respect Movement. Nagammai was born in 1885 to Rangasamy and Ponnuthai in Thathampatti, Salem, Madras presidency. She had no formal education. She was the cousin of Ramasamy and married him at the age of thirteen in 1898. The couple had a daughter who died in five months. In 1919, Ramasamy joined Indian National Congress. Nagammai actively supported his political career.\nDoc 2(Title: Naganna) Naganna B. Naganna is an Indian film director and writer working in Kannada cinema. He is the son of acclaimed producer and distributor R. Lakshman. After working as an associate director in the K. S. L. Swamy directorial \"\"Jimmy Gallu\"\" in 1982, Naganna debuted as a director through the film \"\"Samrat\"\" in 1994. His well-known movies include \"\"O Premave\"\" (1999), \"\"Kotigobba\"\" (2001), \"\"Gokarna\"\" (2003), \"\"Vishnu Sena\"\" (2005) and \"\"Krantiveera Sangolli Rayanna\"\" (2012). For the historical drama, \"\"Sangolli Rayanna\"\", he won the Best director award at the Times of India film awards. Naganna headed the panel of the Karnataka State Film\nDoc 3(Title: \"K. S. Narasimhaswamy\") K. S. Narasimhaswamy Dr. K. S. Narasimhaswamy (26 January 1915 – 27 December 2003) was an Indian poet in the Kannada language. His most popular collection of poems \"\"Mysooru Mallige\"\" has seen more than thirty two reprints and sought as an ideal gift for newly married couples in Karnataka. Narasimhaswamy has won awards including Sahitya Akademi Award and Kannada sahitya Academy Award. Shree Narasimhaswamy was born in Kikkeri in Mandya district. He had his early education in Mysore. In 1934 he joined Central College in Bangalore and completed his Bachelor of Arts degree. He married \"\"Venkamma\"\" in Tiptur in 1936.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Where was the husband of Nagammai born?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "Not mentioned in the given documents.",
+            "raw_pred": "The answer is: Not mentioned in the given documents.",
+            "inference_elapsed_seconds": 4.400835425592959,
+            "metric_score": {
+                "em": 0.0,
+                "f1": 0,
+                "acc": 0.0,
+                "precision": 0,
+                "recall": 0
+            }
+        }
+    },
+    {
+        "id": "dev_1303",
+        "question": "Which country the director of film Gopura Vasalile is from?",
+        "golden_answers": [
+            "India",
+            "🇮🇳",
+            "IN",
+            "in",
+            "IND",
+            "Republic of India",
+            "Hindustan",
+            "Bharat",
+            "Bharatvarsh"
+        ],
+        "metadata": {
+            "type": "compositional",
+            "supporting_facts": {
+                "title": [
+                    "Gopura Vasalile",
+                    "Priyadarshan"
+                ],
+                "sent_id": [
+                    0,
+                    0
+                ]
+            },
+            "context": {
+                "title": [
+                    "Brian Kennedy (gallery director)",
+                    "Michael Govan",
+                    "Ian Barry (director)",
+                    "Dana Blankstein",
+                    "John Farrell (businessman)",
+                    "Gopura Vasalile",
+                    "Priyadarshan",
+                    "Peter Levin",
+                    "John Donatich",
+                    "Olav Aaraas"
+                ],
+                "content": [
+                    [
+                        "Brian Patrick Kennedy( born 5 November 1961) is an Irish- born art museum director who has worked in Ireland and Australia, and now lives and works in the United States.",
+                        "He is currently the director of the Peabody Essex Museum.",
+                        "He was the director of the Toledo Museum of Art in Ohio from 2010 to 2019.",
+                        "He was the director of the Hood Museum of Art from 2005 to 2010, and the National Gallery of Australia( Canberra) from 1997- 2004."
+                    ],
+                    [
+                        "Michael Govan( born 1963) is the director of the Los Angeles County Museum of Art since 2006.",
+                        "Prior to this, Govan worked as the director of the Dia Art Foundation in New York City."
+                    ],
+                    [
+                        "Ian Barry is an Australian director of film and TV."
+                    ],
+                    [
+                        "Dana Blankstein- Cohen( born March 3, 1981) is the director of the Israeli Academy of Film and Television.",
+                        "She is a film director, and an Israeli culture entrepreneur."
+                    ],
+                    [
+                        "John Farrell is the director of YouTube in Latin America."
+                    ],
+                    [
+                        "Gopura Vasalile  is a 1991 Indian Tamil black comedy film written and directed by Priyadarshan in his directional debut in Tamil cinema, produced by M. K. Thamizharasu.",
+                        "The film features Karthik, Bhanupriya, Suchitra, Nassar, Janagaraj, Charle, Junior Balaiah, V. K. Ramasamy, Sukumari and Poornam Vishwanathan.",
+                        "Mohanlal appears in a cameo role in a song.",
+                        "Music was composed by Ilaiyaraja, while cinematography was by P. C. Sreeram.",
+                        "The story of the film borrows some subplots from the Malayalam film \"Pavam Pavam Rajakumaran\" (1990).",
+                        "The film is one of the earliest examples of black humour in Tamil cinema.",
+                        "\"",
+                        "Gopura Vasalile\" was well received at the box office and ran for more than 100 days at many theatres in Tamil Nadu."
+                    ],
+                    [
+                        "Priyadarshan (born Priyadarshan Soman Nair; 30 January 1957) is an Indian film director, producer, and screenwriter.",
+                        "In a career spanning over three decades, he has directed more than 95 films in various Indian languages, predominantly in Malayalam and Hindi, while also having done six films in Tamil and two in Telugu.",
+                        "Priyadarshan began his career in Malayalam cinema in the early 1980s and was active throughout the 1980s and 1990s.",
+                        "Towards 2000s, he moved to Bollywood (Hindi-language cinema) and remained active throughout the decade.",
+                        "He has done about 26 films in Hindi alone, the highest number of films done by any Bollywood director after David Dhawan.",
+                        "In 2013, he announced that \"Rangrezz\" would be his last Hindi film for a while and shifted focus to Malayalam cinema.",
+                        "Best known for his comedy films, Priyadrshan has also experimented with some action, thriller and period films.",
+                        "His collaborations with Mohanlal were highly popular in Malayalam cinema during the 1980s and 1990s, with most notable films being \"Poochakkoru MookkuthiMazha Peyyunnu Maddalam KottunnuThalavattamVellanakalude NaduChithramVandanamKilukkamAbhimanyuMithunamThenmavin KombathKala Pani\", and \"Chandralekha\".",
+                        "Other Malayalam actors he frequently collaborated with are: Kuthiravattam Pappu, Thikkurissy Sukumaran Nair, Sankaradi, M.G. Soman, Thilakan, Jagathy Sreekumar, Innocent, Nedumudi Venu, Sreenivasan, Sukumari, Kaviyoor Ponnamma, Shobhana, KPAC Lalitha, Revathi, Lissy, Cochin Haneefa, Maniyanpilla Raju, Mukesh, Jagadeesh, C.I. Paul, Vineeth, Ganesh, Shankar, and Mammukoya.",
+                        "Priyadarshan was one of the first directors in India to introduce rich color grading, clear sound and quality dubbing through his early Malayalam films.",
+                        "He is known for adapting stories from Malayalam films into Bollywood, from his own work as well as other films.",
+                        "Most notable such Bollywood films include \"Hera PheriHungamaHulchulGaram MasalaBhagam BhagChup Chup KeDhol\", and \"Bhool Bhulaiyaa\".",
+                        "His multiple collaborations in Hindi include Tabu, Paresh Rawal, Pooja Batra, Amrish Puri, Johny Lever, Asrani, Akshay Kumar, Anil Kapoor, Akshaye Khanna, Kareena Kapoor, Om Puri, Tinnu Anand, Shakti Kapoor, Rajpal Yadav, Manoj Joshi, Sharat Saxena, Jackie Shroff, and Suniel Shetty.",
+                        "In 2007, his Tamil film \"Kanchivaram\" won the National Film Award for Best Feature Film.",
+                        "In 2012, the Government of India honoured him with Padma Shri, India's fourth highest civilian award for his contribution towards the arts.",
+                        "Priyadarshan has also directed many advertisement films.",
+                        "His most popular commercials are for Coca-Cola, American Express, Nokia, Parker Pens, Asian Paints, Kinley and Max New York Life Insurance."
+                    ],
+                    [
+                        "Peter Levin is an American director of film, television and theatre."
+                    ],
+                    [
+                        "John Donatich is the Director of Yale University Press."
+                    ],
+                    [
+                        "Olav Aaraas( born 10 July 1950) is a Norwegian historian and museum director.",
+                        "He was born in Fredrikstad.",
+                        "From 1982 to 1993 he was the director of Sogn Folk Museum, from 1993 to 2010 he was the director of Maihaugen and from 2001 he has been the director of the Norwegian Museum of Cultural History.",
+                        "In 2010 he was decorated with the Royal Norwegian Order of St. Olav."
+                    ]
+                ]
+            }
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "16399402",
+                    "contents": "\"Gopura Vasalile\"\nGopura Vasalile Gopura Vasalile () is a 1991 Indian Tamil black comedy film written and directed by Priyadarshan in his directional debut in Tamil cinema, produced by M. K. Thamizharasu. The film features Karthik, Bhanupriya, Suchitra, Nassar, Janagaraj, Charle, Junior Balaiah, V. K. Ramasamy, Sukumari and Poornam Vishwanathan. Mohanlal appears in a cameo role in a song. Music was composed by Ilaiyaraja, while cinematography was by P. C. Sreeram. The story of the film borrows some subplots from the Malayalam film \"\"Pavam Pavam Rajakumaran\"\" (1990). The film is one of the earliest examples of black humour in Tamil cinema. \"\"Gopura"
+                },
+                {
+                    "id": "11610649",
+                    "contents": "\"Vasantha Obeysekera\"\nVasantha Obeysekera Vasantha Obeysekera (1937-2017), was a Sri Lankan film director and screenwriter. Kala Keerthi Vasantha Obeysekara who was regarded as one of the foremost film makers in the 70 decade graduated from the University of Ceylon in 1962. He served on the Editorial Staff of the Associated Newspapers of Ceylon Limited from 1964 to 1970. In addition to his editorial work, Obeysekera wrote several short stories during this period. Obeysekera entered the film industry with \"\"Sath Samudura\"\" in 1967 which he co-wrote and worked on as assistant director; it was Sri Lanka's entry at the Moscow International Film Festival."
+                },
+                {
+                    "id": "19872143",
+                    "contents": "\"Piyasiri Gunaratne\"\nPiyasiri Gunaratne Piyasiri Gunaratna is a Sri Lankan director. Gunaratna studied film directing in Prague, Czechoslovakia at the Film Faculty and completed a master's degree before beginning work on film. His only film \"\"Mokada Une\"\" (1969) told the story of a single mother who becomes a prostitute after moving to the city. It was critically acclaimed but failed at box office. Gunaratna was later a member of the National Film Corporation and then the Rupavahini Corporation. He moved to Czechoslovakia during the tumulteous period of Sri Lanka in the 1980s. Gunaratna lives currently in the Czech Republic with his wife."
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Gopura Vasalile\") Gopura Vasalile Gopura Vasalile () is a 1991 Indian Tamil black comedy film written and directed by Priyadarshan in his directional debut in Tamil cinema, produced by M. K. Thamizharasu. The film features Karthik, Bhanupriya, Suchitra, Nassar, Janagaraj, Charle, Junior Balaiah, V. K. Ramasamy, Sukumari and Poornam Vishwanathan. Mohanlal appears in a cameo role in a song. Music was composed by Ilaiyaraja, while cinematography was by P. C. Sreeram. The story of the film borrows some subplots from the Malayalam film \"\"Pavam Pavam Rajakumaran\"\" (1990). The film is one of the earliest examples of black humour in Tamil cinema. \"\"Gopura\nDoc 2(Title: \"Vasantha Obeysekera\") Vasantha Obeysekera Vasantha Obeysekera (1937-2017), was a Sri Lankan film director and screenwriter. Kala Keerthi Vasantha Obeysekara who was regarded as one of the foremost film makers in the 70 decade graduated from the University of Ceylon in 1962. He served on the Editorial Staff of the Associated Newspapers of Ceylon Limited from 1964 to 1970. In addition to his editorial work, Obeysekera wrote several short stories during this period. Obeysekera entered the film industry with \"\"Sath Samudura\"\" in 1967 which he co-wrote and worked on as assistant director; it was Sri Lanka's entry at the Moscow International Film Festival.\nDoc 3(Title: \"Piyasiri Gunaratne\") Piyasiri Gunaratne Piyasiri Gunaratna is a Sri Lankan director. Gunaratna studied film directing in Prague, Czechoslovakia at the Film Faculty and completed a master's degree before beginning work on film. His only film \"\"Mokada Une\"\" (1969) told the story of a single mother who becomes a prostitute after moving to the city. It was critically acclaimed but failed at box office. Gunaratna was later a member of the National Film Corporation and then the Rupavahini Corporation. He moved to Czechoslovakia during the tumulteous period of Sri Lanka in the 1980s. Gunaratna lives currently in the Czech Republic with his wife.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Which country the director of film Gopura Vasalile is from?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "India.",
+            "raw_pred": "The answer is: India.",
+            "inference_elapsed_seconds": 4.410598152317107,
+            "metric_score": {
+                "em": 1.0,
+                "f1": 1.0,
+                "acc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0
+            }
+        }
+    },
+    {
+        "id": "dev_222",
+        "question": "What is the place of birth of the director of film Aurora (2018 Film)?",
+        "golden_answers": [
+            "Davao City",
+            "Davao"
+        ],
+        "metadata": {
+            "type": "compositional",
+            "supporting_facts": {
+                "title": [
+                    "Aurora (2018 film)",
+                    "Yam Laranas"
+                ],
+                "sent_id": [
+                    0,
+                    0
+                ]
+            },
+            "context": {
+                "title": [
+                    "Amitabh Aurora",
+                    "Olav Aaraas",
+                    "Anastasia Zyurkalova",
+                    "Aurora (2018 film)",
+                    "Peter Levin",
+                    "Ian Barry (director)",
+                    "Jesse E. Hobson",
+                    "Yam Laranas",
+                    "Rachel Amanda",
+                    "Brian Kennedy (gallery director)"
+                ],
+                "content": [
+                    [
+                        "Amitabh Aurora (born 11 June 1981, Allahabad) is an Indian film director, screenwriter and actor.",
+                        "Aurora is best known for his Bongo films in the Swahili language and is cited as having written and directed ‘the first high quality Bongo movie from Zanzibar.’"
+                    ],
+                    [
+                        "Olav Aaraas( born 10 July 1950) is a Norwegian historian and museum director.",
+                        "He was born in Fredrikstad.",
+                        "From 1982 to 1993 he was the director of Sogn Folk Museum, from 1993 to 2010 he was the director of Maihaugen and from 2001 he has been the director of the Norwegian Museum of Cultural History.",
+                        "In 2010 he was decorated with the Royal Norwegian Order of St. Olav."
+                    ],
+                    [
+                        "Anastasia Dmytriyevna Zyurkalova( October 23, 1991, Kiev, Ukraine) is a Ukrainian stage and film actress.",
+                        "She is best known for roles in film\" Aurora\"( 2006) and TV series\" The Sniffer\"( 2015)."
+                    ],
+                    [
+                        "Aurora is a 2018 Filipino horror thriller film written and directed by Yam Laranas and starring Anne Curtis.",
+                        "It serves as an official entry to the 2018 Metro Manila Film Festival and marks Curtis' third and last film of 2018, following",
+                        "her box-office hits  and \"BuyBust\".",
+                        "The film is inspired by the 1987 tragedy of MV Doña Paz."
+                    ],
+                    [
+                        "Peter Levin is an American director of film, television and theatre."
+                    ],
+                    [
+                        "Ian Barry is an Australian director of film and TV."
+                    ],
+                    [
+                        "Jesse Edward Hobson( May 2, 1911 – November 5, 1970) was the director of SRI International from 1947 to 1955.",
+                        "Prior to SRI, he was the director of the Armour Research Foundation."
+                    ],
+                    [
+                        "William Laranas (born 12 December 1978 in Davao City) is a Filipino director and cinematographer."
+                    ],
+                    [
+                        "Rachel Amanda Aurora( born 1 January 1995) is an Indonesian actress and singer.",
+                        "She attended SMAN 70 Jakarta and is currently studying at the Faculty of Psychology, University of Indonesia."
+                    ],
+                    [
+                        "Brian Patrick Kennedy( born 5 November 1961) is an Irish- born art museum director who has worked in Ireland and Australia, and now lives and works in the United States.",
+                        "He is currently the director of the Peabody Essex Museum.",
+                        "He was the director of the Toledo Museum of Art in Ohio from 2010 to 2019.",
+                        "He was the director of the Hood Museum of Art from 2005 to 2010, and the National Gallery of Australia( Canberra) from 1997- 2004."
+                    ]
+                ]
+            }
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "2570700",
+                    "contents": "\"Aurora (2014 film)\"\nAurora (2014 film) Aurora is a Chilean film written and directed by Rodrigo Sepúlveda. The film was shot in Chile and released in 2014. The film is set in the town of Ventanas in the Valparaíso Region of Chile. Sofia (Amparo Noguera) is a local teacher going through the process of adopting a child when she reads in the news about a dead baby found in the local dump. Sofia becomes obsessed with the fate of the dead girl who she called \"\"Aurora\"\". The baby has no legal right to have a name or be buried, so Sofia initiates a"
+                },
+                {
+                    "id": "9738468",
+                    "contents": "\"Aurora Guerrero\"\nAurora Guerrero Aurora Guerrero is a queer-identified, Chicana writer-director from California. Described as activist first and filmmaker second, Guerrero focuses on collaborative work with her communities creating art forms that offer opportunities for dialogue and education. Guerrero was born in the Mission District of San Francisco, California to Mexican immigrant parents, later growing up on the border of Richmond and El Cerritos cities, while working at her parents small Mexican restaurant in Berkeley. Guerrero studied both Psychology and Chicano studies at University of California, Berkeley completing a Bachelor of Arts. She later moved to Los Angeles to study directing at"
+                },
+                {
+                    "id": "2570701",
+                    "contents": "\"Aurora (2014 film)\"\nlegal process that becomes an intimate journey of personal transformation, with devastating consequences on her life. The film is based on the life of Bernarda Gallardo. Aurora (2014 film) Aurora is a Chilean film written and directed by Rodrigo Sepúlveda. The film was shot in Chile and released in 2014. The film is set in the town of Ventanas in the Valparaíso Region of Chile. Sofia (Amparo Noguera) is a local teacher going through the process of adopting a child when she reads in the news about a dead baby found in the local dump. Sofia becomes obsessed with the"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Aurora (2014 film)\") Aurora (2014 film) Aurora is a Chilean film written and directed by Rodrigo Sepúlveda. The film was shot in Chile and released in 2014. The film is set in the town of Ventanas in the Valparaíso Region of Chile. Sofia (Amparo Noguera) is a local teacher going through the process of adopting a child when she reads in the news about a dead baby found in the local dump. Sofia becomes obsessed with the fate of the dead girl who she called \"\"Aurora\"\". The baby has no legal right to have a name or be buried, so Sofia initiates a\nDoc 2(Title: \"Aurora Guerrero\") Aurora Guerrero Aurora Guerrero is a queer-identified, Chicana writer-director from California. Described as activist first and filmmaker second, Guerrero focuses on collaborative work with her communities creating art forms that offer opportunities for dialogue and education. Guerrero was born in the Mission District of San Francisco, California to Mexican immigrant parents, later growing up on the border of Richmond and El Cerritos cities, while working at her parents small Mexican restaurant in Berkeley. Guerrero studied both Psychology and Chicano studies at University of California, Berkeley completing a Bachelor of Arts. She later moved to Los Angeles to study directing at\nDoc 3(Title: \"Aurora (2014 film)\") legal process that becomes an intimate journey of personal transformation, with devastating consequences on her life. The film is based on the life of Bernarda Gallardo. Aurora (2014 film) Aurora is a Chilean film written and directed by Rodrigo Sepúlveda. The film was shot in Chile and released in 2014. The film is set in the town of Ventanas in the Valparaíso Region of Chile. Sofia (Amparo Noguera) is a local teacher going through the process of adopting a child when she reads in the news about a dead baby found in the local dump. Sofia becomes obsessed with the<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: What is the place of birth of the director of film Aurora (2018 Film)?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "Chile.",
+            "raw_pred": "I can't find any information about the director of the film \"Aurora (2018 film)\" in the given documents. However, I can find information about the director of the film \"Aurora (2014 film)\" which is Rodrigo Sepúlveda. \n\nThe answer is: Chile.",
+            "inference_elapsed_seconds": 5.479999805800617,
+            "metric_score": {
+                "em": 0.0,
+                "f1": 0,
+                "acc": 0.0,
+                "precision": 0,
+                "recall": 0
+            }
+        }
+    },
+    {
+        "id": "dev_10734",
+        "question": "Who is Harriet Hemings's maternal grandfather?",
+        "golden_answers": [
+            "John Wayles"
+        ],
+        "metadata": {
+            "type": "inference",
+            "supporting_facts": {
+                "title": [
+                    "Harriet Hemings",
+                    "Sally Hemings"
+                ],
+                "sent_id": [
+                    1,
+                    5
+                ]
+            },
+            "context": {
+                "title": [
+                    "Prithvipati Shah",
+                    "Harriet Hemings",
+                    "Guillaume Wittouck",
+                    "Abd al-Muttalib",
+                    "Sally Hemings",
+                    "Henry Bryant (naturalist)",
+                    "Fujiwara no Nagara",
+                    "Kaya Alp",
+                    "Lyon Cohen",
+                    "John Westley"
+                ],
+                "content": [
+                    [
+                        "Prithvipati Shah( ?–1716) was the king of the Gorkha Kingdom in the Indian subcontinent, present- day Nepal.",
+                        "He was the grandfather of Nara Bhupal Shah."
+                    ],
+                    [
+                        "Harriet Hemings (May 1801 – 1870) was born into slavery at Monticello, the home of Thomas Jefferson, third President of the United States, in the first year of his presidency.",
+                        "Most historians believe her father was Jefferson, who is now believed to have fathered, with his slave Sally Hemings, four children who survived to adulthood.",
+                        "While Jefferson did not legally free Harriet, in 1822 when she was 21, he aided her \"escape\".",
+                        "He saw that she was put in a stage coach and given $50 for her journey.",
+                        "Her brother Madison Hemings later said she had gone to Washington, DC, to join their older brother Beverley Hemings, who had similarly left Monticello earlier that year.",
+                        "Both entered into white society and married white partners of good circumstances.",
+                        "While seven-eighths European in ancestry, all the Hemings children were legally slaves under Virginia law at the time, in accordance of which they inherited the status of their enslaved mother, who was three-quarters European in ancestry.",
+                        "Jefferson freed the two youngest brothers in his will of 1826, so they were legally free.",
+                        "Beverly and Harriet stayed in touch with their brother Madison Hemings for some time, and then Harriet stopped writing."
+                    ],
+                    [
+                        "Guillaume Wittouck( 1749- 1829) was a Belgian lawyer and High Magistrate.",
+                        "He was the Grandfather of industrialist Paul Wittouck."
+                    ],
+                    [
+                        "Abd al- Muttalib Shaybah ibn Hashim( c. 497 – 578) was the grandfather of Islamic prophet Muhammad."
+                    ],
+                    [
+                        "Sarah \"Sally\" Hemings (1773–1835) was an enslaved woman of mixed race owned by President Thomas Jefferson.",
+                        "According to the \"New York Times\", there is a \"growing historical consensus\" among scholars that, as a widower, Jefferson had a long-term relationship with Hemings, and that he was the father of her six children, born after the death of his wife Martha Jefferson, who was the half-sister of Sally Hemings.",
+                        "Four of Hemings' children survived to adulthood.",
+                        "Hemings died in Charlottesville, Virginia, in 1835.",
+                        "Sally Hemings came to Jefferson's home as an infant with her siblings and her mother, Betty, as part of his wife",
+                        "Martha's inheritance of slaves from her father, John Wayles.",
+                        "Hemings was the youngest of six children that Betty Hemings is believed to have had with Wayles.",
+                        "If true, she was three-quarters European and a half-sister of Martha Jefferson.",
+                        "In 1787, Hemings, aged 14, accompanied Jefferson's youngest daughter Mary \"Polly\" to London and then to Paris, where the widowed Jefferson, aged 44 at the time, was serving as the United States Minister to France.",
+                        "Hemings spent two years there.",
+                        "Most historians believe Jefferson began using Sally Hemings for sex in France or soon after their return to Monticello.",
+                        "Despite this, Hemings remained enslaved in Jefferson's house until his death.",
+                        "In 2017, a room identified as her quarters at Monticello, under the south terrace, was discovered in an archeological restoration.",
+                        "It is being restored and refurbished.",
+                        "The historical question of whether Jefferson was the father of Hemings' children is the subject of the Jefferson–Hemings controversy.",
+                        "Following renewed historic analysis in the late 20th century and a 1998 DNA study that found a match between the Jefferson male line and a descendant of Hemings' last son, Eston Hemings, the Monticello Foundation asserted that Jefferson fathered Eston and perhaps all five of her children.",
+                        "However, there are some who disagree.",
+                        "In 2018, the Thomas Jefferson Foundation of Monticello announced its plans to have an exhibit on the \"Life of Sally Hemings\" and affirmed that it was treating as a settled issue that Jefferson was the father of her known six children.",
+                        "The exhibit opened in June 2018.",
+                        "Hemings' children lived in Jefferson's house as slaves and were trained as artisans.",
+                        "Jefferson freed all of Hemings' surviving children: Beverly, Harriet, Madison, and Eston, as they came of age; they were the only slave family freed by Jefferson.",
+                        "They were seven-eighths European in ancestry, and three of the four entered white society as adults.",
+                        "Descendants of those three identified as white.",
+                        "After Jefferson's death, Hemings was \"given her time\" by his daughter in an informal freedom.",
+                        "She lived her last nine years freely with her two younger sons in Charlottesville, Virginia.",
+                        "She saw a grandchild born in the house her sons owned."
+                    ],
+                    [
+                        "Henry Bryant( May 12, 1820 – February 2, 1867) was an American physician and naturalist.",
+                        "He was the grandfather of Henry Bryant Bigelow."
+                    ],
+                    [
+                        ", also known as Fujiwara no Nagayoshi, was a Japanese statesman, courtier and politician of the early Heian period.",
+                        "He was the grandfather of Emperor Yōzei."
+                    ],
+                    [
+                        "Kaya Alp was, according to Ottoman tradition, the son of Kızıl Buğa and the father of Suleyman Shah, who was, in turn, the grandfather of Ertuğrul, and the great grandfather of the Ottoman Empire founder, Osman I."
+                    ],
+                    [
+                        "Lyon Cohen( 1868–1937) was a Polish- born Canadian businessman and a philanthropist.",
+                        "He was the grandfather of singer/ poet Leonard Cohen."
+                    ],
+                    [
+                        "Rev. John Westley( 1636 – 78) was an English nonconformist minister.",
+                        "He was the grandfather of John Wesley( founder of Methodism)."
+                    ]
+                ]
+            }
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "19338182",
+                    "contents": "\"Harriet Hemings\"\nWayles-Hemings-Jefferson families, Albemarle County and Virginia, often with multiple generations repeating the pattern. Harriet is believed to be the daughter of Sally Hemings and the widower Thomas Jefferson. It is widely believed that Jefferson and Hemings had a 38-year secret relationship beginning in Paris several years after the early death of his wife. Hemings was said to have a child born in 1790 after she returned from Paris, but it died as an infant. Hemings' first daughter who was recorded, was born in 1795. She was named Harriet but she died in infancy. This name was prominent among women in"
+                },
+                {
+                    "id": "5174731",
+                    "contents": "\"Madison Hemings\"\nSally Hemings' children.\"\" The exhibit explores the lives of six major slave families, including the Hemings, starting with the matriarch Elizabeth Hemings, who had 75 descendants at Monticello. Madison Hemings' youngest daughter Ellen Wayles Hemings married Andrew Jackson Roberts, a graduate of Oberlin College. They moved from Ohio to Los Angeles, California in 1885 with their first son Frederick, age six. The senior Roberts founded the first black-owned mortuary there and became a civic leader in the developing community. Their son, Frederick Madison Roberts, named for his maternal grandfather, was college-educated and became a businessman in partnership with his father."
+                },
+                {
+                    "id": "10228467",
+                    "contents": "\"Harriet Hemings\"\nHarriet Hemings Harriet Hemings (May 1801 – 1870) was born into slavery at Monticello, the home of Thomas Jefferson, third President of the United States, in the first year of his presidency. Most historians believe her father is Jefferson, who is believed by many historians to have fathered with his slave Sally Hemings four children who survived to adulthood. While Jefferson did not legally free Harriet, in 1822 when she was 21, he aided her \"\"escape\"\". He saw that she was put in a stage coach and given $50 for her journey. Her brother Madison Hemings later said she had"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Harriet Hemings\") Wayles-Hemings-Jefferson families, Albemarle County and Virginia, often with multiple generations repeating the pattern. Harriet is believed to be the daughter of Sally Hemings and the widower Thomas Jefferson. It is widely believed that Jefferson and Hemings had a 38-year secret relationship beginning in Paris several years after the early death of his wife. Hemings was said to have a child born in 1790 after she returned from Paris, but it died as an infant. Hemings' first daughter who was recorded, was born in 1795. She was named Harriet but she died in infancy. This name was prominent among women in\nDoc 2(Title: \"Madison Hemings\") Sally Hemings' children.\"\" The exhibit explores the lives of six major slave families, including the Hemings, starting with the matriarch Elizabeth Hemings, who had 75 descendants at Monticello. Madison Hemings' youngest daughter Ellen Wayles Hemings married Andrew Jackson Roberts, a graduate of Oberlin College. They moved from Ohio to Los Angeles, California in 1885 with their first son Frederick, age six. The senior Roberts founded the first black-owned mortuary there and became a civic leader in the developing community. Their son, Frederick Madison Roberts, named for his maternal grandfather, was college-educated and became a businessman in partnership with his father.\nDoc 3(Title: \"Harriet Hemings\") Harriet Hemings Harriet Hemings (May 1801 – 1870) was born into slavery at Monticello, the home of Thomas Jefferson, third President of the United States, in the first year of his presidency. Most historians believe her father is Jefferson, who is believed by many historians to have fathered with his slave Sally Hemings four children who survived to adulthood. While Jefferson did not legally free Harriet, in 1822 when she was 21, he aided her \"\"escape\"\". He saw that she was put in a stage coach and given $50 for her journey. Her brother Madison Hemings later said she had<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Who is Harriet Hemings's maternal grandfather?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "Thomas Jefferson.",
+            "raw_pred": "The answer is: Thomas Jefferson.",
+            "inference_elapsed_seconds": 5.522106953896582,
+            "metric_score": {
+                "em": 0.0,
+                "f1": 0,
+                "acc": 0.0,
+                "precision": 0,
+                "recall": 0
+            }
+        }
+    },
+    {
+        "id": "dev_5283",
+        "question": "Was Beth Underhill or Bryan Pamba born first?",
+        "golden_answers": [
+            "Beth Underhill"
+        ],
+        "metadata": {
+            "type": "comparison",
+            "supporting_facts": {
+                "title": [
+                    "Beth Underhill",
+                    "Bryan Pamba"
+                ],
+                "sent_id": [
+                    0,
+                    0
+                ]
+            },
+            "context": {
+                "title": [
+                    "Henry Moore (cricketer)",
+                    "Beth Underhill",
+                    "Saleh Pamba",
+                    "John Allen (Oxford University cricketer)",
+                    "Wesley Barresi",
+                    "John McMahon (Surrey and Somerset cricketer)",
+                    "Hartley Lobban",
+                    "Wale Adebanwi",
+                    "Greg A. Hill (artist)",
+                    "Bryan Pamba"
+                ],
+                "content": [
+                    [
+                        "Henry Walter Moore( 1849 – 20 August 1916) was an English- born first- class cricketer who spent most of his life in New Zealand."
+                    ],
+                    [
+                        "Elizabeth' Beth' Underhill( born 5 September 1962) is a Canadian Equestrian Team athlete for show jumping.",
+                        "She owns and operates Beth Underhill Stables at Kingsgate in the community of Schomberg in King Township, Ontario.",
+                        "She was a commentator for the Canadian Broadcasting Corporation during its coverage of the equestrian events at the 2008 Summer Olympics in Beijing."
+                    ],
+                    [
+                        "Saleh Ahmed Pamba( born 16 October 1950) is a Tanzanian CCM politician and Member of Parliament for Pangani constituency since 2010."
+                    ],
+                    [
+                        "John Aubrey Allen( born 19 July 1974 in Windsor, New South Wales) is an Australian- born first- class cricketer who played for Oxford University Cricket Club.",
+                        "Both his first- class games were for Oxford University, one of which was a varsity match."
+                    ],
+                    [
+                        "Wesley Barresi( born 3 May 1984) is a South African born first- class and Netherlands international cricketer.",
+                        "He is a right- handed wicket keeper- batsman and also bowls right- arm offbreak."
+                    ],
+                    [
+                        "John William Joseph McMahon( 28 December 1917 – 8 May 2001) was an Australian- born first- class cricketer who played for Surrey and Somerset in England from 1947 to 1957."
+                    ],
+                    [
+                        "Hartley W Lobban (9 May 1926 – 15 October 2004) was a Jamaican-born first-class cricketer who played 17 matches for Worcestershire in the early 1950s."
+                    ],
+                    [
+                        "Wale Adebanwi( born 1969) is a Nigerian- born first Black Rhodes Professor at St Antony's College, Oxford."
+                    ],
+                    [
+                        "Greg A. Hill is a Canadian- born First Nations artist and curator.",
+                        "He is Kanyen'kehaka, from Six Nations of the Grand River Territory, Ontario."
+                    ],
+                    [
+                        "Bryan Pamba( born January 7, 1992 in Paris, France) is a French basketball player who plays for French Pro A league club Orleans."
+                    ]
+                ]
+            }
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "9891837",
+                    "contents": "\"Barbara Underhill\"\nthe Tampa Bay Lightning. Underhill was named in the 2011 edition of The Hockey News's list of the 100 most influential people in ice hockey due to her power skating coaching. Underhill joined the National Hockey League's Toronto Maple Leafs as the team's Skating Consultant on April 20, 2012. Underhill also appeared on CBC TV's Battle of the Blades. Underhill was born in Oshawa, Ontario, Canada. Underhill married Rick Gaetz, with whom she has two sons, Matthew and Scott, all of whom are involved in hockey. On September 15, 1992, she had twin girls, Sam and Stephanie, but lost Stephanie"
+                },
+                {
+                    "id": "16868134",
+                    "contents": "\"Beth Underhill\"\nBeth Underhill Elizabeth 'Beth' Underhill (born 5 September 1962) is a Canadian Equestrian Team athlete for show jumping. She owns and operates Beth Underhill Stables at Kingsgate in the community of Schomberg in King Township, Ontario. She was a commentator for the Canadian Broadcasting Corporation during its coverage of the equestrian events at the 2008 Summer Olympics in Beijing. Underhill was born to Jack and Joan Underhill in Georgetown, a community in Halton Hills. Her father died of a heart attack in 1980. In 2000, 20 years to the day of her father's death, her mother committed suicide. She started"
+                },
+                {
+                    "id": "4332160",
+                    "contents": "\"Beth Underhill\"\nresulting in memory loss. In 1987, she established Beth Underhill Stables, now operated by five full-time employees on a property in Schomberg. It has a barn for 20 horses, each with a stall. The facility provides training for riders and horses. Beth Underhill Elizabeth 'Beth' Underhill (born 5 September 1962) is a Canadian Equestrian Team athlete for show jumping. She owns and operates Beth Underhill Stables at Kingsgate in the community of Schomberg in King Township, Ontario. She was a commentator for the Canadian Broadcasting Corporation during its coverage of the equestrian events at the 2008 Summer Olympics in Beijing."
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Barbara Underhill\") the Tampa Bay Lightning. Underhill was named in the 2011 edition of The Hockey News's list of the 100 most influential people in ice hockey due to her power skating coaching. Underhill joined the National Hockey League's Toronto Maple Leafs as the team's Skating Consultant on April 20, 2012. Underhill also appeared on CBC TV's Battle of the Blades. Underhill was born in Oshawa, Ontario, Canada. Underhill married Rick Gaetz, with whom she has two sons, Matthew and Scott, all of whom are involved in hockey. On September 15, 1992, she had twin girls, Sam and Stephanie, but lost Stephanie\nDoc 2(Title: \"Beth Underhill\") Beth Underhill Elizabeth 'Beth' Underhill (born 5 September 1962) is a Canadian Equestrian Team athlete for show jumping. She owns and operates Beth Underhill Stables at Kingsgate in the community of Schomberg in King Township, Ontario. She was a commentator for the Canadian Broadcasting Corporation during its coverage of the equestrian events at the 2008 Summer Olympics in Beijing. Underhill was born to Jack and Joan Underhill in Georgetown, a community in Halton Hills. Her father died of a heart attack in 1980. In 2000, 20 years to the day of her father's death, her mother committed suicide. She started\nDoc 3(Title: \"Beth Underhill\") resulting in memory loss. In 1987, she established Beth Underhill Stables, now operated by five full-time employees on a property in Schomberg. It has a barn for 20 horses, each with a stall. The facility provides training for riders and horses. Beth Underhill Elizabeth 'Beth' Underhill (born 5 September 1962) is a Canadian Equestrian Team athlete for show jumping. She owns and operates Beth Underhill Stables at Kingsgate in the community of Schomberg in King Township, Ontario. She was a commentator for the Canadian Broadcasting Corporation during its coverage of the equestrian events at the 2008 Summer Olympics in Beijing.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Was Beth Underhill or Bryan Pamba born first?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "There is no information about Bryan Pamba in the given documents.",
+            "raw_pred": "There is no information about Bryan Pamba in the given documents.",
+            "inference_elapsed_seconds": 3.414438213221729,
+            "metric_score": {
+                "em": 0.0,
+                "f1": 0,
+                "acc": 0.0,
+                "precision": 0,
+                "recall": 0
+            }
+        }
+    },
+    {
+        "id": "dev_6653",
+        "question": "What nationality is Jane Bewick's father?",
+        "golden_answers": [
+            "UKGBI",
+            "UK",
+            "United Kingdom",
+            "British",
+            "Great Britain and Ireland",
+            "the United Kingdom",
+            "GB",
+            "United Kingdom of Great Britain and Ireland"
+        ],
+        "metadata": {
+            "type": "compositional",
+            "supporting_facts": {
+                "title": [
+                    "Jane Bewick",
+                    "Thomas Bewick"
+                ],
+                "sent_id": [
+                    0,
+                    6
+                ]
+            },
+            "context": {
+                "title": [
+                    "Jane Bewick",
+                    "Noshir Contractor",
+                    "Baglan Mailybayev",
+                    "Robert E. Harrist",
+                    "Nayelly Hernández",
+                    "Thomas Bewick",
+                    "Catherine Toll",
+                    "Eleni Gabre-Madhin",
+                    "Ali Rahuma",
+                    "Roberto Cajes"
+                ],
+                "content": [
+                    [
+                        "Jane Bewick (1787–1881) was the eldest daughter of the wood-engraver Thomas Bewick by his wife Isabella."
+                    ],
+                    [
+                        "Noshir S. Contractor is a Jane S.& William J. White Professor of Behavioral Sciences in the School of Engineering, School of Communication and the Kellogg School of Management at Northwestern University, USA.",
+                        "He is the director of Sonic Lab and is also the director of Web Science Trust."
+                    ],
+                    [
+                        "Baglan Mailybayev( in Kazakh Бағлан Асаубайұлы Майлыбаев) was born on 20 May 1975 in Zhambyl region, Kazakhstan.",
+                        "His nationality is Kazakh.",
+                        "He is a politician of the Republic of Kazakhstan, Deputy Head of the Presidential Administration of the Republic of Kazakhstan, Doctor of Law( 2002)( under the supervision of Professor Zimanov S.Z.- scientific advisor and academician of National Academy of Sciences of the Republic of Kazakhstan) and Ph.D. in Political Science( 1998)."
+                    ],
+                    [
+                        "Robert E. Harrist( born 1951) is Jane and Leopold Swergold Professor of Chinese Art History at Columbia University.",
+                        "His book,\" The Landscape of Words\", was awarded the Joseph Levenson Prize in 2010.",
+                        "He was Slade Professor of Fine Art at the University of Cambridge for 2006- 07."
+                    ],
+                    [
+                        "Nayelly Hernández( born 23 February 1986) is a former Mexican female professional squash player.",
+                        "She has represented Mexico internationally in several international competitions including the Central American and Caribbean Games, Pan American Games, Women's World Team Squash Championships.",
+                        "Nayelly achieved her highest career ranking of 57 in October 2011 during the 2011 PSA World Tour.",
+                        "Her husband Chris Walker whose nationality is English is also a professional squash player.",
+                        "She joined the Trinity College in 2008 as the first Mexican female to join a US college for squash and graduated in 2010."
+                    ],
+                    [
+                        "Thomas Bewick (c. 11 August 1753 – 8 November 1828) was an English wood-engraver and natural history author.",
+                        "Early in his career he took on all kinds of work such as engraving cutlery, making the wood blocks for advertisements, and illustrating children's books.",
+                        "He gradually turned to illustrating, writing and publishing his own books, gaining an adult audience for the fine illustrations in \"A History of Quadrupeds\".",
+                        "His career began when he was apprenticed to engraver Ralph Beilby in Newcastle upon Tyne.",
+                        "He became a partner in the business and eventually took it over.",
+                        "Apprentices whom Bewick trained include John Anderson, Luke Clennell, and William Harvey, who in their turn became well known as painters and engravers.",
+                        "Bewick is best known for his \"A History of British Birds\", which is admired today mainly for its wood engravings, especially the small, sharply observed, and often humorous vignettes known as tail-pieces.",
+                        "The book was the forerunner of all modern field guides.",
+                        "He notably illustrated editions of \"Aesop's Fables\" throughout his life.",
+                        "He is credited with popularising a technical innovation in the printing of illustrations using wood.",
+                        "He adopted metal-engraving tools to cut hard boxwood across the grain, producing printing blocks that could be integrated with metal type, but were much more durable than traditional woodcuts.",
+                        "The result was high-quality illustration at a low price."
+                    ],
+                    [
+                        "Catherine Beattie Toll (born August 8, 1959) is an American educator and politician.",
+                        "Kitty Beattie was born in Danville, Vermont to Catherine and Harold Beattie.",
+                        "Her sister is Jane Kitchel.",
+                        "Her mother and sister served in the Vermont General Assembly.",
+                        "She is married to Abel Toll and lives in Danville, Vermont.",
+                        "Catherine Toll received her bachelor's degree from Lyndon State College in 1981 and her master's degree in education from University of Vermont.",
+                        "Toll taught in the Vermont public school system.",
+                        "Toll served in the Vermont House of Representatives since 2009 and is a Democrat."
+                    ],
+                    [
+                        "Eleni Zaude Gabre- Madhin, an Ethiopian economist with Swiss nationality, is a former Chief Executive Officer of the Ethiopia Commodity Exchange( ECX).",
+                        "She has had many years of experience working on agricultural markets – particularly in Sub- Saharan Africa – and has held senior positions in the World Bank, the International Food Policy Research Institute( Washington), and United Nations( Geneva)."
+                    ],
+                    [
+                        "Ali Khalifa Rahuma( born May 16, 1982) is a Libyan football midfielder who's nationality is Libyan.",
+                        "He currently plays for Al- Ittihad, and is a member of the Libya national football team."
+                    ],
+                    [
+                        "Roberto C. Cajes( born October 8, 1950) is a Filipino politician.",
+                        "A member of the Lakas- CMD Party, he has been elected to three terms as a Member of the House of Representatives, representing the Second District of Bohol.",
+                        "He first won election to Congress in 2001, and was re-elected in 2004 and 2007.",
+                        "His daughter is Jane Censoria Cajes Yap."
+                    ]
+                ]
+            }
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "6572304",
+                    "contents": "\"Jane Bewick\"\nJane Bewick Jane Bewick (1787–1881) was the eldest daughter of the wood engraver Thomas Bewick by his wife Isabella. Jane Bewick is known for her lifelong veneration for her father's memory, and her store of anecdotes about his work and ways. In 1862 she edited and issued \"\"A Memoir of Thomas Bewick, written by Himself. Embellished by numerous wood engravings, designed and engraved by the author for a work on British Fishes, and never before published.\"\" This memoir, written by her father at Jane's request in 1822-8, was throughout the nineteenth century the standard authority for Bewick's personal history, providing"
+                },
+                {
+                    "id": "6572306",
+                    "contents": "\"Jane Bewick\"\na collection of portraits, drawings, prints, and other Bewick relics to the Newcastle Natural History Society's Museum. Jane Bewick Jane Bewick (1787–1881) was the eldest daughter of the wood engraver Thomas Bewick by his wife Isabella. Jane Bewick is known for her lifelong veneration for her father's memory, and her store of anecdotes about his work and ways. In 1862 she edited and issued \"\"A Memoir of Thomas Bewick, written by Himself. Embellished by numerous wood engravings, designed and engraved by the author for a work on British Fishes, and never before published.\"\" This memoir, written by her father at"
+                },
+                {
+                    "id": "4386486",
+                    "contents": "\"Thomas Bewick\"\nthat could be integrated with metal type, but were much more durable than traditional woodcuts. The result was high-quality illustration at a low price. Bewick was born at Cherryburn, a house in the village of Mickley, Northumberland, near Newcastle upon Tyne on 10 or 11 August 1753, although his birthday was always celebrated on the 12th. His parents were tenant farmers: his father John had been married before his union with Jane, and was in his forties when Thomas, the eldest of eight, was born. John rented a small colliery at Mickley Bank, which employed perhaps six men. Bewick attended"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Jane Bewick\") Jane Bewick Jane Bewick (1787–1881) was the eldest daughter of the wood engraver Thomas Bewick by his wife Isabella. Jane Bewick is known for her lifelong veneration for her father's memory, and her store of anecdotes about his work and ways. In 1862 she edited and issued \"\"A Memoir of Thomas Bewick, written by Himself. Embellished by numerous wood engravings, designed and engraved by the author for a work on British Fishes, and never before published.\"\" This memoir, written by her father at Jane's request in 1822-8, was throughout the nineteenth century the standard authority for Bewick's personal history, providing\nDoc 2(Title: \"Jane Bewick\") a collection of portraits, drawings, prints, and other Bewick relics to the Newcastle Natural History Society's Museum. Jane Bewick Jane Bewick (1787–1881) was the eldest daughter of the wood engraver Thomas Bewick by his wife Isabella. Jane Bewick is known for her lifelong veneration for her father's memory, and her store of anecdotes about his work and ways. In 1862 she edited and issued \"\"A Memoir of Thomas Bewick, written by Himself. Embellished by numerous wood engravings, designed and engraved by the author for a work on British Fishes, and never before published.\"\" This memoir, written by her father at\nDoc 3(Title: \"Thomas Bewick\") that could be integrated with metal type, but were much more durable than traditional woodcuts. The result was high-quality illustration at a low price. Bewick was born at Cherryburn, a house in the village of Mickley, Northumberland, near Newcastle upon Tyne on 10 or 11 August 1753, although his birthday was always celebrated on the 12th. His parents were tenant farmers: his father John had been married before his union with Jane, and was in his forties when Thomas, the eldest of eight, was born. John rented a small colliery at Mickley Bank, which employed perhaps six men. Bewick attended<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: What nationality is Jane Bewick's father?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "English.",
+            "raw_pred": "The answer is: English.",
+            "inference_elapsed_seconds": 3.9851894909515977,
+            "metric_score": {
+                "em": 0.0,
+                "f1": 0,
+                "acc": 0.0,
+                "precision": 0,
+                "recall": 0
+            }
+        }
+    },
+    {
+        "id": "dev_10251",
+        "question": "Who is older, Artyom Novichonok or Lyubov Kiryukhina-Tsyoma?",
+        "golden_answers": [
+            "Lyubov Kiryukhina-Tsyoma"
+        ],
+        "metadata": {
+            "type": "comparison",
+            "supporting_facts": {
+                "title": [
+                    "Artyom Novichonok",
+                    "Lyubov Kiryukhina-Tsyoma"
+                ],
+                "sent_id": [
+                    0,
+                    0
+                ]
+            },
+            "context": {
+                "title": [
+                    "Ognen Stojanovski",
+                    "Artyom Novichonok",
+                    "Robin Kačaniklić",
+                    "Aleksandar Loma",
+                    "Lyubov Kiryukhina-Tsyoma",
+                    "Filip Arsenijević",
+                    "Marina Ivanova-Kharlamova",
+                    "François van der Merwe",
+                    "Dmitry Chestnov",
+                    "Jovan Markovski"
+                ],
+                "content": [
+                    [
+                        "Ognen Stojanovski( born January 25, 1984) is a Macedonian professional basketball player.",
+                        "He was under contract with MZT Skopje until 2014.",
+                        "He is 1.90 m( 6 ft 3 in) in height and plays at the point guard position.",
+                        "Born in Skopje, Republic of Macedonia, he is older brother of the twins Vojdan Stojanovski and Damjan Stojanovski, who are also basketball players."
+                    ],
+                    [
+                        "Artyom Olegovich Novichonok( born 27 March 1988 in Kondopoga, Soviet Union( now Russia) is a Russian astronomer.",
+                        "Since 2009, the Minor Planet Center credits him with several minor planets, co-discovered in collaboration with astronomers Dmitry Chestnov, Vladimir Gerke and Leonid Elenin at the American Tzec Maun Observatory in Mayhill, New Mexico, and the Russian Ka- Dar Observatory, TAU Station, in Nizhny Arkhyz, respectively.",
+                        "He also discovered the periodic comet P/ 2011 R3( Novichonok) in 2011, and he was part of the group that discovered the hyperbolic Comet ISON in September 2012, with Vitaly Nevsky at Kondopoga, Russia."
+                    ],
+                    [
+                        "Robin Kačaniklić( born 25 August 1988) is a Swedish footballer of Serbian and Macedonian descent who plays for Real Åstorp FF as a Midfielder.",
+                        "He is older brother to the Hammarby IF and former Swedish national team player Alexander Kačaniklić."
+                    ],
+                    [
+                        "Aleksandar Loma( born March 2, 1955) is a Serbian philologist and a corresponding member of the Serbian Academy of Science and Arts since October 30, 2003.",
+                        "Aleksandar Loma emphasized that Serbian epic poetry about Kosovo events is older than the events it describes, having its origin in the pre-Christian and pre-Balkan periods of Serbian history."
+                    ],
+                    [
+                        "Lyubov Kiryukhina- Tsyoma( born 19 May 1963) is a retired middle- distance runner who represented the Soviet Union and later Russia.",
+                        "She specialized in the 800 metres.",
+                        "She won bronze medals indoors at world and European level in 1987.",
+                        "She represented her country at the 1996 Summer Olympics, reaching the semi-finals.",
+                        "She competed at the 1997 World Championships in Athletics but was disqualified for doping.",
+                        "She'd tested positive for the anabolic steroid stanozolol and was subsequently handed a two- year ban from sports."
+                    ],
+                    [
+                        "Filip Arsenijević( born 2 September 1983) is a Serbian footballer who plays for TSC Bačka Topola.",
+                        "He is older brother of Nemanja Arsenijević."
+                    ],
+                    [
+                        "Marina Ivanova- Kharlamova( born 24 May 1962) is a Russian former Soviet track and field sprinter.",
+                        "She set 400 metres personal bests of 50.63 seconds outdoors and 52.23 seconds indoors.",
+                        "She was the national champion at the Soviet Indoor Athletics Championships in 1989.",
+                        "She won bronze medals with the Soviet Union women's 4 × 400 metres relay team at the 1983 World Championships in Athletics( with Yelena Korban, Irina Baskakova and Mariya Pinigina) and at the 1979 European Athletics Junior Championships( with Lyubov Kiryukhina, Aldona Mendzoryte and Liliya Tuznikova)."
+                    ],
+                    [
+                        "François van der Merwe is a South African professional rugby union player.",
+                        "He plays at lock for Lyon Olympique in the Top 14.",
+                        "He is older brother of Flip van der Merwe"
+                    ],
+                    [
+                        "Dmitry Nikolayevich Chestnov( also known as Dmitrij Nikolaevič Čestnov) is a Russian astronomer, observer and photometrist of comets and discoverer of minor planets.",
+                        "He lives in Saransk, the capital city of the Republic of Mordovia, Russia.",
+                        "He is credited by the Minor Planet Center with the discovery of several minor planets during 2009 – 2010, all in collaboration with Russian astronomer and college Artyom Novichonok at Tzec Maun Observatory in Mayhill, New Mexico.",
+                        "According to the\" Comet Observation database\"( COBS), which is maintained by the Slovenian Črni Vrh Observatory, Dmitry Chestnov has submitted dozens of observations of comets under his user code\" CHE09\".",
+                        "Several cometary observations, including those of the hyperbolic comet C/ 2009 O4( HILL) he took at Tzec Maun's southern station in Pingelly, Western Australia.",
+                        "He also participated in the recovery of periodic comet 246P/ NEAT at the Kislovodsk Mountain Astronomical Station of Pulkovo Observatory in November 2011.",
+                        "He has published a large number of secular lightcurves of comets on his\" Comet Light Curve Refinement Program\"( LiCuRG) website.",
+                        "His Apollo and Amor near- Earth object observations, published in MPC's\" Minor Planet Electronic Circulars\" during 2009 – 2011, include,,,,, and."
+                    ],
+                    [
+                        "Jovan Markovski( born March 28, 1988) is a Macedonian professional basketball small forward who last played for Vardar.",
+                        "He is older brother of Gorjan Markovski who is also basketball player and plays for Feni Industries"
+                    ]
+                ]
+            }
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "528455",
+                    "contents": "\"Artyom Novichonok\"\nArtyom Novichonok Artyom Olegovich Novichonok (; born 27 March 1988 in Kondopoga, Soviet Union (now Russia) is a Russian astronomer. Since 2009, the Minor Planet Center credits him with several minor planets, co-discovered in collaboration with astronomers Dmitry Chestnov, Vladimir Gerke and Leonid Elenin at the American Tzec Maun Observatory in Mayhill, New Mexico, and the Russian Ka-Dar Observatory , TAU Station, in Nizhny Arkhyz, respectively. He also discovered the periodic comet P/2011 R3 (Novichonok) in 2011, and he was part of the group that discovered the hyperbolic Comet ISON in September 2012, with Vitaly Nevsky at Kondopoga, Russia. Together"
+                },
+                {
+                    "id": "17148683",
+                    "contents": "\"Vyacheslav Trubnikov\"\nVyacheslav Trubnikov Vyacheslav Ivanovich Trubnikov (; born on April 25, 1944 in Irkutsk, Russia) is a Russian journalist, political scientist, intelligence officer and a diplomat. He has worked as the Director of Foreign Intelligence Service (Russia) and currently is a First Deputy of Foreign Minister of Russia. He graduated from the Moscow State Institute of International Relations in 1967 and started to work for the First Chief Directorate (Foreign Intelligence) of KGB. In 1971-1977 he worked in India under cover of a correspondent of the RIA Novosti. In 1977-1984 he worked in the central office of the First Chief Directorate."
+                },
+                {
+                    "id": "10205757",
+                    "contents": "\"Artyom Novichonok\"\nwith Vitali Neveski, he discovered the comets: Artyom Novichonok Artyom Olegovich Novichonok (; born 27 March 1988 in Kondopoga, Soviet Union (now Russia) is a Russian astronomer. Since 2009, the Minor Planet Center credits him with several minor planets, co-discovered in collaboration with astronomers Dmitry Chestnov, Vladimir Gerke and Leonid Elenin at the American Tzec Maun Observatory in Mayhill, New Mexico, and the Russian Ka-Dar Observatory , TAU Station, in Nizhny Arkhyz, respectively. He also discovered the periodic comet P/2011 R3 (Novichonok) in 2011, and he was part of the group that discovered the hyperbolic Comet ISON in September 2012,"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Artyom Novichonok\") Artyom Novichonok Artyom Olegovich Novichonok (; born 27 March 1988 in Kondopoga, Soviet Union (now Russia) is a Russian astronomer. Since 2009, the Minor Planet Center credits him with several minor planets, co-discovered in collaboration with astronomers Dmitry Chestnov, Vladimir Gerke and Leonid Elenin at the American Tzec Maun Observatory in Mayhill, New Mexico, and the Russian Ka-Dar Observatory , TAU Station, in Nizhny Arkhyz, respectively. He also discovered the periodic comet P/2011 R3 (Novichonok) in 2011, and he was part of the group that discovered the hyperbolic Comet ISON in September 2012, with Vitaly Nevsky at Kondopoga, Russia. Together\nDoc 2(Title: \"Vyacheslav Trubnikov\") Vyacheslav Trubnikov Vyacheslav Ivanovich Trubnikov (; born on April 25, 1944 in Irkutsk, Russia) is a Russian journalist, political scientist, intelligence officer and a diplomat. He has worked as the Director of Foreign Intelligence Service (Russia) and currently is a First Deputy of Foreign Minister of Russia. He graduated from the Moscow State Institute of International Relations in 1967 and started to work for the First Chief Directorate (Foreign Intelligence) of KGB. In 1971-1977 he worked in India under cover of a correspondent of the RIA Novosti. In 1977-1984 he worked in the central office of the First Chief Directorate.\nDoc 3(Title: \"Artyom Novichonok\") with Vitali Neveski, he discovered the comets: Artyom Novichonok Artyom Olegovich Novichonok (; born 27 March 1988 in Kondopoga, Soviet Union (now Russia) is a Russian astronomer. Since 2009, the Minor Planet Center credits him with several minor planets, co-discovered in collaboration with astronomers Dmitry Chestnov, Vladimir Gerke and Leonid Elenin at the American Tzec Maun Observatory in Mayhill, New Mexico, and the Russian Ka-Dar Observatory , TAU Station, in Nizhny Arkhyz, respectively. He also discovered the periodic comet P/2011 R3 (Novichonok) in 2011, and he was part of the group that discovered the hyperbolic Comet ISON in September 2012,<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Who is older, Artyom Novichonok or Lyubov Kiryukhina-Tsyoma?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "There is no information about Lyubov Kiryukhina-Tsyoma in the given documents.",
+            "raw_pred": "There is no information about Lyubov Kiryukhina-Tsyoma in the given documents.",
+            "inference_elapsed_seconds": 5.325664058327675,
+            "metric_score": {
+                "em": 0.0,
+                "f1": 0.33333333333333337,
+                "acc": 1.0,
+                "precision": 0.2,
+                "recall": 1.0
+            }
+        }
+    },
+    {
+        "id": "dev_3006",
+        "question": "Where was the husband of Alma Francis born?",
+        "golden_answers": [
+            "Belleville",
+            "Belleville, Kansas"
+        ],
+        "metadata": {
+            "type": "compositional",
+            "supporting_facts": {
+                "title": [
+                    "Alma Francis",
+                    "Robert Gordon (actor)"
+                ],
+                "sent_id": [
+                    4,
+                    1
+                ]
+            },
+            "context": {
+                "title": [
+                    "Alma Francis",
+                    "Lorraine Francis",
+                    "Stan Rice",
+                    "Elliot Francis",
+                    "Francis Alwin",
+                    "Alun Francis",
+                    "Stan Marks",
+                    "Andrew Upton",
+                    "Jon Leach",
+                    "Robert Gordon (actor)"
+                ],
+                "content": [
+                    [
+                        "Alma Lenore Francis (October 15, 1890 August 21, 1968) was an American dancer, singer, and stage actress.",
+                        "She had an international career as a theatrical actress and operatic soprano in numerous stage productions, as well as a short-lived career in Hollywood, appearing in three feature films during the silent era.",
+                        "A native of Portland, Oregon, Francis was educated at St. Helens Hall and later studied piano and operatic voice under Abbie Carrington in San Francisco.",
+                        "After completing her studies, Francis found success as a Broadway actress, obtaining lead roles in original productions of the musicals \"The Pink Lady\" (1911) and \"The Little Cafe\" (1913).",
+                        "She married film actor Robert Gordon in 1919.",
+                        "In the early-1920s, Francis signed a contract with Fox Film Corporation and appeared in three silent films, including a role in \"The Wolf Man\" (1924).",
+                        "After abandoning her film career, Francis appeared in theater productions in California and toured Italy performing as an operatic soprano in various productions before returning to the United States in 1934.",
+                        "Francis spent her later life married to Kenneth Fields, a U.S. forest ranger, and living on a berry farm west of Sandy, Oregon, where she taught singing in her private home studio, and was an advocate of the arts in the Portland metropolitan area.",
+                        "She died on August 21, 1968, aged 77."
+                    ],
+                    [
+                        "Lorraine Francis( born 5 November 1958) is an Irish children's writer."
+                    ],
+                    [
+                        "Stan Rice( November 7, 1942 – December 9, 2002) was an American poet and artist.",
+                        "He was the husband of author Anne Rice."
+                    ],
+                    [
+                        "Elliott Charles Francis( born 16 August 1987) is a British actor."
+                    ],
+                    [
+                        "Alwin Francis( born 11 March 1987) is an Indian male badminton player."
+                    ],
+                    [
+                        "Alun Francis( born 29 September 1943) is a Welsh conductor."
+                    ],
+                    [
+                        "Stan Marks is an Australian writer and journalist.",
+                        "He is the husband of Holocaust survivor Eva Marks."
+                    ],
+                    [
+                        "Andrew Upton( born 1 February 1966) is an Australian playwright, screenwriter, and director.",
+                        "He is the husband of actress Cate Blanchett."
+                    ],
+                    [
+                        "Jonathan Leach( born April 18, 1973) is a former professional tennis player from the United States.",
+                        "He is the husband of Lindsay Davenport."
+                    ],
+                    [
+                        "Robert Gordon (March 3, 1895 – October 26, 1971), born Robert Gordon Duncan, was an American silent film actor.",
+                        "He was born in Belleville, Kansas and died at the age of 76 in Victorville, California.",
+                        "He is credited with appearances in 35 films from 1917 to 1949."
+                    ]
+                ]
+            }
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "20847164",
+                    "contents": "\"Alma Francis\"\nhome studio, and was an advocate of the arts in the Portland metropolitan area. She died on August 21, 1968, aged 77. Alma Lenore Frances was born October 15, 1890 in Portland, Oregon to William and Alma Ray Francis (née Wilson). Both her maternal and paternal ancestors were Scottish pioneers, and her father was a mining engineer originally from Chicago who founded the St. Johns Lumber Company in Portland. She was educated at St. Helens Hall in Portland, and later studied piano in San Francisco under Emlyn Lewys, and operatic voice with Abbie Carrington. Francis began her career in theater,"
+                },
+                {
+                    "id": "20847163",
+                    "contents": "\"Alma Francis\"\n(1911) and \"\"The Little Cafe\"\" (1913). She married film actor Robert Gordon in 1919. In the early-1920s, Francis signed a contract with Fox Film Corporation and appeared in three silent films, including a role in \"\"The Wolf Man\"\" (1924). After abandoning her film career, Francis appeared in theater productions in California and toured Italy performing as an operatic soprano in various productions before returning to the United States in 1934. Francis spent her later life married to Kenneth Fields, a U.S. forest ranger, and living on a berry farm west of Sandy, Oregon, where she taught singing in her private"
+                },
+                {
+                    "id": "19800172",
+                    "contents": "\"Alma Francis\"\nCalifornia, which she starred in for three years under directors John S. McGroarty and Tyrone Power Sr. Francis toured the opera circuit in Italy in the late-1920s through the early-1930s, appearing as the lead soprano in productions of \"\"La bohème\"\", \"\"Faust\"\", \"\"Madama Butterfly\"\", and \"\"Pagliacci\"\". After returning to the United States in 1934, Francis married Nelson Kenneth Fields, a United States Forest Service ranger, and resided with him on a berry farm west of Sandy, Oregon. She spent her later life teaching singing in Portland and in her private home studio, known by some locals as \"\"The Little Milan.\"\" She"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Alma Francis\") home studio, and was an advocate of the arts in the Portland metropolitan area. She died on August 21, 1968, aged 77. Alma Lenore Frances was born October 15, 1890 in Portland, Oregon to William and Alma Ray Francis (née Wilson). Both her maternal and paternal ancestors were Scottish pioneers, and her father was a mining engineer originally from Chicago who founded the St. Johns Lumber Company in Portland. She was educated at St. Helens Hall in Portland, and later studied piano in San Francisco under Emlyn Lewys, and operatic voice with Abbie Carrington. Francis began her career in theater,\nDoc 2(Title: \"Alma Francis\") (1911) and \"\"The Little Cafe\"\" (1913). She married film actor Robert Gordon in 1919. In the early-1920s, Francis signed a contract with Fox Film Corporation and appeared in three silent films, including a role in \"\"The Wolf Man\"\" (1924). After abandoning her film career, Francis appeared in theater productions in California and toured Italy performing as an operatic soprano in various productions before returning to the United States in 1934. Francis spent her later life married to Kenneth Fields, a U.S. forest ranger, and living on a berry farm west of Sandy, Oregon, where she taught singing in her private\nDoc 3(Title: \"Alma Francis\") California, which she starred in for three years under directors John S. McGroarty and Tyrone Power Sr. Francis toured the opera circuit in Italy in the late-1920s through the early-1930s, appearing as the lead soprano in productions of \"\"La bohème\"\", \"\"Faust\"\", \"\"Madama Butterfly\"\", and \"\"Pagliacci\"\". After returning to the United States in 1934, Francis married Nelson Kenneth Fields, a United States Forest Service ranger, and resided with him on a berry farm west of Sandy, Oregon. She spent her later life teaching singing in Portland and in her private home studio, known by some locals as \"\"The Little Milan.\"\" She<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Where was the husband of Alma Francis born?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "Chicago.",
+            "raw_pred": "The answer is: Chicago.",
+            "inference_elapsed_seconds": 4.705370084382594,
+            "metric_score": {
+                "em": 0.0,
+                "f1": 0,
+                "acc": 0.0,
+                "precision": 0,
+                "recall": 0
+            }
+        }
+    },
+    {
+        "id": "dev_6533",
+        "question": "Do the movies The Godfather Part Iii and The Life And Hard Times Of Guy Terrifico, originate from the same country?",
+        "golden_answers": [
+            "no"
+        ],
+        "metadata": {
+            "type": "comparison",
+            "supporting_facts": {
+                "title": [
+                    "The Godfather Part III",
+                    "The Life and Hard Times of Guy Terrifico"
+                ],
+                "sent_id": [
+                    0,
+                    0
+                ]
+            },
+            "context": {
+                "title": [
+                    "The Newspaperman",
+                    "The Godfather",
+                    "Promise Me You'll Remember (Love Theme from The Godfather Part III)",
+                    "Chaplinesque, My Life and Hard Times",
+                    "The Life and Times of Xaviera Hollander",
+                    "The Godfather Saga",
+                    "The Godfather Part III",
+                    "The Godfather Part III (soundtrack)",
+                    "The Godfather Part II",
+                    "The Life and Hard Times of Guy Terrifico"
+                ],
+                "content": [
+                    [
+                        "The Newspaperman: The Life and Times of Ben Bradlee is an American documentary film that premiered on December 4, 2017 on HBO.",
+                        "Directed by John Maggio, the film explores the life and legacy of journalist Ben Bradlee."
+                    ],
+                    [
+                        "The Godfather is a 1972 American crime film directed by Francis Ford Coppola and produced by Albert S. Ruddy, based on Mario Puzo's best- selling novel of the same name.",
+                        "It stars Marlon Brando and Al Pacino as the father and son of a fictional New York crime family.",
+                        "The story, spanning 1945 to 1955, chronicles the family under the patriarch Vito Corleone( Brando), focusing on the transformation of the son Michael Corleone( Pacino), raised to have a life outside of crime, from reluctant family outsider to ruthless mafia boss.",
+                        "Paramount Pictures obtained the rights to the novel for the price of$ 80,000, before it gained popularity.",
+                        "Studio executives had trouble finding a director; their first few candidates turned down the position before Coppola signed on to direct the film.",
+                        "They and Coppola disagreed over the casting for several characters, in particular, Vito and Michael.",
+                        "Filming took place primarily on location around New York and in Sicily, and was completed ahead of schedule.",
+                        "The musical score was composed principally by Nino Rota, with additional pieces by Carmine Coppola.",
+                        "\" The Godfather\" premiered at the Loew's State Theatre on March 15, 1972, and was released in the United States on March 24, 1972.",
+                        "It was the highest- grossing film of 1972, and was for a time the highest- grossing film ever made, with a gross of around$ 245–286 million at the box office.",
+                        "The film received universal acclaim from critics and audiences, with praise going toward the performances of its cast, particularly by Brando and Pacino, the directing, screenplay, cinematography, editing, score, and portrayal of the mafia.",
+                        "The film revitalized Brando's career, which was in decline during the 1960s.",
+                        "In addition to starring in future hits such as\" Last Tango in ParisSuperman\", and\" Apocalypse Now\", Brando was a catalyst in this film for the successful careers of Coppola, Pacino, and other relative newcomers in the cast.",
+                        "At the 45th Academy Awards, the film won the Oscars for Best Picture, Best Actor( Brando), and Best Adapted Screenplay( for Puzo and Coppola).",
+                        "Its seven other Oscar nominations included Pacino, James Caan, Robert Duvall( Best Supporting Actor), and Coppola for Best Director.",
+                        "Since its release,\" The Godfather\" has been widely regarded as one of the greatest and most influential films ever made, especially in the gangster genre.",
+                        "It was selected for preservation in the U.S. National Film Registry of the Library of Congress in 1990, being deemed\" culturally, historically, or aesthetically significant\" and is ranked the second- greatest film in American cinema( behind\" Citizen Kane\") by the American Film Institute.",
+                        "It was followed by sequels\" The Godfather Part II\"( 1974) and\" The Godfather Part III\"( 1990)."
+                    ],
+                    [
+                        "\" Promise Me You'll Remember( Love Theme from\" The Godfather Part III is a song written for\" The Godfather Part III\"( 1990), the third film in\" The Godfather\" trilogy."
+                    ],
+                    [
+                        "Chaplinesque, My Life and Hard Times aka The Eternal Tramp( video title) is a 1972 documentary film directed by Harry Hurwitz.",
+                        "The film was frequently shown on American Public Television."
+                    ],
+                    [
+                        "The Life and Times of Xaviera Hollander is an X-rated film released in 1974."
+                    ],
+                    [
+                        "The Godfather Saga is a TV miniseries that combines \"The Godfather\" and \"The Godfather Part II\" into one film.",
+                        "It originally aired on NBC over four consecutive nights (one three-hour segment and three two-hour segments) in November 1977.",
+                        "\"",
+                        "The Godfather Saga\" is also known as The Godfather: The Complete Novel for Television, The Godfather: A Novel for Television, The Godfather Novella, The Godfather: 1901-1959 -",
+                        "The Complete Epic, and The Godfather Epic (on HBO).",
+                        "The television version was the basis for a shorter, 1981 video release known as The Godfather 1902–1959: The Complete Epic.",
+                        "Following the release of \"The Godfather Part III\" in 1990, a third unified version was released to video in 1992 entitled The Godfather Trilogy: 1901–1980."
+                    ],
+                    [
+                        "The Godfather Part III is a 1990 American crime film produced and directed by Francis Ford Coppola from a screenplay co-written with Mario Puzo.",
+                        "A sequel to\" The Godfather\"( 1972) and\" The Godfather Part II\"( 1974), it completes the story of Michael Corleone, a Mafia kingpin who attempts to legitimize his criminal empire.",
+                        "The film also includes fictionalized accounts of two real- life events: the 1978 death of Pope John Paul I and the Papal banking scandal of 1981 – 82, both linked to Michael Corleone's business affairs.",
+                        "The film stars Al Pacino, Diane Keaton, Talia Shire, and Andy García.",
+                        "Coppola and Puzo preferred the title\" The Death of Michael Corleone\", but Paramount Pictures found that unacceptable.",
+                        "Coppola considers the series as two films, with\" Part III\" as an epilogue.",
+                        "\" The Godfather Part III\" received generally positive reviews, albeit less than the critical acclaim that the first two films received.",
+                        "The film was distributed again by Paramount Pictures, premiering in Beverly Hills on December 20, 1990, and released in the United States at December 25, 1990.",
+                        "It grossed$ 136,766,062 and was nominated for seven Academy Awards, failing to win any, the only film in the trilogy to do so."
+                    ],
+                    [
+                        "The Godfather Part III is the soundtrack from the movie of the same name, released in 1990 by Columbia Records."
+                    ],
+                    [
+                        "The Godfather Part II is a 1974 American crime film produced and directed by Francis Ford Coppola from a screenplay co-written with Mario Puzo, starring Al Pacino and Robert De Niro.",
+                        "Partially based on Puzo's 1969 novel\" The Godfather\", the film is both sequel and prequel to\" The Godfather\", presenting parallel dramas: one picks up the 1958 story of Michael Corleone( Pacino), the new Don of the Corleone crime family, protecting the family business in the aftermath of an attempt on his life; the prequel covers the journey of his father, Vito Corleone( De Niro), from his Sicilian childhood to the founding of his family enterprise in New York City.",
+                        "Following the success of the first film, Paramount Pictures began developing a follow up to the film, with much of the same cast and crew returning.",
+                        "Coppola, who was given more control on the film, had wanted to make both a sequel and a prequel to the film to tell the story of the rise of Vito and the fall of Michael.",
+                        "Principal photography began in October 1973 and wrapped up in June 1974.",
+                        "\" The Godfather Part II\" premiered in New York City on December 12, 1974, and was released in the United States on December 20, 1974, receiving divided reviews from critics but its reputation, however, improved rapidly and it soon became the subject of critical re-evaluation.",
+                        "It grossed$ 88 million worldwide on a$ 13 million budget.",
+                        "The film was nominated for eleven Academy Awards at the 47th Academy Awards and became the first sequel to win for Best Picture.",
+                        "Its six Oscar wins also included Best Director for Coppola, Best Supporting Actor for De Niro and Best Adapted Screenplay for Coppola and Puzo. Pacino won the BAFTA Award for Best Actor and was nominated for the Academy Award for Best Actor.",
+                        "Both\" The Godfather Part II\" and its predecessor remain highly influential films, especially in the gangster genre, and the former has been reevaluated.",
+                        "In 1997, the American Film Institute ranked it as the 32nd- greatest film in American film history and it retained this position 10 years later.",
+                        "Some have deemed it superior to\" The Godfather\".",
+                        "It was selected for preservation in the U.S. National Film Registry of the Library of Congress in 1993, being deemed\" culturally, historically, or aesthetically significant\".",
+                        "The final film in the trilogy,\" The Godfather Part III\", was released in 1990."
+                    ],
+                    [
+                        "The Life and Hard Times of Guy Terrifico is a Canadian mockumentary film released in 2005.",
+                        "Written and directed by Michael Mabbott, the film stars Matt Murphy, a musician previously associated with the bands The Super Friendz and The Flashing Lights, as Guy Terrifico, a country singer long rumoured to have died three decades earlier, but now reemerging from his disappearance and releasing a new album.",
+                        "Murphy and Mabbott wrote the film's music, including the songs \"Just a Show\" and \"Make Believe\", which were nominated for Best Original Song at the 26th Genie Awards.",
+                        "The film won the award for Best Canadian First Feature Film at the 2005 Toronto International Film Festival.",
+                        "In December 2005, it was named to TIFF's annual Canada's Top Ten list of the year's best Canadian films."
+                    ]
+                ]
+            }
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "6794789",
+                    "contents": "\"The Godfather (film series)\"\nThe Godfather (film series) The Godfather is an American film series that consists of three crime drama films directed by Francis Ford Coppola inspired by the novel of the same name by Italian American author Mario Puzo. The series follows the trials of the Corleone family, Italian Americans whose patriarch, Vito Corleone, rises to be a major figure in American organized crime. His youngest son, Michael Corleone, becomes his successor. The films were distributed by Paramount Pictures and released in 1972, 1974 and 1990. The series achieved success at the box office, with the films earning over $550 million worldwide."
+                },
+                {
+                    "id": "20332143",
+                    "contents": "\"The Life and Hard Times of Guy Terrifico\"\nGenie Awards. The film won the award for Best Canadian First Feature Film at the 2005 Toronto International Film Festival. In December 2005, it was named to TIFF's annual Canada's Top Ten list of the year's best Canadian films. The Life and Hard Times of Guy Terrifico The Life and Hard Times of Guy Terrifico is a Canadian mockumentary film released in 2005. Written and directed by Michael Mabbott, the film stars Matt Murphy, a musician previously associated with the bands The Super Friendz and The Flashing Lights, as Guy Terrifico, a country singer long rumoured to have died three"
+                },
+                {
+                    "id": "20332142",
+                    "contents": "\"The Life and Hard Times of Guy Terrifico\"\nThe Life and Hard Times of Guy Terrifico The Life and Hard Times of Guy Terrifico is a Canadian mockumentary film released in 2005. Written and directed by Michael Mabbott, the film stars Matt Murphy, a musician previously associated with the bands The Super Friendz and The Flashing Lights, as Guy Terrifico, a country singer long rumoured to have died three decades earlier, but now reemerging from his disappearance and releasing a new album. Murphy and Mabbott wrote the film's music, including the songs \"\"Just a Show\"\" and \"\"Make Believe\"\", which were nominated for Best Original Song at the 26th"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Always put the answer after 'The answer is: ', e.g.'The answer is: answer.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"The Godfather (film series)\") The Godfather (film series) The Godfather is an American film series that consists of three crime drama films directed by Francis Ford Coppola inspired by the novel of the same name by Italian American author Mario Puzo. The series follows the trials of the Corleone family, Italian Americans whose patriarch, Vito Corleone, rises to be a major figure in American organized crime. His youngest son, Michael Corleone, becomes his successor. The films were distributed by Paramount Pictures and released in 1972, 1974 and 1990. The series achieved success at the box office, with the films earning over $550 million worldwide.\nDoc 2(Title: \"The Life and Hard Times of Guy Terrifico\") Genie Awards. The film won the award for Best Canadian First Feature Film at the 2005 Toronto International Film Festival. In December 2005, it was named to TIFF's annual Canada's Top Ten list of the year's best Canadian films. The Life and Hard Times of Guy Terrifico The Life and Hard Times of Guy Terrifico is a Canadian mockumentary film released in 2005. Written and directed by Michael Mabbott, the film stars Matt Murphy, a musician previously associated with the bands The Super Friendz and The Flashing Lights, as Guy Terrifico, a country singer long rumoured to have died three\nDoc 3(Title: \"The Life and Hard Times of Guy Terrifico\") The Life and Hard Times of Guy Terrifico The Life and Hard Times of Guy Terrifico is a Canadian mockumentary film released in 2005. Written and directed by Michael Mabbott, the film stars Matt Murphy, a musician previously associated with the bands The Super Friendz and The Flashing Lights, as Guy Terrifico, a country singer long rumoured to have died three decades earlier, but now reemerging from his disappearance and releasing a new album. Murphy and Mabbott wrote the film's music, including the songs \"\"Just a Show\"\" and \"\"Make Believe\"\", which were nominated for Best Original Song at the 26th<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Do the movies The Godfather Part Iii and The Life And Hard Times Of Guy Terrifico, originate from the same country?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "No.",
+            "raw_pred": "The answer is: No.",
+            "inference_elapsed_seconds": 4.506923629902303,
+            "metric_score": {
+                "em": 1.0,
+                "f1": 1.0,
+                "acc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0
+            }
+        }
+    }
+]

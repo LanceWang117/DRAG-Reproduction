@@ -1,0 +1,1445 @@
+[
+    {
+        "id": "train_1893",
+        "question": "Would a fungal life-form be threatened by a pigment from copper?",
+        "golden_answers": [
+            "yes"
+        ],
+        "metadata": {
+            "term": "Copper",
+            "description": "Chemical element with atomic number 29",
+            "facts": [
+                "Verdigris is a pigment made from copper",
+                "Verdigris is also used as a fungicide "
+            ],
+            "decomposition": [
+                "Which element is the pigment verdigris derived from?",
+                "Is #1 copper and verdigris also used as a fungicide?"
+            ],
+            "evidence": [
+                [
+                    [
+                        [
+                            "Verdigris-1"
+                        ]
+                    ],
+                    [
+                        [
+                            "Verdigris-6"
+                        ]
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Verdigris-1"
+                        ]
+                    ],
+                    [
+                        [
+                            "Copper-5",
+                            "Verdigris-6"
+                        ],
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Verdigris-1"
+                        ]
+                    ],
+                    [
+                        [
+                            "Copper-5",
+                            "Verdigris-6"
+                        ],
+                        "operation"
+                    ]
+                ]
+            ]
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "9723707",
+                    "contents": "Copper\nassociated with \"\"Calluna\"\", \"\"Erica\"\" and \"\"Vaccinium\"\" can grow in metalliferous soils containing copper. The ectomycorrhizal fungus \"\"Suillus luteus\"\" protects young pine trees from copper toxicity. A sample of the fungus \"\"Aspergillus niger\"\" was found growing from gold mining solution and was found to contain cyano complexes of such metals as gold, silver, copper, iron, and zinc. The fungus also plays a role in the solubilization of heavy metal sulfides. Copper proteins have diverse roles in biological electron transport and oxygen transportation, processes that exploit the easy interconversion of Cu(I) and Cu(II). Copper is essential in the aerobic respiration of all"
+                },
+                {
+                    "id": "9723706",
+                    "contents": "Copper\nand control (non-copper) bracelet. No evidence shows that copper can be absorbed through the skin. If it were, it might lead to copper poisoning. Recently, some compression clothing with inter-woven copper has been marketed with health claims similar to the folk medicine claims. Because compression clothing is a valid treatment for some ailments, the clothing may have that benefit, but the added copper may have no benefit beyond a placebo effect. Textile fibers are blended with copper to create antimicrobial protective fabrics. \"\"Chromobacterium violaceum\"\" and \"\"Pseudomonas fluorescens\"\" can both mobilize solid copper as a cyanide compound. The ericoid mycorrhizal fungi"
+                },
+                {
+                    "id": "1608957",
+                    "contents": "Copper\nto \"\"сuprum\"\" (Latin), from which the words derived, \"\"coper\"\" (Old English) and \"\"copper\"\", first used around 1530. The commonly encountered compounds are copper(II) salts, which often impart blue or green colors to such minerals as azurite, malachite, and turquoise, and have been used widely and historically as pigments. Copper used in buildings, usually for roofing, oxidizes to form a green verdigris (or patina). Copper is sometimes used in decorative art, both in its elemental metal form and in compounds as pigments. Copper compounds are used as bacteriostatic agents, fungicides, and wood preservatives. Copper is essential to all living organisms as"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Given four answer candidates, Yes and No, choose the best answer choice. Always put the answer after 'The answer is: ', e.g.'The answer is: Yes.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: Copper) associated with \"\"Calluna\"\", \"\"Erica\"\" and \"\"Vaccinium\"\" can grow in metalliferous soils containing copper. The ectomycorrhizal fungus \"\"Suillus luteus\"\" protects young pine trees from copper toxicity. A sample of the fungus \"\"Aspergillus niger\"\" was found growing from gold mining solution and was found to contain cyano complexes of such metals as gold, silver, copper, iron, and zinc. The fungus also plays a role in the solubilization of heavy metal sulfides. Copper proteins have diverse roles in biological electron transport and oxygen transportation, processes that exploit the easy interconversion of Cu(I) and Cu(II). Copper is essential in the aerobic respiration of all\nDoc 2(Title: Copper) and control (non-copper) bracelet. No evidence shows that copper can be absorbed through the skin. If it were, it might lead to copper poisoning. Recently, some compression clothing with inter-woven copper has been marketed with health claims similar to the folk medicine claims. Because compression clothing is a valid treatment for some ailments, the clothing may have that benefit, but the added copper may have no benefit beyond a placebo effect. Textile fibers are blended with copper to create antimicrobial protective fabrics. \"\"Chromobacterium violaceum\"\" and \"\"Pseudomonas fluorescens\"\" can both mobilize solid copper as a cyanide compound. The ericoid mycorrhizal fungi\nDoc 3(Title: Copper) to \"\"сuprum\"\" (Latin), from which the words derived, \"\"coper\"\" (Old English) and \"\"copper\"\", first used around 1530. The commonly encountered compounds are copper(II) salts, which often impart blue or green colors to such minerals as azurite, malachite, and turquoise, and have been used widely and historically as pigments. Copper used in buildings, usually for roofing, oxidizes to form a green verdigris (or patina). Copper is sometimes used in decorative art, both in its elemental metal form and in compounds as pigments. Copper compounds are used as bacteriostatic agents, fungicides, and wood preservatives. Copper is essential to all living organisms as<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Would a fungal life-form be threatened by a pigment from copper?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "No.",
+            "raw_pred": "The answer is: No.",
+            "inference_elapsed_seconds": 3.544103065505624,
+            "metric_score": {
+                "em": 0.0,
+                "f1": 0,
+                "acc": 0.0,
+                "precision": 0,
+                "recall": 0
+            }
+        }
+    },
+    {
+        "id": "train_1292",
+        "question": "Do you have to put on glasses to read a QR code?",
+        "golden_answers": [
+            "no"
+        ],
+        "metadata": {
+            "term": "QR code",
+            "description": "trademark for a type of matrix barcode",
+            "facts": [
+                "Glasses are used to improve one's vision capabilities.",
+                "QR codes are not readable by humans and have to be read by machines or programs."
+            ],
+            "decomposition": [
+                "Can a human read QR codes?"
+            ],
+            "evidence": [
+                [
+                    [
+                        "no_evidence",
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "QR code-5"
+                        ]
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "QR code-1"
+                        ]
+                    ]
+                ]
+            ]
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "266221",
+                    "contents": "\"QR code\"\nor the image viewer, since a reader will typically send the data to the application associated with the data type used by the QR code. In the case of no software exploits, malicious QR codes combined with a permissive reader can still put a computer's contents and user's privacy at risk. This practice is known as \"\"attagging\"\", a portmanteau of \"\"attack tagging\"\". They are easily created and can be affixed over legitimate QR codes. On a smartphone, the reader's permissions may allow use of the camera, full Internet access, read/write contact data, GPS, read browser history, read/write local storage, and"
+                },
+                {
+                    "id": "10557107",
+                    "contents": "\"QR code\"\ntracking, item identification, time tracking, document management, and general marketing. A QR code consists of black squares arranged in a square grid on a white background, which can be read by an imaging device such as a camera, and processed using Reed–Solomon error correction until the image can be appropriately interpreted. The required data is then extracted from patterns that are present in both horizontal and vertical components of the image. The QR code system was invented in 1994 by the Japanese company Denso Wave. Its purpose was to track vehicles during manufacturing; it was designed to allow high-speed component"
+                },
+                {
+                    "id": "266201",
+                    "contents": "\"QR code\"\nscans the QR code retrieves the geo information by using GPS and cell tower triangulation (aGPS) or the URL encoded in the QR code itself is associated with a location. In 2008, a Japanese stonemason announced plans to engrave QR codes on gravestones, allowing visitors to view information about the deceased, and family members to keep track of visits. Psychologist Richard Wiseman was one of the first authors to include QR codes in a book, in \"\"Paranormality: Why We See What Isn't There\"\" (2011). QR codes have been incorporated into currency. In June 2011 The Royal Dutch Mint (\"\"Koninklijke Nederlandse"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Given four answer candidates, Yes and No, choose the best answer choice. Always put the answer after 'The answer is: ', e.g.'The answer is: Yes.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"QR code\") or the image viewer, since a reader will typically send the data to the application associated with the data type used by the QR code. In the case of no software exploits, malicious QR codes combined with a permissive reader can still put a computer's contents and user's privacy at risk. This practice is known as \"\"attagging\"\", a portmanteau of \"\"attack tagging\"\". They are easily created and can be affixed over legitimate QR codes. On a smartphone, the reader's permissions may allow use of the camera, full Internet access, read/write contact data, GPS, read browser history, read/write local storage, and\nDoc 2(Title: \"QR code\") tracking, item identification, time tracking, document management, and general marketing. A QR code consists of black squares arranged in a square grid on a white background, which can be read by an imaging device such as a camera, and processed using Reed–Solomon error correction until the image can be appropriately interpreted. The required data is then extracted from patterns that are present in both horizontal and vertical components of the image. The QR code system was invented in 1994 by the Japanese company Denso Wave. Its purpose was to track vehicles during manufacturing; it was designed to allow high-speed component\nDoc 3(Title: \"QR code\") scans the QR code retrieves the geo information by using GPS and cell tower triangulation (aGPS) or the URL encoded in the QR code itself is associated with a location. In 2008, a Japanese stonemason announced plans to engrave QR codes on gravestones, allowing visitors to view information about the deceased, and family members to keep track of visits. Psychologist Richard Wiseman was one of the first authors to include QR codes in a book, in \"\"Paranormality: Why We See What Isn't There\"\" (2011). QR codes have been incorporated into currency. In June 2011 The Royal Dutch Mint (\"\"Koninklijke Nederlandse<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Do you have to put on glasses to read a QR code?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "No.",
+            "raw_pred": "The answer is: No.",
+            "inference_elapsed_seconds": 3.5582683933898807,
+            "metric_score": {
+                "em": 1.0,
+                "f1": 1.0,
+                "acc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0
+            }
+        }
+    },
+    {
+        "id": "train_875",
+        "question": "Could Reza Shah be related to Queen Elizabeth I?",
+        "golden_answers": [
+            "no"
+        ],
+        "metadata": {
+            "term": "Reza Shah",
+            "description": "Shah of Iran, Founder of the Imperial state of iran",
+            "facts": [
+                "Queen Elizabeth I was from English parents.",
+                "Reza Shah was Mazanderani.",
+                "Mazanderani people are indigenous people of Iran.",
+                "Iran is nearly 4,000 miles from England."
+            ],
+            "decomposition": [
+                "Where are Queen Elizabeth I's parents from?",
+                "Where is Reza Shah's family from?",
+                "Is #1 near #2?"
+            ],
+            "evidence": [
+                [
+                    [
+                        [
+                            "Anne Boleyn-6",
+                            "Elizabeth I of England-6",
+                            "Henry VIII of England-5"
+                        ]
+                    ],
+                    [
+                        [
+                            "Reza Shah-4"
+                        ]
+                    ],
+                    [
+                        [
+                            "England-1",
+                            "Iran-1"
+                        ]
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Elizabeth I (disambiguation)-1"
+                        ]
+                    ],
+                    [
+                        [
+                            "Reza Shah-4"
+                        ]
+                    ],
+                    [
+                        [
+                            "Elizabeth I (disambiguation)-1"
+                        ]
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Elizabeth I of England-6"
+                        ]
+                    ],
+                    [
+                        [
+                            "Reza Shah-4"
+                        ]
+                    ],
+                    [
+                        "operation"
+                    ]
+                ]
+            ]
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "3861900",
+                    "contents": "\"Reza Shah's mausoleum\"\nMansour. The mausoleum was also a place of visitation for foreign heads of state who came to Iran. Among the foreign dignitaries who visited the mausoleum were Queen Elizabeth II of the United Kingdom, in 1961, and by Emperor Haile Selassie I of Ethiopia, also in the 1960s. During the visit of US President Richard Nixon in 1972 in the mausoleum, a bomb was planted by the terrorist organisation People's Mujaheden, which exploded an hour after the visit of President. The mausoleum was the scene of several celebrations: the most spectacular being the golden jubilee of the Pahlavi dynasty in"
+                },
+                {
+                    "id": "6670817",
+                    "contents": "\"Reza Shah\"\nthe Iranian Revolution nearly four decades later, which ended 2,500 years of Persian monarchy. Moreover, his insistence on ethnic nationalism and cultural unitarism, along with forced detribalization and sedentarization, resulted in the suppression of several ethnic and social groups. Similar to Atatürk's policy of Turkification his government also carried out an extensive policy of Persianization trying to create a single, united and largely homogeneous nation. Reza Shah Pahlavi was born in the village of Alasht in Savadkuh County, Mazandaran Province, in 1878, to Major Abbas-Ali Khan and Noush-Afarin. His mother was a Muslim immigrant from Georgia (then part of the"
+                },
+                {
+                    "id": "14787547",
+                    "contents": "\"Line of succession to the former Iranian throne\"\nhis sons are eligible. But the mother of Prince Patrick Ali Pahlavi (nephew of Mohammad Reza Shah) is not a natural born Iranian citizen, nor the Iranian parliament had approved this legal term (ایرانی الاصل) for her (as opposed to Princess Fawzia Fuad of Egypt, first wife of Mohammad Reza Shah). As a result Prince Patrick Ali Pahlavi is not eligible. Moreover, Prince Patrick Ali Pahlavi also married a non-Iranian woman and his sons face the same issue, even if an exception is made for Prince Patrick Ali Pahlavi. Thus, Prince Reza Pahlavi is the only remaining eligible person. With"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Given four answer candidates, Yes and No, choose the best answer choice. Always put the answer after 'The answer is: ', e.g.'The answer is: Yes.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Reza Shah's mausoleum\") Mansour. The mausoleum was also a place of visitation for foreign heads of state who came to Iran. Among the foreign dignitaries who visited the mausoleum were Queen Elizabeth II of the United Kingdom, in 1961, and by Emperor Haile Selassie I of Ethiopia, also in the 1960s. During the visit of US President Richard Nixon in 1972 in the mausoleum, a bomb was planted by the terrorist organisation People's Mujaheden, which exploded an hour after the visit of President. The mausoleum was the scene of several celebrations: the most spectacular being the golden jubilee of the Pahlavi dynasty in\nDoc 2(Title: \"Reza Shah\") the Iranian Revolution nearly four decades later, which ended 2,500 years of Persian monarchy. Moreover, his insistence on ethnic nationalism and cultural unitarism, along with forced detribalization and sedentarization, resulted in the suppression of several ethnic and social groups. Similar to Atatürk's policy of Turkification his government also carried out an extensive policy of Persianization trying to create a single, united and largely homogeneous nation. Reza Shah Pahlavi was born in the village of Alasht in Savadkuh County, Mazandaran Province, in 1878, to Major Abbas-Ali Khan and Noush-Afarin. His mother was a Muslim immigrant from Georgia (then part of the\nDoc 3(Title: \"Line of succession to the former Iranian throne\") his sons are eligible. But the mother of Prince Patrick Ali Pahlavi (nephew of Mohammad Reza Shah) is not a natural born Iranian citizen, nor the Iranian parliament had approved this legal term (ایرانی الاصل) for her (as opposed to Princess Fawzia Fuad of Egypt, first wife of Mohammad Reza Shah). As a result Prince Patrick Ali Pahlavi is not eligible. Moreover, Prince Patrick Ali Pahlavi also married a non-Iranian woman and his sons face the same issue, even if an exception is made for Prince Patrick Ali Pahlavi. Thus, Prince Reza Pahlavi is the only remaining eligible person. With<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Could Reza Shah be related to Queen Elizabeth I?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "No.",
+            "raw_pred": "The answer is: No.",
+            "inference_elapsed_seconds": 3.4799639293923974,
+            "metric_score": {
+                "em": 1.0,
+                "f1": 1.0,
+                "acc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0
+            }
+        }
+    },
+    {
+        "id": "train_1981",
+        "question": "Will Conan the Barbarian hypothetically last a short time inside of Call of Duty?",
+        "golden_answers": [
+            "yes"
+        ],
+        "metadata": {
+            "term": "Call of Duty",
+            "description": "First-person shooter video game franchise",
+            "facts": [
+                "Conan the Barbarian is a comic book character.",
+                "Conan the Barbarian is equipped with a sword and does not typically wear armor.",
+                "Call of Duty is a modern warfare video game.",
+                "Soldiers in Call of Duty are equipped with weapons like sniper rifles, shotguns, and machine guns."
+            ],
+            "decomposition": [
+                "What equipment for fighting does Conan the Barbarian use?",
+                "What equipment for fighting does Call of Duty use?",
+                "Are the items listed in #2 deadlier than those in #1?"
+            ],
+            "evidence": [
+                [
+                    [
+                        [
+                            "Conan the Barbarian-1"
+                        ]
+                    ],
+                    [
+                        [
+                            "Call of Duty-1"
+                        ]
+                    ],
+                    [
+                        "no_evidence",
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Conan the Barbarian-20"
+                        ]
+                    ],
+                    [
+                        [
+                            "Call of Duty-46"
+                        ]
+                    ],
+                    [
+                        [
+                            "Sword-58"
+                        ],
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Conan the Barbarian-16"
+                        ]
+                    ],
+                    [
+                        [
+                            "Call of Duty-4"
+                        ]
+                    ],
+                    [
+                        "operation"
+                    ]
+                ]
+            ]
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "12124581",
+                    "contents": "\"Summon Night: Swordcraft Story\"\nduration of a weapon hits zero, the weapon will break and will no longer be usable. When a weapon breaks, it leaves behind a weapon shard and cannot be restored. Duration is refilled after every battle. The rate which a weapon's duration decreases is inversely proportional to the weapon's TEC score. TEC can be increased by fighting with the weapon more often. Three years ago, Shintetsu, the Craftlord of Iron (one of the seven Craftlords), gave up his life to protect his wife Amariss, their child, and the whole of Wystern, and was honored as a hero for his sacrifice."
+                },
+                {
+                    "id": "12209323",
+                    "contents": "\"Mighty No. 9\"\neven stuns him for longer if he hits (for example) an enemy who isn't destabilized yet. However, the likely most notable difference is that of her health, which operates in a similar manner to the bosses. During the gameplay, her health will constantly be decreasing at a constant rate, but an example would be if it were to reach halfway, she takes damage, and she loses half of her health at that point. So basically, her health is decreasing, but it isn't actually decreasing, and to reset the process she has the options to either absorb an enemy or find"
+                },
+                {
+                    "id": "9276217",
+                    "contents": "Popils\nplayer has not seen before in any of the other 100 stages of the game. The player can continue over and over and keep trying to beat Round 0. If the player powers off the console before they complete Round 0 and have activated the Resume feature they will be able to try it again the next time they load the game. If the player is not using the Resume feature, or when prompted chooses End rather than Continue, there is no way to get back to it during normal gameplay and the game will need to be completed \"\"perfectly\"\""
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Given four answer candidates, Yes and No, choose the best answer choice. Always put the answer after 'The answer is: ', e.g.'The answer is: Yes.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Summon Night: Swordcraft Story\") duration of a weapon hits zero, the weapon will break and will no longer be usable. When a weapon breaks, it leaves behind a weapon shard and cannot be restored. Duration is refilled after every battle. The rate which a weapon's duration decreases is inversely proportional to the weapon's TEC score. TEC can be increased by fighting with the weapon more often. Three years ago, Shintetsu, the Craftlord of Iron (one of the seven Craftlords), gave up his life to protect his wife Amariss, their child, and the whole of Wystern, and was honored as a hero for his sacrifice.\nDoc 2(Title: \"Mighty No. 9\") even stuns him for longer if he hits (for example) an enemy who isn't destabilized yet. However, the likely most notable difference is that of her health, which operates in a similar manner to the bosses. During the gameplay, her health will constantly be decreasing at a constant rate, but an example would be if it were to reach halfway, she takes damage, and she loses half of her health at that point. So basically, her health is decreasing, but it isn't actually decreasing, and to reset the process she has the options to either absorb an enemy or find\nDoc 3(Title: Popils) player has not seen before in any of the other 100 stages of the game. The player can continue over and over and keep trying to beat Round 0. If the player powers off the console before they complete Round 0 and have activated the Resume feature they will be able to try it again the next time they load the game. If the player is not using the Resume feature, or when prompted chooses End rather than Continue, there is no way to get back to it during normal gameplay and the game will need to be completed \"\"perfectly\"\"<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Will Conan the Barbarian hypothetically last a short time inside of Call of Duty?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "I can't answer that question because I don't have information about Conan the Barbarian being in Call of Duty.",
+            "raw_pred": "I can't answer that question because I don't have information about Conan the Barbarian being in Call of Duty.",
+            "inference_elapsed_seconds": 5.324529925361276,
+            "metric_score": {
+                "em": 0.0,
+                "f1": 0,
+                "acc": 0.0,
+                "precision": 0,
+                "recall": 0
+            }
+        }
+    },
+    {
+        "id": "train_257",
+        "question": "Does Neville Longbottom have more courage as a child than as an adult?",
+        "golden_answers": [
+            "no"
+        ],
+        "metadata": {
+            "term": "Courage",
+            "description": "quality of mind or spirit that enables a person to face difficulty, danger, or pain",
+            "facts": [
+                "Neville Longbottom is a character from the Harry Potter series.",
+                "In the first few books of the Harry Potter series, Neville is a child.",
+                "In the final few books of the Harry Potter series Neville is becoming an adult. ",
+                "Neville's first appearances in the series show him to be very cowardly.",
+                "Neville is considered a hero by the end of the series."
+            ],
+            "decomposition": [
+                "Did Neville Longbottom's first appearances in the series show him to be very cowardly?",
+                "Was #1's a child in the first few books of the Harry potter series?",
+                "Was Neville Longbottom considered a hero by the end of the series?",
+                "Was #3's an adult in the final few books of the Harry potter series?",
+                "Was he more courageous in #2 than #4?"
+            ],
+            "evidence": [
+                [
+                    [
+                        [
+                            "Dumbledore's Army-17"
+                        ]
+                    ],
+                    [
+                        [
+                            "Harry Potter and the Philosopher's Stone-8"
+                        ]
+                    ],
+                    [
+                        [
+                            "Dumbledore's Army-19"
+                        ]
+                    ],
+                    [
+                        [
+                            "Dumbledore's Army-19"
+                        ]
+                    ],
+                    [
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Dumbledore's Army-17"
+                        ]
+                    ],
+                    [
+                        [
+                            "Harry Potter (character)-1"
+                        ]
+                    ],
+                    [
+                        [
+                            "Harry Potter and the Deathly Hallows-15"
+                        ]
+                    ],
+                    [
+                        [
+                            "Harry Potter and the Deathly Hallows-5"
+                        ]
+                    ],
+                    [
+                        [
+                            "Harry Potter and the Deathly Hallows – Part 2-10"
+                        ],
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Harry Potter and the Philosopher's Stone-6"
+                        ],
+                        "no_evidence"
+                    ],
+                    [
+                        "operation"
+                    ],
+                    [
+                        [
+                            "Dumbledore's Army-17"
+                        ]
+                    ],
+                    [
+                        [
+                            "Harry Potter (character)-38"
+                        ],
+                        "no_evidence",
+                        "operation"
+                    ],
+                    [
+                        "operation"
+                    ]
+                ]
+            ]
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "1546387",
+                    "contents": "\"Neville Longbottom (Fictional Character)\"\nraised by his paternal grandmother, Augusta. Throughout the series, he is often portrayed as a bumbling, disorganized character, and a rather mediocre student, though he is highly gifted at Herbology. Neville plays a minor role in the first four books, but Rowling wanted him to perform an act of bravery in Philosopher's Stone, in which Neville \"\"finds true moral courage in standing up to his closest friends — the people who are on his side\"\" towards the climax. Neville was played by Yorkshire-born actor Matthew Lewis in the \"\"Harry Potter\"\" film series. IGN listed Neville as their sixth top \"\"Harry"
+                },
+                {
+                    "id": "18215989",
+                    "contents": "\"Neville Longbottom (Fictional Character)\"\nstory. He goes through a huge transformation starting from a bumbling nerdy young wizard, who can't do anything right to a full-fledged hero. According to the quill of acceptance and the book of admittance, the two things that record the uses of magic in a child. Neville Longbottom displayed his first bit of magic right after he was born, when he made his blanket shift. When Neville was he was born he was part of a prophecy that had to deal with himself, Lord Voldemort, and Harry Potter. Both Harry and Neville were eligible for the prophecy, as the prophecy"
+                },
+                {
+                    "id": "1546386",
+                    "contents": "\"Neville Longbottom (Fictional Character)\"\nNeville Longbottom (Fictional Character) Neville Longbottom is a fictional character and fan favorite in J.K Rowling's Harry Potter series. Neville Longbottom comes from a pure-blood family. He was a student at Hogwarts as a Gryffindor. Neville Longbottom joined Hogwarts the same year that Harry potter Joined Hogwarts. Neville Longbottom was described as round-faced and \"\"short and plump and blond\"\". His parents, Frank and Alice Longbottom, were prominent Aurors and Order of the Phoenix members until they were tortured into insanity, through the use of the cruciatus curse, by a group of Death Eaters led by Bellatrix Lestrange. Neville was subsequently"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Given four answer candidates, Yes and No, choose the best answer choice. Always put the answer after 'The answer is: ', e.g.'The answer is: Yes.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Neville Longbottom (Fictional Character)\") raised by his paternal grandmother, Augusta. Throughout the series, he is often portrayed as a bumbling, disorganized character, and a rather mediocre student, though he is highly gifted at Herbology. Neville plays a minor role in the first four books, but Rowling wanted him to perform an act of bravery in Philosopher's Stone, in which Neville \"\"finds true moral courage in standing up to his closest friends — the people who are on his side\"\" towards the climax. Neville was played by Yorkshire-born actor Matthew Lewis in the \"\"Harry Potter\"\" film series. IGN listed Neville as their sixth top \"\"Harry\nDoc 2(Title: \"Neville Longbottom (Fictional Character)\") story. He goes through a huge transformation starting from a bumbling nerdy young wizard, who can't do anything right to a full-fledged hero. According to the quill of acceptance and the book of admittance, the two things that record the uses of magic in a child. Neville Longbottom displayed his first bit of magic right after he was born, when he made his blanket shift. When Neville was he was born he was part of a prophecy that had to deal with himself, Lord Voldemort, and Harry Potter. Both Harry and Neville were eligible for the prophecy, as the prophecy\nDoc 3(Title: \"Neville Longbottom (Fictional Character)\") Neville Longbottom (Fictional Character) Neville Longbottom is a fictional character and fan favorite in J.K Rowling's Harry Potter series. Neville Longbottom comes from a pure-blood family. He was a student at Hogwarts as a Gryffindor. Neville Longbottom joined Hogwarts the same year that Harry potter Joined Hogwarts. Neville Longbottom was described as round-faced and \"\"short and plump and blond\"\". His parents, Frank and Alice Longbottom, were prominent Aurors and Order of the Phoenix members until they were tortured into insanity, through the use of the cruciatus curse, by a group of Death Eaters led by Bellatrix Lestrange. Neville was subsequently<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Does Neville Longbottom have more courage as a child than as an adult?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "No.",
+            "raw_pred": "The answer is: No.",
+            "inference_elapsed_seconds": 3.732275916263461,
+            "metric_score": {
+                "em": 1.0,
+                "f1": 1.0,
+                "acc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0
+            }
+        }
+    },
+    {
+        "id": "train_2038",
+        "question": "Could all of the 2008 Summer Olympics women find a hookup athlete partner?",
+        "golden_answers": [
+            "yes"
+        ],
+        "metadata": {
+            "term": "2008 Summer Olympics",
+            "description": "Games of the XXIX Olympiad, held in Beijing in 2008",
+            "facts": [
+                "The 2008 Summer Olympics had 4,637 women compete.",
+                "The 2008 Summer Olympics had 6,305 men compete."
+            ],
+            "decomposition": [
+                "How many women participated in the 2008 Summer Olympics?",
+                "How many men participated in the 2008 Summer Olympics?",
+                "Is #2 at least equal to #1?"
+            ],
+            "evidence": [
+                [
+                    [
+                        [
+                            "2008 Summer Olympics-1",
+                            "2008 Summer Olympics-2"
+                        ],
+                        "no_evidence"
+                    ],
+                    [
+                        "no_evidence"
+                    ],
+                    [
+                        "no_evidence",
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Athletics at the 2008 Summer Olympics-2"
+                        ],
+                        "no_evidence"
+                    ],
+                    [
+                        [
+                            "Athletics at the 2008 Summer Olympics-2"
+                        ],
+                        "no_evidence"
+                    ],
+                    [
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        "no_evidence"
+                    ],
+                    [
+                        "no_evidence"
+                    ],
+                    [
+                        "no_evidence",
+                        "operation"
+                    ]
+                ]
+            ]
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "9422169",
+                    "contents": "\"Tennis at the 2008 Summer Olympics\"\nfield of competition since tennis's re-introduction to the Olympics in 1988. The singles competitions featured 17 of the top 20 men, and 18 of the top 20 women, with all of the top five men in attendance. This was a huge improvement on only 12 years ago in Atlanta, when only 3 men from the world's top 10 entered. Players had been further incentivized to compete at the Olympics after the ATP and WTA began awarding ranking points as of the 2000 Games. Apathy towards the Games was still present, as Roddick and 2004 Men's Singles silver-medalist Mardy Fish opted"
+                },
+                {
+                    "id": "4945741",
+                    "contents": "\"Australia at the 2008 Summer Olympics\"\nlacked the equestrian event. There being no avenue of appeal, Parygin will not compete in Beijing. Angie Darby made her Olympic debut as the only Australian female in the competition. Darby, having qualified in the same conditions as Parygin, had her participation in the Games open to question, but she eventually competed. For the first time, Australia qualified for every rowing event at an Olympics. Australia competed in ten of the eleven sailing events. Australia has selected a squad of seventeen sport shooters to contest the 2008 Olympic competition: The Australian softball team has qualified for the 2008 Summer Olympics."
+                },
+                {
+                    "id": "19463834",
+                    "contents": "\"2008 Summer Olympics\"\népée. Two sports were open only to men, baseball and boxing, while one sport and one discipline were open only to women, softball and synchronized swimming. Equestrian and mixed badminton are the only sports in which men and women compete together, although three events in the Sailing allowed the opportunity for both males and female participants. However, only male participants took part in all three events. The following were the 302 events in 28 sports that were contested at the Games. The number of events contested in each sport is indicated in parentheses (in sports with more than one discipline,"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Given four answer candidates, Yes and No, choose the best answer choice. Always put the answer after 'The answer is: ', e.g.'The answer is: Yes.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Tennis at the 2008 Summer Olympics\") field of competition since tennis's re-introduction to the Olympics in 1988. The singles competitions featured 17 of the top 20 men, and 18 of the top 20 women, with all of the top five men in attendance. This was a huge improvement on only 12 years ago in Atlanta, when only 3 men from the world's top 10 entered. Players had been further incentivized to compete at the Olympics after the ATP and WTA began awarding ranking points as of the 2000 Games. Apathy towards the Games was still present, as Roddick and 2004 Men's Singles silver-medalist Mardy Fish opted\nDoc 2(Title: \"Australia at the 2008 Summer Olympics\") lacked the equestrian event. There being no avenue of appeal, Parygin will not compete in Beijing. Angie Darby made her Olympic debut as the only Australian female in the competition. Darby, having qualified in the same conditions as Parygin, had her participation in the Games open to question, but she eventually competed. For the first time, Australia qualified for every rowing event at an Olympics. Australia competed in ten of the eleven sailing events. Australia has selected a squad of seventeen sport shooters to contest the 2008 Olympic competition: The Australian softball team has qualified for the 2008 Summer Olympics.\nDoc 3(Title: \"2008 Summer Olympics\") épée. Two sports were open only to men, baseball and boxing, while one sport and one discipline were open only to women, softball and synchronized swimming. Equestrian and mixed badminton are the only sports in which men and women compete together, although three events in the Sailing allowed the opportunity for both males and female participants. However, only male participants took part in all three events. The following were the 302 events in 28 sports that were contested at the Games. The number of events contested in each sport is indicated in parentheses (in sports with more than one discipline,<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Could all of the 2008 Summer Olympics women find a hookup athlete partner?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "No.",
+            "raw_pred": "The answer is: No.",
+            "inference_elapsed_seconds": 3.461531201377511,
+            "metric_score": {
+                "em": 0.0,
+                "f1": 0,
+                "acc": 0.0,
+                "precision": 0,
+                "recall": 0
+            }
+        }
+    },
+    {
+        "id": "train_337",
+        "question": "Were the Great Pyramids built by a theocratic government?",
+        "golden_answers": [
+            "yes"
+        ],
+        "metadata": {
+            "term": "Theocracy",
+            "description": "Form of government with religious leaders",
+            "facts": [
+                "The Great Pyramids were built by the Ancient Egyptians.",
+                "A theocracy is a government that is led by religious leaders or who worships their leader as a god.",
+                "The Pharaohs of Ancient Egypt were worshipped as children of the Sun god Ra."
+            ],
+            "decomposition": [
+                "Who were the builders of the Great Pyramids?",
+                "How did #1 serve their leaders?",
+                "Could #2 be described as a theocracy?"
+            ],
+            "evidence": [
+                [
+                    [
+                        [
+                            "Great Pyramid of Giza-8"
+                        ]
+                    ],
+                    [
+                        "no_evidence"
+                    ],
+                    [
+                        [
+                            "Theocracy-1"
+                        ]
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Giza pyramid complex-17"
+                        ]
+                    ],
+                    [
+                        [
+                            "Ancient Egypt-73"
+                        ],
+                        "no_evidence"
+                    ],
+                    [
+                        [
+                            "Theocracy-1"
+                        ],
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Giza pyramid complex-1"
+                        ]
+                    ],
+                    [
+                        [
+                            "Giza pyramid complex-17"
+                        ]
+                    ],
+                    [
+                        [
+                            "Ancient Egypt-3"
+                        ],
+                        "operation"
+                    ]
+                ]
+            ]
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "6306552",
+                    "contents": "Pyramidology\nPyramidology Pyramidology (or pyramidism) refers to various religious or pseudoscientific speculations regarding pyramids, most often the Giza pyramid complex and the Great Pyramid of Giza in Egypt. Some \"\"pyramidologists\"\" also concern themselves with the monumental structures of pre-Columbian America (such as Teotihuacan, the Mesoamerican Maya civilization, and the Inca of the South American Andes), and the temples of Southeast Asia. Some pyramidologists claim that the Great Pyramid of Giza has encoded within it predictions for the exodus of Moses from Egypt, the crucifixion of Jesus, the start of World War I, the founding of modern-day Israel in 1948, and future"
+                },
+                {
+                    "id": "1936506",
+                    "contents": "\"Egyptian pyramid construction techniques\"\nGreeks, many years after the event, believed that the pyramids must have been built by slave labor. Archaeologists now believe that the Great Pyramid of Giza (at least) was built by tens of thousands of skilled workers who camped near the pyramids and worked for a salary or as a form of tax payment (levy) until the construction was completed, pointing to workers' cemeteries discovered in 1990 by archaeologists Zahi Hawass and Mark Lehner. For the Middle Kingdom Pyramid of Amenemhat II, there is evidence from the annal stone of the king that foreigners from Canaan were used. Pseudoscientific theories"
+                },
+                {
+                    "id": "14835183",
+                    "contents": "\"Great Pyramid of Giza\"\nthe pyramid for nobles. Egyptologists believe the pyramid was built as a tomb for the Fourth Dynasty Egyptian pharaoh Khufu (often Hellenized as \"\"Cheops\"\") and was constructed over a 20-year period. Khufu's vizier, Hemiunu (also called Hemon) is believed by some to be the architect of the Great Pyramid. It is thought that, at construction, the Great Pyramid was originally 280 Egyptian Royal cubits tall (), but with erosion and absence of its pyramidion, its present height is . Each base side was 440 cubits, long. The mass of the pyramid is estimated at 5.9 million tonnes. The volume, including"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Given four answer candidates, Yes and No, choose the best answer choice. Always put the answer after 'The answer is: ', e.g.'The answer is: Yes.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: Pyramidology) Pyramidology Pyramidology (or pyramidism) refers to various religious or pseudoscientific speculations regarding pyramids, most often the Giza pyramid complex and the Great Pyramid of Giza in Egypt. Some \"\"pyramidologists\"\" also concern themselves with the monumental structures of pre-Columbian America (such as Teotihuacan, the Mesoamerican Maya civilization, and the Inca of the South American Andes), and the temples of Southeast Asia. Some pyramidologists claim that the Great Pyramid of Giza has encoded within it predictions for the exodus of Moses from Egypt, the crucifixion of Jesus, the start of World War I, the founding of modern-day Israel in 1948, and future\nDoc 2(Title: \"Egyptian pyramid construction techniques\") Greeks, many years after the event, believed that the pyramids must have been built by slave labor. Archaeologists now believe that the Great Pyramid of Giza (at least) was built by tens of thousands of skilled workers who camped near the pyramids and worked for a salary or as a form of tax payment (levy) until the construction was completed, pointing to workers' cemeteries discovered in 1990 by archaeologists Zahi Hawass and Mark Lehner. For the Middle Kingdom Pyramid of Amenemhat II, there is evidence from the annal stone of the king that foreigners from Canaan were used. Pseudoscientific theories\nDoc 3(Title: \"Great Pyramid of Giza\") the pyramid for nobles. Egyptologists believe the pyramid was built as a tomb for the Fourth Dynasty Egyptian pharaoh Khufu (often Hellenized as \"\"Cheops\"\") and was constructed over a 20-year period. Khufu's vizier, Hemiunu (also called Hemon) is believed by some to be the architect of the Great Pyramid. It is thought that, at construction, the Great Pyramid was originally 280 Egyptian Royal cubits tall (), but with erosion and absence of its pyramidion, its present height is . Each base side was 440 cubits, long. The mass of the pyramid is estimated at 5.9 million tonnes. The volume, including<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Were the Great Pyramids built by a theocratic government?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "No.",
+            "raw_pred": "The answer is: No.",
+            "inference_elapsed_seconds": 3.282650434412062,
+            "metric_score": {
+                "em": 0.0,
+                "f1": 0,
+                "acc": 0.0,
+                "precision": 0,
+                "recall": 0
+            }
+        }
+    },
+    {
+        "id": "train_608",
+        "question": "Does parsley sink in milk?",
+        "golden_answers": [
+            "no"
+        ],
+        "metadata": {
+            "term": "Parsley",
+            "description": "species of plant, herb",
+            "facts": [
+                "Items sink if they are denser than the surrounding material.",
+                "Parsley has a density of 0.26 g/cm^3 when fresh.",
+                "Milk has a density of 1.026 g/cm^3."
+            ],
+            "decomposition": [
+                "What is the density of parsley?",
+                "What is the density of milk?",
+                "Is #1 greater than #2?"
+            ],
+            "evidence": [
+                [
+                    [
+                        "no_evidence"
+                    ],
+                    [
+                        "no_evidence"
+                    ],
+                    [
+                        "no_evidence",
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Parsley-1"
+                        ],
+                        "no_evidence"
+                    ],
+                    [
+                        [
+                            "Milk-1"
+                        ],
+                        "no_evidence"
+                    ],
+                    [
+                        "no_evidence",
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        "no_evidence"
+                    ],
+                    [
+                        "no_evidence"
+                    ],
+                    [
+                        "operation"
+                    ]
+                ]
+            ]
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "2553534",
+                    "contents": "Parsley\nParsley Parsley or garden parsley (Petroselinum crispum) is a species of flowering plant in the family Apiaceae, native to the central Mediterranean region (southern Italy, Greece, Portugal, Spain, Malta, Morocco, Algeria, and Tunisia), naturalized elsewhere in Europe, and widely cultivated as a herb, a spice, and a vegetable. Where it grows as a biennial, in the first year, it forms a rosette of tripinnate leaves long with numerous leaflets, and a taproot used as a food store over the winter. Parsley is widely used in European, Middle Eastern, and American cooking. Curly leaf parsley is often used as a garnish."
+                },
+                {
+                    "id": "12689964",
+                    "contents": "Parsley\nParsley is widely used in Middle Eastern, European, Brazilian, and American cooking. Curly leaf parsley is used often as a garnish. Green parsley is used frequently as a garnish on potato dishes (boiled or mashed potatoes), on rice dishes (risotto or pilaf), on fish, fried chicken, lamb, goose, and steaks, as well in meat or vegetable stews (including shrimp creole, beef bourguignon, goulash, or chicken paprikash). In central Europe, eastern Europe, and southern Europe, as well as in western Asia, many dishes are served with fresh green, chopped parsley sprinkled on top. In southern and central Europe, parsley is part"
+                },
+                {
+                    "id": "2553537",
+                    "contents": "Parsley\nwith numerous 2 mm diameter yellow to yellowish-green flowers. The seeds are ovoid, 2–3 mm long, with prominent style remnants at the apex. One of the compounds of the essential oil is apiol. The plant normally dies after seed maturation. Parsley is a source of flavonoids and antioxidants, especially luteolin, apigenin, folic acid, vitamin K, vitamin C, and vitamin A. Half a tablespoon (a gram) of dried parsley contains about 6.0 µg of lycopene and 10.7 µg of alpha carotene as well as 82.9 µg of lutein+zeaxanthin and 80.7 µg of beta carotene. Excessive consumption of parsley should be avoided"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Given four answer candidates, Yes and No, choose the best answer choice. Always put the answer after 'The answer is: ', e.g.'The answer is: Yes.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: Parsley) Parsley Parsley or garden parsley (Petroselinum crispum) is a species of flowering plant in the family Apiaceae, native to the central Mediterranean region (southern Italy, Greece, Portugal, Spain, Malta, Morocco, Algeria, and Tunisia), naturalized elsewhere in Europe, and widely cultivated as a herb, a spice, and a vegetable. Where it grows as a biennial, in the first year, it forms a rosette of tripinnate leaves long with numerous leaflets, and a taproot used as a food store over the winter. Parsley is widely used in European, Middle Eastern, and American cooking. Curly leaf parsley is often used as a garnish.\nDoc 2(Title: Parsley) Parsley is widely used in Middle Eastern, European, Brazilian, and American cooking. Curly leaf parsley is used often as a garnish. Green parsley is used frequently as a garnish on potato dishes (boiled or mashed potatoes), on rice dishes (risotto or pilaf), on fish, fried chicken, lamb, goose, and steaks, as well in meat or vegetable stews (including shrimp creole, beef bourguignon, goulash, or chicken paprikash). In central Europe, eastern Europe, and southern Europe, as well as in western Asia, many dishes are served with fresh green, chopped parsley sprinkled on top. In southern and central Europe, parsley is part\nDoc 3(Title: Parsley) with numerous 2 mm diameter yellow to yellowish-green flowers. The seeds are ovoid, 2–3 mm long, with prominent style remnants at the apex. One of the compounds of the essential oil is apiol. The plant normally dies after seed maturation. Parsley is a source of flavonoids and antioxidants, especially luteolin, apigenin, folic acid, vitamin K, vitamin C, and vitamin A. Half a tablespoon (a gram) of dried parsley contains about 6.0 µg of lycopene and 10.7 µg of alpha carotene as well as 82.9 µg of lutein+zeaxanthin and 80.7 µg of beta carotene. Excessive consumption of parsley should be avoided<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Does parsley sink in milk?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "No.",
+            "raw_pred": "The answer is: No.",
+            "inference_elapsed_seconds": 3.1934726033359766,
+            "metric_score": {
+                "em": 1.0,
+                "f1": 1.0,
+                "acc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0
+            }
+        }
+    },
+    {
+        "id": "train_133",
+        "question": "Could Elizabeth I of England have seen the play Dido, Queen of Carthage ?",
+        "golden_answers": [
+            "yes"
+        ],
+        "metadata": {
+            "term": "Elizabeth I of England",
+            "description": "Queen regnant of England and Ireland from 17 November 1558 until 24 March 1603",
+            "facts": [
+                "Elizabeth I of England lived from 1533 - 1603.",
+                "Dido, Queen of Carthage is a short play written by the English playwright Christopher Marlowe.",
+                " It was probably written between 1587 and 1593."
+            ],
+            "decomposition": [
+                "When was the play Dido, Queen of Carthage written?",
+                "Was Elizabeth I of England alive during the period covered by #1?"
+            ],
+            "evidence": [
+                [
+                    [
+                        [
+                            "Dido, Queen of Carthage (play)-1"
+                        ]
+                    ],
+                    [
+                        [
+                            "Elizabeth I of England-1"
+                        ]
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Dido, Queen of Carthage (play)-1"
+                        ]
+                    ],
+                    [
+                        [
+                            "Elizabeth I of England-1"
+                        ]
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Dido, Queen of Carthage (play)-1"
+                        ]
+                    ],
+                    [
+                        [
+                            "Elizabeth I of England-1"
+                        ]
+                    ]
+                ]
+            ]
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "15615363",
+                    "contents": "\"Dido, Queen of Carthage (play)\"\nDido, Queen of Carthage (play) Dido, Queen of Carthage (full title: The Tragedie of Dido Queene of Carthage) is a short play written by the English playwright Christopher Marlowe, with possible contributions by Thomas Nashe. The story of the play focuses on the classical figure of Dido, the Queen of Carthage. It tells an intense dramatic tale of Dido and her fanatical love for Aeneas (induced by Cupid), Aeneas' betrayal of her and her eventual suicide on his departure for Italy. The playwrights depended upon Books 1, 2, and 4 of Virgil's \"\"Aeneid\"\" as their main source. \"\"Dido\"\" is based"
+                },
+                {
+                    "id": "15615376",
+                    "contents": "\"Dido, Queen of Carthage (play)\"\nis presumed to have been lost in the 1809 Drury Lane Theatre fire, since nothing of it has survived. An adaptation of the play was broadcast on BBC Radio 3 on 30 May 1993, the 400th anniversary of Marlowe's death, along with \"\"The Massacre at Paris\"\", directed by Alan Drury and Michael Earley and featuring Sally Dexter as Dido, Timothy Walker as Aeneas, Jeremy Blake as Iarbas, Ben Thomas as Achates, Teresa Gallagher as Anna/Juno and Andrew Wincott as Cupid. Dido, Queen of Carthage (play) Dido, Queen of Carthage (full title: The Tragedie of Dido Queene of Carthage) is a"
+                },
+                {
+                    "id": "15615374",
+                    "contents": "\"Dido, Queen of Carthage (play)\"\nBoas admitted a few details had parallels in Nashe's published works and some words or meanings are found in Nashe's works but not otherwise used by Marlowe, \"\"the scenes in which these passages and phrases appear have, as a whole, the stamp of Marlowe.\"\" Some critics have virtually ignored the participation of Nashe — yet the presence of a collaborator may help to explain the play's divergences from Marlowe's standard dramaturgy. No other play by Marlowe has such a strong female lead character, and in no other \"\"is heteroerotic passion the centripetal force of the drama's momentum.\"\" The 18th-century English"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Given four answer candidates, Yes and No, choose the best answer choice. Always put the answer after 'The answer is: ', e.g.'The answer is: Yes.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Dido, Queen of Carthage (play)\") Dido, Queen of Carthage (play) Dido, Queen of Carthage (full title: The Tragedie of Dido Queene of Carthage) is a short play written by the English playwright Christopher Marlowe, with possible contributions by Thomas Nashe. The story of the play focuses on the classical figure of Dido, the Queen of Carthage. It tells an intense dramatic tale of Dido and her fanatical love for Aeneas (induced by Cupid), Aeneas' betrayal of her and her eventual suicide on his departure for Italy. The playwrights depended upon Books 1, 2, and 4 of Virgil's \"\"Aeneid\"\" as their main source. \"\"Dido\"\" is based\nDoc 2(Title: \"Dido, Queen of Carthage (play)\") is presumed to have been lost in the 1809 Drury Lane Theatre fire, since nothing of it has survived. An adaptation of the play was broadcast on BBC Radio 3 on 30 May 1993, the 400th anniversary of Marlowe's death, along with \"\"The Massacre at Paris\"\", directed by Alan Drury and Michael Earley and featuring Sally Dexter as Dido, Timothy Walker as Aeneas, Jeremy Blake as Iarbas, Ben Thomas as Achates, Teresa Gallagher as Anna/Juno and Andrew Wincott as Cupid. Dido, Queen of Carthage (play) Dido, Queen of Carthage (full title: The Tragedie of Dido Queene of Carthage) is a\nDoc 3(Title: \"Dido, Queen of Carthage (play)\") Boas admitted a few details had parallels in Nashe's published works and some words or meanings are found in Nashe's works but not otherwise used by Marlowe, \"\"the scenes in which these passages and phrases appear have, as a whole, the stamp of Marlowe.\"\" Some critics have virtually ignored the participation of Nashe — yet the presence of a collaborator may help to explain the play's divergences from Marlowe's standard dramaturgy. No other play by Marlowe has such a strong female lead character, and in no other \"\"is heteroerotic passion the centripetal force of the drama's momentum.\"\" The 18th-century English<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Could Elizabeth I of England have seen the play Dido, Queen of Carthage ?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "No.",
+            "raw_pred": "The answer is: No.",
+            "inference_elapsed_seconds": 3.3447708301246166,
+            "metric_score": {
+                "em": 0.0,
+                "f1": 0,
+                "acc": 0.0,
+                "precision": 0,
+                "recall": 0
+            }
+        }
+    },
+    {
+        "id": "train_1328",
+        "question": "Does Disney's Alice in Wonderland involve the celebration of a holiday?",
+        "golden_answers": [
+            "yes"
+        ],
+        "metadata": {
+            "term": "Alice in Wonderland (1951 film)",
+            "description": "1951 American animated musical fantasy film produced by Walt Disney Productions",
+            "facts": [
+                "In the movie, Alice meets the Mad Hatter.",
+                "The Mad Hatter is having a tea party to celebrate his Unbirthday.",
+                "The Unbirthday is a holiday which happens every day of the year which is not the subject's actual birthday."
+            ],
+            "decomposition": [
+                "What celebrations were featured in the Disney movie Alice in Wonderland?",
+                "Is any of #1 an holiday?"
+            ],
+            "evidence": [
+                [
+                    [
+                        [
+                            "Alice in Wonderland (1951 film)-7"
+                        ]
+                    ],
+                    [
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Alice in Wonderland (franchise)-14"
+                        ]
+                    ],
+                    [
+                        [
+                            "Birthday-1"
+                        ],
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Alice in Wonderland (1951 film)-9"
+                        ],
+                        "no_evidence"
+                    ],
+                    [
+                        "operation"
+                    ]
+                ]
+            ]
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "9775350",
+                    "contents": "\"Alice in Wonderland (Disneyland attraction)\"\nattack. The vehicles then leave the ride building's second floor and descend in a winding path on a giant vine past the ride queue, before heading to the final scene at the Mad Tea Party. After the Mad Hatter and March Hare sing \"\"A Very Merry UnBirthday\"\", Alice proclaims that it's her unbirthday too. The White Rabbit ducks as a giant unbirthday cake with a dynamite candle explodes and the ride vehicles exit back to the ride station. Alice in Wonderland (Disneyland attraction) Alice in Wonderland is a dark ride in Fantasyland at Disneyland in Anaheim, California. Based on the"
+                },
+                {
+                    "id": "11046970",
+                    "contents": "Unbirthday\nis also a piece of music by Pogo from the album \"\"Wonderland\"\". The piece includes sampling from the unbirthday scene in \"\"Alice in Wonderland\"\". Another piece of music sampling this song is Terranoise's \"\"Shadowland\"\". Unbirthday An unbirthday (originally written un-birthday) is an event that is typically celebrated on any or all of the 364 (365 on leap years) days in which it is not the person's birthday. It is a neologism coined by Lewis Carroll in his \"\"Through the Looking-Glass\"\", giving rise to \"\"The Unbirthday Song\"\" in the 1951 Disney animated feature film \"\"Alice in Wonderland\"\". One's unbirthday should not"
+                },
+                {
+                    "id": "11046967",
+                    "contents": "Unbirthday\nUnbirthday An unbirthday (originally written un-birthday) is an event that is typically celebrated on any or all of the 364 (365 on leap years) days in which it is not the person's birthday. It is a neologism coined by Lewis Carroll in his \"\"Through the Looking-Glass\"\", giving rise to \"\"The Unbirthday Song\"\" in the 1951 Disney animated feature film \"\"Alice in Wonderland\"\". One's unbirthday should not be confused with one's half-birthday, which only occurs once a year. In \"\"Through the Looking-Glass\"\", Humpty Dumpty is wearing a cravat (which Alice at first mistakes for a belt) which he says was given"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Given four answer candidates, Yes and No, choose the best answer choice. Always put the answer after 'The answer is: ', e.g.'The answer is: Yes.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Alice in Wonderland (Disneyland attraction)\") attack. The vehicles then leave the ride building's second floor and descend in a winding path on a giant vine past the ride queue, before heading to the final scene at the Mad Tea Party. After the Mad Hatter and March Hare sing \"\"A Very Merry UnBirthday\"\", Alice proclaims that it's her unbirthday too. The White Rabbit ducks as a giant unbirthday cake with a dynamite candle explodes and the ride vehicles exit back to the ride station. Alice in Wonderland (Disneyland attraction) Alice in Wonderland is a dark ride in Fantasyland at Disneyland in Anaheim, California. Based on the\nDoc 2(Title: Unbirthday) is also a piece of music by Pogo from the album \"\"Wonderland\"\". The piece includes sampling from the unbirthday scene in \"\"Alice in Wonderland\"\". Another piece of music sampling this song is Terranoise's \"\"Shadowland\"\". Unbirthday An unbirthday (originally written un-birthday) is an event that is typically celebrated on any or all of the 364 (365 on leap years) days in which it is not the person's birthday. It is a neologism coined by Lewis Carroll in his \"\"Through the Looking-Glass\"\", giving rise to \"\"The Unbirthday Song\"\" in the 1951 Disney animated feature film \"\"Alice in Wonderland\"\". One's unbirthday should not\nDoc 3(Title: Unbirthday) Unbirthday An unbirthday (originally written un-birthday) is an event that is typically celebrated on any or all of the 364 (365 on leap years) days in which it is not the person's birthday. It is a neologism coined by Lewis Carroll in his \"\"Through the Looking-Glass\"\", giving rise to \"\"The Unbirthday Song\"\" in the 1951 Disney animated feature film \"\"Alice in Wonderland\"\". One's unbirthday should not be confused with one's half-birthday, which only occurs once a year. In \"\"Through the Looking-Glass\"\", Humpty Dumpty is wearing a cravat (which Alice at first mistakes for a belt) which he says was given<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Does Disney's Alice in Wonderland involve the celebration of a holiday?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "Yes.",
+            "raw_pred": "The answer is: Yes.",
+            "inference_elapsed_seconds": 3.620009733363986,
+            "metric_score": {
+                "em": 1.0,
+                "f1": 1.0,
+                "acc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0
+            }
+        }
+    },
+    {
+        "id": "train_2092",
+        "question": "Do you find glutamic acid in a severed finger?",
+        "golden_answers": [
+            "yes"
+        ],
+        "metadata": {
+            "term": "Glutamic acid",
+            "description": "amino acid",
+            "facts": [
+                "Glutamic acid is an amino acid and neurotransmitter",
+                "As a neurotransmitter, glutamic acid is the most abundant in the vertebrate nervous system",
+                "A severed finger contains parts of a vertebrate's nervous system"
+            ],
+            "decomposition": [
+                "What kind of transmitter is glutamic acid?",
+                "In which bodily system is #1 the most abundant?",
+                "Does a severed finger contain #2?"
+            ],
+            "evidence": [
+                [
+                    [
+                        [
+                            "Glutamic acid-1"
+                        ]
+                    ],
+                    [
+                        [
+                            "Glutamic acid-1"
+                        ]
+                    ],
+                    [
+                        "no_evidence",
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Glutamic acid-1"
+                        ]
+                    ],
+                    [
+                        [
+                            "Glutamic acid-1"
+                        ]
+                    ],
+                    [
+                        "no_evidence",
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Glutamic acid-1"
+                        ]
+                    ],
+                    [
+                        [
+                            "Neurotransmitter-16"
+                        ],
+                        "no_evidence"
+                    ],
+                    [
+                        [
+                            "Dendrite-3"
+                        ],
+                        "no_evidence",
+                        "operation"
+                    ]
+                ]
+            ]
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "5147630",
+                    "contents": "\"Glutamic acid\"\nand pancreas. Stiff person syndrome is a neurologic disorder caused by anti-GAD antibodies, leading to a decrease in GABA synthesis and, therefore, impaired motor function such as muscle stiffness and spasm. Since the pancreas has abundant GAD, a direct immunological destruction occurs in the pancreas and the patients will have diabetes mellitus. Glutamic acid, being a constituent of protein, is present in foods that contain protein, but it can only be tasted when it is present in an unbound form. Significant amounts of free glutamic acid are present in a wide variety of foods, including cheese and soy sauce, and"
+                },
+                {
+                    "id": "10446756",
+                    "contents": "\"Glutamate carboxypeptidase II\"\nsuch problems as diabetic ulcerations, which in turn can lead to amputations. In fact, over half of all lower limb amputations in the United States are of patients with diabetes. Through the use of the NAAG peptidase inhibitor 2-PMPA, NAAG cleavage was inhibited and, with it, programmed DRG neuronal cell death in the presence of high glucose levels. The researchers have proposed that the cause of this is NAAG's agonistic activity at mGluR3. In addition, NAAG also “prevented glucose-induced inhibition of neurite growth” (Berent- Spillson, et al. 2004). Overall, this makes GCPIII inhibition a clear model target for combating diabetic"
+                },
+                {
+                    "id": "17038144",
+                    "contents": "\"Glutaric aciduria type 1\"\nGlutaric aciduria type 1 Glutaric acidemia type 1 (or \"\"glutaric aciduria\"\", \"\"GA1\"\", or \"\"GAT1\"\") is an inherited disorder in which the body is unable to completely break down the amino acids lysine, hydroxylysine and tryptophan. Excessive levels of their intermediate breakdown products (glutaric acid, glutaryl-CoA, 3-hydroxyglutaric acid, glutaconic acid) can accumulate and cause damage to the brain (and also other organs), but particularly the basal ganglia, which are regions that help regulate movement. GA1 causes secondary carnitine deficiency, as glutaric acid, like other organic acids, is detoxified by carnitine. Mental retardation may also occur. The severity of glutaric acidemia type"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Given four answer candidates, Yes and No, choose the best answer choice. Always put the answer after 'The answer is: ', e.g.'The answer is: Yes.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Glutamic acid\") and pancreas. Stiff person syndrome is a neurologic disorder caused by anti-GAD antibodies, leading to a decrease in GABA synthesis and, therefore, impaired motor function such as muscle stiffness and spasm. Since the pancreas has abundant GAD, a direct immunological destruction occurs in the pancreas and the patients will have diabetes mellitus. Glutamic acid, being a constituent of protein, is present in foods that contain protein, but it can only be tasted when it is present in an unbound form. Significant amounts of free glutamic acid are present in a wide variety of foods, including cheese and soy sauce, and\nDoc 2(Title: \"Glutamate carboxypeptidase II\") such problems as diabetic ulcerations, which in turn can lead to amputations. In fact, over half of all lower limb amputations in the United States are of patients with diabetes. Through the use of the NAAG peptidase inhibitor 2-PMPA, NAAG cleavage was inhibited and, with it, programmed DRG neuronal cell death in the presence of high glucose levels. The researchers have proposed that the cause of this is NAAG's agonistic activity at mGluR3. In addition, NAAG also “prevented glucose-induced inhibition of neurite growth” (Berent- Spillson, et al. 2004). Overall, this makes GCPIII inhibition a clear model target for combating diabetic\nDoc 3(Title: \"Glutaric aciduria type 1\") Glutaric aciduria type 1 Glutaric acidemia type 1 (or \"\"glutaric aciduria\"\", \"\"GA1\"\", or \"\"GAT1\"\") is an inherited disorder in which the body is unable to completely break down the amino acids lysine, hydroxylysine and tryptophan. Excessive levels of their intermediate breakdown products (glutaric acid, glutaryl-CoA, 3-hydroxyglutaric acid, glutaconic acid) can accumulate and cause damage to the brain (and also other organs), but particularly the basal ganglia, which are regions that help regulate movement. GA1 causes secondary carnitine deficiency, as glutaric acid, like other organic acids, is detoxified by carnitine. Mental retardation may also occur. The severity of glutaric acidemia type<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Do you find glutamic acid in a severed finger?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "No.",
+            "raw_pred": "The answer is: No.",
+            "inference_elapsed_seconds": 3.6875228714197874,
+            "metric_score": {
+                "em": 0.0,
+                "f1": 0,
+                "acc": 0.0,
+                "precision": 0,
+                "recall": 0
+            }
+        }
+    },
+    {
+        "id": "train_838",
+        "question": "Did George Washington drive a Lexus?",
+        "golden_answers": [
+            "no"
+        ],
+        "metadata": {
+            "term": "Lexus",
+            "description": "luxury vehicle division of Toyota",
+            "facts": [
+                "Lexus was established in 1989",
+                "George Washington died in 1799"
+            ],
+            "decomposition": [
+                "In what year did George Washington die?",
+                "What year was Lexus founded in?",
+                "Is #1 after #2?"
+            ],
+            "evidence": [
+                [
+                    [
+                        [
+                            "George Washington-1"
+                        ]
+                    ],
+                    [
+                        [
+                            "Lexus-2"
+                        ]
+                    ],
+                    [
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "George Washington-1"
+                        ]
+                    ],
+                    [
+                        [
+                            "Lexus-2"
+                        ]
+                    ],
+                    [
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "George Washington-121"
+                        ]
+                    ],
+                    [
+                        [
+                            "Lexus-16"
+                        ]
+                    ],
+                    [
+                        "operation"
+                    ]
+                ]
+            ]
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "4805079",
+                    "contents": "Lexus\nof America and International Motor Sports Association driver Chuck Goldsborough, based in Baltimore, Maryland, Team Lexus capitalized on the debut of the first generation Lexus IS by entering three IS 300s in the third race of the 2001 Grand-Am Cup season at Phoenix, Arizona. Team Lexus won its first IS 300 victory that year at the Virginia International Raceway. In 2002, Team Lexus' competitive efforts in the Grand-Am Cup ST1 (Street Tuner) class achieved victories in the Drivers' and Team Championships, as well as a sweep of the top three finishes at Circuit Mont-Tremblant in Quebec, Canada. After the release"
+                },
+                {
+                    "id": "2283164",
+                    "contents": "\"West Ford (slave)\"\nWest Ford (slave) West Ford ( 1784 – 1863) was an enslaved man of mixed race owned by John Augustine Washington and his wife Hannah Bushrod Washington, the brother and sister-in-law of President George Washington. There is some belief that West Ford is the son of George Washington, but this has not been verified. West Ford's birthdate is not known, but was mostly likely sometime between 1784 and 1787. His mother was an enslaved woman named Venus, who was a household maid of Hannah Washington. John Augustine Washington died in 1787, leaving Venus to his wife Hannah in his will,"
+                },
+                {
+                    "id": "14115448",
+                    "contents": "\"Lexus IS\"\n1999 and in North America as the IS 300 (JCE10) in 2000. The first-generation, inline-6-powered IS featured sedan and wagon variants. The second-generation IS (codename XE20) was launched globally in 2005 with V6-powered IS 250 (GSE20) and IS 350 (GSE21) sedan models, followed by a high-performance V8 sedan version, the IS F, in 2007, and hardtop convertible versions, the IS 250 C and IS 350 C, in 2008. The third-generation Lexus IS premiered in January 2013 and includes the V6-powered IS 350 and IS 250, hybrid IS 300h and performance-tuned F Sport variants. The IS designation stands for Intelligent Sport."
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Given four answer candidates, Yes and No, choose the best answer choice. Always put the answer after 'The answer is: ', e.g.'The answer is: Yes.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: Lexus) of America and International Motor Sports Association driver Chuck Goldsborough, based in Baltimore, Maryland, Team Lexus capitalized on the debut of the first generation Lexus IS by entering three IS 300s in the third race of the 2001 Grand-Am Cup season at Phoenix, Arizona. Team Lexus won its first IS 300 victory that year at the Virginia International Raceway. In 2002, Team Lexus' competitive efforts in the Grand-Am Cup ST1 (Street Tuner) class achieved victories in the Drivers' and Team Championships, as well as a sweep of the top three finishes at Circuit Mont-Tremblant in Quebec, Canada. After the release\nDoc 2(Title: \"West Ford (slave)\") West Ford (slave) West Ford ( 1784 – 1863) was an enslaved man of mixed race owned by John Augustine Washington and his wife Hannah Bushrod Washington, the brother and sister-in-law of President George Washington. There is some belief that West Ford is the son of George Washington, but this has not been verified. West Ford's birthdate is not known, but was mostly likely sometime between 1784 and 1787. His mother was an enslaved woman named Venus, who was a household maid of Hannah Washington. John Augustine Washington died in 1787, leaving Venus to his wife Hannah in his will,\nDoc 3(Title: \"Lexus IS\") 1999 and in North America as the IS 300 (JCE10) in 2000. The first-generation, inline-6-powered IS featured sedan and wagon variants. The second-generation IS (codename XE20) was launched globally in 2005 with V6-powered IS 250 (GSE20) and IS 350 (GSE21) sedan models, followed by a high-performance V8 sedan version, the IS F, in 2007, and hardtop convertible versions, the IS 250 C and IS 350 C, in 2008. The third-generation Lexus IS premiered in January 2013 and includes the V6-powered IS 350 and IS 250, hybrid IS 300h and performance-tuned F Sport variants. The IS designation stands for Intelligent Sport.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Did George Washington drive a Lexus?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "No.",
+            "raw_pred": "The answer is: No.",
+            "inference_elapsed_seconds": 3.615579154342413,
+            "metric_score": {
+                "em": 1.0,
+                "f1": 1.0,
+                "acc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0
+            }
+        }
+    },
+    {
+        "id": "train_270",
+        "question": "Did compact discs make computer gaming more popular?",
+        "golden_answers": [
+            "yes"
+        ],
+        "metadata": {
+            "term": "Compact disc",
+            "description": "Optical disc for storage and playback of digital audio",
+            "facts": [
+                "Compact discs contained significantly more storage space than the previously popular floppy disc format.",
+                "Gaming studios were therefore able to significantly improve the graphics, sounds, and features of their games to make them more immersive.",
+                "The better games led to a massive increase in popularity for computer gaming."
+            ],
+            "decomposition": [
+                "Which external storage device was previously popular before compact discs?",
+                "What features of compact disc made them much better than #1?",
+                "What new possibilities did #2 create for computer games?",
+                "Did #3 lead to increased interest in computer games?"
+            ],
+            "evidence": [
+                [
+                    [
+                        [
+                            "Floppy disk-3"
+                        ]
+                    ],
+                    [
+                        [
+                            "CD-ROM-21"
+                        ]
+                    ],
+                    [
+                        [
+                            "PC game-22"
+                        ]
+                    ],
+                    [
+                        [
+                            "PC game-4"
+                        ],
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Floppy disk-2",
+                            "Floppy disk-22"
+                        ]
+                    ],
+                    [
+                        [
+                            "Compact disc-3",
+                            "Video CD-2"
+                        ]
+                    ],
+                    [
+                        [
+                            "Video CD-2"
+                        ],
+                        "no_evidence"
+                    ],
+                    [
+                        [
+                            "Compact disc-59",
+                            "PC game-22"
+                        ]
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Floppy disk-1"
+                        ]
+                    ],
+                    [
+                        [
+                            "Compact disc-2",
+                            "Compact disc-41"
+                        ]
+                    ],
+                    [
+                        [
+                            "Fifth generation of video game consoles-4"
+                        ]
+                    ],
+                    [
+                        "no_evidence",
+                        "operation"
+                    ]
+                ]
+            ]
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "14188554",
+                    "contents": "\"Console game\"\nrequired. While cartridges became less popular with the introduction of disc based media, they are still popular to use for handheld consoles and are still in use on consoles in later generations such as the Nintendo Switch. Discs became popular as the storage medium for console games during the fifth generation due to the ability to store large amounts of data and be produced cheaply. The increase in space provided developers with a medium to store higher quality assets but means they had to take into account that you could not write to the disc. Most consoles that used discs"
+                },
+                {
+                    "id": "1983085",
+                    "contents": "\"Adventure game\"\nhave spurred the gaming market for personal computers from 1985 through the next decade, as they were able to offer narratives and storytelling that could not readily be told by the state of graphical hardware at the time. Graphical adventure games would continue to improve with advances in graphic systems for home computers, providing more detailed and colorful scenes and characters. With the adoption of CD-ROM in the early 1990s, it became possible to include higher quality graphics, video, and audio in adventure games. \"\"Myst\"\", released in 1993 by Cyan Worlds, is considered one of the genre's more influential titles."
+                },
+                {
+                    "id": "13342714",
+                    "contents": "\"PC game\"\nhad a personal computer. 48% played games on their computer; 40% had the 486 CPU or higher; 35% had CD-ROM drives; and 20% had a sound card. Another survey found that an estimated 2.46 million multimedia computers had internal CD-ROM drives by the end of 1993, an increase of almost 2,000%. \"\"Computer Gaming World\"\" reported in April 1994 that some software publishers planned to only distribute on CD as of 1995. CD-ROM had much larger storage capacity than floppies, helped reduce software piracy, and was less expensive to produce. Chris Crawford warned that it was \"\"a data-intensive technology, not a"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Given four answer candidates, Yes and No, choose the best answer choice. Always put the answer after 'The answer is: ', e.g.'The answer is: Yes.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Console game\") required. While cartridges became less popular with the introduction of disc based media, they are still popular to use for handheld consoles and are still in use on consoles in later generations such as the Nintendo Switch. Discs became popular as the storage medium for console games during the fifth generation due to the ability to store large amounts of data and be produced cheaply. The increase in space provided developers with a medium to store higher quality assets but means they had to take into account that you could not write to the disc. Most consoles that used discs\nDoc 2(Title: \"Adventure game\") have spurred the gaming market for personal computers from 1985 through the next decade, as they were able to offer narratives and storytelling that could not readily be told by the state of graphical hardware at the time. Graphical adventure games would continue to improve with advances in graphic systems for home computers, providing more detailed and colorful scenes and characters. With the adoption of CD-ROM in the early 1990s, it became possible to include higher quality graphics, video, and audio in adventure games. \"\"Myst\"\", released in 1993 by Cyan Worlds, is considered one of the genre's more influential titles.\nDoc 3(Title: \"PC game\") had a personal computer. 48% played games on their computer; 40% had the 486 CPU or higher; 35% had CD-ROM drives; and 20% had a sound card. Another survey found that an estimated 2.46 million multimedia computers had internal CD-ROM drives by the end of 1993, an increase of almost 2,000%. \"\"Computer Gaming World\"\" reported in April 1994 that some software publishers planned to only distribute on CD as of 1995. CD-ROM had much larger storage capacity than floppies, helped reduce software piracy, and was less expensive to produce. Chris Crawford warned that it was \"\"a data-intensive technology, not a<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Did compact discs make computer gaming more popular?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "Yes.",
+            "raw_pred": "The answer is: Yes.",
+            "inference_elapsed_seconds": 3.653125665150583,
+            "metric_score": {
+                "em": 1.0,
+                "f1": 1.0,
+                "acc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0
+            }
+        }
+    },
+    {
+        "id": "train_1013",
+        "question": "Is the Gujarati script the same category of script as Kanji?",
+        "golden_answers": [
+            "no"
+        ],
+        "metadata": {
+            "term": "Gujarati script",
+            "description": "Indian script",
+            "facts": [
+                "Gujarati script is an abugida script",
+                "Kanji is an adopted logographic script "
+            ],
+            "decomposition": [
+                "What type of script is the Gujarati script?",
+                "What type of script is Kanji?",
+                "Is #1 the same as #2?"
+            ],
+            "evidence": [
+                [
+                    [
+                        [
+                            "Gujarati script-1"
+                        ]
+                    ],
+                    [
+                        [
+                            "Kanji-1"
+                        ]
+                    ],
+                    [
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Gujarati script-1"
+                        ]
+                    ],
+                    [
+                        [
+                            "Kanji-1"
+                        ]
+                    ],
+                    [
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Gujarati script-1"
+                        ]
+                    ],
+                    [
+                        [
+                            "Kanji-1"
+                        ]
+                    ],
+                    [
+                        "operation"
+                    ]
+                ]
+            ]
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "10764139",
+                    "contents": "\"Gujarati alphabet\"\nGujarati alphabet The Gujarati script (ગુજરાતી લિપિ \"\"Gujǎrātī Lipi\"\") is an abugida, like all Nagari writing systems, and is used to write the Gujarati and Kutchi languages. It is a variant of Devanagari script differentiated by the loss of the characteristic horizontal line running above the letters and by a number of modifications to some characters. Gujarati numerical digits are also different from their Devanagari counterparts. Gujarati script is descended from Brahmi and is part of the Brahmic family. The Gujarati script was adapted from the Devanagari script to write the Gujarati language. Gujarati language and script developed in three"
+                },
+                {
+                    "id": "7872839",
+                    "contents": "\"Brahmic scripts\"\nBrahmic scripts The Brahmic scripts are a family of abugida or alphasyllabary writing systems. They are used throughout the Indian subcontinent, Southeast Asia and parts of East Asia, including Japan in the form of Siddhaṃ. They are descended from the Brahmi script of ancient India, and are used by languages of several language families: Indo-European, Dravidian, Tibeto-Burman, Mongolic, Austroasiatic, Austronesian, and Tai. They were also the source of the dictionary order of Japanese \"\"kana\"\". Brahmic scripts descended from the Brahmi script. Brahmi is clearly attested from the 3rd century BC during the reign of Ashoka, who used the script for"
+                },
+                {
+                    "id": "3368502",
+                    "contents": "\"Gujarati language\"\nas East Africa (Swahili), have become loanwords in local dialects of Gujarati. Similar to other Nāgarī writing systems, the Gujarati script is an abugida. It is used to write the Gujarati and Kutchi languages. It is a variant of Devanāgarī script differentiated by the loss of the characteristic horizontal line running above the letters and by a small number of modifications in the remaining characters. Gujarati and closely related languages, including Kutchi and Parkari Koli, can be written in the Arabic or Persian scripts. This is traditionally done by many in Gujarat's Kutch district. These are the three general categories"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Given four answer candidates, Yes and No, choose the best answer choice. Always put the answer after 'The answer is: ', e.g.'The answer is: Yes.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Gujarati alphabet\") Gujarati alphabet The Gujarati script (ગુજરાતી લિપિ \"\"Gujǎrātī Lipi\"\") is an abugida, like all Nagari writing systems, and is used to write the Gujarati and Kutchi languages. It is a variant of Devanagari script differentiated by the loss of the characteristic horizontal line running above the letters and by a number of modifications to some characters. Gujarati numerical digits are also different from their Devanagari counterparts. Gujarati script is descended from Brahmi and is part of the Brahmic family. The Gujarati script was adapted from the Devanagari script to write the Gujarati language. Gujarati language and script developed in three\nDoc 2(Title: \"Brahmic scripts\") Brahmic scripts The Brahmic scripts are a family of abugida or alphasyllabary writing systems. They are used throughout the Indian subcontinent, Southeast Asia and parts of East Asia, including Japan in the form of Siddhaṃ. They are descended from the Brahmi script of ancient India, and are used by languages of several language families: Indo-European, Dravidian, Tibeto-Burman, Mongolic, Austroasiatic, Austronesian, and Tai. They were also the source of the dictionary order of Japanese \"\"kana\"\". Brahmic scripts descended from the Brahmi script. Brahmi is clearly attested from the 3rd century BC during the reign of Ashoka, who used the script for\nDoc 3(Title: \"Gujarati language\") as East Africa (Swahili), have become loanwords in local dialects of Gujarati. Similar to other Nāgarī writing systems, the Gujarati script is an abugida. It is used to write the Gujarati and Kutchi languages. It is a variant of Devanāgarī script differentiated by the loss of the characteristic horizontal line running above the letters and by a small number of modifications in the remaining characters. Gujarati and closely related languages, including Kutchi and Parkari Koli, can be written in the Arabic or Persian scripts. This is traditionally done by many in Gujarat's Kutch district. These are the three general categories<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Is the Gujarati script the same category of script as Kanji?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "No.",
+            "raw_pred": "The answer is: No.",
+            "inference_elapsed_seconds": 4.696172945201397,
+            "metric_score": {
+                "em": 1.0,
+                "f1": 1.0,
+                "acc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0
+            }
+        }
+    },
+    {
+        "id": "train_1759",
+        "question": "Would Donald Duck be allowed into most grocery stores?",
+        "golden_answers": [
+            "no"
+        ],
+        "metadata": {
+            "term": "Donald Duck",
+            "description": "Disney cartoon character",
+            "facts": [
+                "Donald Duck is known for not wearing any pants or shoes.",
+                "Most grocery stores have a \"No shoes, No Shirt, No Service\" policy."
+            ],
+            "decomposition": [
+                "What is Donald Duck known for not wearing?",
+                "Would most grocery stores serve people without #1?"
+            ],
+            "evidence": [
+                [
+                    [
+                        [
+                            "Donald Duck-1"
+                        ]
+                    ],
+                    [
+                        "no_evidence"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Donald Duck-1"
+                        ]
+                    ],
+                    [
+                        [
+                            "Indecent exposure-1"
+                        ],
+                        "no_evidence",
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Donald Duck-1"
+                        ],
+                        "no_evidence"
+                    ],
+                    [
+                        [
+                            "Indecent exposure-1"
+                        ]
+                    ]
+                ]
+            ]
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "14420926",
+                    "contents": "\"Donald Duck (orange juice)\"\nDonald Duck (orange juice) Donald Duck is the name of a brand of frozen and refrigerated orange juice by the Florida's Natural Growers agricultural cooperative, which was known as Citrus World from 1969 to 1998, and before that as the Florida Citrus Canners Cooperative. The brand was introduced in 1940 and is the cooperative's oldest brand. Donald Duck, one of Walt Disney's cartoon and comic book characters, is the mascot for the brand. He appears on the packaging and marketing, and in its advertising. For many years Donald Duck also appeared on the juice plant's water storage tank in Lake"
+                },
+                {
+                    "id": "6954769",
+                    "contents": "\"Duck, North Carolina\"\npresident of the DCA received a conference call from the vice president of real estate and store development for Food Lion and the vice president of development for Armada Hoffler. They confirmed that Food Lion had bought the property in question, but said they were abandoning their present plans to build the proposed store. They mentioned that they hoped to develop the property in the next one to three years. In late 1999 and early 2000, the President of the DCA had a number of discussions with Food Lion executives concerning the potential for DCA to buy the property from"
+                },
+                {
+                    "id": "12278911",
+                    "contents": "QuackShot\nto return. Donald is armed with a special gun that can shoot plungers, popcorn or bubble gum. Donald has unlimited plungers which can temporarily stun enemies (though bosses can still be damaged with plungers), and can collect popcorn and gum along the way or get the latter from Gyro Gearloose. Later in the game, the plunger is upgraded to act as a temporary platform to climb walls with and, when stuck to a passing bird, allows Donald to traverse longer distances. In Duckburg, India and Egypt, Donald can also pick up chili peppers which increase his temper, eventually temporarily allowing"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Given four answer candidates, Yes and No, choose the best answer choice. Always put the answer after 'The answer is: ', e.g.'The answer is: Yes.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Donald Duck (orange juice)\") Donald Duck (orange juice) Donald Duck is the name of a brand of frozen and refrigerated orange juice by the Florida's Natural Growers agricultural cooperative, which was known as Citrus World from 1969 to 1998, and before that as the Florida Citrus Canners Cooperative. The brand was introduced in 1940 and is the cooperative's oldest brand. Donald Duck, one of Walt Disney's cartoon and comic book characters, is the mascot for the brand. He appears on the packaging and marketing, and in its advertising. For many years Donald Duck also appeared on the juice plant's water storage tank in Lake\nDoc 2(Title: \"Duck, North Carolina\") president of the DCA received a conference call from the vice president of real estate and store development for Food Lion and the vice president of development for Armada Hoffler. They confirmed that Food Lion had bought the property in question, but said they were abandoning their present plans to build the proposed store. They mentioned that they hoped to develop the property in the next one to three years. In late 1999 and early 2000, the President of the DCA had a number of discussions with Food Lion executives concerning the potential for DCA to buy the property from\nDoc 3(Title: QuackShot) to return. Donald is armed with a special gun that can shoot plungers, popcorn or bubble gum. Donald has unlimited plungers which can temporarily stun enemies (though bosses can still be damaged with plungers), and can collect popcorn and gum along the way or get the latter from Gyro Gearloose. Later in the game, the plunger is upgraded to act as a temporary platform to climb walls with and, when stuck to a passing bird, allows Donald to traverse longer distances. In Duckburg, India and Egypt, Donald can also pick up chili peppers which increase his temper, eventually temporarily allowing<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Would Donald Duck be allowed into most grocery stores?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "Yes.",
+            "raw_pred": "The answer is: Yes.",
+            "inference_elapsed_seconds": 4.628502716310322,
+            "metric_score": {
+                "em": 0.0,
+                "f1": 0,
+                "acc": 0.0,
+                "precision": 0,
+                "recall": 0
+            }
+        }
+    }
+]

@@ -1,0 +1,725 @@
+SHARED_MODEL_INDEX_INIT_START
+INFO 10-17 03:09:18 config.py:510] This model supports multiple tasks: {'embed', 'classify', 'score', 'reward', 'generate'}. Defaulting to 'generate'.
+INFO 10-17 03:09:18 llm_engine.py:234] Initializing an LLM engine (v0.6.6.post1) with config: model='/workspace/Capstone_project/models/Llama-3.1-8B-Instruct', speculative_config=None, tokenizer='/workspace/Capstone_project/models/Llama-3.1-8B-Instruct', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, override_neuron_config=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=4096, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=1, pipeline_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='xgrammar'), observability_config=ObservabilityConfig(otlp_traces_endpoint=None, collect_model_forward_time=False, collect_model_execute_time=False), seed=0, served_model_name=/workspace/Capstone_project/models/Llama-3.1-8B-Instruct, num_scheduler_steps=1, multi_step_stream_outputs=True, enable_prefix_caching=False, chunked_prefill_enabled=False, use_async_output_proc=True, disable_mm_preprocessor_cache=False, mm_processor_kwargs=None, pooler_config=None, compilation_config={"splitting_ops":["vllm.unified_attention","vllm.unified_attention_with_output"],"candidate_compile_sizes":[],"compile_sizes":[],"capture_sizes":[256,248,240,232,224,216,208,200,192,184,176,168,160,152,144,136,128,120,112,104,96,88,80,72,64,56,48,40,32,24,16,8,4,2,1],"max_capture_size":256}, use_cached_outputs=False, 
+INFO 10-17 03:09:20 selector.py:120] Using Flash Attention backend.
+INFO 10-17 03:09:21 model_runner.py:1094] Starting to load model /workspace/Capstone_project/models/Llama-3.1-8B-Instruct...
+Loading safetensors checkpoint shards:   0% Completed | 0/4 [00:00<?, ?it/s]
+Loading safetensors checkpoint shards:  25% Completed | 1/4 [00:09<00:29,  9.99s/it]
+Loading safetensors checkpoint shards:  50% Completed | 2/4 [00:20<00:20, 10.17s/it]
+Loading safetensors checkpoint shards:  75% Completed | 3/4 [00:30<00:10, 10.27s/it]
+Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:33<00:00,  7.21s/it]
+Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:33<00:00,  8.30s/it]
+
+INFO 10-17 03:09:56 model_runner.py:1099] Loading model weights took 14.9888 GB
+INFO 10-17 03:09:57 worker.py:241] Memory profiling takes 1.26 seconds
+INFO 10-17 03:09:57 worker.py:241] the current vLLM instance can use total_gpu_memory (79.25GiB) x gpu_memory_utilization (0.85) = 67.36GiB
+INFO 10-17 03:09:57 worker.py:241] model weights take 14.99GiB; non_torch_memory takes 0.10GiB; PyTorch activation peak memory takes 1.20GiB; the rest of the memory reserved for KV Cache is 51.07GiB.
+INFO 10-17 03:09:57 gpu_executor.py:76] # GPU blocks: 26148, # CPU blocks: 2048
+INFO 10-17 03:09:57 gpu_executor.py:80] Maximum concurrency for 4096 tokens per request: 102.14x
+INFO 10-17 03:10:00 model_runner.py:1415] Capturing cudagraphs for decoding. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI. If out-of-memory error occurs during cudagraph capture, consider decreasing `gpu_memory_utilization` or switching to eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+Capturing CUDA graph shapes:   0%|          | 0/35 [00:00<?, ?it/s]Capturing CUDA graph shapes:   3%|▎         | 1/35 [00:00<00:22,  1.50it/s]Capturing CUDA graph shapes:   6%|▌         | 2/35 [00:01<00:19,  1.73it/s]Capturing CUDA graph shapes:   9%|▊         | 3/35 [00:01<00:16,  1.89it/s]Capturing CUDA graph shapes:  11%|█▏        | 4/35 [00:02<00:14,  2.08it/s]Capturing CUDA graph shapes:  14%|█▍        | 5/35 [00:02<00:13,  2.23it/s]Capturing CUDA graph shapes:  17%|█▋        | 6/35 [00:02<00:12,  2.34it/s]Capturing CUDA graph shapes:  20%|██        | 7/35 [00:03<00:11,  2.40it/s]Capturing CUDA graph shapes:  23%|██▎       | 8/35 [00:03<00:10,  2.47it/s]Capturing CUDA graph shapes:  26%|██▌       | 9/35 [00:03<00:10,  2.53it/s]Capturing CUDA graph shapes:  29%|██▊       | 10/35 [00:04<00:09,  2.57it/s]Capturing CUDA graph shapes:  31%|███▏      | 11/35 [00:04<00:09,  2.60it/s]Capturing CUDA graph shapes:  34%|███▍      | 12/35 [00:05<00:08,  2.62it/s]Capturing CUDA graph shapes:  37%|███▋      | 13/35 [00:05<00:08,  2.56it/s]Capturing CUDA graph shapes:  40%|████      | 14/35 [00:05<00:08,  2.59it/s]Capturing CUDA graph shapes:  43%|████▎     | 15/35 [00:06<00:07,  2.60it/s]Capturing CUDA graph shapes:  46%|████▌     | 16/35 [00:06<00:07,  2.63it/s]Capturing CUDA graph shapes:  49%|████▊     | 17/35 [00:07<00:06,  2.68it/s]Capturing CUDA graph shapes:  51%|█████▏    | 18/35 [00:07<00:06,  2.71it/s]Capturing CUDA graph shapes:  54%|█████▍    | 19/35 [00:07<00:05,  2.75it/s]Capturing CUDA graph shapes:  57%|█████▋    | 20/35 [00:08<00:05,  2.78it/s]Capturing CUDA graph shapes:  60%|██████    | 21/35 [00:08<00:05,  2.77it/s]Capturing CUDA graph shapes:  63%|██████▎   | 22/35 [00:08<00:04,  2.79it/s]Capturing CUDA graph shapes:  66%|██████▌   | 23/35 [00:09<00:04,  2.79it/s]Capturing CUDA graph shapes:  69%|██████▊   | 24/35 [00:09<00:03,  2.81it/s]Capturing CUDA graph shapes:  71%|███████▏  | 25/35 [00:09<00:03,  2.84it/s]Capturing CUDA graph shapes:  74%|███████▍  | 26/35 [00:10<00:03,  2.83it/s]Capturing CUDA graph shapes:  77%|███████▋  | 27/35 [00:10<00:02,  2.85it/s]Capturing CUDA graph shapes:  80%|████████  | 28/35 [00:10<00:02,  2.89it/s]Capturing CUDA graph shapes:  83%|████████▎ | 29/35 [00:11<00:02,  2.88it/s]Capturing CUDA graph shapes:  86%|████████▌ | 30/35 [00:11<00:01,  2.92it/s]Capturing CUDA graph shapes:  89%|████████▊ | 31/35 [00:11<00:01,  2.91it/s]Capturing CUDA graph shapes:  91%|█████████▏| 32/35 [00:12<00:01,  2.92it/s]Capturing CUDA graph shapes:  94%|█████████▍| 33/35 [00:12<00:00,  2.93it/s]Capturing CUDA graph shapes:  97%|█████████▋| 34/35 [00:12<00:00,  2.91it/s]Capturing CUDA graph shapes: 100%|██████████| 35/35 [00:13<00:00,  2.75it/s]Capturing CUDA graph shapes: 100%|██████████| 35/35 [00:13<00:00,  2.62it/s]
+INFO 10-17 03:10:14 model_runner.py:1535] Graph capturing finished in 13 secs, took 0.24 GiB
+INFO 10-17 03:10:14 llm_engine.py:431] init engine (profile, create kv cache, warmup model) took 18.06 seconds
+SHARED_MODEL_INDEX_INIT_COMPLETE 327.24790076352656
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00,  1.46it/s]Encoding process: 100%|██████████| 1/1 [00:00<00:00,  1.46it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.86it/s, est. speed input: 3287.82 toks/s, output: 46.86 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.84it/s, est. speed input: 3287.82 toks/s, output: 46.86 toks/s]
+SMOKE_PASSED_CONTINUING_FIXED_100 dev_7701
+QUESTION_COMPLETE 1 NQ dev_7701 6.604
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 75.93it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.52it/s, est. speed input: 3570.45 toks/s, output: 52.19 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.50it/s, est. speed input: 3570.45 toks/s, output: 52.19 toks/s]
+QUESTION_COMPLETE 2 NQ dev_2977 5.14
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 165.58it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.57it/s, est. speed input: 3570.36 toks/s, output: 52.57 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.55it/s, est. speed input: 3570.36 toks/s, output: 52.57 toks/s]
+QUESTION_COMPLETE 3 NQ dev_4976 5.021
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 166.68it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.89it/s, est. speed input: 3265.22 toks/s, output: 53.01 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.88it/s, est. speed input: 3265.22 toks/s, output: 53.01 toks/s]
+QUESTION_COMPLETE 4 NQ dev_3280 5.18
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 159.34it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.60it/s, est. speed input: 3168.47 toks/s, output: 56.05 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.59it/s, est. speed input: 3168.47 toks/s, output: 56.05 toks/s]
+QUESTION_COMPLETE 5 NQ dev_6718 5.146
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 28.53it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.68it/s, est. speed input: 2832.52 toks/s, output: 60.84 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.58it/s, est. speed input: 2832.52 toks/s, output: 60.84 toks/s]
+QUESTION_COMPLETE 6 NQ dev_4345 5.2
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 163.92it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.74it/s, est. speed input: 2657.73 toks/s, output: 61.67 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.73it/s, est. speed input: 2657.73 toks/s, output: 61.67 toks/s]
+QUESTION_COMPLETE 7 NQ dev_8735 5.172
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 163.76it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.52it/s, est. speed input: 3498.57 toks/s, output: 52.19 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.50it/s, est. speed input: 3498.57 toks/s, output: 52.19 toks/s]
+QUESTION_COMPLETE 8 NQ dev_4016 5.461
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 157.92it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  3.25it/s, est. speed input: 2098.23 toks/s, output: 61.80 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  3.25it/s, est. speed input: 2098.23 toks/s, output: 61.80 toks/s]
+QUESTION_COMPLETE 9 NQ dev_8164 5.441
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 164.72it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.63it/s, est. speed input: 2714.06 toks/s, output: 60.19 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.62it/s, est. speed input: 2714.06 toks/s, output: 60.19 toks/s]
+QUESTION_COMPLETE 10 NQ dev_5802 5.206
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 173.77it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.59it/s, est. speed input: 2862.02 toks/s, output: 61.46 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.57it/s, est. speed input: 2862.02 toks/s, output: 61.46 toks/s]
+QUESTION_COMPLETE 11 NQ dev_6813 5.273
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 169.36it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.71it/s, est. speed input: 2489.14 toks/s, output: 61.27 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.70it/s, est. speed input: 2489.14 toks/s, output: 61.27 toks/s]
+QUESTION_COMPLETE 12 NQ dev_8639 5.019
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 153.76it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  1.52it/s, est. speed input: 806.03 toks/s, output: 76.03 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  1.52it/s, est. speed input: 806.03 toks/s, output: 76.03 toks/s]
+QUESTION_COMPLETE 13 NQ dev_3573 5.511
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 169.98it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.05it/s, est. speed input: 3153.09 toks/s, output: 54.44 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.03it/s, est. speed input: 3153.09 toks/s, output: 54.44 toks/s]
+QUESTION_COMPLETE 14 NQ dev_5071 4.994
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 160.87it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.13it/s, est. speed input: 3343.46 toks/s, output: 55.18 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.11it/s, est. speed input: 3343.46 toks/s, output: 55.18 toks/s]
+QUESTION_COMPLETE 15 NQ dev_5410 5.095
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 161.60it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.51it/s, est. speed input: 3725.60 toks/s, output: 52.08 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.49it/s, est. speed input: 3725.60 toks/s, output: 52.08 toks/s]
+QUESTION_COMPLETE 16 NQ dev_8509 5.658
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 175.33it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.61it/s, est. speed input: 2987.37 toks/s, output: 56.13 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.60it/s, est. speed input: 2987.37 toks/s, output: 56.13 toks/s]
+QUESTION_COMPLETE 17 NQ dev_1223 5.261
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 174.14it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.67it/s, est. speed input: 3022.35 toks/s, output: 56.68 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.65it/s, est. speed input: 3022.35 toks/s, output: 56.68 toks/s]
+QUESTION_COMPLETE 18 NQ dev_3381 5.331
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 141.98it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.39it/s, est. speed input: 3252.83 toks/s, output: 57.48 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.37it/s, est. speed input: 3252.83 toks/s, output: 57.48 toks/s]
+QUESTION_COMPLETE 19 NQ dev_7676 5.367
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 154.85it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.58it/s, est. speed input: 3384.18 toks/s, output: 55.83 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.57it/s, est. speed input: 3384.18 toks/s, output: 55.83 toks/s]
+QUESTION_COMPLETE 20 NQ dev_2430 5.384
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 145.28it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.61it/s, est. speed input: 3695.91 toks/s, output: 52.87 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.59it/s, est. speed input: 3695.91 toks/s, output: 52.87 toks/s]
+QUESTION_COMPLETE 21 NQ dev_8709 4.44
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 171.15it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.01it/s, est. speed input: 3084.72 toks/s, output: 54.10 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.00it/s, est. speed input: 3084.72 toks/s, output: 54.10 toks/s]
+QUESTION_COMPLETE 22 NQ dev_3483 5.17
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 153.42it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.58it/s, est. speed input: 3001.06 toks/s, output: 55.75 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.56it/s, est. speed input: 3001.06 toks/s, output: 55.75 toks/s]
+QUESTION_COMPLETE 23 NQ dev_6748 5.161
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 92.13it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.23it/s, est. speed input: 3118.16 toks/s, output: 57.52 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.22it/s, est. speed input: 3118.16 toks/s, output: 57.52 toks/s]
+QUESTION_COMPLETE 24 NQ dev_958 5.234
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 166.38it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  3.26it/s, est. speed input: 1728.22 toks/s, output: 68.46 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  3.26it/s, est. speed input: 1728.22 toks/s, output: 68.46 toks/s]
+QUESTION_COMPLETE 25 NQ dev_5725 5.366
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 168.68it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.52it/s, est. speed input: 3488.59 toks/s, output: 52.14 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.49it/s, est. speed input: 3488.59 toks/s, output: 52.14 toks/s]
+QUESTION_COMPLETE 26 NQ dev_6825 5.217
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 174.96it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.57it/s, est. speed input: 2522.48 toks/s, output: 59.38 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.56it/s, est. speed input: 2522.48 toks/s, output: 59.38 toks/s]
+QUESTION_COMPLETE 27 NQ dev_7633 5.198
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 173.69it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  3.35it/s, est. speed input: 1830.84 toks/s, output: 67.04 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  3.35it/s, est. speed input: 1830.84 toks/s, output: 67.04 toks/s]
+QUESTION_COMPLETE 28 NQ dev_2034 5.278
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 161.54it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.62it/s, est. speed input: 3147.72 toks/s, output: 56.19 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.60it/s, est. speed input: 3147.72 toks/s, output: 56.19 toks/s]
+QUESTION_COMPLETE 29 NQ dev_2276 5.313
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 160.65it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.64it/s, est. speed input: 2606.75 toks/s, output: 55.64 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.63it/s, est. speed input: 2606.75 toks/s, output: 55.64 toks/s]
+QUESTION_COMPLETE 30 NQ dev_5359 5.466
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 172.01it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  1.83it/s, est. speed input: 995.74 toks/s, output: 73.34 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  1.83it/s, est. speed input: 995.74 toks/s, output: 73.34 toks/s]
+QUESTION_COMPLETE 31 NQ dev_6394 5.312
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 157.88it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.59it/s, est. speed input: 3463.89 toks/s, output: 52.75 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.58it/s, est. speed input: 3463.89 toks/s, output: 52.75 toks/s]
+QUESTION_COMPLETE 32 NQ dev_5420 5.387
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 154.64it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.65it/s, est. speed input: 2580.59 toks/s, output: 60.43 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.64it/s, est. speed input: 2580.59 toks/s, output: 60.43 toks/s]
+QUESTION_COMPLETE 33 NQ dev_5657 5.153
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 162.35it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.09it/s, est. speed input: 3599.88 toks/s, output: 54.79 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.07it/s, est. speed input: 3599.88 toks/s, output: 54.79 toks/s]
+QUESTION_COMPLETE 34 NQ dev_3295 5.092
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 171.57it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  7.66it/s, est. speed input: 3762.28 toks/s, output: 53.61 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  7.63it/s, est. speed input: 3762.28 toks/s, output: 53.61 toks/s]
+QUESTION_COMPLETE 35 NQ dev_5332 5.099
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 160.92it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  7.65it/s, est. speed input: 3872.86 toks/s, output: 53.54 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  7.62it/s, est. speed input: 3872.86 toks/s, output: 53.54 toks/s]
+QUESTION_COMPLETE 36 NQ dev_6992 4.866
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 170.40it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  1.35it/s, est. speed input: 787.15 toks/s, output: 76.69 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  1.34it/s, est. speed input: 787.15 toks/s, output: 76.69 toks/s]
+QUESTION_COMPLETE 37 NQ dev_6789 5.68
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 160.49it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.02it/s, est. speed input: 3336.49 toks/s, output: 54.19 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.01it/s, est. speed input: 3336.49 toks/s, output: 54.19 toks/s]
+QUESTION_COMPLETE 38 NQ dev_5184 5.341
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 167.71it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.58it/s, est. speed input: 3632.33 toks/s, output: 52.61 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.55it/s, est. speed input: 3632.33 toks/s, output: 52.61 toks/s]
+QUESTION_COMPLETE 39 NQ dev_3507 5.266
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 169.25it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.45it/s, est. speed input: 2521.39 toks/s, output: 62.23 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.44it/s, est. speed input: 2521.39 toks/s, output: 62.23 toks/s]
+QUESTION_COMPLETE 40 NQ dev_6667 5.44
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 171.47it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  7.10it/s, est. speed input: 3680.57 toks/s, output: 49.71 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  7.08it/s, est. speed input: 3680.57 toks/s, output: 49.71 toks/s]
+QUESTION_COMPLETE 41 NQ dev_3753 5.645
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 171.72it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.54it/s, est. speed input: 2972.14 toks/s, output: 55.42 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.53it/s, est. speed input: 2972.14 toks/s, output: 55.42 toks/s]
+QUESTION_COMPLETE 42 NQ dev_3350 3.371
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 111.55it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.94it/s, est. speed input: 3964.00 toks/s, output: 48.56 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.91it/s, est. speed input: 3964.00 toks/s, output: 48.56 toks/s]
+QUESTION_COMPLETE 43 NQ dev_663 4.311
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 131.31it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.89it/s, est. speed input: 2703.28 toks/s, output: 58.63 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.87it/s, est. speed input: 2703.28 toks/s, output: 58.63 toks/s]
+QUESTION_COMPLETE 44 NQ dev_3689 5.271
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 134.31it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.53it/s, est. speed input: 3007.71 toks/s, output: 55.26 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.51it/s, est. speed input: 3007.71 toks/s, output: 55.26 toks/s]
+QUESTION_COMPLETE 45 NQ dev_318 5.558
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 138.27it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.04it/s, est. speed input: 3279.31 toks/s, output: 54.32 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.02it/s, est. speed input: 3279.31 toks/s, output: 54.32 toks/s]
+QUESTION_COMPLETE 46 NQ dev_4241 5.273
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 139.18it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.35it/s, est. speed input: 3366.41 toks/s, output: 50.78 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.32it/s, est. speed input: 3366.41 toks/s, output: 50.78 toks/s]
+QUESTION_COMPLETE 47 NQ dev_8284 5.558
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 135.16it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.53it/s, est. speed input: 3196.43 toks/s, output: 55.27 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.51it/s, est. speed input: 3196.43 toks/s, output: 55.27 toks/s]
+QUESTION_COMPLETE 48 NQ dev_5230 5.477
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 141.96it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.21it/s, est. speed input: 2243.34 toks/s, output: 63.11 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.20it/s, est. speed input: 2243.34 toks/s, output: 63.11 toks/s]
+QUESTION_COMPLETE 49 NQ dev_6898 5.648
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 136.18it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.93it/s, est. speed input: 3108.14 toks/s, output: 53.35 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.91it/s, est. speed input: 3108.14 toks/s, output: 53.35 toks/s]
+QUESTION_COMPLETE 50 NQ dev_1835 5.408
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 119.60it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.95it/s, est. speed input: 3292.86 toks/s, output: 53.56 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.93it/s, est. speed input: 3292.86 toks/s, output: 53.56 toks/s]
+QUESTION_COMPLETE 51 TriviaQA dev_7701 5.879
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 123.08it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.95it/s, est. speed input: 3711.37 toks/s, output: 48.62 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.92it/s, est. speed input: 3711.37 toks/s, output: 48.62 toks/s]
+QUESTION_COMPLETE 52 TriviaQA dev_2977 4.84
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 128.33it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.45it/s, est. speed input: 2613.53 toks/s, output: 57.86 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.44it/s, est. speed input: 2613.53 toks/s, output: 57.86 toks/s]
+QUESTION_COMPLETE 53 TriviaQA dev_4976 5.029
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 122.90it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.17it/s, est. speed input: 2856.13 toks/s, output: 56.89 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.16it/s, est. speed input: 2856.13 toks/s, output: 56.89 toks/s]
+QUESTION_COMPLETE 54 TriviaQA dev_3280 4.973
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 126.63it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.84it/s, est. speed input: 3194.57 toks/s, output: 52.53 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.82it/s, est. speed input: 3194.57 toks/s, output: 52.53 toks/s]
+QUESTION_COMPLETE 55 TriviaQA dev_6718 4.936
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 136.06it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  3.77it/s, est. speed input: 2118.17 toks/s, output: 64.05 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  3.76it/s, est. speed input: 2118.17 toks/s, output: 64.05 toks/s]
+QUESTION_COMPLETE 56 TriviaQA dev_4345 5.108
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 131.67it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.87it/s, est. speed input: 2547.19 toks/s, output: 58.42 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.85it/s, est. speed input: 2547.19 toks/s, output: 58.42 toks/s]
+QUESTION_COMPLETE 57 TriviaQA dev_8735 5.175
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 122.83it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.42it/s, est. speed input: 3308.88 toks/s, output: 51.37 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.40it/s, est. speed input: 3308.88 toks/s, output: 51.37 toks/s]
+QUESTION_COMPLETE 58 TriviaQA dev_4016 5.697
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 132.34it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.05it/s, est. speed input: 3204.53 toks/s, output: 48.43 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.03it/s, est. speed input: 3204.53 toks/s, output: 48.43 toks/s]
+QUESTION_COMPLETE 59 TriviaQA dev_8164 5.605
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 87.97it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.49it/s, est. speed input: 3476.97 toks/s, output: 51.96 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.47it/s, est. speed input: 3476.97 toks/s, output: 51.96 toks/s]
+QUESTION_COMPLETE 60 TriviaQA dev_5802 4.271
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 102.39it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  3.77it/s, est. speed input: 2061.34 toks/s, output: 64.04 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  3.76it/s, est. speed input: 2061.34 toks/s, output: 64.04 toks/s]
+QUESTION_COMPLETE 61 PopQA test_9138 11.534
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 146.68it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.25it/s, est. speed input: 3256.85 toks/s, output: 49.98 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.22it/s, est. speed input: 3256.85 toks/s, output: 49.98 toks/s]
+QUESTION_COMPLETE 62 PopQA test_1354 11.892
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 147.17it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  3.04it/s, est. speed input: 1658.89 toks/s, output: 66.95 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  3.04it/s, est. speed input: 1658.89 toks/s, output: 66.95 toks/s]
+QUESTION_COMPLETE 63 PopQA test_10581 17.539
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 143.69it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.83it/s, est. speed input: 3699.77 toks/s, output: 52.49 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.81it/s, est. speed input: 3699.77 toks/s, output: 52.49 toks/s]
+QUESTION_COMPLETE 64 PopQA test_13722 4.29
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 153.08it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.69it/s, est. speed input: 2517.38 toks/s, output: 60.92 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.68it/s, est. speed input: 2517.38 toks/s, output: 60.92 toks/s]
+QUESTION_COMPLETE 65 PopQA test_7825 4.324
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 153.60it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.64it/s, est. speed input: 3556.37 toks/s, output: 56.43 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.63it/s, est. speed input: 3556.37 toks/s, output: 56.43 toks/s]
+QUESTION_COMPLETE 66 PopQA test_2839 4.197
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 157.26it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.97it/s, est. speed input: 3132.27 toks/s, output: 53.77 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.95it/s, est. speed input: 3132.27 toks/s, output: 53.77 toks/s]
+QUESTION_COMPLETE 67 PopQA test_8671 4.53
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 153.30it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.15it/s, est. speed input: 3998.93 toks/s, output: 49.19 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.13it/s, est. speed input: 3998.93 toks/s, output: 49.19 toks/s]
+QUESTION_COMPLETE 68 PopQA test_7 5.954
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 152.64it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.84it/s, est. speed input: 3160.00 toks/s, output: 52.54 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.82it/s, est. speed input: 3160.00 toks/s, output: 52.54 toks/s]
+QUESTION_COMPLETE 69 PopQA test_6082 5.39
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 133.77it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.53it/s, est. speed input: 3377.97 toks/s, output: 55.25 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.51it/s, est. speed input: 3377.97 toks/s, output: 55.25 toks/s]
+QUESTION_COMPLETE 70 PopQA test_6154 3.969
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 100.10it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.60it/s, est. speed input: 2761.94 toks/s, output: 59.82 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.59it/s, est. speed input: 2761.94 toks/s, output: 59.82 toks/s]
+QUESTION_COMPLETE 71 HotpotQA dev_975 3.516
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 145.35it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  3.64it/s, est. speed input: 2359.31 toks/s, output: 61.88 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  3.63it/s, est. speed input: 2359.31 toks/s, output: 61.88 toks/s]
+QUESTION_COMPLETE 72 HotpotQA dev_2617 4.263
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 37.13it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  3.60it/s, est. speed input: 1955.80 toks/s, output: 64.82 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  3.59it/s, est. speed input: 1955.80 toks/s, output: 64.82 toks/s]
+QUESTION_COMPLETE 73 HotpotQA dev_4116 4.323
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 137.31it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.96it/s, est. speed input: 2663.24 toks/s, output: 59.48 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.94it/s, est. speed input: 2663.24 toks/s, output: 59.48 toks/s]
+QUESTION_COMPLETE 74 HotpotQA dev_4192 4.161
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 139.88it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.48it/s, est. speed input: 3643.20 toks/s, output: 51.83 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.46it/s, est. speed input: 3643.20 toks/s, output: 51.83 toks/s]
+QUESTION_COMPLETE 75 HotpotQA dev_5301 4.141
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 136.33it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.21it/s, est. speed input: 2314.16 toks/s, output: 63.20 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.21it/s, est. speed input: 2314.16 toks/s, output: 63.20 toks/s]
+QUESTION_COMPLETE 76 HotpotQA dev_7045 4.461
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 146.07it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  2.73it/s, est. speed input: 1431.66 toks/s, output: 68.28 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  2.73it/s, est. speed input: 1431.66 toks/s, output: 68.28 toks/s]
+QUESTION_COMPLETE 77 HotpotQA dev_840 4.987
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 99.87it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.86it/s, est. speed input: 2642.82 toks/s, output: 58.27 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.84it/s, est. speed input: 2642.82 toks/s, output: 58.27 toks/s]
+QUESTION_COMPLETE 78 HotpotQA dev_7242 7.768
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 143.12it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.97it/s, est. speed input: 3277.19 toks/s, output: 53.70 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.95it/s, est. speed input: 3277.19 toks/s, output: 53.70 toks/s]
+QUESTION_COMPLETE 79 HotpotQA dev_1829 4.118
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 138.00it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.11it/s, est. speed input: 3452.09 toks/s, output: 56.23 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  5.10it/s, est. speed input: 3452.09 toks/s, output: 56.23 toks/s]
+QUESTION_COMPLETE 80 HotpotQA dev_7330 4.16
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 124.17it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  1.46it/s, est. speed input: 807.63 toks/s, output: 76.07 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  1.46it/s, est. speed input: 807.63 toks/s, output: 76.07 toks/s]
+QUESTION_COMPLETE 81 2wiki dev_1774 4.762
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 154.73it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.95it/s, est. speed input: 3157.50 toks/s, output: 59.36 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.93it/s, est. speed input: 3157.50 toks/s, output: 59.36 toks/s]
+QUESTION_COMPLETE 82 2wiki dev_7603 4.401
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 136.17it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.98it/s, est. speed input: 4405.13 toks/s, output: 48.84 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.95it/s, est. speed input: 4405.13 toks/s, output: 48.84 toks/s]
+QUESTION_COMPLETE 83 2wiki dev_1303 4.411
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 143.89it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  1.19it/s, est. speed input: 620.54 toks/s, output: 76.07 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  1.19it/s, est. speed input: 620.54 toks/s, output: 76.07 toks/s]
+QUESTION_COMPLETE 84 2wiki dev_222 5.48
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 105.84it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.46it/s, est. speed input: 3406.39 toks/s, output: 51.68 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.44it/s, est. speed input: 3406.39 toks/s, output: 51.68 toks/s]
+QUESTION_COMPLETE 85 2wiki dev_10734 5.522
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 138.11it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.32it/s, est. speed input: 2353.45 toks/s, output: 60.54 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  4.31it/s, est. speed input: 2353.45 toks/s, output: 60.54 toks/s]
+QUESTION_COMPLETE 86 2wiki dev_5283 3.414
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 130.90it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  7.03it/s, est. speed input: 3793.38 toks/s, output: 49.23 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  7.01it/s, est. speed input: 3793.38 toks/s, output: 49.23 toks/s]
+QUESTION_COMPLETE 87 2wiki dev_6653 3.985
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 66.40it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  3.04it/s, est. speed input: 1976.46 toks/s, output: 66.88 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  3.04it/s, est. speed input: 1976.46 toks/s, output: 66.88 toks/s]
+QUESTION_COMPLETE 88 2wiki dev_10251 5.326
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 73.65it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  7.03it/s, est. speed input: 3733.29 toks/s, output: 49.18 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  7.00it/s, est. speed input: 3733.29 toks/s, output: 49.18 toks/s]
+QUESTION_COMPLETE 89 2wiki dev_3006 4.705
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 64.91it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  7.02it/s, est. speed input: 3922.66 toks/s, output: 49.18 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  7.00it/s, est. speed input: 3922.66 toks/s, output: 49.18 toks/s]
+QUESTION_COMPLETE 90 2wiki dev_6533 4.507
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 124.25it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.99it/s, est. speed input: 4188.37 toks/s, output: 48.91 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.96it/s, est. speed input: 4188.37 toks/s, output: 48.91 toks/s]
+QUESTION_COMPLETE 91 StrategyQA train_1454 5.333
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 144.26it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  7.52it/s, est. speed input: 3730.13 toks/s, output: 52.62 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  7.49it/s, est. speed input: 3730.13 toks/s, output: 52.62 toks/s]
+QUESTION_COMPLETE 92 StrategyQA train_732 4.306
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 73.21it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  7.61it/s, est. speed input: 3852.20 toks/s, output: 53.26 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  7.59it/s, est. speed input: 3852.20 toks/s, output: 53.26 toks/s]
+QUESTION_COMPLETE 93 StrategyQA train_113 8.836
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 36.65it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.28it/s, est. speed input: 3313.96 toks/s, output: 43.99 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.27it/s, est. speed input: 3313.96 toks/s, output: 43.99 toks/s]
+QUESTION_COMPLETE 94 StrategyQA train_1524 12.527
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 152.94it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.96it/s, est. speed input: 3569.13 toks/s, output: 48.75 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.93it/s, est. speed input: 3569.13 toks/s, output: 48.75 toks/s]
+QUESTION_COMPLETE 95 StrategyQA train_1483 12.211
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 138.99it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  7.61it/s, est. speed input: 3631.76 toks/s, output: 53.26 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  7.58it/s, est. speed input: 3631.76 toks/s, output: 53.26 toks/s]
+QUESTION_COMPLETE 96 StrategyQA train_1072 11.712
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 147.81it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.74it/s, est. speed input: 3637.55 toks/s, output: 47.21 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.72it/s, est. speed input: 3637.55 toks/s, output: 47.21 toks/s]
+QUESTION_COMPLETE 97 StrategyQA train_665 21.253
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 103.33it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  7.00it/s, est. speed input: 3642.97 toks/s, output: 49.01 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.97it/s, est. speed input: 3642.97 toks/s, output: 49.01 toks/s]
+QUESTION_COMPLETE 98 StrategyQA train_45 4.12
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 146.12it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.94it/s, est. speed input: 3752.31 toks/s, output: 48.61 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  6.92it/s, est. speed input: 3752.31 toks/s, output: 48.61 toks/s]
+QUESTION_COMPLETE 99 StrategyQA train_768 4.949
+Load data from provided data
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s]Use `query: ` as retreival instruction
+Encoding process: 100%|██████████| 1/1 [00:00<00:00, 142.39it/s]
+Begin faiss searching...
+End faiss searching
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:01<00:00,  1.50s/it, est. speed input: 352.95 toks/s, output: 81.24 toks/s]Processed prompts: 100%|██████████| 1/1 [00:01<00:00,  1.50s/it, est. speed input: 352.95 toks/s, output: 81.24 toks/s]
+QUESTION_COMPLETE 100 StrategyQA train_1264 6.389
+[rank0]:[W1017 03:22:52.483948742 ProcessGroupNCCL.cpp:1250] Warning: WARNING: process group has NOT been destroyed before we destruct ProcessGroupNCCL. On normal program exit, the application should call destroy_process_group to ensure that any pending NCCL operations have finished in this process. In rare cases this process can exit before this point and block the progress of another member of the process group. This constraint has always been present,  but this warning has only been added since PyTorch 2.4 (function operator())

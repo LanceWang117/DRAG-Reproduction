@@ -1,0 +1,5849 @@
+{
+  "question_count": 200,
+  "exact_paired_questions": true,
+  "datasets": [
+    {
+      "dataset": "NQ",
+      "count": 50,
+      "naive_metrics": {
+        "em": 0.44,
+        "f1": 0.547235767816413
+      },
+      "naive_inference_seconds": 262.4641995597631,
+      "drag_metrics": {
+        "em": 0.34,
+        "f1": 0.5055897990897991
+      },
+      "drag_inference_seconds": 1577
+    },
+    {
+      "dataset": "TriviaQA",
+      "count": 10,
+      "naive_metrics": {
+        "em": 0.6,
+        "f1": 0.6725274725274726
+      },
+      "naive_inference_seconds": 51.51253608055413,
+      "drag_metrics": {
+        "em": 0.7,
+        "f1": 0.7285714285714285
+      },
+      "drag_inference_seconds": 286.45080377999693
+    },
+    {
+      "dataset": "PopQA",
+      "count": 40,
+      "naive_metrics": {
+        "em": 0.45,
+        "f1": 0.4947222222222222
+      },
+      "naive_inference_seconds": 199.83964840788394,
+      "drag_metrics": {
+        "em": 0.55,
+        "f1": 0.5976190476190476
+      },
+      "drag_inference_seconds": 892.7701830212027
+    },
+    {
+      "dataset": "HotpotQA",
+      "count": 35,
+      "naive_metrics": {
+        "em": 0.2857142857142857,
+        "f1": 0.36673469387755103
+      },
+      "naive_inference_seconds": 139.98118273820728,
+      "drag_metrics": {
+        "em": 0.34285714285714286,
+        "f1": 0.46843537414965986
+      },
+      "drag_inference_seconds": 978.8384449752048
+    },
+    {
+      "dataset": "2wiki",
+      "count": 40,
+      "naive_metrics": {
+        "em": 0.15,
+        "f1": 0.18000854700854702
+      },
+      "naive_inference_seconds": 169.9111993908882,
+      "drag_metrics": {
+        "em": 0.35,
+        "f1": 0.38125
+      },
+      "drag_inference_seconds": 1270.3558613341302
+    },
+    {
+      "dataset": "StrategyQA",
+      "count": 25,
+      "naive_metrics": {
+        "em": 0.64,
+        "f1": 0.64
+      },
+      "naive_inference_seconds": 148.4587639691308,
+      "drag_metrics": {
+        "em": 0.64,
+        "f1": 0.64
+      },
+      "drag_inference_seconds": 640.1135493442416
+    }
+  ],
+  "pairs": [
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_7701",
+      "question": "are jaffa cakes a biscuit or a cake",
+      "golden_answers": [
+        "biscuit-sized cakes"
+      ],
+      "naive_answer": "a cake.",
+      "drag_answer": "Cakes.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.6666666666666666,
+        "acc": 0.0,
+        "precision": 1.0,
+        "recall": 0.5
+      },
+      "naive_seconds": 6.603576902300119,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_2977",
+      "question": "who is the girl in somebody i used to know",
+      "golden_answers": [
+        "Kimbra"
+      ],
+      "naive_answer": "Kimbra.",
+      "drag_answer": "Kimbra",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.140063440427184,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_4976",
+      "question": "who wrote the music for somewhere in time",
+      "golden_answers": [
+        "John Barry"
+      ],
+      "naive_answer": "John Barry.",
+      "drag_answer": "John Barry.",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.020862412638962,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_3280",
+      "question": "who played aang in the last airbender movie",
+      "golden_answers": [
+        "Noah Ringer"
+      ],
+      "naive_answer": "Noah Ringer.",
+      "drag_answer": "Noah Ringer.",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.179759293794632,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_6718",
+      "question": "who played lucas on days of our lives",
+      "golden_answers": [
+        "Bryan Ronald Dattilo"
+      ],
+      "naive_answer": "Bryan Dattilo.",
+      "drag_answer": "Bryan Dattilo.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.8,
+        "acc": 0.0,
+        "precision": 1.0,
+        "recall": 0.6666666666666666
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.8,
+        "acc": 0.0,
+        "precision": 1.0,
+        "recall": 0.6666666666666666
+      },
+      "naive_seconds": 5.146148352883756,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_4345",
+      "question": "the popular sculpture shiva nataraja depicts shiva\u2014or siva\u2014as",
+      "golden_answers": [
+        "dancing"
+      ],
+      "naive_answer": "the lord of dance and dramatic arts.",
+      "drag_answer": "the lord of dance and dramatic arts.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_seconds": 5.199744813144207,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_8735",
+      "question": "when does the big bang theory season 11 start",
+      "golden_answers": [
+        "September 25, 2017"
+      ],
+      "naive_answer": "September 25, 2017.",
+      "drag_answer": "September 25, 2017.",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.171714249998331,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_4016",
+      "question": "who is the top goal scorer for brazil",
+      "golden_answers": [
+        "Pel\u00e9"
+      ],
+      "naive_answer": "Pel\u00e9.",
+      "drag_answer": "Rom\u00e1rio.",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_seconds": 5.461308921687305,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_8164",
+      "question": "how do you pronounce thor's hammer's name",
+      "golden_answers": [
+        "Myolnir"
+      ],
+      "naive_answer": "Mjolnir is pronounced as \"MYOL-neer\".",
+      "drag_answer": "MYOL-neer or MYOL-nir, with emphasis on the first syllable.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.2222222222222222,
+        "acc": 1.0,
+        "precision": 0.125,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.440539489500225,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_5802",
+      "question": "when is season 6 of chicago fire coming out",
+      "golden_answers": [
+        "September 28, 2017"
+      ],
+      "naive_answer": "September 28, 2017.",
+      "drag_answer": "September 28, 2017.",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.2058568559587,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_6813",
+      "question": "how much aid does us give to other countries",
+      "golden_answers": [
+        "$43.10 billion"
+      ],
+      "naive_answer": "$50.1 billion.",
+      "drag_answer": "$42.4 billion.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.5,
+        "acc": 0.0,
+        "precision": 0.5,
+        "recall": 0.5
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.5,
+        "acc": 0.0,
+        "precision": 0.5,
+        "recall": 0.5
+      },
+      "naive_seconds": 5.27268704213202,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_8639",
+      "question": "when does the regular football season start for 2017",
+      "golden_answers": [
+        "September 7, 2017"
+      ],
+      "naive_answer": "September 7, 2017.",
+      "drag_answer": "September 7, 2017.",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.018700862303376,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_3573",
+      "question": "who is in charge of the hollywood walk of fame",
+      "golden_answers": [
+        "the Hollywood Chamber of Commerce"
+      ],
+      "naive_answer": "The Hollywood Walk of Fame has had several chairmen over the years, including Lestz, John Pavlik, and Maureen Schultz, who is the current chair, according to the chamber's 2016 selection announcement.",
+      "drag_answer": "The Hollywood Chamber of Commerce, specifically the Walk of Fame Committee.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.12903225806451613,
+        "acc": 0.0,
+        "precision": 0.07407407407407407,
+        "recall": 0.5
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.6153846153846153,
+        "acc": 1.0,
+        "precision": 0.4444444444444444,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.510948509909213,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_5071",
+      "question": "when did scotland last go to world cup",
+      "golden_answers": [
+        "1998"
+      ],
+      "naive_answer": "1998.",
+      "drag_answer": "1998",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 4.993973576463759,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_5410",
+      "question": "what type of nuclear bomb was developed by the united states in 1954",
+      "golden_answers": [
+        "thermonuclear weapon"
+      ],
+      "naive_answer": "B-41.",
+      "drag_answer": "There is no specific information in the provided documents about a nuclear bomb developed by the United States in 1954.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_seconds": 5.094643872231245,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_8509",
+      "question": "who does the voice of the beast in beauty and the beast 2017",
+      "golden_answers": [
+        "Dan Stevens"
+      ],
+      "naive_answer": "Dan Stevens.",
+      "drag_answer": "Dan Stevens (for singing scenes)",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.5714285714285715,
+        "acc": 1.0,
+        "precision": 0.4,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.65811013430357,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_1223",
+      "question": "who is the girl playing with guns and roses",
+      "golden_answers": [
+        "Melissa Reese"
+      ],
+      "naive_answer": "Gu Xixi.",
+      "drag_answer": "Kasumi Asakura, also known as Rose Hip.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_seconds": 5.2614550571888685,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_3381",
+      "question": "who sang youll never walk alone in carousel",
+      "golden_answers": [
+        "Nettie Fowler"
+      ],
+      "naive_answer": "Nettie Fowler.",
+      "drag_answer": "Christine Johnson.",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_seconds": 5.330854140222073,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_7676",
+      "question": "when was judicial review granted to the supreme court within the united states",
+      "golden_answers": [
+        "1796",
+        "1803"
+      ],
+      "naive_answer": "1803.",
+      "drag_answer": "1803",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.3669508174061775,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_2430",
+      "question": "the fauves were a group of french artists associated with which art movement",
+      "golden_answers": [
+        "Fauvism"
+      ],
+      "naive_answer": "Fauvism.",
+      "drag_answer": "Fauvism.",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.3837262177839875,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_8709",
+      "question": "the guy who tries to kill bugs bunny",
+      "golden_answers": [
+        "Elmer J. Fudd"
+      ],
+      "naive_answer": "Yosemite Sam.",
+      "drag_answer": "Elmer Fudd.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.8,
+        "acc": 0.0,
+        "precision": 1.0,
+        "recall": 0.6666666666666666
+      },
+      "naive_seconds": 4.440325801260769,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_3483",
+      "question": "where is the world cup going to be in 2019",
+      "golden_answers": [
+        "Wales",
+        "England"
+      ],
+      "naive_answer": "England and Wales.",
+      "drag_answer": "England and Wales (for the Cricket World Cup) and Paraguay (for the FIFA Beach Soccer World Cup)",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.5,
+        "acc": 1.0,
+        "precision": 0.3333333333333333,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.125,
+        "acc": 1.0,
+        "precision": 0.06666666666666667,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.170191984623671,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_6748",
+      "question": "when did they start building the leaning tower of pisa",
+      "golden_answers": [
+        "August 14, 1173"
+      ],
+      "naive_answer": "August 1173.",
+      "drag_answer": "1173",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.8,
+        "acc": 0.0,
+        "precision": 1.0,
+        "recall": 0.6666666666666666
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.5,
+        "acc": 0.0,
+        "precision": 1.0,
+        "recall": 0.3333333333333333
+      },
+      "naive_seconds": 5.1614309679716825,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_958",
+      "question": "who built the sudarshan lake in the saurashtra region",
+      "golden_answers": [
+        "Pushyagupta"
+      ],
+      "naive_answer": "Pushyagupta.",
+      "drag_answer": "Pushyagupta.",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.233686321415007,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_5725",
+      "question": "who sings be prepared in the lion king",
+      "golden_answers": [
+        "John Vickery",
+        "Cheech Marin",
+        "Stanley Wayne Mathis",
+        "Whoopi Goldberg",
+        "Jeremy Irons",
+        "Jim Cummings",
+        "Tracy Nicole Chapman",
+        "Kevin Cahoon"
+      ],
+      "naive_answer": "Jeremy Irons, Cheech Marin, Jim Cummings, and Whoopi Goldberg.",
+      "drag_answer": "Jeremy Irons, Cheech Marin, Jim Cummings, and Whoopi Goldberg.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.3636363636363636,
+        "acc": 1.0,
+        "precision": 0.2222222222222222,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.3636363636363636,
+        "acc": 1.0,
+        "precision": 0.2222222222222222,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.366151554509997,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_6825",
+      "question": "how many episodes in season 2 sex and the city",
+      "golden_answers": [
+        "18"
+      ],
+      "naive_answer": "18.",
+      "drag_answer": "18",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.217464916408062,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_7633",
+      "question": "when does season 4 jane the virgin come out",
+      "golden_answers": [
+        "October 13, 2017"
+      ],
+      "naive_answer": "October 13, 2017.",
+      "drag_answer": "October 13, 2017, to April 20, 2018.",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.6,
+        "acc": 1.0,
+        "precision": 0.42857142857142855,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.198016621172428,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_2034",
+      "question": "when do riley and danny get together in baby daddy",
+      "golden_answers": [
+        "\"Ben-Semination\""
+      ],
+      "naive_answer": "There is no information in the given documents about when Riley and Danny get together in Baby Daddy.",
+      "drag_answer": "Season 1, Episode 1",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_seconds": 5.278157960623503,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_2276",
+      "question": "what is the median income in the us",
+      "golden_answers": [
+        "$61,372 in 2017"
+      ],
+      "naive_answer": "$57,739.",
+      "drag_answer": "$67,149",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_seconds": 5.313362075947225,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_5359",
+      "question": "in a christmas carol what was bob cratchit's oldest daughter's name",
+      "golden_answers": [
+        "Martha Cratchit"
+      ],
+      "naive_answer": "not mentioned in the given documents.",
+      "drag_answer": "Belinda",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_seconds": 5.466336294077337,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_6394",
+      "question": "who dat say who dat when i say who dat origin",
+      "golden_answers": [
+        "Affectionately Yours"
+      ],
+      "naive_answer": "The earliest documented use of the phrase \"who dat say who dat when I say who dat?\" can be found in a 1852 movie, specifically in the movie \"Affectionately Yours.\"",
+      "drag_answer": "The phrase \"who dat say who dat when I say who dat\" originated from minstrel shows and vaudeville acts of the late 19th and early 20th centuries, as well as a song called \"Who Dat Say Chicken in dis Crowd\" by Paul Laurence Dunbar and Will Marion Cook in the 19th Century.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.14285714285714288,
+        "acc": 1.0,
+        "precision": 0.07692307692307693,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_seconds": 5.31242592446506,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_5420",
+      "question": "what is the process that allows liquid water to return to the earth from the atmosphere",
+      "golden_answers": [
+        "Evaporation"
+      ],
+      "naive_answer": "condensation.",
+      "drag_answer": "Condensation.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_seconds": 5.386503760702908,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_5657",
+      "question": "when is season 5 of marvel's agents of shield coming out",
+      "golden_answers": [
+        "December 1, 2017"
+      ],
+      "naive_answer": "December 1, 2017.",
+      "drag_answer": "March 2, 2018",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_seconds": 5.152521451935172,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_3295",
+      "question": "whats the logo at the end of the infinity war",
+      "golden_answers": [
+        "Captain Marvel Logo"
+      ],
+      "naive_answer": "Captain Marvel Logo.",
+      "drag_answer": "Captain Marvel Logo.",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.092403443530202,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_5332",
+      "question": "who has final authority over the federal budget",
+      "golden_answers": [
+        "Office of Management and Budget"
+      ],
+      "naive_answer": "Congress.",
+      "drag_answer": "Congress.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_seconds": 5.099252518266439,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_6992",
+      "question": "according to the us constitution who has the authority to create an army",
+      "golden_answers": [
+        "Congress"
+      ],
+      "naive_answer": "Congress.",
+      "drag_answer": "Congress.",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 4.8658699337393045,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_6789",
+      "question": "when is the movie jurassic world coming out",
+      "golden_answers": [
+        "2015"
+      ],
+      "naive_answer": "I don't see any information about the release date of the movie \"Jurassic World\" in the given documents. However, I can tell you that the release date of the movie \"Jurassic World\" is mentioned in Doc 1 as June 22, 2018.",
+      "drag_answer": "June 22, 2018.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_seconds": 5.680044996552169,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_5184",
+      "question": "who does the voice for triumph the dog",
+      "golden_answers": [
+        "Robert Smigel"
+      ],
+      "naive_answer": "Robert Smigel.",
+      "drag_answer": "Robert Smigel.",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.341378340497613,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_3507",
+      "question": "who plays the mom in bob's burgers",
+      "golden_answers": [
+        "John Roberts"
+      ],
+      "naive_answer": "John Roberts.",
+      "drag_answer": "John Roberts.",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.266173683106899,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_6667",
+      "question": "who has played with the most mlb teams",
+      "golden_answers": [
+        "Octavio Eduardo Dotel Diaz"
+      ],
+      "naive_answer": "Octavio Dotel and Edwin Jackson.",
+      "drag_answer": "Octavio Dotel.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.4444444444444445,
+        "acc": 0.0,
+        "precision": 0.4,
+        "recall": 0.5
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.6666666666666666,
+        "acc": 0.0,
+        "precision": 1.0,
+        "recall": 0.5
+      },
+      "naive_seconds": 5.440086252987385,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_3753",
+      "question": "who is hosting the fifa world cup in 2022",
+      "golden_answers": [
+        "Qatar"
+      ],
+      "naive_answer": "Qatar.",
+      "drag_answer": "Qatar.",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.644920838996768,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_3350",
+      "question": "who sings for charles in the greatest showman",
+      "golden_answers": [
+        "James Babson"
+      ],
+      "naive_answer": "Zac Efron.",
+      "drag_answer": "Sam Humphrey.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_seconds": 3.3708566511049867,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_663",
+      "question": "where is this season of survivor being played",
+      "golden_answers": [
+        "Mamanuca Islands, Fiji"
+      ],
+      "naive_answer": "Fiji.",
+      "drag_answer": "Fiji.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.5,
+        "acc": 0.0,
+        "precision": 1.0,
+        "recall": 0.3333333333333333
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.5,
+        "acc": 0.0,
+        "precision": 1.0,
+        "recall": 0.3333333333333333
+      },
+      "naive_seconds": 4.311290794983506,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_3689",
+      "question": "where was baz luhrmann's romeo and juliet filmed",
+      "golden_answers": [
+        "Miami",
+        "Mexico City",
+        "Boca del Rio, Veracruz"
+      ],
+      "naive_answer": "Australia, Italy, and Mexico.",
+      "drag_answer": "Multiple locations, including Italy, Miami, and possibly Australia and Canada.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.3333333333333333,
+        "acc": 0.0,
+        "precision": 0.25,
+        "recall": 0.5
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.18181818181818182,
+        "acc": 1.0,
+        "precision": 0.1,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.271314865909517,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_318",
+      "question": "first person to have 1 million followers on twitter",
+      "golden_answers": [
+        "Katy Perry"
+      ],
+      "naive_answer": "Robert Downey Jr.",
+      "drag_answer": "Evan Williams.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_seconds": 5.557986864820123,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_4241",
+      "question": "presented the idea of indian constituent assembly in pre independence day",
+      "golden_answers": [
+        "M. N. Roy"
+      ],
+      "naive_answer": "1934.",
+      "drag_answer": "Jawaharlal Nehru.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_seconds": 5.273115146905184,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_8284",
+      "question": "how many episodes of andy griffith were made",
+      "golden_answers": [
+        "249"
+      ],
+      "naive_answer": "249.",
+      "drag_answer": "249",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.558473709970713,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_5230",
+      "question": "actor who played cass winthrop on another world",
+      "golden_answers": [
+        "Schnetzer"
+      ],
+      "naive_answer": "Stephen Schnetzer.",
+      "drag_answer": "Stephen Schnetzer.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.6666666666666666,
+        "acc": 1.0,
+        "precision": 0.5,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.6666666666666666,
+        "acc": 1.0,
+        "precision": 0.5,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.47652305662632,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_6898",
+      "question": "what is the full form of g p s",
+      "golden_answers": [
+        "Global Positioning System"
+      ],
+      "naive_answer": "General Physical Preparation and Generalized System of Preferences.",
+      "drag_answer": "Generalized System of Preferences (GSP), General Physical Preparedness (GPP), General Schedule (GS), General Practitioner's Surgery, Global Positioning System, Gross Profit Spread.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.18181818181818182,
+        "acc": 0.0,
+        "precision": 0.125,
+        "recall": 0.3333333333333333
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.25,
+        "acc": 1.0,
+        "precision": 0.14285714285714285,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.648372026160359,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "NQ",
+      "split": "dev",
+      "id": "dev_1835",
+      "question": "who claimed victory at the first battle of bull run",
+      "golden_answers": [
+        "Confederate"
+      ],
+      "naive_answer": "The Confederates.",
+      "drag_answer": "The Confederate forces, led by General P.G.T. Beauregard.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 1.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.25,
+        "acc": 1.0,
+        "precision": 0.14285714285714285,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.407935838215053,
+      "drag_seconds": null
+    },
+    {
+      "dataset": "TriviaQA",
+      "split": "dev",
+      "id": "dev_7701",
+      "question": "Which Book of the Bible follows Job alphabetically?",
+      "golden_answers": [
+        "Yo'el",
+        "Joel",
+        "Joel (name)",
+        "Joel (disambiguation)",
+        "Yoel",
+        "Yoeil"
+      ],
+      "naive_answer": "Psalms.",
+      "drag_answer": "Proverbs.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_seconds": 5.879201125353575,
+      "drag_seconds": 23.955714027397335
+    },
+    {
+      "dataset": "TriviaQA",
+      "split": "dev",
+      "id": "dev_2977",
+      "question": "\"Which one of four \"\"big cats\"\" in the Panthera genus is the only one found in the New World (i.e. Mexico, across much of Central America and south to Paraguay and northern Argentina)?\"",
+      "golden_answers": [
+        "Onca-pintada",
+        "Otorongo",
+        "Jaguar",
+        "Leo onca",
+        "Reproductive behavior of jaguars",
+        "Jaguar (panthera)",
+        "Panthera Onca",
+        "Oncas",
+        "Uthurunku",
+        "On\u00e7a",
+        "Jaguars",
+        "On\u00e7as",
+        "Panthera onca",
+        "P.Onca",
+        "Mating jaguars",
+        "Felis onca",
+        "Onca",
+        "Jaguar (animal)",
+        "On\u00e7a-pintada"
+      ],
+      "naive_answer": "Jaguar.",
+      "drag_answer": "The jaguar.",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 4.840199586004019,
+      "drag_seconds": 49.67180245555937
+    },
+    {
+      "dataset": "TriviaQA",
+      "split": "dev",
+      "id": "dev_4976",
+      "question": "Who became the first President of the newly formed Republic of Tanzania in 1964, a position he held until his retirement in 1985?",
+      "golden_answers": [
+        "Mwalimu",
+        "Nyerere, Julius Kambarage",
+        "Julius Nyerere",
+        "Nyerere",
+        "Mwalimu J.K. Nyerere",
+        "Mwalimu Nyerere",
+        "JULIUS NYERERE",
+        "Julius Kambarage Neyrere",
+        "Julius Nyrere",
+        "Julius K. Nyerere",
+        "A Candle on Kilimanjaro",
+        "Juilius Kambarage Nyerere",
+        "Kambarage Nyerere",
+        "Julius Kambarage Nyerere",
+        "Mwalimu Julius Kambarage Nyerere"
+      ],
+      "naive_answer": "Julius Kambarage Nyerere.",
+      "drag_answer": "Julius Nyerere.",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.028716457076371,
+      "drag_seconds": 25.745227134786546
+    },
+    {
+      "dataset": "TriviaQA",
+      "split": "dev",
+      "id": "dev_3280",
+      "question": "What is the name given to horse racing over hedges, ditches and other obstacles set on a regular course?",
+      "golden_answers": [
+        "Steeplechases",
+        "Steeplechaser",
+        "Steeplechase racing in Australia",
+        "Jumps race",
+        "Steeplechase",
+        "Steeple Chase",
+        "Steeple-chasing",
+        "Steeplechasing",
+        "Steeplechase racing in the United States",
+        "Jumps races",
+        "Jumps racing",
+        "Horse racing steeplechase",
+        "Steeple chase",
+        "Chase (racing)",
+        "Steeplechase (horse racing)"
+      ],
+      "naive_answer": "Steeplechase.",
+      "drag_answer": "steeplechase",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 4.973254692740738,
+      "drag_seconds": 15.632596291601658
+    },
+    {
+      "dataset": "TriviaQA",
+      "split": "dev",
+      "id": "dev_6718",
+      "question": "Which is the most easterly of these Libyan cities: Benghazi, Misrata, Sirte, Tobruk, Tripoli?",
+      "golden_answers": [
+        "Antipyrgos (Titular See)",
+        "Antipyrgus",
+        "Tobruk, Libya",
+        "Tubruq",
+        "TOBRUK",
+        "Antipyrgos",
+        "Tobruk"
+      ],
+      "naive_answer": "Misrata.",
+      "drag_answer": "Tobruk.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 4.936335384845734,
+      "drag_seconds": 29.076084427535534
+    },
+    {
+      "dataset": "TriviaQA",
+      "split": "dev",
+      "id": "dev_4345",
+      "question": "What is the biggest city on the Yangtze river?",
+      "golden_answers": [
+        "Economy of Shanghai",
+        "Sanghai",
+        "Shang-Hai",
+        "Shang Hai",
+        "Zanhae",
+        "Shanghai Municipality, China",
+        "Shanghae",
+        "Shang-hai",
+        "Venice of the Orient",
+        "Shanghai Municipal Area",
+        "Municipality of Shanghai",
+        "Shangkai",
+        "Shangai (architectural images)",
+        "Shanghai municipality",
+        "Shanghai people",
+        "Zanhe",
+        "Shang hai",
+        "CN-31",
+        "Shanghai, China",
+        "\u6caa",
+        "Sh\u00e0ng Hai",
+        "Shanghai china",
+        "City of Shanghai",
+        "Shangha",
+        "SHCN",
+        "Shanghai Municipality",
+        "Snaghai",
+        "Schanghai",
+        "Shanghai",
+        "S'hai",
+        "Shanghi",
+        "Sh\u00e0ngh\u01cei",
+        "Shanghai (China)",
+        "Z\u00e5nhae",
+        "Shanghai Shi",
+        "China Shanghai",
+        "UN/LOCODE:CNSHA",
+        "Shnaghai",
+        "Shanghai (architectural images)",
+        "Shanghai (architecture images)",
+        "Air pollution in Shanghai",
+        "Paris of China",
+        "Shang-hae",
+        "Shangai",
+        "ShangHai",
+        "\u6eec",
+        "Sh\u00e0ngh\u01cei Sh\u00ec",
+        "\u4e0a\u6d77\u5e02",
+        "\u4e0a\u6d77"
+      ],
+      "naive_answer": "I don't have information about the biggest city on the Yangtze river.",
+      "drag_answer": "Chongqing",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.15384615384615383,
+        "acc": 0.0,
+        "precision": 0.1,
+        "recall": 0.3333333333333333
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_seconds": 5.107745396904647,
+      "drag_seconds": 28.539756127633154
+    },
+    {
+      "dataset": "TriviaQA",
+      "split": "dev",
+      "id": "dev_8735",
+      "question": "Lady Gaga raised the ire of PETA earlier this month when she wore what tot he VMAs?",
+      "golden_answers": [
+        "A meat dress",
+        "Vanitas: Flesh Dress for an Albino Anorectic",
+        "Meat Dress"
+      ],
+      "naive_answer": "a dress made of raw meat.",
+      "drag_answer": "a dress made of raw beef.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.5714285714285715,
+        "acc": 0.0,
+        "precision": 0.4,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.28571428571428575,
+        "acc": 0.0,
+        "precision": 0.2,
+        "recall": 0.5
+      },
+      "naive_seconds": 5.174622502177954,
+      "drag_seconds": 31.533389633521438
+    },
+    {
+      "dataset": "TriviaQA",
+      "split": "dev",
+      "id": "dev_4016",
+      "question": "\"On 1 May 1707, who became the first sovereign of the \"\"Kingdom of Great Britain\"\"?\"",
+      "golden_answers": [
+        "Anne, Queen of the UK",
+        "Queen Anne I",
+        "Brandy Nan",
+        "Queen anne",
+        "Queen Anne of England",
+        "Queen Anne I of Great Britain",
+        "Queen Anne I of England",
+        "Anne Regina",
+        "Queen Ann",
+        "Last Queen of England",
+        "Queen Anne",
+        "Queen Anne of Great Britain",
+        "Mrs Morley",
+        "Anne, Queen of Great Britain",
+        "Anne I of the United Kingdom",
+        "Anne, Queen of Scotland",
+        "Anne of Britain",
+        "Anne, Queen of the United Kingdom",
+        "Anne I of Great Britain",
+        "Anne, Queen of England",
+        "Mary and Anne of Denmark",
+        "Anne I of England"
+      ],
+      "naive_answer": "Queen Anne.",
+      "drag_answer": "Queen Anne.",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.696562529541552,
+      "drag_seconds": 19.024765161797404
+    },
+    {
+      "dataset": "TriviaQA",
+      "split": "dev",
+      "id": "dev_8164",
+      "question": "Ocean is NOT recognised International Hydrographic Bureau?",
+      "golden_answers": [
+        "Great Southern Ocean",
+        "South Polar Ocean",
+        "Australia and the Southern Ocean",
+        "South Ocean",
+        "South ocean",
+        "Antarctic ocean",
+        "Antartic ocean",
+        "Southern Icy Ocean",
+        "Antartic Ocean",
+        "South-Polar Ocean",
+        "Australia and the southern ocean",
+        "Austral Ocean",
+        "Southern ocean",
+        "South polar ocean",
+        "Southern Ocean",
+        "The Southern Ocean",
+        "Antarctic Ocean",
+        "Southern Oceans"
+      ],
+      "naive_answer": "Southern Ocean.",
+      "drag_answer": "Southern Ocean.",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.60513336583972,
+      "drag_seconds": 19.899873257614672
+    },
+    {
+      "dataset": "TriviaQA",
+      "split": "dev",
+      "id": "dev_5802",
+      "question": "To which island paradise in Celtic mythology was King Arthur taken after his death?",
+      "golden_answers": [
+        "The Avalon Ballroom",
+        "The Avalon",
+        "Avalon Ballroom",
+        "AVALON"
+      ],
+      "naive_answer": "Avalon.",
+      "drag_answer": "Avalon.",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 4.2707650400698185,
+      "drag_seconds": 43.37159526254982
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_9138",
+      "question": "Who was the screenwriter for A Teacher?",
+      "golden_answers": [
+        "Hannah Fidell",
+        "Hannah Margalit Fidell"
+      ],
+      "naive_answer": "There is no information about the screenwriter for A Teacher in the given documents.",
+      "drag_answer": "Hannah Fidell and Brit Pierson Higgins.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.5,
+        "acc": 1.0,
+        "precision": 0.3333333333333333,
+        "recall": 1.0
+      },
+      "naive_seconds": 11.533556465059519,
+      "drag_seconds": 16.73666470963508
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_1354",
+      "question": "What genre is Needle?",
+      "golden_answers": [
+        "science fiction",
+        "SF",
+        "scifi",
+        "sci Fi",
+        "sci-Fi",
+        "science-fiction",
+        "sci fi",
+        "sciencefiction"
+      ],
+      "naive_answer": "industrial rock.",
+      "drag_answer": "Industrial rock.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_seconds": 11.892321926541626,
+      "drag_seconds": 16.340497680939734
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_10581",
+      "question": "Who was the composer of Broken?",
+      "golden_answers": [
+        "Trent Reznor",
+        "Michael Trent Reznor"
+      ],
+      "naive_answer": "Tobias Tinker and Quentin Grey, as well as classical pieces by Mozart and others.",
+      "drag_answer": "Trent Reznor.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 17.53885122947395,
+      "drag_seconds": 23.386787444353104
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_13722",
+      "question": "What is the capital of Appenzell Ausserrhoden?",
+      "golden_answers": [
+        "Herisau",
+        "Herisau AR",
+        "Trogen",
+        "Trogen AR"
+      ],
+      "naive_answer": "Herisau.",
+      "drag_answer": "Herisau.",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 4.289732339791954,
+      "drag_seconds": 16.946800052188337
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_7825",
+      "question": "What is Florence the capital of?",
+      "golden_answers": [
+        "Tuscany",
+        "Toscana",
+        "Republic of Florence",
+        "Repubblica Fiorentina",
+        "Florentine Republic",
+        "Repubblica di Firenze",
+        "Province of Florence",
+        "Florence",
+        "Florence province",
+        "Firenze province",
+        "provincia di Firenze",
+        "Firenze",
+        "Kingdom of Italy",
+        "Regno d\u2019Italia",
+        "Italy",
+        "IT"
+      ],
+      "naive_answer": "the Italian region of Tuscany.",
+      "drag_answer": "Tuscany",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.4,
+        "acc": 1.0,
+        "precision": 0.25,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 4.323570122011006,
+      "drag_seconds": 15.799376334063709
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_2839",
+      "question": "Who is the father of Frederick Converse Beach?",
+      "golden_answers": [
+        "Alfred Ely Beach"
+      ],
+      "naive_answer": "Alfred Ely Beach.",
+      "drag_answer": "Alfred Ely Beach.",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 4.1970532815903425,
+      "drag_seconds": 35.159667087718844
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_8671",
+      "question": "Who was the screenwriter for Loch Ness?",
+      "golden_answers": [
+        "John Fusco"
+      ],
+      "naive_answer": "John Fusco.",
+      "drag_answer": "John Fusco.",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 4.529771285131574,
+      "drag_seconds": 23.90703487303108
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_7",
+      "question": "What is Leona Deti\u00e8ge's occupation?",
+      "golden_answers": [
+        "politician",
+        "political leader",
+        "political figure",
+        "polit.",
+        "pol"
+      ],
+      "naive_answer": "Politician.",
+      "drag_answer": "A politician.",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.954470886848867,
+      "drag_seconds": 14.31212576571852
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_6082",
+      "question": "Who was the director of In Time?",
+      "golden_answers": [
+        "Andrew Niccol",
+        "Andrew M. Niccol"
+      ],
+      "naive_answer": "Andrew Niccol.",
+      "drag_answer": "Andrew Niccol.",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.389712044969201,
+      "drag_seconds": 13.203506171703339
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_6154",
+      "question": "Who was the director of Romance?",
+      "golden_answers": [
+        "Clarence Brown",
+        "Clarence Leon Brown"
+      ],
+      "naive_answer": "Catherine Breillat.",
+      "drag_answer": "Catherine Breillat",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_seconds": 3.9685644237324595,
+      "drag_seconds": 19.952316088601947
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_975",
+      "question": "Selena Quintanilla-P\u00e9rez's assistant and head of her fan club will be eligible for parole on what date?",
+      "golden_answers": [
+        "March 30, 2025"
+      ],
+      "naive_answer": "March 30, 2025.",
+      "drag_answer": "March 30, 2025",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 3.5158589836210012,
+      "drag_seconds": 26.84326111152768
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_2617",
+      "question": "What classical music written by a Russian composer did Sia heavily sample?",
+      "golden_answers": [
+        "Montagues and Capulets"
+      ],
+      "naive_answer": "\"Noure and Anitra\", Op. 13.",
+      "drag_answer": "\"Elastic Heart\"",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.25,
+        "acc": 0.0,
+        "precision": 0.2,
+        "recall": 0.3333333333333333
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_seconds": 4.262867048382759,
+      "drag_seconds": 51.259389392100275
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_4116",
+      "question": "In what year did Mets fans start taking New York City Bus: Q48 to watch home games?",
+      "golden_answers": [
+        "2009"
+      ],
+      "naive_answer": "I cannot verify the year Mets fans started taking the Q48 to watch home games.",
+      "drag_answer": "2009",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 4.323299094103277,
+      "drag_seconds": 23.21064086165279
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_4192",
+      "question": "When does the universe, Earth, and all life on Earth were created as believed by an organization which commissioned The Voyage That Shook The World?",
+      "golden_answers": [
+        "10,000 years ago"
+      ],
+      "naive_answer": "Not specified in the given documents.",
+      "drag_answer": "4.28 billion years ago.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.5714285714285715,
+        "acc": 0.0,
+        "precision": 0.5,
+        "recall": 0.6666666666666666
+      },
+      "naive_seconds": 4.161008079536259,
+      "drag_seconds": 23.384881634265184
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_5301",
+      "question": "Which city in Missouri is the Route 66 State Park closest to travel from, St.Louis or Eureka?",
+      "golden_answers": [
+        "Eureka"
+      ],
+      "naive_answer": "Eureka.",
+      "drag_answer": "Eureka.",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 4.141045129857957,
+      "drag_seconds": 58.66975543182343
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_7045",
+      "question": "Which Bob Stoops coached team beat the 2016 Auburn Tigers football team?",
+      "golden_answers": [
+        "2016 Oklahoma Sooners football team"
+      ],
+      "naive_answer": "The 2016 Oklahoma Sooners football team.",
+      "drag_answer": "Oklahoma Sooners.",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.5714285714285715,
+        "acc": 0.0,
+        "precision": 1.0,
+        "recall": 0.4
+      },
+      "naive_seconds": 4.460554185323417,
+      "drag_seconds": 23.887323227711022
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_840",
+      "question": "Which American car rental company is also a member of the Association of Car Rental Industry Sytems Standards?",
+      "golden_answers": [
+        "Budget Rent a Car"
+      ],
+      "naive_answer": "Avis, Budget, Enterprise, Europcar, Hertz, Maggiore National Car Rental.",
+      "drag_answer": "Enterprise Car Rental.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.3333333333333333,
+        "acc": 0.0,
+        "precision": 0.2222222222222222,
+        "recall": 0.6666666666666666
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.3333333333333333,
+        "acc": 0.0,
+        "precision": 0.3333333333333333,
+        "recall": 0.3333333333333333
+      },
+      "naive_seconds": 4.9874081164598465,
+      "drag_seconds": 36.544345581904054
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_7242",
+      "question": "Which American main title designer designed sequences for the founder of the Sundance Film Festival?",
+      "golden_answers": [
+        "Wayne Fitzgerald"
+      ],
+      "naive_answer": "Charles E. Sellier Jr.",
+      "drag_answer": "Wayne Fitzgerald.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 7.76823749858886,
+      "drag_seconds": 22.705426894128323
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_1829",
+      "question": "What psychosis shares a name with an enemy fought by the protagonists in an animated show by Hasbro?",
+      "golden_answers": [
+        "Wendigo"
+      ],
+      "naive_answer": "Amygdala.",
+      "drag_answer": "Folie \u00e0 deux",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_seconds": 4.11773475818336,
+      "drag_seconds": 13.546263347379863
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_7330",
+      "question": "Who was born first, Yanka Dyagileva or Alexander Bashlachev?",
+      "golden_answers": [
+        "Alexander Nickolaevich Bashlachev"
+      ],
+      "naive_answer": "Alexander Bashlachev.",
+      "drag_answer": "Alexander Bashlachev.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.8,
+        "acc": 0.0,
+        "precision": 1.0,
+        "recall": 0.6666666666666666
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.8,
+        "acc": 0.0,
+        "precision": 1.0,
+        "recall": 0.6666666666666666
+      },
+      "naive_seconds": 4.160454562865198,
+      "drag_seconds": 18.540352072566748
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_1774",
+      "question": "Are director of film Ghosts Of Mississippi and director of film The Silence (1998 Film) both from the same country?",
+      "golden_answers": [
+        "no"
+      ],
+      "naive_answer": "No. \n\nThe director of film Ghosts of Mississippi is Rob Reiner, who is from the United States. The director of film Silence (2016 film) is Martin Scorsese, who is also from the United States.",
+      "drag_answer": "No",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 1.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 4.761780513450503,
+      "drag_seconds": 63.69243497680873
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_7603",
+      "question": "Where was the husband of Nagammai born?",
+      "golden_answers": [
+        "Turmeric City",
+        "Erode"
+      ],
+      "naive_answer": "Not mentioned in the given documents.",
+      "drag_answer": "Erode.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 4.400835425592959,
+      "drag_seconds": 24.606317456811666
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_1303",
+      "question": "Which country the director of film Gopura Vasalile is from?",
+      "golden_answers": [
+        "India",
+        "\ud83c\uddee\ud83c\uddf3",
+        "IN",
+        "in",
+        "IND",
+        "Republic of India",
+        "Hindustan",
+        "Bharat",
+        "Bharatvarsh"
+      ],
+      "naive_answer": "India.",
+      "drag_answer": "India",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 4.410598152317107,
+      "drag_seconds": 38.2352779135108
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_222",
+      "question": "What is the place of birth of the director of film Aurora (2018 Film)?",
+      "golden_answers": [
+        "Davao City",
+        "Davao"
+      ],
+      "naive_answer": "Chile.",
+      "drag_answer": "Switzerland.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_seconds": 5.479999805800617,
+      "drag_seconds": 42.41161026619375
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_10734",
+      "question": "Who is Harriet Hemings's maternal grandfather?",
+      "golden_answers": [
+        "John Wayles"
+      ],
+      "naive_answer": "Thomas Jefferson.",
+      "drag_answer": "John Wayles.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.522106953896582,
+      "drag_seconds": 20.50166808348149
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_5283",
+      "question": "Was Beth Underhill or Bryan Pamba born first?",
+      "golden_answers": [
+        "Beth Underhill"
+      ],
+      "naive_answer": "There is no information about Bryan Pamba in the given documents.",
+      "drag_answer": "Beth Underhill.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 3.414438213221729,
+      "drag_seconds": 46.1825853260234
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_6653",
+      "question": "What nationality is Jane Bewick's father?",
+      "golden_answers": [
+        "UKGBI",
+        "UK",
+        "United Kingdom",
+        "British",
+        "Great Britain and Ireland",
+        "the United Kingdom",
+        "GB",
+        "United Kingdom of Great Britain and Ireland"
+      ],
+      "naive_answer": "English.",
+      "drag_answer": "English.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_seconds": 3.9851894909515977,
+      "drag_seconds": 16.186707939952612
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_10251",
+      "question": "Who is older, Artyom Novichonok or Lyubov Kiryukhina-Tsyoma?",
+      "golden_answers": [
+        "Lyubov Kiryukhina-Tsyoma"
+      ],
+      "naive_answer": "There is no information about Lyubov Kiryukhina-Tsyoma in the given documents.",
+      "drag_answer": "We cannot determine.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.33333333333333337,
+        "acc": 1.0,
+        "precision": 0.2,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_seconds": 5.325664058327675,
+      "drag_seconds": 40.637334627099335
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_3006",
+      "question": "Where was the husband of Alma Francis born?",
+      "golden_answers": [
+        "Belleville",
+        "Belleville, Kansas"
+      ],
+      "naive_answer": "Chicago.",
+      "drag_answer": "There is no information available.",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_seconds": 4.705370084382594,
+      "drag_seconds": 42.180173677392304
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_6533",
+      "question": "Do the movies The Godfather Part Iii and The Life And Hard Times Of Guy Terrifico, originate from the same country?",
+      "golden_answers": [
+        "no"
+      ],
+      "naive_answer": "No.",
+      "drag_answer": "No",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 4.506923629902303,
+      "drag_seconds": 30.493424746207893
+    },
+    {
+      "dataset": "StrategyQA",
+      "split": "train",
+      "id": "train_1454",
+      "question": "Could a Diwali celebration feature a crustacean?",
+      "golden_answers": [
+        "yes"
+      ],
+      "naive_answer": "No.",
+      "drag_answer": "Yes",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 5.333383746445179,
+      "drag_seconds": 40.72319979034364
+    },
+    {
+      "dataset": "StrategyQA",
+      "split": "train",
+      "id": "train_732",
+      "question": "Is the US Secretary of State similar to an administrative secretary of an office?",
+      "golden_answers": [
+        "no"
+      ],
+      "naive_answer": "No.",
+      "drag_answer": "No",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 4.305730542168021,
+      "drag_seconds": 28.380013062618673
+    },
+    {
+      "dataset": "StrategyQA",
+      "split": "train",
+      "id": "train_113",
+      "question": "Was Donald Trump the target of Islamophobia?",
+      "golden_answers": [
+        "no"
+      ],
+      "naive_answer": "No.",
+      "drag_answer": "Yes",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_seconds": 8.835818803869188,
+      "drag_seconds": 25.53690326679498
+    },
+    {
+      "dataset": "StrategyQA",
+      "split": "train",
+      "id": "train_1524",
+      "question": "Was Charles Manson's body unwanted?",
+      "golden_answers": [
+        "no"
+      ],
+      "naive_answer": "Yes.",
+      "drag_answer": "Yes",
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_seconds": 12.527267127297819,
+      "drag_seconds": 19.362449183128774
+    },
+    {
+      "dataset": "StrategyQA",
+      "split": "train",
+      "id": "train_1483",
+      "question": "Does Lemon enhance the flavor of milk?",
+      "golden_answers": [
+        "no"
+      ],
+      "naive_answer": "No.",
+      "drag_answer": "Yes",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_seconds": 12.211453751660883,
+      "drag_seconds": 22.613165001384914
+    },
+    {
+      "dataset": "StrategyQA",
+      "split": "train",
+      "id": "train_1072",
+      "question": "Can music be used as a weapon?",
+      "golden_answers": [
+        "yes"
+      ],
+      "naive_answer": "Yes.",
+      "drag_answer": "Yes",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 11.711612681858242,
+      "drag_seconds": 23.52989021781832
+    },
+    {
+      "dataset": "StrategyQA",
+      "split": "train",
+      "id": "train_665",
+      "question": "Is it safe to use Ammonia with Clorox?",
+      "golden_answers": [
+        "no"
+      ],
+      "naive_answer": "No.",
+      "drag_answer": "No.",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 21.25262968149036,
+      "drag_seconds": 19.882607231847942
+    },
+    {
+      "dataset": "StrategyQA",
+      "split": "train",
+      "id": "train_45",
+      "question": "Would a Dolce & Gabbana suit wearer be shunned by their Amish cousins?",
+      "golden_answers": [
+        "yes"
+      ],
+      "naive_answer": "Yes.",
+      "drag_answer": "Yes.",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 4.120438073761761,
+      "drag_seconds": 30.436345010064542
+    },
+    {
+      "dataset": "StrategyQA",
+      "split": "train",
+      "id": "train_768",
+      "question": "Could Edward Snowden join MENSA?",
+      "golden_answers": [
+        "yes"
+      ],
+      "naive_answer": "Yes.",
+      "drag_answer": "Yes",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 4.948807189241052,
+      "drag_seconds": 27.464861415326595
+    },
+    {
+      "dataset": "StrategyQA",
+      "split": "train",
+      "id": "train_1264",
+      "question": "Could all Tahiti hotels hypothetically accommodate US D-Day troops?",
+      "golden_answers": [
+        "no"
+      ],
+      "naive_answer": "No.",
+      "drag_answer": "No",
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_seconds": 6.389142986387014,
+      "drag_seconds": 32.37673667818308
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_4598",
+      "question": "Who was the producer of Epic?",
+      "golden_answers": [
+        "Yoram Gross",
+        "Yoram Jerzy Gross",
+        "Yoram J Gross",
+        "Yoram J. Gross"
+      ],
+      "drag_answer": "William Joyce",
+      "naive_answer": "Blue Sky Studios.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 31.746995124965906,
+      "naive_seconds": 3.4864782663062215
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_497",
+      "question": "What is John Williams Tobey's occupation?",
+      "golden_answers": [
+        "architect"
+      ],
+      "drag_answer": "An American architect, carpenter, and builder.",
+      "naive_answer": "There is no information about a person named John Williams Tobey in the given documents.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.33333333333333337,
+        "acc": 1.0,
+        "precision": 0.2,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 31.482611228711903,
+      "naive_seconds": 3.2933400804176927
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_7178",
+      "question": "Who was the director of Pi?",
+      "golden_answers": [
+        "Darren Aronofsky"
+      ],
+      "drag_answer": "Darren Aronofsky.",
+      "naive_answer": "Darren Aronofsky.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 15.701117750257254,
+      "naive_seconds": 3.575809145346284
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_2996",
+      "question": "Who is the father of Jean-Auguste Barre?",
+      "golden_answers": [
+        "Jacques-Jean Barre",
+        "Jean Jacques Barre",
+        "Jean-Jacques Barr\u00e9",
+        "Jean-Jacques Barre"
+      ],
+      "drag_answer": "Jean-Jacques Barre.",
+      "naive_answer": "Jean-Jacques Barre.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 17.87194261327386,
+      "naive_seconds": 3.6134150261059403
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_10879",
+      "question": "Who was the composer of Triumphant?",
+      "golden_answers": [
+        "Mariah Carey",
+        "MC",
+        "Mirage",
+        "Mimi",
+        "Elusive Chanteuse",
+        "Songbird Supreme",
+        "Carey"
+      ],
+      "drag_answer": "Mariah Carey",
+      "naive_answer": "Giuseppe Verdi and Johannes Brahms.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 31.20157457794994,
+      "naive_seconds": 4.918612183071673
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_1993",
+      "question": "What genre is Gain?",
+      "golden_answers": [
+        "K-pop",
+        "K-POP",
+        "K POP",
+        "KPOP",
+        "Korean pop",
+        "Kpop",
+        "K-Pop"
+      ],
+      "drag_answer": "dance-pop",
+      "naive_answer": "modern dance-pop with funk influences.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 41.75963361188769,
+      "naive_seconds": 4.904929841868579
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_7944",
+      "question": "What is Stanley the capital of?",
+      "golden_answers": [
+        "Falkland Islands",
+        "Malvinas",
+        "Islas Malvinas",
+        "Falklands",
+        "\ud83c\uddeb\ud83c\uddf0",
+        "FK",
+        "FLK"
+      ],
+      "drag_answer": "The Falkland Islands.",
+      "naive_answer": "The Falkland Islands.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 15.514645303599536,
+      "naive_seconds": 6.110810870304704
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_13003",
+      "question": "Who is the author of Smoke?",
+      "golden_answers": [
+        "Lisa Unger",
+        "Lisa Miscione"
+      ],
+      "drag_answer": "Ivan Turgenev.",
+      "naive_answer": "Paul Auster.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 25.27549419272691,
+      "naive_seconds": 5.874371471814811
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_8583",
+      "question": "Who was the screenwriter for Tandra Paparayudu?",
+      "golden_answers": [
+        "Dasari Narayana Rao"
+      ],
+      "drag_answer": "Dasari Narayana Rao",
+      "naive_answer": "There is no information about the screenwriter for Tandra Paparayudu in the given documents.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 41.509767225943506,
+      "naive_seconds": 7.278155421838164
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_8698",
+      "question": "Who was the screenwriter for Professional Sweetheart?",
+      "golden_answers": [
+        "Maurine Dallas Watkins",
+        "Maurine Watkins"
+      ],
+      "drag_answer": "Maurine Watkins.",
+      "naive_answer": "Maurine Watkins.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 15.129385581240058,
+      "naive_seconds": 3.6026507196947932
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_8551",
+      "question": "Who was the screenwriter for Cover Up?",
+      "golden_answers": [
+        "William Tannen"
+      ],
+      "drag_answer": "William Tannen.",
+      "naive_answer": "Jonathan Rix (credited as) and William Tannen.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.4444444444444445,
+        "acc": 1.0,
+        "precision": 0.2857142857142857,
+        "recall": 1.0
+      },
+      "drag_seconds": 29.153381891548634,
+      "naive_seconds": 3.660879597067833
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_12352",
+      "question": "Who is the author of Opening Night?",
+      "golden_answers": [
+        "Ngaio Marsh",
+        "Edith Ngaio Marsh",
+        "Dame Edith Ngaio Marsh"
+      ],
+      "drag_answer": "John Cassavetes.",
+      "naive_answer": "Ngaio Marsh.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 21.022817897610366,
+      "naive_seconds": 3.5532454289495945
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_9101",
+      "question": "Who was the screenwriter for Open Fire?",
+      "golden_answers": [
+        "Paul Greengrass"
+      ],
+      "drag_answer": "Paul Greengrass.",
+      "naive_answer": "Paul Greengrass.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 20.66116908658296,
+      "naive_seconds": 3.5793884564191103
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_9073",
+      "question": "Who was the screenwriter for The Piano?",
+      "golden_answers": [
+        "Jane Campion",
+        "Elizabeth Jane Campion",
+        "Dame Jane Campion",
+        "Dame Elizabeth Jane Campion"
+      ],
+      "drag_answer": "Jane Campion.",
+      "naive_answer": "Jane Campion.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 15.587668957188725,
+      "naive_seconds": 3.5118808578699827
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_14028",
+      "question": "What is the capital of Sindh?",
+      "golden_answers": [
+        "Karachi",
+        "Heart of Pakistan",
+        "The Lighting City",
+        "Kurrachee"
+      ],
+      "drag_answer": "Karachi.",
+      "naive_answer": "Karachi.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 16.094513804651797,
+      "naive_seconds": 3.5155836194753647
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_5406",
+      "question": "Who was the producer of Trash?",
+      "golden_answers": [
+        "Andy Warhol",
+        "Andrew Warhola",
+        "Andrew Warhol",
+        "Drella",
+        "Andrej Varchol",
+        "Andrej Warhol"
+      ],
+      "drag_answer": "Erwin Stoff, Marco Mehlitz, and others",
+      "naive_answer": "I need more information about the type of \"Trash\" you are referring to. There are multiple documents about different films/albums with the title \"Trash\". \n\nFor the 1970 film \"Trash\", the answer is: Paul Morrissey. \n\nFor the 2014 film \"Trash\", the answer is:  The film was produced by Eric Kopeloff, and directed by Stephen Daldry.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 18.566013023257256,
+      "naive_seconds": 5.91903339792043
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_9627",
+      "question": "Who was the screenwriter for The Booth?",
+      "golden_answers": [
+        "Yoshihiro Nakamura"
+      ],
+      "drag_answer": "Christopher Kubasik.",
+      "naive_answer": "Christopher Kubasik.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 14.977800640277565,
+      "naive_seconds": 4.016168674454093
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_2891",
+      "question": "Who is the father of Asia?",
+      "golden_answers": [
+        "Oceanus",
+        "Okeanos"
+      ],
+      "drag_answer": "Oceanus.",
+      "naive_answer": "Oceanus.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 47.657223254442215,
+      "naive_seconds": 3.5661878744140267
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_7831",
+      "question": "What is Algiers the capital of?",
+      "golden_answers": [
+        "Algeria",
+        "Alger",
+        "Alg\u00e9rie",
+        "Al-Jaza'ir",
+        "Algerie",
+        "Algeria",
+        "People\u2019s Democratic Republic of Algeria",
+        "dz",
+        "\ud83c\udde9\ud83c\uddff",
+        "ALG"
+      ],
+      "drag_answer": "Algeria.",
+      "naive_answer": "Algeria.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 14.932099863886833,
+      "naive_seconds": 3.4716053111478686
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_8410",
+      "question": "Who was the screenwriter for Exit the Vamp?",
+      "golden_answers": [
+        "Clara Beranger",
+        "Clara Strouse",
+        "Clara S. Beranger"
+      ],
+      "drag_answer": "Clara Beranger.",
+      "naive_answer": "Clara Beranger.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 15.329197713173926,
+      "naive_seconds": 3.497705738991499
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_6507",
+      "question": "Who was the director of The Lamp?",
+      "golden_answers": [
+        "Roman Polanski",
+        "Rajmund Roman Thierry Pola\u0144ski",
+        "Polanski"
+      ],
+      "drag_answer": "Tom Daley.",
+      "naive_answer": "Tom Daley.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 26.339811637997627,
+      "naive_seconds": 3.506108496338129
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_9017",
+      "question": "Who was the screenwriter for Our Town?",
+      "golden_answers": [
+        "Thornton Wilder",
+        "Thornton Niven Wilder",
+        "Frank Craven",
+        "John Francis Craven"
+      ],
+      "drag_answer": "Thornton Wilder and Harry Chandlee.",
+      "naive_answer": "Harry Chandlee, Frank Craven, and Thornton Wilder.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.5714285714285715,
+        "acc": 1.0,
+        "precision": 0.4,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.4444444444444445,
+        "acc": 1.0,
+        "precision": 0.2857142857142857,
+        "recall": 1.0
+      },
+      "drag_seconds": 25.333522150292993,
+      "naive_seconds": 3.691806730814278
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_9239",
+      "question": "Who was the screenwriter for One Night?",
+      "golden_answers": [
+        "Niki Karimi"
+      ],
+      "drag_answer": "Lucas Belvaux.",
+      "naive_answer": "Lucas Belvaux.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 18.703465164639056,
+      "naive_seconds": 3.5143677853047848
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_1417",
+      "question": "What genre is Ylana of Callisto?",
+      "golden_answers": [
+        "science fiction",
+        "SF",
+        "scifi",
+        "sci Fi",
+        "sci-Fi",
+        "science-fiction",
+        "sci fi",
+        "sciencefiction"
+      ],
+      "drag_answer": "Science fantasy.",
+      "naive_answer": "science fantasy.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.5,
+        "acc": 0.0,
+        "precision": 0.5,
+        "recall": 0.5
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.5,
+        "acc": 0.0,
+        "precision": 0.5,
+        "recall": 0.5
+      },
+      "drag_seconds": 20.411778269335628,
+      "naive_seconds": 3.502693884074688
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_2926",
+      "question": "Who is the father of Balendukht?",
+      "golden_answers": [
+        "Hormizd III"
+      ],
+      "drag_answer": "King Vishtasp.",
+      "naive_answer": "I cannot verify the information about Balendukht's father from the given documents.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 16.45641046669334,
+      "naive_seconds": 3.603507055900991
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_11625",
+      "question": "What sport does All-Ireland Senior Club Camogie Championship 1970 play?",
+      "golden_answers": [
+        "camogie"
+      ],
+      "drag_answer": "Camogie.",
+      "naive_answer": "Camogie.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 14.965885689482093,
+      "naive_seconds": 4.882671405561268
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_3038",
+      "question": "Who is the father of Scooter Barry?",
+      "golden_answers": [
+        "Rick Barry",
+        "Richard Francis Dennis Barry III"
+      ],
+      "drag_answer": "Rick Barry.",
+      "naive_answer": "Rick Barry.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 17.01607241947204,
+      "naive_seconds": 4.349412812851369
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_2682",
+      "question": "What genre is Embrace?",
+      "golden_answers": [
+        "hardcore punk",
+        "hXc",
+        "Punk/HC",
+        "hardcore",
+        "Hardcore Punk",
+        "emo",
+        "emotional hardcore",
+        "emocore",
+        "emo-core",
+        "Emo"
+      ],
+      "drag_answer": "post-punk",
+      "naive_answer": "There are multiple bands and albums with the name \"Embrace\". To provide a more accurate answer, I'll need more context or information about which Embrace you are referring to. However, based on the given documents:\n\n- Embrace (Armin van Buuren album) is an electronic dance music album.\n- In Embrace is an alternative music band.\n\nIf you provide more context or information, I can give a more specific answer.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 44.92650246433914,
+      "naive_seconds": 4.632433547638357
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_4145",
+      "question": "Who was the producer of The Master?",
+      "golden_answers": [
+        "Tsui Hark"
+      ],
+      "drag_answer": "Paul Thomas Anderson, JoAnne Sellar, Megan Ellison, Daniel Lupi, and Adam Somner.",
+      "naive_answer": "I don't have enough information to answer the question.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 17.726303429342806,
+      "naive_seconds": 4.4387815641239285
+    },
+    {
+      "dataset": "PopQA",
+      "split": "test",
+      "id": "test_5163",
+      "question": "Who was the producer of Control?",
+      "golden_answers": [
+        "Anton Corbijn",
+        "Anton Corbyn",
+        "Anton Johannes Gerrit Corbijn van Willenswaard",
+        "Anton Cortbijn",
+        "Tony Wilson",
+        "Anthony Howard Wilson"
+      ],
+      "drag_answer": "Todd Eckert and Orian Williams.",
+      "naive_answer": "Todd Eckert and Orian Williams.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 13.97060177847743,
+      "naive_seconds": 5.150009136646986
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_3295",
+      "question": "Are both bands, The Church (Band) and Kookies N Kream, from the same country?",
+      "golden_answers": [
+        "yes"
+      ],
+      "drag_answer": "Yes.",
+      "naive_answer": "There is no information about Kookies N Kream in the given documents.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 34.861721341498196,
+      "naive_seconds": 5.527929879724979
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_5402",
+      "question": "Are both Chak 26/11-L, Chichawatni and Chah-E Ali Kapari located in the same country?",
+      "golden_answers": [
+        "no"
+      ],
+      "drag_answer": "Yes.",
+      "naive_answer": "There is no information about Chak 26/11-L, Chichawatni and Chah-E Ali Kapari in the given documents. However, Chak 110/7R and Chak 44/12.L are both located in Pakistan.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 1.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 29.04716100357473,
+      "naive_seconds": 4.167630520649254
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_1045",
+      "question": "Are both Lac \u00c0 La Catin and Batiscan Lake (Quebec) located in the same country?",
+      "golden_answers": [
+        "yes"
+      ],
+      "drag_answer": "Yes.",
+      "naive_answer": "Yes.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 28.11944960244,
+      "naive_seconds": 4.345297854393721
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_7499",
+      "question": "Which film has the director died earlier, Carnal Circuit or Small Town Boy?",
+      "golden_answers": [
+        "Small Town Boy"
+      ],
+      "drag_answer": "We cannot determine which film has the director died earlier, Carnal Circuit or Small Town Boy.",
+      "naive_answer": "Carnal Madness.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.33333333333333337,
+        "acc": 1.0,
+        "precision": 0.2,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 47.46614768076688,
+      "naive_seconds": 4.663457450456917
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_8238",
+      "question": "What is the place of birth of the director of film Two-Gun Caballero?",
+      "golden_answers": [
+        "Memphis, Tennessee",
+        "Memphis"
+      ],
+      "drag_answer": "New York City.",
+      "naive_answer": "I cannot verify the director of the film Two-Gun Caballero.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 42.32524055149406,
+      "naive_seconds": 3.855492064729333
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_8937",
+      "question": "Who is the spouse of the director of film Bratuku Teruvu?",
+      "golden_answers": [
+        "Bhanumathi Ramakrishna"
+      ],
+      "drag_answer": "There is no information about the spouse of the director of the film Bratuku Teruvu in the given documents.",
+      "naive_answer": "Not mentioned in the given documents.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 17.685144916176796,
+      "naive_seconds": 3.6692974539473653
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_1896",
+      "question": "Which film was released first, Dekha Pyar Tumhara or Lucky Journey?",
+      "golden_answers": [
+        "Lykke p\u00e5 rejsen",
+        "Lucky Journey"
+      ],
+      "drag_answer": "Dekha Pyar Tumhara",
+      "naive_answer": "I couldn't find any information about a film called \"Lucky Journey\". However, I can tell you that Dekha Pyar Tumhara was released in 1985.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.16,
+        "acc": 1.0,
+        "precision": 0.08695652173913043,
+        "recall": 1.0
+      },
+      "drag_seconds": 42.367862574756145,
+      "naive_seconds": 3.9682578267529607
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_3621",
+      "question": "Where was the director of film Gone Too Soon (Film) born?",
+      "golden_answers": [
+        "Montreal, Quebec",
+        "Ville de Montr\u00e9al",
+        "Ville-Marie",
+        "Montreal",
+        "Montr\u00e9al",
+        "City of Montreal",
+        "Ville de Montreal"
+      ],
+      "drag_answer": "Unknown.",
+      "naive_answer": "There is no information about the director of the film \"Gone Too Soon (Film)\" in the given documents.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.1111111111111111,
+        "acc": 0.0,
+        "precision": 0.06666666666666667,
+        "recall": 0.3333333333333333
+      },
+      "drag_seconds": 22.77359983883798,
+      "naive_seconds": 3.873474103398621
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_918",
+      "question": "What is the place of birth of the director of film Crazy Alien?",
+      "golden_answers": [
+        "Taiyuan",
+        "B\u012bng",
+        "J\u00ecny\u00e1ng"
+      ],
+      "drag_answer": "China.",
+      "naive_answer": "I cannot verify the director of the film Crazy Alien.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 20.814902792684734,
+      "naive_seconds": 3.480959923006594
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_10124",
+      "question": "Who is Infante Manuel, Count Of Our\u00e9m's paternal grandmother?",
+      "golden_answers": [
+        "Luisa de Guzm\u00e1n",
+        "Luisa de Guzman"
+      ],
+      "drag_answer": "Isabella of Aragon.",
+      "naive_answer": "Marie-Sophie of Neuburg.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 30.14522666297853,
+      "naive_seconds": 4.617474232800305
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_4470",
+      "question": "Where did Ann Gerry's husband die?",
+      "golden_answers": [
+        "Washington D.C.",
+        "Washington, District of Columbia",
+        "DC",
+        "Washington, D.C.",
+        "Washington",
+        "Washington, DC",
+        "District of Columbia",
+        "D.C.",
+        "Washington DC"
+      ],
+      "drag_answer": "Washington, D.C.",
+      "naive_answer": "New Rochelle, New York.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 18.191014339216053,
+      "naive_seconds": 3.772874550893903
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_4200",
+      "question": "Where was the father of \u015eehzade Murad born?",
+      "golden_answers": [
+        "Turkish Empire",
+        "Exalted Ottoman State",
+        "Ottoman Empire",
+        "Osmanli Empire"
+      ],
+      "drag_answer": "Manisa.",
+      "naive_answer": "Amasya.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 33.76007782295346,
+      "naive_seconds": 3.604286172427237
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_9441",
+      "question": "Who died earlier, Orson Desaix Munn Ii or Mona Best?",
+      "golden_answers": [
+        "Orson Desaix Munn II",
+        "Orson Desaix Munn Ii",
+        "Orson D. Munn",
+        "Orson D. Munn II"
+      ],
+      "drag_answer": "Mona Best.",
+      "naive_answer": "Orson Desaix Munn II.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 28.929212350398302,
+      "naive_seconds": 3.6242687311023474
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_3046",
+      "question": "Which film whose director is younger, Flat Number Three or My Family'S Beautiful!?",
+      "golden_answers": [
+        "My Family'S Beautiful!",
+        "My Family's Beautiful!"
+      ],
+      "drag_answer": "We cannot determine which film is associated with the younger director.",
+      "naive_answer": "I can't find any information about the film \"My Family'S Beautiful!?\" in the given documents. However, I can compare the directors of the films mentioned in the documents. \n\nThe director of \"Flat No.4B\" is Krishnajith S. Vijayan, and the director of \"No. 3\" is Song Nung-han. \n\nSince there is no information about the director of \"My Family'S Beautiful!?\", I can only compare the directors of \"Flat No.4B\" and \"No. 3\". \n\nSong Nung-han is younger than Krishnajith S. Vijayan.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.08333333333333333,
+        "acc": 1.0,
+        "precision": 0.043478260869565216,
+        "recall": 1.0
+      },
+      "drag_seconds": 28.989773471839726,
+      "naive_seconds": 4.965519776567817
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_11997",
+      "question": "Which film was released first, Fireworks Wednesday or Idyla Ze Star\u00e9 Prahy?",
+      "golden_answers": [
+        "Idyla ze stare Prahy",
+        "Idyla ze star\u00e9 Prahy",
+        "Idyla Ze Star\u00e9 Prahy"
+      ],
+      "drag_answer": "Fireworks Wednesday.",
+      "naive_answer": "Fireworks Wednesday.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 24.344575212337077,
+      "naive_seconds": 3.6869502244517207
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_8850",
+      "question": "Who was born first out of Heng Pov and Rajesh Bhola?",
+      "golden_answers": [
+        "Pov Heng",
+        "Heng Pov"
+      ],
+      "drag_answer": "Dr. Bhola Singh.",
+      "naive_answer": "I couldn't find any information about Heng Pov and Rajesh Bhola in the given documents. However, I can tell you that Bhola Singh was born on 3 January 1939 and Murali Pillai was born on 30 October 1967.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.10256410256410257,
+        "acc": 1.0,
+        "precision": 0.05405405405405406,
+        "recall": 1.0
+      },
+      "drag_seconds": 29.616869219578803,
+      "naive_seconds": 4.072899038903415
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_8331",
+      "question": "Who is older, William Kaye or Gulnara Fattakhetdinova?",
+      "golden_answers": [
+        "William Kaye"
+      ],
+      "drag_answer": "William Kaye.",
+      "naive_answer": "We can't determine who is older between William Kaye and Gulnara Fattakhetdinova because there is no information about William Kaye in the given documents.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.16,
+        "acc": 1.0,
+        "precision": 0.08695652173913043,
+        "recall": 1.0
+      },
+      "drag_seconds": 28.96096737589687,
+      "naive_seconds": 3.917257304303348
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_805",
+      "question": "Who is the maternal grandfather of Agn\u00e8s Of Navarre?",
+      "golden_answers": [
+        "the Stubborn",
+        "the Quarreler",
+        "the Headstrong",
+        "Louis X of France"
+      ],
+      "drag_answer": "Sancho III of Navarre",
+      "naive_answer": "Joan II of Navarre.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.25,
+        "acc": 0.0,
+        "precision": 0.25,
+        "recall": 0.25
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.25,
+        "acc": 0.0,
+        "precision": 0.25,
+        "recall": 0.25
+      },
+      "drag_seconds": 25.633856143802404,
+      "naive_seconds": 3.6115952050313354
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_3929",
+      "question": "Who is the spouse of the composer of song Vattenvisan?",
+      "golden_answers": [
+        "Lisbet Jobs"
+      ],
+      "drag_answer": "Anna Maria Ehrenstr\u00e5le.",
+      "naive_answer": "I cannot verify the spouse of the composer of the song Vattenvisan.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 37.707303241826594,
+      "naive_seconds": 4.120165570639074
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_2072",
+      "question": "Are both John Wilson (Ontario Politician, Born 1807) and Sabine Karsenti from the same country?",
+      "golden_answers": [
+        "yes"
+      ],
+      "drag_answer": "No",
+      "naive_answer": "I couldn't find any information about a person named Sabine Karsenti. However, I can tell you that there are two different individuals mentioned in the given documents: John Henry Wilson (born 1834) and Charles Wilson (born 1808). \n\nJohn Henry Wilson was a Canadian physician, professor, and parliamentarian, and Charles Wilson was a Canadian businessman and politician.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 46.57897709868848,
+      "naive_seconds": 5.745631601661444
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_10499",
+      "question": "What nationality is the director of film She Who Must Burn?",
+      "golden_answers": [
+        "zaf",
+        "RSA",
+        "\ud83c\uddff\ud83c\udde6",
+        "Republic of South Africa",
+        "za",
+        "SA",
+        "South Africa"
+      ],
+      "drag_answer": "Canadian.",
+      "naive_answer": "Canadian.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 17.785016184672713,
+      "naive_seconds": 3.67506118491292
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_1820",
+      "question": "Do both directors of films Bad City Blues and A Woman In White have the same nationality?",
+      "golden_answers": [
+        "no"
+      ],
+      "drag_answer": "No.",
+      "naive_answer": "I couldn't find any information about the films \"Bad City Blues\" and \"A Woman In White\" in the given documents. However, I can tell you that the directors of the films mentioned in the documents are American. \n\nThe director of \"Lady in White\" is Frank LaLoggia, and the director of \"The Girl in White\" is John Sturges.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 40.511044984683394,
+      "naive_seconds": 4.311651304364204
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_1245",
+      "question": "Where was the place of death of Junia Tertia's husband?",
+      "golden_answers": [
+        "Philippi"
+      ],
+      "drag_answer": "Unknown",
+      "naive_answer": "Philippi.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 26.473472962155938,
+      "naive_seconds": 3.600773559883237
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_9652",
+      "question": "What nationality is Princess Elise Of Hohenlohe-Langenburg's father?",
+      "golden_answers": [
+        "Bundesrepublik Deutschland",
+        "FRG",
+        "Federal Republic of Germany",
+        "GER",
+        "BRD",
+        "de",
+        "\ud83c\udde9\ud83c\uddea",
+        "German",
+        "Deutschland",
+        "Germany"
+      ],
+      "drag_answer": "German.",
+      "naive_answer": "German.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 17.584004439413548,
+      "naive_seconds": 3.4754811115562916
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_3644",
+      "question": "Who was born later, Waddell Smith or Franco Scaglione?",
+      "golden_answers": [
+        "Waddell Smith"
+      ],
+      "drag_answer": "Franco Scaglione",
+      "naive_answer": "Piermassimiliano Dotto.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 43.14338890835643,
+      "naive_seconds": 4.562898896634579
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_9951",
+      "question": "Where was the father of Thorvald Eiriksson born?",
+      "golden_answers": [
+        "Kingdom of Norway",
+        "Norv\u00e8ge\u200f",
+        "Norwegen\u200f",
+        "no",
+        "NOR",
+        "NO",
+        "\ud83c\uddf3\ud83c\uddf4",
+        "Norge",
+        "Norway",
+        "Noreg"
+      ],
+      "drag_answer": "Norway.",
+      "naive_answer": "Iceland.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 24.40651207230985,
+      "naive_seconds": 3.564363363198936
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_12342",
+      "question": "Where was the performer of song Serbia In The Eurovision Song Contest 2015 born?",
+      "golden_answers": [
+        "Belgrade",
+        "City of Belgrade",
+        "Capital of Serbia",
+        "Beograd",
+        "Belgrade, Serbia",
+        "\u0411\u0435\u043e\u0433\u0440\u0430\u0434"
+      ],
+      "drag_answer": "Serbia.",
+      "naive_answer": "Not specified in the given documents.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.6666666666666666,
+        "acc": 0.0,
+        "precision": 1.0,
+        "recall": 0.5
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 39.50690172240138,
+      "naive_seconds": 3.6338362423703074
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_3478",
+      "question": "Are both movies, National Lampoon'S Dorm Daze 2 and Gaby: A True Story, from the same country?",
+      "golden_answers": [
+        "yes"
+      ],
+      "drag_answer": "No",
+      "naive_answer": "No.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 32.37346477713436,
+      "naive_seconds": 3.4672382827848196
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_8978",
+      "question": "Who was born earlier, Wang Shusen or Rona Randall?",
+      "golden_answers": [
+        "Rona Randall",
+        "Rona Green",
+        "Virginia Standage",
+        "Rona Shambrook",
+        "Rona Green Shambrook"
+      ],
+      "drag_answer": "Rona Randall.",
+      "naive_answer": "Wang Qiang.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 23.255194534547627,
+      "naive_seconds": 4.909538068808615
+    },
+    {
+      "dataset": "2wiki",
+      "split": "dev",
+      "id": "dev_8222",
+      "question": "Who is the spouse of the director of film Moments (1979 Film)?",
+      "golden_answers": [
+        "Moshe Mizrahi",
+        "Mosh\u00e9 Mizrahi"
+      ],
+      "drag_answer": "Not specified.",
+      "naive_answer": "I can't find any information about a film called \"Moments\" released in 1979. However, I can find information about a film called \"Moment by Moment\" released in 1978 and another film called \"Dawn!\" released in 1979. \n\nIf you are referring to the director of \"Dawn!\" (1979), the director is Ken Hannam.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 21.870242493227124,
+      "naive_seconds": 4.906731562688947
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_4830",
+      "question": "Were Chad Gray and Dickie Peterson both singers?",
+      "golden_answers": [
+        "yes"
+      ],
+      "drag_answer": "Yes, they were both singers, but not in the same bands.",
+      "naive_answer": "Yes.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 1.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 19.386609233915806,
+      "naive_seconds": 3.5440082354471087
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_2647",
+      "question": "What group of languages is the surname Gref, meaning \"Grave,\" taken from?",
+      "golden_answers": [
+        "Germanic"
+      ],
+      "drag_answer": "Germanic.",
+      "naive_answer": "Germanic.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 21.07449706736952,
+      "naive_seconds": 3.497835769318044
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_5932",
+      "question": "The chairman of Westfield Corporation has a son who holds a Bachelor's degree in what?",
+      "golden_answers": [
+        "Bachelor of Commerce"
+      ],
+      "drag_answer": "Commerce.",
+      "naive_answer": "Commerce.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.5,
+        "acc": 0.0,
+        "precision": 1.0,
+        "recall": 0.3333333333333333
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.5,
+        "acc": 0.0,
+        "precision": 1.0,
+        "recall": 0.3333333333333333
+      },
+      "drag_seconds": 22.98564211744815,
+      "naive_seconds": 3.488789724186063
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_987",
+      "question": "Chris Jones is a semi-professional footballer, who played with what goalkeeper for Derby County when he was with Yorkshire?",
+      "golden_answers": [
+        "Scott Paul Carson"
+      ],
+      "drag_answer": "Unknown",
+      "naive_answer": "I couldn't find any information about a person named Chris Jones in the given documents. However, I can tell you that Lewis Price played for Derby County.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 46.88124184962362,
+      "naive_seconds": 3.8482474805787206
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_1738",
+      "question": "Which of the following is known for his work \"Good Bye Lenin!\" in 2003: Vladimir Danilevich or Wolfgang Becker?",
+      "golden_answers": [
+        "Wolfgang Becker"
+      ],
+      "drag_answer": "Wolfgang Becker.",
+      "naive_answer": "Wolfgang Becker.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 18.877286563627422,
+      "naive_seconds": 3.56494880001992
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_3854",
+      "question": "Who has more productions under their belt Ridley Scott or Elmer Clifton?",
+      "golden_answers": [
+        "Ridley Scott"
+      ],
+      "drag_answer": "Ridley Scott.",
+      "naive_answer": "I can't verify the number of productions of Elmer Clifton.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 26.818066481500864,
+      "naive_seconds": 3.589805564843118
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_4423",
+      "question": "Are Richard Yardumian and Edward Khantzian both Harvard psychiatry professors?",
+      "golden_answers": [
+        "no"
+      ],
+      "drag_answer": "No.",
+      "naive_answer": "There is no information about Richard Yardumian in the given documents. However, the given documents state that Edward Khantzian is a part-time professor of psychiatry at Harvard Medical School.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 1.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 20.377845227718353,
+      "naive_seconds": 3.934268237091601
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_2400",
+      "question": "Which film was directed by Wayne Coles-Janess, Tender Fictions or Bougainville \u2013 Our Island Our Fight?",
+      "golden_answers": [
+        "Bougainville"
+      ],
+      "drag_answer": "Bougainville \u2013 Our Island Our Fight",
+      "naive_answer": "Bougainville \u2013 Our Island Our Fight.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.2857142857142857,
+        "acc": 1.0,
+        "precision": 0.16666666666666666,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.2857142857142857,
+        "acc": 1.0,
+        "precision": 0.16666666666666666,
+        "recall": 1.0
+      },
+      "drag_seconds": 19.406868351623416,
+      "naive_seconds": 3.851344605907798
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_2188",
+      "question": "what year was the writer of the blog Preposterous Universe born?",
+      "golden_answers": [
+        "1966"
+      ],
+      "drag_answer": "1956",
+      "naive_answer": "Not available in the given documents.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 30.841480748727918,
+      "naive_seconds": 5.153885846026242
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_5876",
+      "question": "Dichroa and Lathyrus, both native to Europe?",
+      "golden_answers": [
+        "no"
+      ],
+      "drag_answer": "No.",
+      "naive_answer": "No.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 15.35222150105983,
+      "naive_seconds": 3.542638001963496
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_226",
+      "question": "The author of The Thing of It Is... is what Nationality?",
+      "golden_answers": [
+        "American"
+      ],
+      "drag_answer": "Irish.",
+      "naive_answer": "Irish.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 21.749670665711164,
+      "naive_seconds": 3.5072258301079273
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_2860",
+      "question": "What album was released by 1948-born French composer in 1998?",
+      "golden_answers": [
+        "Odyssey Through O"
+      ],
+      "drag_answer": "Oxygene 7-13",
+      "naive_answer": "There is no information about a 1948-born French composer releasing an album in 1998 in the given documents.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 43.70158910565078,
+      "naive_seconds": 3.7768306909129024
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_1130",
+      "question": "The Extreme Centre: A Warning was a book by the activist who studied at which college?",
+      "golden_answers": [
+        "Exeter College"
+      ],
+      "drag_answer": "University of Cambridge.",
+      "naive_answer": "University of Manchester.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 16.980572313070297,
+      "naive_seconds": 3.571180229075253
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_45",
+      "question": "A medieval fortress in Dirleton, East Lothian, Scotland borders on the south side of what coastal area?",
+      "golden_answers": [
+        "Yellowcraig"
+      ],
+      "drag_answer": "The North Sea.",
+      "naive_answer": "the port of North Berwick.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 15.729750061407685,
+      "naive_seconds": 3.526949241757393
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_5952",
+      "question": "What, in 2011, was the estimated population of the city from which Numidia TV broadcasts",
+      "golden_answers": [
+        "around 3,500,000."
+      ],
+      "drag_answer": "396,466",
+      "naive_answer": "I cannot verify the population of the city from which Numidia TV broadcasts.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 21.499353975988925,
+      "naive_seconds": 3.660590318031609
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_4473",
+      "question": "Which river flows next to the German town where the music project \"I Drink My Coffee Alone\" by Alex Gazin originates from?",
+      "golden_answers": [
+        "Moselle"
+      ],
+      "drag_answer": "The Mississippi River.",
+      "naive_answer": "I can't find any information about the music project \"I Drink My Coffee Alone\" by Alex Gazin.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 40.162663579918444,
+      "naive_seconds": 3.6779239512979984
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_2412",
+      "question": "Davey Brozowski is a percussionist for a band that formed in what city in Washington?",
+      "golden_answers": [
+        "Issaquah"
+      ],
+      "drag_answer": "Seattle",
+      "naive_answer": "I cannot verify the name of the percussionist you are referring to. However, I can tell you that the band Lo Presher, which is known for their live, theatrical percussion performances, formed in Brevard County, Florida, not Washington.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 26.9794909870252,
+      "naive_seconds": 4.0484475223347545
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_3610",
+      "question": "In what year did the conference in which the 2005 Air Force Falcons participated begin operations?",
+      "golden_answers": [
+        "1999"
+      ],
+      "drag_answer": "1999.",
+      "naive_answer": "1999.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 22.70799560006708,
+      "naive_seconds": 3.8047813903540373
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_5271",
+      "question": "In which county does the  8th Military Police Brigade  of the United States Army's Barracks located?",
+      "golden_answers": [
+        "Honolulu"
+      ],
+      "drag_answer": "Hoke County.",
+      "naive_answer": "Hawaii.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 28.815941963344812,
+      "naive_seconds": 5.159929876215756
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_2225",
+      "question": "What American filmmaker was the co-founder of Troma Entertainment film studio, Stanley Lloyd Kaufman, Jr. or Jay T. Wright?",
+      "golden_answers": [
+        "Stanley Lloyd Kaufman, Jr."
+      ],
+      "drag_answer": "Lloyd Kaufman.",
+      "naive_answer": "Stanley Lloyd Kaufman, Jr.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.6666666666666666,
+        "acc": 0.0,
+        "precision": 1.0,
+        "recall": 0.5
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 38.026415017433465,
+      "naive_seconds": 3.6202587308362126
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_4565",
+      "question": "Carlos Alberto Hurtado played on loan from a mexican team which plays where?",
+      "golden_answers": [
+        "Estadio Victoria"
+      ],
+      "drag_answer": "Hidalgo.",
+      "naive_answer": "Cauca.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 25.647440408356488,
+      "naive_seconds": 3.494122687727213
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_2590",
+      "question": "Prominent Danish Tibetologist Per Kjeld S\u00f8rensen is a professor of Central Asian Studies at Leipzig University that was founded by who?",
+      "golden_answers": [
+        "Frederick I, Elector of Saxony"
+      ],
+      "drag_answer": "Frederick I, Elector of Saxony.",
+      "naive_answer": "",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 23.334338850341737,
+      "naive_seconds": 3.6399380415678024
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_632",
+      "question": "Berk Communication and Marketing Group  best known for representing an American professional baseball pitcher for what team?",
+      "golden_answers": [
+        "New York Yankees"
+      ],
+      "drag_answer": "New York Yankees.",
+      "naive_answer": "New York Yankees.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 40.606022246181965,
+      "naive_seconds": 3.496348706074059
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_645",
+      "question": "Which American comedian born on March 21, 1962, appeared in the movie \"Sleepless in Seattle?\"",
+      "golden_answers": [
+        "Rosie O'Donnell"
+      ],
+      "drag_answer": "Not confirmed.",
+      "naive_answer": "None.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 54.62854370940477,
+      "naive_seconds": 3.556714911945164
+    },
+    {
+      "dataset": "HotpotQA",
+      "split": "dev",
+      "id": "dev_3157",
+      "question": "Leonard Whiting played the tragic hero of Romeo and Juliet in the film version by which director?",
+      "golden_answers": [
+        "Zeffirelli"
+      ],
+      "drag_answer": "Franco Zeffirelli.",
+      "naive_answer": "Franco Zeffirelli.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0.6666666666666666,
+        "acc": 1.0,
+        "precision": 0.5,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0.6666666666666666,
+        "acc": 1.0,
+        "precision": 0.5,
+        "recall": 1.0
+      },
+      "drag_seconds": 17.67525779362768,
+      "naive_seconds": 3.5257008876651525
+    },
+    {
+      "dataset": "StrategyQA",
+      "split": "train",
+      "id": "train_1893",
+      "question": "Would a fungal life-form be threatened by a pigment from copper?",
+      "golden_answers": [
+        "yes"
+      ],
+      "drag_answer": "No",
+      "naive_answer": "No.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 24.54670498613268,
+      "naive_seconds": 3.544103065505624
+    },
+    {
+      "dataset": "StrategyQA",
+      "split": "train",
+      "id": "train_1292",
+      "question": "Do you have to put on glasses to read a QR code?",
+      "golden_answers": [
+        "no"
+      ],
+      "drag_answer": "No",
+      "naive_answer": "No.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 17.315656709484756,
+      "naive_seconds": 3.5582683933898807
+    },
+    {
+      "dataset": "StrategyQA",
+      "split": "train",
+      "id": "train_875",
+      "question": "Could Reza Shah be related to Queen Elizabeth I?",
+      "golden_answers": [
+        "no"
+      ],
+      "drag_answer": "No.",
+      "naive_answer": "No.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 18.230427226051688,
+      "naive_seconds": 3.4799639293923974
+    },
+    {
+      "dataset": "StrategyQA",
+      "split": "train",
+      "id": "train_1981",
+      "question": "Will Conan the Barbarian hypothetically last a short time inside of Call of Duty?",
+      "golden_answers": [
+        "yes"
+      ],
+      "drag_answer": "Yes.",
+      "naive_answer": "I can't answer that question because I don't have information about Conan the Barbarian being in Call of Duty.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 28.025118346326053,
+      "naive_seconds": 5.324529925361276
+    },
+    {
+      "dataset": "StrategyQA",
+      "split": "train",
+      "id": "train_257",
+      "question": "Does Neville Longbottom have more courage as a child than as an adult?",
+      "golden_answers": [
+        "no"
+      ],
+      "drag_answer": "Yes.",
+      "naive_answer": "No.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 23.314004857093096,
+      "naive_seconds": 3.732275916263461
+    },
+    {
+      "dataset": "StrategyQA",
+      "split": "train",
+      "id": "train_2038",
+      "question": "Could all of the 2008 Summer Olympics women find a hookup athlete partner?",
+      "golden_answers": [
+        "yes"
+      ],
+      "drag_answer": "No",
+      "naive_answer": "No.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 42.26729442551732,
+      "naive_seconds": 3.461531201377511
+    },
+    {
+      "dataset": "StrategyQA",
+      "split": "train",
+      "id": "train_337",
+      "question": "Were the Great Pyramids built by a theocratic government?",
+      "golden_answers": [
+        "yes"
+      ],
+      "drag_answer": "No",
+      "naive_answer": "No.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 26.987069592811167,
+      "naive_seconds": 3.282650434412062
+    },
+    {
+      "dataset": "StrategyQA",
+      "split": "train",
+      "id": "train_608",
+      "question": "Does parsley sink in milk?",
+      "golden_answers": [
+        "no"
+      ],
+      "drag_answer": "No",
+      "naive_answer": "No.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 17.698470347560942,
+      "naive_seconds": 3.1934726033359766
+    },
+    {
+      "dataset": "StrategyQA",
+      "split": "train",
+      "id": "train_133",
+      "question": "Could Elizabeth I of England have seen the play Dido, Queen of Carthage ?",
+      "golden_answers": [
+        "yes"
+      ],
+      "drag_answer": "No",
+      "naive_answer": "No.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 29.83158805500716,
+      "naive_seconds": 3.3447708301246166
+    },
+    {
+      "dataset": "StrategyQA",
+      "split": "train",
+      "id": "train_1328",
+      "question": "Does Disney's Alice in Wonderland involve the celebration of a holiday?",
+      "golden_answers": [
+        "yes"
+      ],
+      "drag_answer": "Yes.",
+      "naive_answer": "Yes.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 17.2454468132928,
+      "naive_seconds": 3.620009733363986
+    },
+    {
+      "dataset": "StrategyQA",
+      "split": "train",
+      "id": "train_2092",
+      "question": "Do you find glutamic acid in a severed finger?",
+      "golden_answers": [
+        "yes"
+      ],
+      "drag_answer": "Yes.",
+      "naive_answer": "No.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 25.533353492617607,
+      "naive_seconds": 3.6875228714197874
+    },
+    {
+      "dataset": "StrategyQA",
+      "split": "train",
+      "id": "train_838",
+      "question": "Did George Washington drive a Lexus?",
+      "golden_answers": [
+        "no"
+      ],
+      "drag_answer": "No.",
+      "naive_answer": "No.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 15.860736566595733,
+      "naive_seconds": 3.615579154342413
+    },
+    {
+      "dataset": "StrategyQA",
+      "split": "train",
+      "id": "train_270",
+      "question": "Did compact discs make computer gaming more popular?",
+      "golden_answers": [
+        "yes"
+      ],
+      "drag_answer": "Yes",
+      "naive_answer": "Yes.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 26.524219896644354,
+      "naive_seconds": 3.653125665150583
+    },
+    {
+      "dataset": "StrategyQA",
+      "split": "train",
+      "id": "train_1013",
+      "question": "Is the Gujarati script the same category of script as Kanji?",
+      "golden_answers": [
+        "no"
+      ],
+      "drag_answer": "No",
+      "naive_answer": "No.",
+      "drag_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "naive_metrics": {
+        "em": 1.0,
+        "f1": 1.0,
+        "acc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "drag_seconds": 36.83386140037328,
+      "naive_seconds": 4.696172945201397
+    },
+    {
+      "dataset": "StrategyQA",
+      "split": "train",
+      "id": "train_1759",
+      "question": "Would Donald Duck be allowed into most grocery stores?",
+      "golden_answers": [
+        "no"
+      ],
+      "drag_answer": "Yes.",
+      "naive_answer": "Yes.",
+      "drag_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "naive_metrics": {
+        "em": 0.0,
+        "f1": 0,
+        "acc": 0.0,
+        "precision": 0,
+        "recall": 0
+      },
+      "drag_seconds": 19.59342577122152,
+      "naive_seconds": 4.628502716310322
+    }
+  ],
+  "em_drag_wins": 24,
+  "em_naive_wins": 14,
+  "caveat": "Targeted extension selected after pilot; uneven sample sizes, StrategyQA train split, repaired DRAG v1.0.1."
+}

@@ -1,0 +1,19 @@
+{
+  "model2path": {
+    "e5": "models/e5-base-v2",
+    "llama3-8B-instruct": "models/Llama-3.1-8B-Instruct"
+  },
+  "index_path": "wiki_corpus/e5_flat_inner.index",
+  "corpus_path": "wiki_corpus/wiki18_100w.jsonl",
+  "framework": "vllm",
+  "generator_model": "llama3-8B-instruct",
+  "gpu_id": "0",
+  "faiss_gpu": false,
+  "seed": 2024,
+  "retrieval_topk": 3,
+  "generator_max_input_len": 4096,
+  "generation_params": {"do_sample": false, "max_tokens": 256},
+  "save_intermediate_data": true,
+  "save_metric_score": true,
+  "metrics": ["em", "f1", "acc", "precision", "recall"]
+}

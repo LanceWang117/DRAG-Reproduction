@@ -1,0 +1,14 @@
+{
+  "pid": 20199,
+  "process_create_time": 1792206456.25,
+  "output_dir": "/workspace/Capstone_project/outputs/20261017T030736Z_naive_rag_fixed100",
+  "source_commit": "c035ee1b7e6bc9fa67d5a104df1c2175a8300666",
+  "method": "Naive RAG",
+  "questions": 100,
+  "runner_sha256": "aff81732d3d96869b19bb581ca4d658d28a9e9834663f0f86188d23bcfdb560e",
+  "monitor_sha256": "258605f61071b90b595766fa101cf90953d1888a026b4030004eb28834a5a6b7",
+  "paired_drag_inputs": "/workspace/Capstone_project/outputs/20261017T015401Z_drag_extra50_v1.0.1",
+  "manifest_sha256": "f478aa1893aa5e2ca4d4ab710506fb844ee4c4b158092671e9c824edf69da3cb",
+  "max_runtime_seconds": 7200,
+  "note": "Timeout ends test, NOT Pod billing."
+}

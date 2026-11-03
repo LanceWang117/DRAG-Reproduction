@@ -1,0 +1,67 @@
+{
+  "dataset_repository": "RUC-NLPIR/FlashRAG_datasets",
+  "revision": "bcafb8dd07d453be3cbeeeb3f78be1841bddf92c",
+  "splits": [
+    {
+      "dataset": "TriviaQA",
+      "upstream": "triviaqa/dev.jsonl",
+      "split": "dev",
+      "questions": 8837,
+      "bytes": 3714793,
+      "url": "https://huggingface.co/datasets/RUC-NLPIR/FlashRAG_datasets/resolve/bcafb8dd07d453be3cbeeeb3f78be1841bddf92c/triviaqa/dev.jsonl",
+      "sha256": "3d787844fe0faed97ba4f75e0abd1d6f5c2d5231672f3c673d5e3a5d5b55fd15",
+      "path": "/workspace/Capstone_project/source_repos/Debate-Augmented-RAG/dataset/TriviaQA/dev.jsonl"
+    },
+    {
+      "dataset": "TriviaQA",
+      "upstream": "triviaqa/test.jsonl",
+      "split": "test",
+      "questions": 11313,
+      "bytes": 4797585,
+      "url": "https://huggingface.co/datasets/RUC-NLPIR/FlashRAG_datasets/resolve/bcafb8dd07d453be3cbeeeb3f78be1841bddf92c/triviaqa/test.jsonl",
+      "sha256": "8f0891dece17a6a6472c87bf0e8c555c80673853d8dc7780be4d47158ec85290",
+      "path": "/workspace/Capstone_project/source_repos/Debate-Augmented-RAG/dataset/TriviaQA/test.jsonl"
+    },
+    {
+      "dataset": "HotpotQA",
+      "upstream": "hotpotqa/dev.jsonl",
+      "split": "dev",
+      "questions": 7405,
+      "bytes": 48191374,
+      "url": "https://huggingface.co/datasets/RUC-NLPIR/FlashRAG_datasets/resolve/bcafb8dd07d453be3cbeeeb3f78be1841bddf92c/hotpotqa/dev.jsonl",
+      "sha256": "434ec155867019396312f3d466ce3406c71fe8a2917f49f63bb646ec5ad2ff52",
+      "path": "/workspace/Capstone_project/source_repos/Debate-Augmented-RAG/dataset/HotpotQA/dev.jsonl"
+    },
+    {
+      "dataset": "2wiki",
+      "upstream": "2wikimultihopqa/dev.jsonl",
+      "split": "dev",
+      "questions": 12576,
+      "bytes": 54682944,
+      "url": "https://huggingface.co/datasets/RUC-NLPIR/FlashRAG_datasets/resolve/bcafb8dd07d453be3cbeeeb3f78be1841bddf92c/2wikimultihopqa/dev.jsonl",
+      "sha256": "b4d74d73d1cb3c0632c665a85e1e5060e3411968b807721618cfd2464fc905e3",
+      "path": "/workspace/Capstone_project/source_repos/Debate-Augmented-RAG/dataset/2wiki/dev.jsonl"
+    },
+    {
+      "dataset": "PopQA",
+      "upstream": "popqa/test.jsonl",
+      "split": "test",
+      "questions": 14267,
+      "bytes": 8526089,
+      "url": "https://huggingface.co/datasets/RUC-NLPIR/FlashRAG_datasets/resolve/bcafb8dd07d453be3cbeeeb3f78be1841bddf92c/popqa/test.jsonl",
+      "sha256": "f976372fce3d7fe01b070357040391f10bd2710eeaa7c40d21c6574ffcad6cb8",
+      "path": "/workspace/Capstone_project/source_repos/Debate-Augmented-RAG/dataset/PopQA/test.jsonl"
+    },
+    {
+      "dataset": "StrategyQA",
+      "upstream": "strategyqa/train.jsonl",
+      "split": "train",
+      "questions": 2290,
+      "bytes": 1867298,
+      "url": "https://huggingface.co/datasets/RUC-NLPIR/FlashRAG_datasets/resolve/bcafb8dd07d453be3cbeeeb3f78be1841bddf92c/strategyqa/train.jsonl",
+      "sha256": "4a2ee2ffc1af6336a52f34bc33aaa34dc25121daba3573d02e144ae3c4ccfdaa",
+      "path": "/workspace/Capstone_project/source_repos/Debate-Augmented-RAG/dataset/StrategyQA/train.jsonl",
+      "warning": "Upstream provides train only. Preserved as train; evaluation selection/protocol still needs review."
+    }
+  ]
+}

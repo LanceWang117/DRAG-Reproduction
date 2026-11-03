@@ -1,0 +1,990 @@
+[
+    {
+        "id": "train_1454",
+        "question": "Could a Diwali celebration feature a crustacean?",
+        "golden_answers": [
+            "yes"
+        ],
+        "metadata": {
+            "term": "Crustacean",
+            "description": "subphylum of arthropods",
+            "facts": [
+                "Diwali is an important Hindu holiday which includes feasting.",
+                "Crustaceans are shelled, mainly aquatic animals that include shrimp, lobster, and crabs.",
+                "Hindus are allowed to eat any food besides beef, since cows are sacred.",
+                "Hindus are allowed to eat "
+            ],
+            "decomposition": [
+                "What religion celebrates Diwali with feasting?",
+                "What foods are on #1 s forbidden list?",
+                "Is lobster part of #2?"
+            ],
+            "evidence": [
+                [
+                    [
+                        [
+                            "Diwali-4"
+                        ]
+                    ],
+                    [
+                        [
+                            "Buddhist cuisine-9"
+                        ]
+                    ],
+                    [
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Diwali-1"
+                        ]
+                    ],
+                    [
+                        [
+                            "Hinduism-94"
+                        ]
+                    ],
+                    [
+                        [
+                            "Lobster-2"
+                        ]
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Diwali-15"
+                        ]
+                    ],
+                    [
+                        [
+                            "Diet in Hinduism-27"
+                        ]
+                    ],
+                    [
+                        "operation"
+                    ]
+                ]
+            ]
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "13763417",
+                    "contents": "\"Halloween hermit crab\"\nHalloween hermit crab The halloween hermit crab, Ciliopagurus strigatus, also known as the striped hermit crab or orange legged hermit crab, is a brightly colored aquatic hermit crab of the family Diogenidae. Besides its ability to routinely clean algae in aquariums, the halloween hermit crab's festive striped coloration also appeals to enthusiasts; it is considered the most brightly colored hermit crab in normal aquarium use. The halloween hermit crab is commonly found along coral substrates in the ocean, along sandy areas surrounding reefs, but not typically on top of the reefs themselves, in shallow (less than ) tropical, coastal waters."
+                },
+                {
+                    "id": "16760020",
+                    "contents": "Diwali\nrolled and stuffed delicacies, such as maladu, susiyam, pottukadalai. Sometimes these are wrapped with edible silver foil (vark). Confectioners and shops create Diwali-themed decorative displays, selling these in large quantities, which are stocked for home celebrations to welcome guests and as gifts. Families also prepare homemade delicacies for the main Diwali day. Choti Diwali is also a day for visiting friends, business associates and relatives, and exchanging gifts. This day is commonly celebrated as Diwali in Tamil Nadu, Goa, and Karnataka. Some South Indian Hindus receive an oil massage and then take a ritual bath. Many visit their favorite Hindu"
+                },
+                {
+                    "id": "16759993",
+                    "contents": "Diwali\nDiwali, which marks the final liberation of Mahavira, the Sikhs celebrate Bandi Chhor Divas to mark the release of Guru Hargobind from a Mughal Empire prison, while Newar Buddhists, unlike other Buddhists, celebrate Diwali by worshiping Lakshmi. The festival of Diwali is an official holiday in Fiji, Guyana, India, Malaysia (except Sarawak), Mauritius, Myanmar, Nepal, Singapore, Sri Lanka, Suriname, and Trinidad and Tobago. \"\"Diwali\"\" () or \"\"Divali\"\" is from the Sanskrit \"\"dīpāvali\"\" meaning \"\"row or series of lights\"\". The conjugated term is derived from the Sanskrit words \"\"dīpa\"\", \"\"lamp, light, lantern, candle, that which glows, shines, illuminates or knowledge\"\" and"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Given four answer candidates, Yes and No, choose the best answer choice. Always put the answer after 'The answer is: ', e.g.'The answer is: Yes.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Halloween hermit crab\") Halloween hermit crab The halloween hermit crab, Ciliopagurus strigatus, also known as the striped hermit crab or orange legged hermit crab, is a brightly colored aquatic hermit crab of the family Diogenidae. Besides its ability to routinely clean algae in aquariums, the halloween hermit crab's festive striped coloration also appeals to enthusiasts; it is considered the most brightly colored hermit crab in normal aquarium use. The halloween hermit crab is commonly found along coral substrates in the ocean, along sandy areas surrounding reefs, but not typically on top of the reefs themselves, in shallow (less than ) tropical, coastal waters.\nDoc 2(Title: Diwali) rolled and stuffed delicacies, such as maladu, susiyam, pottukadalai. Sometimes these are wrapped with edible silver foil (vark). Confectioners and shops create Diwali-themed decorative displays, selling these in large quantities, which are stocked for home celebrations to welcome guests and as gifts. Families also prepare homemade delicacies for the main Diwali day. Choti Diwali is also a day for visiting friends, business associates and relatives, and exchanging gifts. This day is commonly celebrated as Diwali in Tamil Nadu, Goa, and Karnataka. Some South Indian Hindus receive an oil massage and then take a ritual bath. Many visit their favorite Hindu\nDoc 3(Title: Diwali) Diwali, which marks the final liberation of Mahavira, the Sikhs celebrate Bandi Chhor Divas to mark the release of Guru Hargobind from a Mughal Empire prison, while Newar Buddhists, unlike other Buddhists, celebrate Diwali by worshiping Lakshmi. The festival of Diwali is an official holiday in Fiji, Guyana, India, Malaysia (except Sarawak), Mauritius, Myanmar, Nepal, Singapore, Sri Lanka, Suriname, and Trinidad and Tobago. \"\"Diwali\"\" () or \"\"Divali\"\" is from the Sanskrit \"\"dīpāvali\"\" meaning \"\"row or series of lights\"\". The conjugated term is derived from the Sanskrit words \"\"dīpa\"\", \"\"lamp, light, lantern, candle, that which glows, shines, illuminates or knowledge\"\" and<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Could a Diwali celebration feature a crustacean?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "No.",
+            "raw_pred": "The answer is: No.",
+            "inference_elapsed_seconds": 5.333383746445179,
+            "metric_score": {
+                "em": 0.0,
+                "f1": 0,
+                "acc": 0.0,
+                "precision": 0,
+                "recall": 0
+            }
+        }
+    },
+    {
+        "id": "train_732",
+        "question": "Is the US Secretary of State similar to an administrative secretary of an office?",
+        "golden_answers": [
+            "no"
+        ],
+        "metadata": {
+            "term": "Secretary",
+            "description": "occupation",
+            "facts": [
+                "An administrative secretary of an office is hired to handle routine and calendar scheduling for a superior.",
+                "The US Secretary of State is the head of the Department of State.",
+                "The US Secretary of State is analogous to a foreign minister of other countries. ",
+                "The US secretary of state can have administrative assistants. ",
+                "Another name for administrative secretary is administrative assistant. "
+            ],
+            "decomposition": [
+                "What kind of duties are assigned to an administrative secretary?",
+                "What are the duties and nature of the position of the US Secretary of State?",
+                "Is #2 in accordance with #1?"
+            ],
+            "evidence": [
+                [
+                    [
+                        [
+                            "Secretary-3"
+                        ]
+                    ],
+                    [
+                        [
+                            "United States Secretary of State-4"
+                        ]
+                    ],
+                    [
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Secretary-1",
+                            "Secretary-3"
+                        ]
+                    ],
+                    [
+                        [
+                            "Secretary of state-14"
+                        ]
+                    ],
+                    [
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Secretary-1"
+                        ]
+                    ],
+                    [
+                        [
+                            "Secretary of state-14"
+                        ]
+                    ],
+                    [
+                        "operation"
+                    ]
+                ]
+            ]
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "15550571",
+                    "contents": "\"Executive Secretary of the United States Department of State\"\nExecutive Secretary of the United States Department of State The Executive Secretary of the United States Department of State is the Director of the Executive Secretariat. The position holds a rank equivalent to an Assistant Secretary. Each Executive Secretary is appointed by the Secretary of State. The Executive Secretary serves as the liaison and the clearinghouse between the State Department’s bureaus and the leadership offices of the Secretary, the Deputy Secretaries, and the Director of Policy Planning. The Executive Secretary also manages relations between the State Department and the White House, the National Security Council, and other cabinet-level agencies. As"
+                },
+                {
+                    "id": "14332555",
+                    "contents": "\"United States Secretary of State\"\nUnited States Secretary of State The Secretary of State is a senior official of the federal government of the United States of America, and as head of the United States Department of State, is principally concerned with foreign policy and is considered to be the U.S. government's equivalent of a Minister for Foreign Affairs. The Secretary of State is nominated by the President of the United States and, following a confirmation hearing before the Senate Committee on Foreign Relations, is confirmed by the United States Senate. The Secretary of State, along with the Secretary of the Treasury, Secretary of Defense,"
+                },
+                {
+                    "id": "16143078",
+                    "contents": "\"Secretary of state\"\nof State coordinates all the departments of the Roman Curia (and is thus equivalent to a prime minister). In the United Kingdom, a secretary of state is a member of the cabinet appointed by the Queen on the advice of the prime minister (and thus equivalent to a cabinet minister). The United States Secretary of State is the foreign minister of the federal government of the United States while in most of the individual U.S. states the secretary of state is an administrative officer responsible for certain governmental functions, often including overseeing elections. In the Orange Free State (1854–1902) the"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Given four answer candidates, Yes and No, choose the best answer choice. Always put the answer after 'The answer is: ', e.g.'The answer is: Yes.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Executive Secretary of the United States Department of State\") Executive Secretary of the United States Department of State The Executive Secretary of the United States Department of State is the Director of the Executive Secretariat. The position holds a rank equivalent to an Assistant Secretary. Each Executive Secretary is appointed by the Secretary of State. The Executive Secretary serves as the liaison and the clearinghouse between the State Department’s bureaus and the leadership offices of the Secretary, the Deputy Secretaries, and the Director of Policy Planning. The Executive Secretary also manages relations between the State Department and the White House, the National Security Council, and other cabinet-level agencies. As\nDoc 2(Title: \"United States Secretary of State\") United States Secretary of State The Secretary of State is a senior official of the federal government of the United States of America, and as head of the United States Department of State, is principally concerned with foreign policy and is considered to be the U.S. government's equivalent of a Minister for Foreign Affairs. The Secretary of State is nominated by the President of the United States and, following a confirmation hearing before the Senate Committee on Foreign Relations, is confirmed by the United States Senate. The Secretary of State, along with the Secretary of the Treasury, Secretary of Defense,\nDoc 3(Title: \"Secretary of state\") of State coordinates all the departments of the Roman Curia (and is thus equivalent to a prime minister). In the United Kingdom, a secretary of state is a member of the cabinet appointed by the Queen on the advice of the prime minister (and thus equivalent to a cabinet minister). The United States Secretary of State is the foreign minister of the federal government of the United States while in most of the individual U.S. states the secretary of state is an administrative officer responsible for certain governmental functions, often including overseeing elections. In the Orange Free State (1854–1902) the<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Is the US Secretary of State similar to an administrative secretary of an office?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "No.",
+            "raw_pred": "The answer is: No.",
+            "inference_elapsed_seconds": 4.305730542168021,
+            "metric_score": {
+                "em": 1.0,
+                "f1": 1.0,
+                "acc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0
+            }
+        }
+    },
+    {
+        "id": "train_113",
+        "question": "Was Donald Trump the target of Islamophobia?",
+        "golden_answers": [
+            "no"
+        ],
+        "metadata": {
+            "term": "Islamophobia",
+            "description": "Fear, hatred of, or prejudice against the Islamic religion or Muslims generally,",
+            "facts": [
+                "Islamophobia targets Muslims",
+                "Donald Trump is a Presbyterian, a denomination of Christianity"
+            ],
+            "decomposition": [
+                "Islamophobia is the fear of which set of people?",
+                "Does Donald Trump identify as #1?"
+            ],
+            "evidence": [
+                [
+                    [
+                        [
+                            "Islamophobia-1"
+                        ]
+                    ],
+                    [
+                        [
+                            "Donald Trump-11"
+                        ]
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Islamophobia-1"
+                        ]
+                    ],
+                    [
+                        [
+                            "Donald Trump-11"
+                        ]
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Islamophobia-1"
+                        ]
+                    ],
+                    [
+                        [
+                            "Donald Trump-9"
+                        ]
+                    ]
+                ]
+            ]
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "11598682",
+                    "contents": "Islamophobia\nGallup polls in 2006 found that 40 percent of Americans admit to prejudice against Muslims, and 39 percent believe Muslims should carry special identification. These trends have only worsened with the use of Islamophobia as a campaign tactic during the 2008 American presidential election (with several Republican politicians and pundits, including Donald Trump, asserting that Democratic candidate Barack Obama is secretly a Muslim), during the 2010 mid-term elections (during which a proposed Islamic community center was dubbed the \"\"Ground Zero Mosque\"\"), and the 2016 presidential election, during which Republican nominee Donald Trump proposed banning the entrance into the country of"
+                },
+                {
+                    "id": "1312782",
+                    "contents": "\"Islamophobia in the media\"\nThe most common comments and words that were found during the Facebook investigation were ones discriminating against the clothing of Muslims, and also directed to how people believe they should be deported. The President of the United States also has taken a standpoint in the views of Islamophobia in the media as well. It is alleged that President Trump could be implementing an identification system for Muslim individuals. A study that was conducted at Georgetown University showed that there has been an increase in violence against Muslim Americans throughout of the course of the Presidential election campaign. New York resident,"
+                },
+                {
+                    "id": "14190316",
+                    "contents": "Islamophobia\nany other faith group). When asked if they believed that their faith community was more prone to negative behavior than other faith communities, 30% of Muslims agreed, again, a higher percentage than other faith groups. Islamophobia has become a topic of increasing sociological and political importance. According to Benn and Jawad, Islamophobia has increased since Ayatollah Khomeini's 1989 fatwa inciting Muslims to attempt to murder Salman Rushdie, the author of \"\"The Satanic Verses\"\", and since the 11 September attacks (in 2001). Anthropologist Steven Vertovec writes that the purported growth in Islamophobia may be associated with increased Muslim presence in society"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Given four answer candidates, Yes and No, choose the best answer choice. Always put the answer after 'The answer is: ', e.g.'The answer is: Yes.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: Islamophobia) Gallup polls in 2006 found that 40 percent of Americans admit to prejudice against Muslims, and 39 percent believe Muslims should carry special identification. These trends have only worsened with the use of Islamophobia as a campaign tactic during the 2008 American presidential election (with several Republican politicians and pundits, including Donald Trump, asserting that Democratic candidate Barack Obama is secretly a Muslim), during the 2010 mid-term elections (during which a proposed Islamic community center was dubbed the \"\"Ground Zero Mosque\"\"), and the 2016 presidential election, during which Republican nominee Donald Trump proposed banning the entrance into the country of\nDoc 2(Title: \"Islamophobia in the media\") The most common comments and words that were found during the Facebook investigation were ones discriminating against the clothing of Muslims, and also directed to how people believe they should be deported. The President of the United States also has taken a standpoint in the views of Islamophobia in the media as well. It is alleged that President Trump could be implementing an identification system for Muslim individuals. A study that was conducted at Georgetown University showed that there has been an increase in violence against Muslim Americans throughout of the course of the Presidential election campaign. New York resident,\nDoc 3(Title: Islamophobia) any other faith group). When asked if they believed that their faith community was more prone to negative behavior than other faith communities, 30% of Muslims agreed, again, a higher percentage than other faith groups. Islamophobia has become a topic of increasing sociological and political importance. According to Benn and Jawad, Islamophobia has increased since Ayatollah Khomeini's 1989 fatwa inciting Muslims to attempt to murder Salman Rushdie, the author of \"\"The Satanic Verses\"\", and since the 11 September attacks (in 2001). Anthropologist Steven Vertovec writes that the purported growth in Islamophobia may be associated with increased Muslim presence in society<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Was Donald Trump the target of Islamophobia?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "No.",
+            "raw_pred": "The answer is: No.",
+            "inference_elapsed_seconds": 8.835818803869188,
+            "metric_score": {
+                "em": 1.0,
+                "f1": 1.0,
+                "acc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0
+            }
+        }
+    },
+    {
+        "id": "train_1524",
+        "question": "Was Charles Manson's body unwanted?",
+        "golden_answers": [
+            "no"
+        ],
+        "metadata": {
+            "term": "Charles Manson",
+            "description": "American criminal, cult leader",
+            "facts": [
+                "Charles Manson's body was debated over for so long that he had to stay on ice.",
+                "Charles Manson had four people fighting over his corpse."
+            ],
+            "decomposition": [
+                "How many people tried to claim Charles Manson's body?",
+                "Is #1 equal to zero?"
+            ],
+            "evidence": [
+                [
+                    [
+                        [
+                            "Charles Manson-66"
+                        ]
+                    ],
+                    [
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Charles Manson-66"
+                        ]
+                    ],
+                    [
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Charles Manson-66"
+                        ]
+                    ],
+                    [
+                        "operation"
+                    ]
+                ]
+            ]
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "13574938",
+                    "contents": "\"Charles Manson\"\nto see if Freeman and Roberts were related to each other and found they were not. (Matches between Roberts and Manson were attempted but the results were reportedly \"\"contaminated\"\".) On March 12, 2018, the Kern County Superior Court in California decided in favor of Freeman in regard to Manson's body. Freeman had previously said he would have Manson cremated, and, in fact, did so on March 20, 2018. In 1974, Manson stated his religion was Scientology, and identified as a Scientologist after studying the religion while incarcerated. Manson completed 150 hours of auditing before declaring Scientology \"\"too crazy\"\". In 2009,"
+                },
+                {
+                    "id": "13060392",
+                    "contents": "\"Charles Manson\"\nmedical facility for two months, and could not receive visitors. She said she still hoped the marriage license would be renewed and the marriage would take place. On April 11, 2012, Manson was denied release at his 12th parole hearing, which he did not attend. After his March 27, 1997 parole hearing, Manson refused to attend any of his later hearings. The panel at that hearing noted that Manson had a \"\"history of controlling behavior\"\" and \"\"mental health issues\"\" including schizophrenia and paranoid delusional disorder, and was too great a danger to be released. The panel also noted that Manson"
+                },
+                {
+                    "id": "13574952",
+                    "contents": "\"Charles Manson\"\nhad received 108 rules violation reports, had no indication of remorse, no insight into the causative factors of the crimes, lacked understanding of the magnitude of the crimes, had an exceptional, callous disregard for human suffering and had no parole plans. At the April 11, 2012 parole hearing it was determined that Manson would not be reconsidered for parole for another 15 years, i.e. not before 2027, at which time he would have been 92 years old. Beginning in January 1970, Manson was embraced by the underground newspapers \"\"Los Angeles Free Press\"\" and \"\"Tuesday's Child\"\", with the latter proclaiming him"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Given four answer candidates, Yes and No, choose the best answer choice. Always put the answer after 'The answer is: ', e.g.'The answer is: Yes.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Charles Manson\") to see if Freeman and Roberts were related to each other and found they were not. (Matches between Roberts and Manson were attempted but the results were reportedly \"\"contaminated\"\".) On March 12, 2018, the Kern County Superior Court in California decided in favor of Freeman in regard to Manson's body. Freeman had previously said he would have Manson cremated, and, in fact, did so on March 20, 2018. In 1974, Manson stated his religion was Scientology, and identified as a Scientologist after studying the religion while incarcerated. Manson completed 150 hours of auditing before declaring Scientology \"\"too crazy\"\". In 2009,\nDoc 2(Title: \"Charles Manson\") medical facility for two months, and could not receive visitors. She said she still hoped the marriage license would be renewed and the marriage would take place. On April 11, 2012, Manson was denied release at his 12th parole hearing, which he did not attend. After his March 27, 1997 parole hearing, Manson refused to attend any of his later hearings. The panel at that hearing noted that Manson had a \"\"history of controlling behavior\"\" and \"\"mental health issues\"\" including schizophrenia and paranoid delusional disorder, and was too great a danger to be released. The panel also noted that Manson\nDoc 3(Title: \"Charles Manson\") had received 108 rules violation reports, had no indication of remorse, no insight into the causative factors of the crimes, lacked understanding of the magnitude of the crimes, had an exceptional, callous disregard for human suffering and had no parole plans. At the April 11, 2012 parole hearing it was determined that Manson would not be reconsidered for parole for another 15 years, i.e. not before 2027, at which time he would have been 92 years old. Beginning in January 1970, Manson was embraced by the underground newspapers \"\"Los Angeles Free Press\"\" and \"\"Tuesday's Child\"\", with the latter proclaiming him<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Was Charles Manson's body unwanted?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "Yes.",
+            "raw_pred": "The answer is: Yes.",
+            "inference_elapsed_seconds": 12.527267127297819,
+            "metric_score": {
+                "em": 0.0,
+                "f1": 0,
+                "acc": 0.0,
+                "precision": 0,
+                "recall": 0
+            }
+        }
+    },
+    {
+        "id": "train_1483",
+        "question": "Does Lemon enhance the flavor of milk?",
+        "golden_answers": [
+            "no"
+        ],
+        "metadata": {
+            "term": "Lemon",
+            "description": "citrus fruit",
+            "facts": [
+                "When milk becomes acidic, the water and fats separate from each other.",
+                "When the water and fats separate in milk, it becomes clumpy and has a bad texture.",
+                "Lemon is highly acidic."
+            ],
+            "decomposition": [
+                "What is the effect of acid on milk?",
+                "Does #1 make milk more desirable?",
+                "Is Lemon acidic?",
+                "Is #2 or #3 negative?"
+            ],
+            "evidence": [
+                [
+                    [
+                        [
+                            "Curdling-2"
+                        ],
+                        "no_evidence"
+                    ],
+                    [
+                        "operation"
+                    ],
+                    [
+                        [
+                            "Lemon-2"
+                        ]
+                    ],
+                    [
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Soured milk-1"
+                        ]
+                    ],
+                    [
+                        [
+                            "Soured milk-1"
+                        ]
+                    ],
+                    [
+                        [
+                            "Lemon-21"
+                        ]
+                    ],
+                    [
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Curdling-2",
+                            "Curdling-3"
+                        ]
+                    ],
+                    [
+                        [
+                            "Curdling-2"
+                        ],
+                        "no_evidence"
+                    ],
+                    [
+                        [
+                            "Lemon-13",
+                            "Lemon-15"
+                        ]
+                    ],
+                    [
+                        "operation"
+                    ]
+                ]
+            ]
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "15512018",
+                    "contents": "\"Soured milk\"\nSoured milk Soured milk denotes a range of food products produced by the acidification of milk. Acidification, which gives the milk a tart taste, is achieved either through bacterial fermentation or through the addition of an acid, such as lemon juice or vinegar. The acid causes milk to coagulate and thicken, inhibiting the growth of harmful bacteria and improving the product's shelf life. Soured milk that is produced by bacterial fermentation is more specifically called fermented milk or cultured milk. Traditionally, soured milk was simply fresh milk that was left to ferment and sour by keeping it in a warm"
+                },
+                {
+                    "id": "12621486",
+                    "contents": "\"Lemon liqueur\"\nLemon liqueur Lemon liqueur is a liqueur made from lemons, liquor, and sugar. It is light to bright lemon yellow in color; intensely lemony in flavor; clear, cloudy, or opaque; and sweet or sweet and sour. Lemon zest is used, water may be added, and the liqueur is not sour. Milk or cream may be added to make a lemon cream liqueur. Lemon juice is not used to alter the taste and affect the stability of the lemon liqueur. To produce the Lemon liqueur requires sugar, water, lemon zest, liquor, and time to mature. Lemon zest is soaked in high"
+                },
+                {
+                    "id": "15512022",
+                    "contents": "\"Soured milk\"\na common modern substitute for naturally soured milk. Soured milk Soured milk denotes a range of food products produced by the acidification of milk. Acidification, which gives the milk a tart taste, is achieved either through bacterial fermentation or through the addition of an acid, such as lemon juice or vinegar. The acid causes milk to coagulate and thicken, inhibiting the growth of harmful bacteria and improving the product's shelf life. Soured milk that is produced by bacterial fermentation is more specifically called fermented milk or cultured milk. Traditionally, soured milk was simply fresh milk that was left to ferment"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Given four answer candidates, Yes and No, choose the best answer choice. Always put the answer after 'The answer is: ', e.g.'The answer is: Yes.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Soured milk\") Soured milk Soured milk denotes a range of food products produced by the acidification of milk. Acidification, which gives the milk a tart taste, is achieved either through bacterial fermentation or through the addition of an acid, such as lemon juice or vinegar. The acid causes milk to coagulate and thicken, inhibiting the growth of harmful bacteria and improving the product's shelf life. Soured milk that is produced by bacterial fermentation is more specifically called fermented milk or cultured milk. Traditionally, soured milk was simply fresh milk that was left to ferment and sour by keeping it in a warm\nDoc 2(Title: \"Lemon liqueur\") Lemon liqueur Lemon liqueur is a liqueur made from lemons, liquor, and sugar. It is light to bright lemon yellow in color; intensely lemony in flavor; clear, cloudy, or opaque; and sweet or sweet and sour. Lemon zest is used, water may be added, and the liqueur is not sour. Milk or cream may be added to make a lemon cream liqueur. Lemon juice is not used to alter the taste and affect the stability of the lemon liqueur. To produce the Lemon liqueur requires sugar, water, lemon zest, liquor, and time to mature. Lemon zest is soaked in high\nDoc 3(Title: \"Soured milk\") a common modern substitute for naturally soured milk. Soured milk Soured milk denotes a range of food products produced by the acidification of milk. Acidification, which gives the milk a tart taste, is achieved either through bacterial fermentation or through the addition of an acid, such as lemon juice or vinegar. The acid causes milk to coagulate and thicken, inhibiting the growth of harmful bacteria and improving the product's shelf life. Soured milk that is produced by bacterial fermentation is more specifically called fermented milk or cultured milk. Traditionally, soured milk was simply fresh milk that was left to ferment<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Does Lemon enhance the flavor of milk?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "No.",
+            "raw_pred": "The answer is: No.",
+            "inference_elapsed_seconds": 12.211453751660883,
+            "metric_score": {
+                "em": 1.0,
+                "f1": 1.0,
+                "acc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0
+            }
+        }
+    },
+    {
+        "id": "train_1072",
+        "question": "Can music be used as a weapon?",
+        "golden_answers": [
+            "yes"
+        ],
+        "metadata": {
+            "term": "Music",
+            "description": "form of art using sound and silence",
+            "facts": [
+                "Music is an art form whose medium is sound.",
+                "Music can help elevate or subdue emotions.",
+                "People connect to music through the sound.",
+                "The military uses loud music to cause psychological disorientation and confusion ",
+                "The military calls the use of loud disorienting music part of psychological operations. "
+            ],
+            "decomposition": [
+                "In what ways does the military used music in operations?",
+                "Is any of #1 as a weapon?"
+            ],
+            "evidence": [
+                [
+                    [
+                        [
+                            "Music in psychological operations-1"
+                        ]
+                    ],
+                    [
+                        [
+                            "Music in psychological operations-2"
+                        ],
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Manuel Noriega-44"
+                        ],
+                        "no_evidence"
+                    ],
+                    [
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Music in psychological operations-2"
+                        ]
+                    ],
+                    [
+                        [
+                            "Weapon-1"
+                        ],
+                        "operation"
+                    ]
+                ]
+            ]
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "5854966",
+                    "contents": "\"Music and political warfare\"\nMusic and political warfare Music and political warfare have been used together in many different political contexts and cultures as a way to reach a targeted audience in order to deliver a specific political message. Political warfare as defined by Paul A. Smith is the \"\"use of political means to compel an opponent to do one's will... commonly through the use of words, images and ideas.\"\" Music is useful because it creates an easily recognizable and memorable method of delivery for the desired message. Music is particularly useful medium for the delivery of propaganda. Jacques Ellul stated that for propaganda"
+                },
+                {
+                    "id": "9813502",
+                    "contents": "\"Martial music\"\nMartial music Martial music or military music is a specific genre of music intended for use in military settings. Much of the military music has been composed to announce military events as with bugle calls and fanfares, or accompany marching formations with drum cadences, or mark special occasions as by military bands. However, music has been employed in battle for centuries, sometimes to intimidate the enemy and other times to encourage combatants, or to assist in organization and timing of actions in warfare. Depending on the culture, a variety of percussion and musical instruments have been used, such as drums,"
+                },
+                {
+                    "id": "7638507",
+                    "contents": "\"Music in psychological operations\"\nMusic in psychological operations Music has been used in psychological operations. The term music torture is sometimes used by critics of the practice of playing loud music incessantly to prisoners or people besieged. The United Nations and the European Court of Human Rights have banned the use of loud music in interrogations. The term torture is sometimes used to describe the practice. While it is acknowledged by US interrogation experts that it causes discomfort, it has also been characterized by them as causing no \"\"long-term effects\"\". Music and sound have been usually used as part of a combination of interrogation"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Given four answer candidates, Yes and No, choose the best answer choice. Always put the answer after 'The answer is: ', e.g.'The answer is: Yes.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Music and political warfare\") Music and political warfare Music and political warfare have been used together in many different political contexts and cultures as a way to reach a targeted audience in order to deliver a specific political message. Political warfare as defined by Paul A. Smith is the \"\"use of political means to compel an opponent to do one's will... commonly through the use of words, images and ideas.\"\" Music is useful because it creates an easily recognizable and memorable method of delivery for the desired message. Music is particularly useful medium for the delivery of propaganda. Jacques Ellul stated that for propaganda\nDoc 2(Title: \"Martial music\") Martial music Martial music or military music is a specific genre of music intended for use in military settings. Much of the military music has been composed to announce military events as with bugle calls and fanfares, or accompany marching formations with drum cadences, or mark special occasions as by military bands. However, music has been employed in battle for centuries, sometimes to intimidate the enemy and other times to encourage combatants, or to assist in organization and timing of actions in warfare. Depending on the culture, a variety of percussion and musical instruments have been used, such as drums,\nDoc 3(Title: \"Music in psychological operations\") Music in psychological operations Music has been used in psychological operations. The term music torture is sometimes used by critics of the practice of playing loud music incessantly to prisoners or people besieged. The United Nations and the European Court of Human Rights have banned the use of loud music in interrogations. The term torture is sometimes used to describe the practice. While it is acknowledged by US interrogation experts that it causes discomfort, it has also been characterized by them as causing no \"\"long-term effects\"\". Music and sound have been usually used as part of a combination of interrogation<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Can music be used as a weapon?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "Yes.",
+            "raw_pred": "The answer is: Yes.",
+            "inference_elapsed_seconds": 11.711612681858242,
+            "metric_score": {
+                "em": 1.0,
+                "f1": 1.0,
+                "acc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0
+            }
+        }
+    },
+    {
+        "id": "train_665",
+        "question": "Is it safe to use Ammonia with Clorox?",
+        "golden_answers": [
+            "no"
+        ],
+        "metadata": {
+            "term": "Ammonia",
+            "description": "Chemical compound of nitrogen and hydrogen",
+            "facts": [
+                "Clorox is a brand name of a line of bleach products.",
+                "Ammonia and bleach react together to produce toxic gas."
+            ],
+            "decomposition": [
+                "What is the main ingredient in Clorox?",
+                "What happens when you mix ammonia and #1 together?",
+                "Is #2 dangerous?"
+            ],
+            "evidence": [
+                [
+                    [
+                        [
+                            "Sodium hypochlorite-46"
+                        ]
+                    ],
+                    [
+                        [
+                            "Sodium hypochlorite-3"
+                        ]
+                    ],
+                    [
+                        "no_evidence"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Bleach-4",
+                            "Clorox-2"
+                        ]
+                    ],
+                    [
+                        [
+                            "Ammonia-72"
+                        ]
+                    ],
+                    [
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Sodium hypochlorite-2"
+                        ]
+                    ],
+                    [
+                        [
+                            "Sodium hypochlorite-3"
+                        ]
+                    ],
+                    [
+                        "operation"
+                    ]
+                ]
+            ]
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "10310863",
+                    "contents": "Ammonia\nAmmonia vapour has a sharp, irritating, pungent odour that acts as a warning of potentially dangerous exposure. The average odour threshold is 5 ppm, well below any danger or damage. Exposure to very high concentrations of gaseous ammonia can result in lung damage and death. Although ammonia is regulated in the United States as a non-flammable gas, it still meets the definition of a material that is toxic by inhalation and requires a hazardous safety permit when transported in quantities greater than 13,248 L (3,500 gallons). Household products containing ammonia (i.e., Windex) should never be used in conjunction with products"
+                },
+                {
+                    "id": "3868029",
+                    "contents": "Ammonia\nundetectable levels. There have been safety concerns about the process as well as consumer complaints about the taste and smell of beef treated at optimal levels of ammonia. The level of ammonia in any final product has not come close to toxic levels to humans. Because of ammonia's vaporization properties, it is a useful refrigerant. It was commonly used before the popularisation of chlorofluorocarbons (Freons). Anhydrous ammonia is widely used in industrial refrigeration applications and hockey rinks because of its high energy efficiency and low cost. It suffers from the disadvantage of toxicity, which restricts its domestic and small-scale use."
+                },
+                {
+                    "id": "10310873",
+                    "contents": "Ammonia\nirritating to the eyes and the respiratory tract, and these solutions should only be handled in a fume hood. Saturated (\"\"0.880\"\" — see #Properties) solutions can develop a significant pressure inside a closed bottle in warm weather, and the bottle should be opened with care; this is not usually a problem for 25% (\"\"0.900\"\") solutions. Ammonia solutions should not be mixed with halogens, as toxic and/or explosive products are formed. Prolonged contact of ammonia solutions with silver, mercury or iodide salts can also lead to explosive products: such mixtures are often formed in qualitative inorganic analysis, and should be lightly"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Given four answer candidates, Yes and No, choose the best answer choice. Always put the answer after 'The answer is: ', e.g.'The answer is: Yes.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: Ammonia) Ammonia vapour has a sharp, irritating, pungent odour that acts as a warning of potentially dangerous exposure. The average odour threshold is 5 ppm, well below any danger or damage. Exposure to very high concentrations of gaseous ammonia can result in lung damage and death. Although ammonia is regulated in the United States as a non-flammable gas, it still meets the definition of a material that is toxic by inhalation and requires a hazardous safety permit when transported in quantities greater than 13,248 L (3,500 gallons). Household products containing ammonia (i.e., Windex) should never be used in conjunction with products\nDoc 2(Title: Ammonia) undetectable levels. There have been safety concerns about the process as well as consumer complaints about the taste and smell of beef treated at optimal levels of ammonia. The level of ammonia in any final product has not come close to toxic levels to humans. Because of ammonia's vaporization properties, it is a useful refrigerant. It was commonly used before the popularisation of chlorofluorocarbons (Freons). Anhydrous ammonia is widely used in industrial refrigeration applications and hockey rinks because of its high energy efficiency and low cost. It suffers from the disadvantage of toxicity, which restricts its domestic and small-scale use.\nDoc 3(Title: Ammonia) irritating to the eyes and the respiratory tract, and these solutions should only be handled in a fume hood. Saturated (\"\"0.880\"\" — see #Properties) solutions can develop a significant pressure inside a closed bottle in warm weather, and the bottle should be opened with care; this is not usually a problem for 25% (\"\"0.900\"\") solutions. Ammonia solutions should not be mixed with halogens, as toxic and/or explosive products are formed. Prolonged contact of ammonia solutions with silver, mercury or iodide salts can also lead to explosive products: such mixtures are often formed in qualitative inorganic analysis, and should be lightly<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Is it safe to use Ammonia with Clorox?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "No.",
+            "raw_pred": "The answer is: No.",
+            "inference_elapsed_seconds": 21.25262968149036,
+            "metric_score": {
+                "em": 1.0,
+                "f1": 1.0,
+                "acc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0
+            }
+        }
+    },
+    {
+        "id": "train_45",
+        "question": "Would a Dolce & Gabbana suit wearer be shunned by their Amish cousins?",
+        "golden_answers": [
+            "yes"
+        ],
+        "metadata": {
+            "term": "Dolce & Gabbana",
+            "description": "Italian fashion house",
+            "facts": [
+                "Dolce & Gabbana is an Italian luxury fashion design company.",
+                "The Amish, who value plain clothes, frown upon buttons and have banned velcro and zippers",
+                "The Two Tone Dolce & Gabbana suit has several buttons.",
+                "The Amish cease interactions with sinners by avoiding, or shunning them."
+            ],
+            "decomposition": [
+                "What type of clothing do the Amish prefer?",
+                "What happens if an Amish person wears clothes going against #1?",
+                "What clothing pieces are Dolce & Gabbana known for?",
+                "If Amish cousins wore #3, would #2 happen to them?"
+            ],
+            "evidence": [
+                [
+                    [
+                        [
+                            "Amish-27"
+                        ]
+                    ],
+                    [
+                        [
+                            "Excommunication-39"
+                        ]
+                    ],
+                    [
+                        [
+                            "Dolce & Gabbana-1"
+                        ]
+                    ],
+                    [
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Plain dress-3"
+                        ]
+                    ],
+                    [
+                        [
+                            "Amish-6"
+                        ]
+                    ],
+                    [
+                        [
+                            "Dolce & Gabbana-1"
+                        ]
+                    ],
+                    [
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Amish-1"
+                        ]
+                    ],
+                    [
+                        [
+                            "Amish-6"
+                        ]
+                    ],
+                    [
+                        [
+                            "Dolce & Gabbana-1",
+                            "Dolce & Gabbana-32"
+                        ]
+                    ],
+                    [
+                        [
+                            "Amish-6"
+                        ],
+                        "operation"
+                    ]
+                ]
+            ]
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "15599048",
+                    "contents": "Ordnung\ncertain things are regulated by the Ordnung. Non-Amish are not allowed to attend their council meetings, and most Amish are hesitant to discuss the details with outsiders, therefore the precise reasons are difficult to explain. They formulate their rules with two interconnected goals in mind. First, is it compatible with their values? If a particular decision might disrupt their religion, tradition, community, or families, they are likely to prohibit it. The second purpose is to create a fence between themselves and Englishers. Most Americans see the Amish as different because they drive buggies, use horse drawn farm implements, dress plainly,"
+                },
+                {
+                    "id": "15599040",
+                    "contents": "Ordnung\ncommunity, and traditions. The individual suppresses the will of 'self' in lieu of the Amish community. There are several levels of piety in the Ordnung moral code. There could be another category that is so clearly wrong, it is not included in the Ordnung. Murder would be a prime example. Modern technology is used selectively by the Amish for fear that it may weaken the family structure. If any equipment does not maintain principles of Gelassenheit, it is banned. Anything which could promote sloth, luxury or vanity is strictly prohibited. Because 120-volt electricity connects to the outside world, it violates"
+                },
+                {
+                    "id": "4622949",
+                    "contents": "\"Women in Amish society\"\nin traditional Amish society are expected to wear bonnets that cover their head fully with the strings of the bonnet neatly tied, it is not necessarily expected for young teenage girls whose bonnets may more closely resemble the less modest coverings that Mennonite women use rather than a traditional Amish woman’s. All romantic relationships are expected to have marriage as the end result. When it comes to the selection of a marital partner, arranged marriages by the parents are typically not done. It is, however, considered to be completely unacceptable to marry outside the faith. When talking about other aspects"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Given four answer candidates, Yes and No, choose the best answer choice. Always put the answer after 'The answer is: ', e.g.'The answer is: Yes.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: Ordnung) certain things are regulated by the Ordnung. Non-Amish are not allowed to attend their council meetings, and most Amish are hesitant to discuss the details with outsiders, therefore the precise reasons are difficult to explain. They formulate their rules with two interconnected goals in mind. First, is it compatible with their values? If a particular decision might disrupt their religion, tradition, community, or families, they are likely to prohibit it. The second purpose is to create a fence between themselves and Englishers. Most Americans see the Amish as different because they drive buggies, use horse drawn farm implements, dress plainly,\nDoc 2(Title: Ordnung) community, and traditions. The individual suppresses the will of 'self' in lieu of the Amish community. There are several levels of piety in the Ordnung moral code. There could be another category that is so clearly wrong, it is not included in the Ordnung. Murder would be a prime example. Modern technology is used selectively by the Amish for fear that it may weaken the family structure. If any equipment does not maintain principles of Gelassenheit, it is banned. Anything which could promote sloth, luxury or vanity is strictly prohibited. Because 120-volt electricity connects to the outside world, it violates\nDoc 3(Title: \"Women in Amish society\") in traditional Amish society are expected to wear bonnets that cover their head fully with the strings of the bonnet neatly tied, it is not necessarily expected for young teenage girls whose bonnets may more closely resemble the less modest coverings that Mennonite women use rather than a traditional Amish woman’s. All romantic relationships are expected to have marriage as the end result. When it comes to the selection of a marital partner, arranged marriages by the parents are typically not done. It is, however, considered to be completely unacceptable to marry outside the faith. When talking about other aspects<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Would a Dolce & Gabbana suit wearer be shunned by their Amish cousins?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "Yes.",
+            "raw_pred": "The answer is: Yes.",
+            "inference_elapsed_seconds": 4.120438073761761,
+            "metric_score": {
+                "em": 1.0,
+                "f1": 1.0,
+                "acc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0
+            }
+        }
+    },
+    {
+        "id": "train_768",
+        "question": "Could Edward Snowden join MENSA?",
+        "golden_answers": [
+            "yes"
+        ],
+        "metadata": {
+            "term": "Edward Snowden",
+            "description": "American whistleblower and former National Security Agency contractor",
+            "facts": [
+                "Snowden scored above 145 on two separate IQ tests.",
+                "The minimum accepted IQ score for MENSA on the Stanford–Binet is 132, while for the Cattell it is 148."
+            ],
+            "decomposition": [
+                "What is the minimum accepted IQ score to be admitted to MENSA?",
+                "What is Edward Snowden's IQ?",
+                "Is #2 greater than or equal to #1?"
+            ],
+            "evidence": [
+                [
+                    [
+                        [
+                            "Mensa International-5"
+                        ]
+                    ],
+                    [
+                        [
+                            "Edward Snowden-5"
+                        ]
+                    ],
+                    [
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Mensa International-5"
+                        ]
+                    ],
+                    [
+                        [
+                            "Edward Snowden-5"
+                        ]
+                    ],
+                    [
+                        [
+                            "Edward Snowden-5",
+                            "IQ Award-1"
+                        ],
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Mensa International-5"
+                        ]
+                    ],
+                    [
+                        [
+                            "Edward Snowden-5"
+                        ]
+                    ],
+                    [
+                        "operation"
+                    ]
+                ]
+            ]
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "6178213",
+                    "contents": "\"Mensa International\"\nfive months. He scored 141 on the Stanford-Binet IQ test. Elise Tan-Roberts of the UK is the youngest person ever to join Mensa, having gained full membership at the age of two years and four months. American Mensa's oldest member is 102, and British Mensa had a member aged 103. According to American Mensa's website (), 38 percent of its members are baby boomers between the ages of 51 and 68, 31 percent are Gen-Xers or Millennials between the ages of 27 and 48, and more than 2,600 members are under the age of 18. There are more than 1,800"
+                },
+                {
+                    "id": "14246851",
+                    "contents": "\"Awards received by Edward Snowden\"\nof Mensa threatened the commission to subdue Snowden's nomination, and in doing so, they violated the Mensa bylaws. The German Mensa board did this also in reaction to talks with Mensa International. Consequently, it was not possible for Mensa members to vote for Snowden. This caused big controversies among the Mensa members, leading to the effect that opposing Mensa members agreed to all vote in protest for actor Jonny Lee Miller as the most nonsensical nominee, who thus won the election. In 2016, the Norwegian chapter of PEN International awarded Snowden the Ossietzky Prize given \"\"For outstanding achievements within the"
+                },
+                {
+                    "id": "18129987",
+                    "contents": "\"Commentary on Edward Snowden's disclosure\"\nconsiderable damage to our intelligence architecture. Our adversaries are changing the way that they communicate.\"\" In September, DNI Clapper acknowledged that Snowden may have done a public service and started a needed debate about the balance between privacy and security. \"\"As loath as I am to give any credit for what's happened here, which was egregious, I think it's clear that some of the conversations that this has generated, some of the debate, actually probably needed to happen,\"\" he said. \"\"It's unfortunate they didn't happen some time ago, but if there's a good side to this, that's it.\"\" On January"
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Given four answer candidates, Yes and No, choose the best answer choice. Always put the answer after 'The answer is: ', e.g.'The answer is: Yes.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"Mensa International\") five months. He scored 141 on the Stanford-Binet IQ test. Elise Tan-Roberts of the UK is the youngest person ever to join Mensa, having gained full membership at the age of two years and four months. American Mensa's oldest member is 102, and British Mensa had a member aged 103. According to American Mensa's website (), 38 percent of its members are baby boomers between the ages of 51 and 68, 31 percent are Gen-Xers or Millennials between the ages of 27 and 48, and more than 2,600 members are under the age of 18. There are more than 1,800\nDoc 2(Title: \"Awards received by Edward Snowden\") of Mensa threatened the commission to subdue Snowden's nomination, and in doing so, they violated the Mensa bylaws. The German Mensa board did this also in reaction to talks with Mensa International. Consequently, it was not possible for Mensa members to vote for Snowden. This caused big controversies among the Mensa members, leading to the effect that opposing Mensa members agreed to all vote in protest for actor Jonny Lee Miller as the most nonsensical nominee, who thus won the election. In 2016, the Norwegian chapter of PEN International awarded Snowden the Ossietzky Prize given \"\"For outstanding achievements within the\nDoc 3(Title: \"Commentary on Edward Snowden's disclosure\") considerable damage to our intelligence architecture. Our adversaries are changing the way that they communicate.\"\" In September, DNI Clapper acknowledged that Snowden may have done a public service and started a needed debate about the balance between privacy and security. \"\"As loath as I am to give any credit for what's happened here, which was egregious, I think it's clear that some of the conversations that this has generated, some of the debate, actually probably needed to happen,\"\" he said. \"\"It's unfortunate they didn't happen some time ago, but if there's a good side to this, that's it.\"\" On January<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Could Edward Snowden join MENSA?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "Yes.",
+            "raw_pred": "The answer is: Yes.",
+            "inference_elapsed_seconds": 4.948807189241052,
+            "metric_score": {
+                "em": 1.0,
+                "f1": 1.0,
+                "acc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0
+            }
+        }
+    },
+    {
+        "id": "train_1264",
+        "question": "Could all Tahiti hotels hypothetically accommodate US D-Day troops?",
+        "golden_answers": [
+            "no"
+        ],
+        "metadata": {
+            "term": "Tahiti",
+            "description": "Largest island of French Polynesia",
+            "facts": [
+                "Tahiti has 47 hotels with around 3,000 rooms.",
+                "The US D-Day force consisted of:  23,250 on Utah Beach, 34,250 on Omaha Beach, and 15,500 airborne troops."
+            ],
+            "decomposition": [
+                "How many hotel rooms are there in Tahiti?",
+                "How many people can comfortably share a hotel room?",
+                "What is #1 multiplied by #2?",
+                "How many troops were in the US D-Day force?",
+                "Is #3 greater than or equal to #4?"
+            ],
+            "evidence": [
+                [
+                    [
+                        [
+                            "Tahiti-75"
+                        ],
+                        "no_evidence"
+                    ],
+                    [
+                        "no_evidence"
+                    ],
+                    [
+                        "operation"
+                    ],
+                    [
+                        [
+                            "Operation Overlord-1"
+                        ],
+                        "no_evidence"
+                    ],
+                    [
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        "no_evidence"
+                    ],
+                    [
+                        "no_evidence"
+                    ],
+                    [
+                        "operation"
+                    ],
+                    [
+                        [
+                            "Normandy landings-39"
+                        ]
+                    ],
+                    [
+                        "operation"
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "Tahiti-75"
+                        ]
+                    ],
+                    [
+                        [
+                            "Hotel-42"
+                        ],
+                        "no_evidence"
+                    ],
+                    [
+                        "no_evidence",
+                        "operation"
+                    ],
+                    [
+                        [
+                            "Normandy landings-3"
+                        ],
+                        "no_evidence"
+                    ],
+                    [
+                        "no_evidence",
+                        "operation"
+                    ]
+                ]
+            ]
+        },
+        "output": {
+            "retrieval_result": [
+                {
+                    "id": "5822237",
+                    "contents": "\"29th Ranger Battalion (United States)\"\nBritish Commando instructors, our Battalion Commander, Lt. Col. Randolph Millholland and Battalion Executive Officer, Major Lloyd Marr. Both had fine combat records with the 115th Infantry Regiment. I have often wondered if the 29th Ranger Battalion could have accomplished the daunting D-Day task of scaling the cliffs at Pointe du Hoc and then neutralize its gun batteries. Did we have the necessary training, leadership, luck, courage and skill to do what the 2nd Battalion Rangers did? No one will ever know for sure, but I am certain that if a way could be found to accomplish this \"\"mission impossible,\"\" we"
+                },
+                {
+                    "id": "11061184",
+                    "contents": "\"Robert Lee Gilbertson\"\na railhead where hospital trains were taking the wounded back into France. I don’t remember too much about that except a nurse came around every few hours and gave me a shot of penicillin (pretty new stuff then) and we finally arrived at Paris where we were taken to a large hospital. A chaplain came around one day with a copy of general orders awarding a bunch of us the Purple Heart. I still have my copy. After a week some of us were flown over to England in DC-3’s. I remember all the air force crew had parachutes but"
+                },
+                {
+                    "id": "14045827",
+                    "contents": "\"Liberation of the German-occupied Channel Islands\"\nwere now needed. Suitable beaches for landings, such as St Aubin’s bay in Jersey and L’Ancresse in Guernsey, were selected. Unloading in an area with a rise and fall of the tide had to be planned. Surrender terms were drafted. Prisoner of war facilities would be needed. The airports would be opened for transport planes to land. Administrative tasks would be given to No 20 Civil Affairs Unit including the responsibility to bring 200 tons of food, clothing and medicines in on C-Day. Everything the islands needed from pots and pans to 1.1 million sheets of toilet paper were sourced."
+                }
+            ],
+            "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nAnswer the question based on the given document. Given four answer candidates, Yes and No, choose the best answer choice. Always put the answer after 'The answer is: ', e.g.'The answer is: Yes.', at the end of your response. \nThe following are given documents.\nDoc 1(Title: \"29th Ranger Battalion (United States)\") British Commando instructors, our Battalion Commander, Lt. Col. Randolph Millholland and Battalion Executive Officer, Major Lloyd Marr. Both had fine combat records with the 115th Infantry Regiment. I have often wondered if the 29th Ranger Battalion could have accomplished the daunting D-Day task of scaling the cliffs at Pointe du Hoc and then neutralize its gun batteries. Did we have the necessary training, leadership, luck, courage and skill to do what the 2nd Battalion Rangers did? No one will ever know for sure, but I am certain that if a way could be found to accomplish this \"\"mission impossible,\"\" we\nDoc 2(Title: \"Robert Lee Gilbertson\") a railhead where hospital trains were taking the wounded back into France. I don’t remember too much about that except a nurse came around every few hours and gave me a shot of penicillin (pretty new stuff then) and we finally arrived at Paris where we were taken to a large hospital. A chaplain came around one day with a copy of general orders awarding a bunch of us the Purple Heart. I still have my copy. After a week some of us were flown over to England in DC-3’s. I remember all the air force crew had parachutes but\nDoc 3(Title: \"Liberation of the German-occupied Channel Islands\") were now needed. Suitable beaches for landings, such as St Aubin’s bay in Jersey and L’Ancresse in Guernsey, were selected. Unloading in an area with a rise and fall of the tide had to be planned. Surrender terms were drafted. Prisoner of war facilities would be needed. The airports would be opened for transport planes to land. Administrative tasks would be given to No 20 Civil Affairs Unit including the responsibility to bring 200 tons of food, clothing and medicines in on C-Day. Everything the islands needed from pots and pans to 1.1 million sheets of toilet paper were sourced.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nQuestion: Could all Tahiti hotels hypothetically accommodate US D-Day troops?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+            "pred": "No.",
+            "raw_pred": "There is no information in the given documents about Tahiti hotels or their capacity to accommodate US D-Day troops. The documents mention the 29th Ranger Battalion, Robert Lee Gilbertson's experience, and the Liberation of the German-occupied Channel Islands, but do not provide any information about Tahiti hotels. \n\nHowever, based on the context of the documents, it seems that the question is asking for an answer choice of Yes or No. Since there is no information to support the claim that all Tahiti hotels could accommodate US D-Day troops, the best answer would be:\n\nThe answer is: No.",
+            "inference_elapsed_seconds": 6.389142986387014,
+            "metric_score": {
+                "em": 1.0,
+                "f1": 1.0,
+                "acc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0
+            }
+        }
+    }
+]
