@@ -7,7 +7,8 @@
 | `retrieval-200.jsonl` | Both methods' retrieved passage IDs and full text; one row per question |
 | `summary.csv` | Six-dataset EM/F1 table for spreadsheets |
 | `run-records.json` | Four completed run summaries, timing, exit status, and resource peaks |
-| `checksums.json` | SHA256 checks for these five data files |
+| `checksums.json` | SHA256 checks for the data files and attribution list |
+| `passage-sources.csv` | Wikipedia article/contributor links for saved passage titles |
 
 DRAG minus Naive EM, in percentage points:
 

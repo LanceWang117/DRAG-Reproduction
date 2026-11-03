@@ -42,5 +42,5 @@ from the then-current main branch. Full download manifests remain in the local
 archive. The saved inputs let readers reuse the sample without resampling.
 
 Benchmark questions and Wikipedia excerpts retain upstream rights; the code
-license does not relicense their content. Passage titles/IDs are retained in
-the retrieval records. Review upstream terms before publishing those records.
+license does not relicense their content. See NOTICE.md for source/license
+notices and results/passage-sources.csv for Wikipedia attribution links.

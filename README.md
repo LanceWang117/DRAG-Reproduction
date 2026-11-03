@@ -58,6 +58,7 @@ debate traces, historical launch scripts, and package records remain backed up
 on the local machine. The first repository commit also retains the earlier
 full package; this cleanup does not rewrite that history.
 
-Code is Apache-2.0 licensed; model, benchmark, and Wikipedia content retain their
-upstream terms. No model weights, full corpus/index, or credentials are included.
+Code is Apache-2.0 licensed; benchmark and Wikipedia text have separate terms
+listed in [NOTICE.md](NOTICE.md), with article attribution links in the results.
+No model weights, full corpus/index, or credentials are included.
 AI assistance was used for tooling and documentation; results come from saved runs.

@@ -1,7 +1,8 @@
 {
   "paired-200.json": "84fc0ef96e0cc1c8f1772e2d9af1b713a9c15b2eb674b4d2b386350407abbfdd",
   "questions-200.jsonl": "9686ce8fc89a7a8bffa88ccf568492f23463f9eba08a3031b37b20c1764672ed",
-  "retrieval-200.jsonl": "3f7c76dd3f737044d54309f3c0a1172abdbf19d44b9277fc28c2d95b98ef2922",
+  "retrieval-200.jsonl": "faf9ba4748929626f96a7e672f2ed3fcb541879c8ca20e18829e28335e2f33fc",
   "summary.csv": "b7c6fae3cc7dc3b2b84d55d674c9f956cd446e9a7a8677b13c8463e8ddfef434",
-  "run-records.json": "5e10e7c09e00faf3988c203c8a152822735a9f03592c6f01436ec4a2dd300309"
+  "run-records.json": "5e10e7c09e00faf3988c203c8a152822735a9f03592c6f01436ec4a2dd300309",
+  "passage-sources.csv": "f775f92adb7a51bde91e5990f161eca6a05e3b6f59e156f387852ab78eb3cc38"
 }
