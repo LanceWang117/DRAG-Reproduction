@@ -1,11 +1,13 @@
 """Offline checks for the submission runner and bundled evidence."""
 import json
+import hashlib
 from pathlib import Path
 import tempfile
 import unittest
 
 from run_evaluation import MANIFEST, resolve_paths, select_questions
 from verify_evidence import verify
+from prepare_source import ORIGINAL, CHANGES, build_runtime
 
 
 class SubmissionTests(unittest.TestCase):
@@ -35,6 +37,16 @@ class SubmissionTests(unittest.TestCase):
 
     def test_evidence(self):
         self.assertEqual(len(verify()), 6)
+
+    def test_overlay_does_not_edit_original(self):
+        # The runnable copy should use our fix, while the authors' files keep
+        # their original hashes. This also catches a mistaken source path.
+        paths = [p for p in ORIGINAL.rglob('*') if p.is_file()]
+        before = {p: hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
+        runtime = build_runtime()
+        self.assertEqual(before, {p: hashlib.sha256(p.read_bytes()).hexdigest() for p in paths})
+        for name in ['drag.py', 'judge_decision.py']:
+            self.assertEqual((runtime / 'model' / name).read_bytes(), (CHANGES / name).read_bytes())
 
 
 if __name__ == '__main__':

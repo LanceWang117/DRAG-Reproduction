@@ -1,0 +1,404 @@
+[
+  {
+    "run": "20261017T010415Z_drag_50q",
+    "run_summary": {
+      "method": "DRAG",
+      "question_count": 50,
+      "source_commit": "3870c0ea3b675da63e4bc8047af07604073568f1",
+      "source_repo": "/workspace/Capstone_project/source_repos/Debate-Augmented-RAG-v1.0.1",
+      "paired_baseline_dir": "/workspace/Capstone_project/outputs/20261017T001627Z_drag_50q",
+      "command": [
+        "/workspace/Capstone_project/envs/drag/bin/python",
+        "main.py",
+        "--method_name",
+        "DRAG",
+        "--config_path",
+        "/workspace/Capstone_project/outputs/20261017T010415Z_drag_50q/config-override.json",
+        "--generator_model",
+        "llama3-8B-instruct",
+        "--dataset_name",
+        "NQ",
+        "--test_sample_num",
+        "50",
+        "--gpu_id",
+        "0",
+        "--save_dir",
+        "/workspace/Capstone_project/outputs/20261017T010415Z_drag_50q/official-results",
+        "--max_query_debate_rounds",
+        "3",
+        "--max_answer_debate_rounds",
+        "3"
+      ],
+      "elapsed_seconds": 1867.567305661738,
+      "return_code": 0,
+      "timed_out": false,
+      "peak_process_tree_sum_rss_bytes": 72461447168,
+      "resource_note": "RSS sum can double-count shared pages; cgroup includes cache.",
+      "outputs": "/workspace/Capstone_project/outputs/20261017T010415Z_drag_50q"
+    },
+    "dataset_results": null
+  },
+  {
+    "run": "20261017T015401Z_drag_extra50_v1.0.1",
+    "run_summary": {
+      "source_commit": "3870c0ea3b675da63e4bc8047af07604073568f1",
+      "version": "v1.0.1",
+      "method": "DRAG",
+      "new_questions_requested": 50,
+      "return_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 1763.5155001208186,
+      "peak_process_tree_sum_rss_bytes": 72579850240,
+      "resource_note": "RSS sum can double-count shared pages; cgroup includes file cache."
+    },
+    "dataset_results": [
+      {
+        "dataset": "TriviaQA",
+        "split": "dev",
+        "status": "complete",
+        "questions": 10,
+        "metrics": {
+          "em": 0.7,
+          "f1": 0.7285714285714285,
+          "acc": 0.7,
+          "precision": 0.72,
+          "recall": 0.75
+        },
+        "question_inference_seconds": 286.45080377999693,
+        "average_question_seconds": 28.645080377999694,
+        "dataset_wall_seconds_including_evaluation": 287.9068354377523,
+        "output_dir": "/workspace/Capstone_project/outputs/20261017T015401Z_drag_extra50_v1.0.1/official-results/TriviaQA_2026_10_17_01_59_DRAG_v1.0.1_extra10"
+      },
+      {
+        "dataset": "PopQA",
+        "split": "test",
+        "status": "complete",
+        "questions": 10,
+        "metrics": {
+          "em": 0.7,
+          "f1": 0.75,
+          "acc": 0.8,
+          "precision": 0.7333333333333333,
+          "recall": 0.8
+        },
+        "question_inference_seconds": 195.7447762079537,
+        "average_question_seconds": 19.57447762079537,
+        "dataset_wall_seconds_including_evaluation": 196.05699196550995,
+        "output_dir": "/workspace/Capstone_project/outputs/20261017T015401Z_drag_extra50_v1.0.1/official-results/PopQA_2026_10_17_02_04_DRAG_v1.0.1_extra10"
+      },
+      {
+        "dataset": "HotpotQA",
+        "split": "dev",
+        "status": "complete",
+        "questions": 10,
+        "metrics": {
+          "em": 0.4,
+          "f1": 0.6276190476190476,
+          "acc": 0.4,
+          "precision": 0.6833333333333333,
+          "recall": 0.6066666666666667
+        },
+        "question_inference_seconds": 298.5916395550594,
+        "average_question_seconds": 29.859163955505938,
+        "dataset_wall_seconds_including_evaluation": 298.9113593287766,
+        "output_dir": "/workspace/Capstone_project/outputs/20261017T015401Z_drag_extra50_v1.0.1/official-results/HotpotQA_2026_10_17_02_07_DRAG_v1.0.1_extra10"
+      },
+      {
+        "dataset": "2wiki",
+        "split": "dev",
+        "status": "complete",
+        "questions": 10,
+        "metrics": {
+          "em": 0.6,
+          "f1": 0.6,
+          "acc": 0.6,
+          "precision": 0.6,
+          "recall": 0.6
+        },
+        "question_inference_seconds": 365.127535013482,
+        "average_question_seconds": 36.5127535013482,
+        "dataset_wall_seconds_including_evaluation": 365.4486776208505,
+        "output_dir": "/workspace/Capstone_project/outputs/20261017T015401Z_drag_extra50_v1.0.1/official-results/2wiki_2026_10_17_02_12_DRAG_v1.0.1_extra10"
+      },
+      {
+        "dataset": "StrategyQA",
+        "split": "train",
+        "status": "complete",
+        "questions": 10,
+        "metrics": {
+          "em": 0.7,
+          "f1": 0.7,
+          "acc": 0.7,
+          "precision": 0.7,
+          "recall": 0.7
+        },
+        "question_inference_seconds": 270.30617085751146,
+        "average_question_seconds": 27.030617085751146,
+        "dataset_wall_seconds_including_evaluation": 270.6550245657563,
+        "output_dir": "/workspace/Capstone_project/outputs/20261017T015401Z_drag_extra50_v1.0.1/official-results/StrategyQA_2026_10_17_02_18_DRAG_v1.0.1_extra10"
+      }
+    ]
+  },
+  {
+    "run": "20261017T030736Z_naive_rag_fixed100",
+    "run_summary": {
+      "source_commit": "c035ee1b7e6bc9fa67d5a104df1c2175a8300666",
+      "version": "official-baseline",
+      "method": "Naive RAG",
+      "new_questions_requested": 100,
+      "return_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 919.0863982969895,
+      "peak_process_tree_sum_rss_bytes": 72590671872,
+      "resource_note": "RSS sum can double-count shared pages; cgroup includes file cache."
+    },
+    "dataset_results": [
+      {
+        "dataset": "NQ",
+        "split": "dev",
+        "status": "complete",
+        "questions": 50,
+        "metrics": {
+          "em": 0.44,
+          "f1": 0.547235767816413,
+          "acc": 0.54,
+          "precision": 0.5496310541310541,
+          "recall": 0.6
+        },
+        "question_inference_seconds": 262.4641995597631,
+        "average_question_seconds": 5.249283991195261,
+        "dataset_wall_seconds_including_evaluation": 263.65569707751274,
+        "output_dir": "/workspace/Capstone_project/outputs/20261017T030736Z_naive_rag_fixed100/official-results/NQ_2026_10_17_03_13_Naive_RAG_fixed100_serial"
+      },
+      {
+        "dataset": "TriviaQA",
+        "split": "dev",
+        "status": "complete",
+        "questions": 10,
+        "metrics": {
+          "em": 0.6,
+          "f1": 0.6725274725274726,
+          "acc": 0.6,
+          "precision": 0.65,
+          "recall": 0.7333333333333334
+        },
+        "question_inference_seconds": 51.51253608055413,
+        "average_question_seconds": 5.151253608055413,
+        "dataset_wall_seconds_including_evaluation": 51.7401653341949,
+        "output_dir": "/workspace/Capstone_project/outputs/20261017T030736Z_naive_rag_fixed100/official-results/TriviaQA_2026_10_17_03_17_Naive_RAG_fixed100_serial"
+      },
+      {
+        "dataset": "PopQA",
+        "split": "test",
+        "status": "complete",
+        "questions": 10,
+        "metrics": {
+          "em": 0.5,
+          "f1": 0.54,
+          "acc": 0.6,
+          "precision": 0.525,
+          "recall": 0.6
+        },
+        "question_inference_seconds": 73.6176040051505,
+        "average_question_seconds": 7.36176040051505,
+        "dataset_wall_seconds_including_evaluation": 73.81423667818308,
+        "output_dir": "/workspace/Capstone_project/outputs/20261017T030736Z_naive_rag_fixed100/official-results/PopQA_2026_10_17_03_18_Naive_RAG_fixed100_serial"
+      },
+      {
+        "dataset": "HotpotQA",
+        "split": "dev",
+        "status": "complete",
+        "questions": 10,
+        "metrics": {
+          "em": 0.3,
+          "f1": 0.43833333333333335,
+          "acc": 0.3,
+          "precision": 0.44222222222222224,
+          "recall": 0.4666666666666666
+        },
+        "question_inference_seconds": 45.898467456921935,
+        "average_question_seconds": 4.589846745692194,
+        "dataset_wall_seconds_including_evaluation": 46.1697387509048,
+        "output_dir": "/workspace/Capstone_project/outputs/20261017T030736Z_naive_rag_fixed100/official-results/HotpotQA_2026_10_17_03_19_Naive_RAG_fixed100_serial"
+      },
+      {
+        "dataset": "2wiki",
+        "split": "dev",
+        "status": "complete",
+        "questions": 10,
+        "metrics": {
+          "em": 0.2,
+          "f1": 0.23333333333333334,
+          "acc": 0.4,
+          "precision": 0.22000000000000003,
+          "recall": 0.3
+        },
+        "question_inference_seconds": 46.512906327843666,
+        "average_question_seconds": 4.651290632784367,
+        "dataset_wall_seconds_including_evaluation": 49.61828494723886,
+        "output_dir": "/workspace/Capstone_project/outputs/20261017T030736Z_naive_rag_fixed100/official-results/2wiki_2026_10_17_03_20_Naive_RAG_fixed100_serial"
+      },
+      {
+        "dataset": "StrategyQA",
+        "split": "train",
+        "status": "complete",
+        "questions": 10,
+        "metrics": {
+          "em": 0.8,
+          "f1": 0.8,
+          "acc": 0.8,
+          "precision": 0.8,
+          "recall": 0.8
+        },
+        "question_inference_seconds": 91.63628458417952,
+        "average_question_seconds": 9.163628458417952,
+        "dataset_wall_seconds_including_evaluation": 92.78143509756774,
+        "output_dir": "/workspace/Capstone_project/outputs/20261017T030736Z_naive_rag_fixed100/official-results/StrategyQA_2026_10_17_03_21_Naive_RAG_fixed100_serial"
+      }
+    ]
+  },
+  {
+    "run": "20261017T033818Z_paired_extension100",
+    "run_summary": {
+      "source_commit": "3870c0ea3b675da63e4bc8047af07604073568f1",
+      "version": "v1.0.1",
+      "method": "DRAG_and_Naive",
+      "new_questions_requested": 100,
+      "return_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 3407.2513064248487,
+      "peak_process_tree_sum_rss_bytes": 72604622848,
+      "resource_note": "RSS sum can double-count shared pages; cgroup includes file cache."
+    },
+    "dataset_results": [
+      {
+        "method": "DRAG",
+        "dataset": "PopQA",
+        "split": "test",
+        "questions": 30,
+        "metrics": {
+          "em": 0.5,
+          "f1": 0.5468253968253969,
+          "acc": 0.5666666666666667,
+          "precision": 0.5366666666666667,
+          "recall": 0.5833333333333334
+        },
+        "inference_seconds": 697.025406813249,
+        "mean_seconds": 23.2341802271083,
+        "output_dir": "/workspace/Capstone_project/outputs/20261017T033818Z_paired_extension100/DRAG/official-results/PopQA_2026_10_17_03_43_DRAG_targeted_extension"
+      },
+      {
+        "method": "DRAG",
+        "dataset": "2wiki",
+        "split": "dev",
+        "questions": 30,
+        "metrics": {
+          "em": 0.26666666666666666,
+          "f1": 0.30833333333333335,
+          "acc": 0.3,
+          "precision": 0.315,
+          "recall": 0.325
+        },
+        "inference_seconds": 905.2283263206482,
+        "mean_seconds": 30.174277544021606,
+        "output_dir": "/workspace/Capstone_project/outputs/20261017T033818Z_paired_extension100/DRAG/official-results/2wiki_2026_10_17_03_55_DRAG_targeted_extension"
+      },
+      {
+        "method": "DRAG",
+        "dataset": "HotpotQA",
+        "split": "dev",
+        "questions": 25,
+        "metrics": {
+          "em": 0.32,
+          "f1": 0.40476190476190477,
+          "acc": 0.44,
+          "precision": 0.4266666666666667,
+          "recall": 0.4333333333333333
+        },
+        "inference_seconds": 680.2468054201454,
+        "mean_seconds": 27.209872216805817,
+        "output_dir": "/workspace/Capstone_project/outputs/20261017T033818Z_paired_extension100/DRAG/official-results/HotpotQA_2026_10_17_04_10_DRAG_targeted_extension"
+      },
+      {
+        "method": "DRAG",
+        "dataset": "StrategyQA",
+        "split": "train",
+        "questions": 15,
+        "metrics": {
+          "em": 0.6,
+          "f1": 0.6,
+          "acc": 0.6,
+          "precision": 0.6,
+          "recall": 0.6
+        },
+        "inference_seconds": 369.80737848673016,
+        "mean_seconds": 24.65382523244868,
+        "output_dir": "/workspace/Capstone_project/outputs/20261017T033818Z_paired_extension100/DRAG/official-results/StrategyQA_2026_10_17_04_21_DRAG_targeted_extension"
+      },
+      {
+        "method": "Naive",
+        "dataset": "PopQA",
+        "split": "test",
+        "questions": 30,
+        "metrics": {
+          "em": 0.43333333333333335,
+          "f1": 0.47962962962962963,
+          "acc": 0.5,
+          "precision": 0.46904761904761905,
+          "recall": 0.5166666666666667
+        },
+        "inference_seconds": 126.22204440273345,
+        "mean_seconds": 4.207401480091115,
+        "output_dir": "/workspace/Capstone_project/outputs/20261017T033818Z_paired_extension100/Naive/official-results/PopQA_2026_10_17_04_28_Naive_targeted_extension"
+      },
+      {
+        "method": "Naive",
+        "dataset": "2wiki",
+        "split": "dev",
+        "questions": 30,
+        "metrics": {
+          "em": 0.13333333333333333,
+          "f1": 0.16223361823361823,
+          "acc": 0.3,
+          "precision": 0.1529370675022849,
+          "recall": 0.28611111111111115
+        },
+        "inference_seconds": 123.39829306304455,
+        "mean_seconds": 4.113276435434818,
+        "output_dir": "/workspace/Capstone_project/outputs/20261017T033818Z_paired_extension100/Naive/official-results/2wiki_2026_10_17_04_30_Naive_targeted_extension"
+      },
+      {
+        "method": "Naive",
+        "dataset": "HotpotQA",
+        "split": "dev",
+        "questions": 25,
+        "metrics": {
+          "em": 0.28,
+          "f1": 0.3380952380952381,
+          "acc": 0.4,
+          "precision": 0.34666666666666673,
+          "recall": 0.37333333333333335
+        },
+        "inference_seconds": 94.08271528128535,
+        "mean_seconds": 3.763308611251414,
+        "output_dir": "/workspace/Capstone_project/outputs/20261017T033818Z_paired_extension100/Naive/official-results/HotpotQA_2026_10_17_04_32_Naive_targeted_extension"
+      },
+      {
+        "method": "Naive",
+        "dataset": "StrategyQA",
+        "split": "train",
+        "questions": 15,
+        "metrics": {
+          "em": 0.5333333333333333,
+          "f1": 0.5333333333333333,
+          "acc": 0.5333333333333333,
+          "precision": 0.5333333333333333,
+          "recall": 0.5333333333333333
+        },
+        "inference_seconds": 56.82247938495129,
+        "mean_seconds": 3.788165292330086,
+        "output_dir": "/workspace/Capstone_project/outputs/20261017T033818Z_paired_extension100/Naive/official-results/StrategyQA_2026_10_17_04_33_Naive_targeted_extension"
+      }
+    ]
+  }
+]

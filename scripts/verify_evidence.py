@@ -1,17 +1,11 @@
-"""Check saved evidence locally and recompute the published aggregate scores.
-
-Uses only Python's standard library. No downloads, model calls, or GPU access.
-"""
+"""Check the compact results package without a GPU, network, or model calls."""
 import csv
 from decimal import Decimal, ROUND_HALF_UP
 import hashlib
 import json
 from pathlib import Path
 
-PROJECT = Path(__file__).resolve().parents[1]
-RESULTS = PROJECT / 'results'
-RUNS = ['20261017T010415Z_drag_50q', '20261017T015401Z_drag_extra50_v1.0.1',
-        '20261017T030736Z_naive_rag_fixed100', '20261017T033818Z_paired_extension100']
+RESULTS = Path(__file__).resolve().parents[1] / 'results'
 
 
 def load(path):
@@ -24,69 +18,54 @@ def require(condition, message):
 
 
 def verify():
-    checksums = load(RESULTS / 'checksums.json')
-    for name, expected in checksums.items():
+    # Hashes detect accidental edits to the extracted records; they are not
+    # proof of authorship. The full raw runs remain in the local archive.
+    hashes = load(RESULTS / 'checksums.json')
+    for name, expected in hashes.items():
         path = RESULTS / name
-        require(path.is_file(), f'Missing evidence: {name}')
+        require(path.is_file(), f'Missing file: {name}')
         require(hashlib.sha256(path.read_bytes()).hexdigest() == expected,
-                f'Evidence checksum differs: {name}')
-    comparison = load(RESULTS / 'fixed200-drag-naive-comparison.json')
+                f'Checksum differs: {name}')
+    comparison = load(RESULTS / 'paired-200.json')
     pairs = comparison['pairs']
-    key = lambda r: (r['dataset'], r['split'], r['id'])
-    by_id = {key(r): r for r in pairs}
-    require(len(pairs) == len(by_id) == 200, 'Expected 200 unique paired questions')
-    manifest_path = RESULTS / RUNS[-1] / 'question-manifest-200.jsonl'
-    manifest = [json.loads(s) for s in manifest_path.read_text().splitlines() if s.strip()]
-    require(len(manifest) == 200, 'Wrong manifest length')
-    for row in manifest:
-        pair = by_id[key(row)]
+    identity = lambda r: (r['dataset'], r['split'], r['id'])
+    by_id = {identity(row): row for row in pairs}
+    questions = [json.loads(s) for s in (RESULTS / 'questions-200.jsonl').read_text().splitlines()]
+    require(len(pairs) == len(by_id) == len(questions) == 200, 'Expected 200 unique questions')
+    require(len({identity(q) for q in questions}) == 200, 'Duplicate input question')
+    for row in questions:
+        pair = by_id[identity(row)]
         require((row['question'], row['golden_answers']) ==
-                (pair['question'], pair['golden_answers']), f'Manifest mismatch: {key(row)}')
-
-    seen = {'drag': set(), 'naive': set()}
-    for run in RUNS:
-        for path in (RESULTS / run).rglob('intermediate_data.json'):
-            method = 'naive' if run == RUNS[2] or 'Naive' in path.parts else 'drag'
-            for row in load(path):
-                # Historical files do not always include the dataset name in
-                # each item. Resolve it using the run path, not ID alone.
-                candidates = [p for p in pairs if p['id'] == row['id']
-                              and p['question'] == row['question']
-                              and p['golden_answers'] == row['golden_answers']]
-                require(len(candidates) == 1, f'Ambiguous saved question: {path}, {row["id"]}')
-                pair = candidates[0]
-                identity = key(pair)
-                require(identity not in seen[method], f'Duplicate raw result: {method}, {identity}')
-                seen[method].add(identity)
-                output = row['output']
-                require(output['pred'] == pair[method + '_answer'], f'Answer mismatch: {identity}')
-                for metric in ['em', 'f1']:
-                    require(abs(output['metric_score'][metric] - pair[method + '_metrics'][metric]) < 1e-12,
-                            f'Metric mismatch: {identity}, {metric}')
-                documents = (output['QueryStage_QueryPool'].values() if method == 'drag'
-                             else [output['retrieval_result']])
-                require(all(len(group) == 3 and all('id' in d and 'contents' in d for d in group)
-                            for group in documents), f'Incomplete retrieval records: {identity}')
-    require(all(len(ids) == 200 for ids in seen.values()), 'Missing raw results for one method')
+                (pair['question'], pair['golden_answers']), f'Input mismatch: {identity(row)}')
+        for method in ['drag', 'naive']:
+            require(isinstance(pair[method + '_answer'], str), 'Missing prediction')
+            require(pair[method + '_metrics']['em'] in (0, 1), 'Invalid EM')
+            require(0 <= pair[method + '_metrics']['f1'] <= 1, 'Invalid F1')
+    retrieval = [json.loads(s) for s in (RESULTS / 'retrieval-200.jsonl').read_text().splitlines()]
+    require(len(retrieval) == 200 and {identity(r) for r in retrieval} == set(by_id),
+            'Retrieval records do not cover the fixed sample')
+    for row in retrieval:
+        # DRAG stores one top-3 list per final query, not three passages in total.
+        require(bool(row['drag']), 'Empty DRAG query pool')
+        groups = [row['naive'], *row['drag'].values()]
+        require(all(len(g) == 3 and all('id' in d and 'contents' in d for d in g) for g in groups),
+                f'Missing passage ID/text: {identity(row)}')
     summary = []
     for dataset in comparison['datasets']:
-        rows = [p for p in pairs if p['dataset'] == dataset['dataset']]
+        rows = [r for r in pairs if r['dataset'] == dataset['dataset']]
         record = dict(dataset=dataset['dataset'], questions=len(rows))
         for method in ['naive', 'drag']:
             for metric in ['em', 'f1']:
-                value = sum(p[method + '_metrics'][metric] for p in rows) / len(rows)
+                value = sum(r[method + '_metrics'][metric] for r in rows) / len(rows)
                 require(abs(value - dataset[method + '_metrics'][metric]) < 1e-12,
-                        'Aggregate metric differs from saved per-question scores')
+                        'Aggregate differs from per-question scores')
                 record[f'{method}_{metric}'] = str(
                     (Decimal(str(value)) * 100).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP))
         summary.append(record)
-    # The summary CSV is an independently recomputed view, not new model output.
     with (RESULTS / 'summary.csv').open(newline='') as source:
         expected = list(csv.DictReader(source))
-    require([{k: str(v) for k, v in r.items()} for r in summary] == expected, 'Summary CSV differs')
-    print(f'Verified {len(checksums)} evidence files, 200 paired questions, and top-3 passage records.')
-    for row in summary:
-        print(row)
+    require([{k: str(v) for k, v in row.items()} for row in summary] == expected, 'Summary CSV differs')
+    print(f'Verified {len(hashes)} files: 200 paired answers, selected inputs, retrieval records, and summary.')
     return summary
 
 

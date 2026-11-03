@@ -11,8 +11,10 @@ from pathlib import Path
 import sys
 import time
 
+from prepare_source import build_runtime
+
 PROJECT = Path(__file__).resolve().parents[1]
-MANIFEST = PROJECT / 'results/20261017T033818Z_paired_extension100/question-manifest-200.jsonl'
+MANIFEST = PROJECT / 'results/questions-200.jsonl'
 METRICS = ['em', 'f1', 'acc', 'precision', 'recall']
 
 
@@ -64,7 +66,8 @@ def run(args, rows):
     os.environ.setdefault('OMP_NUM_THREADS', '12')
     os.environ.setdefault('MKL_NUM_THREADS', '12')
     os.environ.setdefault('TOKENIZERS_PARALLELISM', 'false')
-    sys.path.insert(0, str(PROJECT / 'src'))
+    source = build_runtime()
+    sys.path.insert(0, str(source))
     started = time.monotonic()
     from flashrag.config import Config
     from flashrag.dataset import Dataset
@@ -88,7 +91,7 @@ def run(args, rows):
                         random_sample=False, save_dir=str(out / method),
                         save_note=f'{method}_{name}', metrics=METRICS,
                         save_intermediate_data=True, save_metric_score=True)
-        return Config(str(PROJECT / 'src/config/base_config.yaml'), settings)
+        return Config(str(source / 'config/base_config.yaml'), settings)
 
     name, split = next(iter(groups))
     config = config_for(name, split, args.method, len(groups[(name, split)]))

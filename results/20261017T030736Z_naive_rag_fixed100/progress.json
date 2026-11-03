@@ -1,9 +1,0 @@
-{
-  "completed": 100,
-  "total": 100,
-  "dataset": "StrategyQA",
-  "split": "train",
-  "dataset_completed": 10,
-  "dataset_total": 10,
-  "last_id": "train_1264"
-}

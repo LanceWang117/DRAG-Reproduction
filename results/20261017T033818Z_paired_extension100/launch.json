@@ -1,7 +1,0 @@
-{
-  "pid": 20533,
-  "output_dir": "/workspace/Capstone_project/outputs/20261017T033818Z_paired_extension100",
-  "runner_sha256": "9da2964ecdbcc37230bccb80dee95d92af346aa350d3780592633c4cc6bee0e5",
-  "questions_per_method": 100,
-  "max_runtime_seconds": 7200
-}

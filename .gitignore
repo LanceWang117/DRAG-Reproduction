@@ -6,6 +6,7 @@ cache/
 envs/
 downloads/
 new-runs/
+.runtime/
 config.local.json
 .env
 .env.*
