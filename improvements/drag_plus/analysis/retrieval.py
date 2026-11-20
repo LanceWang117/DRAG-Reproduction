@@ -5,22 +5,18 @@ a fresh run dump and the passages already stored in ``results/retrieval-200.json
 
 Relevance is binary: a passage is relevant when a normalised gold answer occurs in it
 (J01's ``normalize_answer``, the scorer that reproduces FlashRAG). ``containment@k`` is
-measured on the context the generator actually sees -- the question followed by the top-k
-passages -- because the baseline prompt always contains the question. That is the
-definition B17 used when it recorded 114/200 per arm; passages alone give 105/200, so the
-two must never be mixed.
+measured on the context the generator actually sees -- the question and the top-k
+passages, each checked on its own -- because the baseline prompt always contains the
+question. That is the definition behind B17's 114/200 per arm; passages alone give
+105/200, so the two must never be mixed.
 """
 from __future__ import annotations
 
 from math import ceil, log2
 from typing import Any, Dict, Iterable, List, Sequence
 
+from ..retrieval.hybrid import passage_title
 from .score import normalize_answer
-
-
-def passage_title(contents: Any) -> str:
-    """The baseline's title convention: the first line of ``contents``."""
-    return str(contents).split("\n", 1)[0]
 
 
 def contains_gold(text: str, golden_answers: Sequence[str]) -> bool:
