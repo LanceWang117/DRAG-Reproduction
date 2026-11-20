@@ -27,7 +27,7 @@ def _agent_prompt(ctx: StageContext, state: QuestionState, round_index: int, age
 
 def _agent_turn(ctx: StageContext, state: QuestionState, round_index: int, agent: str) -> None:
     prompt = _agent_prompt(ctx, state, round_index, agent)
-    output = ctx.backends.complete(prompt)
+    output = ctx.backends.complete(prompt, call=state.call("answer_agent", agent))
     state.emit(f"AnswerStage_{agent}_Round{round_index}_InputPrompt", prompt)
     state.emit(f"AnswerStage_{agent}_Round{round_index}_Output", output)
     state.answer_messages[agent].append({"role": "assistant", "content": output})
@@ -39,7 +39,7 @@ def _moderate(ctx: StageContext, state: QuestionState, round_index: int) -> None
     message = [prompts.answer_moderator_system(ctx.strategy_qa),
                prompts.answer_moderator_user(state.question, state.query_pool, responses)]
     prompt = ctx.backends.render(message)
-    output = ctx.backends.complete(prompt)
+    output = ctx.backends.complete(prompt, call=state.call("answer_moderator", "moderator"))
     state.emit(f"AnswerStage_Moderator_Round{round_index}_InputPrompt", prompt)
     state.emit(f"AnswerStage_Moderator_Round{round_index}_Output", output)
     _set_pred(state, output)
@@ -54,7 +54,7 @@ def _answer_only(ctx: StageContext, state: QuestionState) -> None:
     message = [prompts.answer_only_system(state.query_pool, ctx.strategy_qa),
                prompts.question_user(state.question)]
     prompt = ctx.backends.render(message)
-    output = ctx.backends.complete(prompt)
+    output = ctx.backends.complete(prompt, call=state.call("answer_agent", "answer_only"))
     state.emit("answer_input_prompt", prompt)
     _set_pred(state, output)
 

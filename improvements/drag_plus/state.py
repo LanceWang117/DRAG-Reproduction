@@ -9,6 +9,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any, Callable, Dict, List, Optional, Tuple
 
+from .instrument.timing import CallInfo
+
 Sink = Callable[[str, Any], None]
 
 
@@ -26,7 +28,12 @@ class QuestionState:
     status: str = "active"
     pred: Optional[str] = None
     raw_pred: Optional[str] = None
+    calls: List[dict] = field(default_factory=list)
     sink: Optional[Sink] = None
+
+    def call(self, stage: str, role: str) -> CallInfo:
+        """Describe the next backend call; timing rows land in ``self.calls``."""
+        return CallInfo(stage, self.round, role, self.calls)
 
     def emit(self, key: str, value: Any) -> None:
         """Record one output and forward it to the sink (the dataset item)."""

@@ -8,7 +8,7 @@ import unittest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from drag_plus.flags import FLAG_SPECS, FlagError, Flags, load_flags  # noqa: E402
 
-BASELINE = {"max_query_debate_rounds": 3, "max_answer_debate_rounds": 3,
+BASELINE = {"max_query_debate_rounds": 3, "max_answer_debate_rounds": 3, "profile_calls": False,
             "answer_extractor": "native"}
 
 

@@ -31,6 +31,8 @@ FLAG_SPECS: Tuple[FlagSpec, ...] = (
              doc="Query-stage debate rounds; 0 retrieves for the question only."),
     FlagSpec("max_answer_debate_rounds", int, 3, minimum=0,
              doc="Answer-stage debate rounds; 0 answers directly from the pool."),
+    FlagSpec("profile_calls", bool, False,
+             doc="Record one timing row per generator and retriever call."),
     FlagSpec("answer_extractor", str, "native", choices=("native", "unified"),
              doc="native keeps the raw moderator text as pred; unified applies E(.)."),
 )

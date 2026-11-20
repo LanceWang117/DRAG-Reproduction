@@ -8,9 +8,10 @@ construction rather than part-way through a run on the server (names only, not s
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, List, Protocol, runtime_checkable
+from typing import Any, List, Optional, Protocol, runtime_checkable
 
 from .flags import Flags
+from .instrument.timing import CallInfo, CallRecorder
 
 
 @runtime_checkable
@@ -35,6 +36,7 @@ class Backends:
     generator: Generator
     retriever: Retriever
     prompt_template: PromptTemplate
+    recorder: Optional[CallRecorder] = None
 
     def __post_init__(self) -> None:
         for name, protocol, method in (("generator", Generator, "generate"),
@@ -47,12 +49,25 @@ class Backends:
     def render(self, messages: list) -> Any:
         return self.prompt_template.get_string(messages=messages)
 
-    def complete(self, prompt: Any, **params: Any) -> str:
+    def complete(self, prompt: Any, *, call: Optional[CallInfo] = None, **params: Any) -> str:
         """One generation. Params are forwarded only when given (baseline passes none)."""
-        return self.generator.generate(prompt, **params)[0]
+        def invoke() -> str:
+            return self.generator.generate(prompt, **params)[0]
+        if self.recorder is None or call is None:
+            return invoke()
+        return self.recorder.generation(call, prompt, invoke)
 
-    def search(self, query: str) -> List[dict]:
-        return self.retriever.search(query)
+    def search(self, query: str, *, call: Optional[CallInfo] = None) -> List[dict]:
+        if self.recorder is None or call is None:
+            return self.retriever.search(query)
+        return self.recorder.retrieval(call, 1, lambda: self.retriever.search(query))
+
+    def batch_search(self, queries: List[str], *,
+                     call: Optional[CallInfo] = None) -> List[List[dict]]:
+        if self.recorder is None or call is None:
+            return self.retriever.batch_search(queries)
+        return self.recorder.retrieval(call, len(queries),
+                                       lambda: self.retriever.batch_search(queries))
 
 
 @dataclass(frozen=True)

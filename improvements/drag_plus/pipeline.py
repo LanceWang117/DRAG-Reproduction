@@ -18,8 +18,9 @@ from .state import QuestionState
 
 class DragPlusPipeline:
     def __init__(self, flags: Flags, generator: Any, retriever: Any, prompt_template: Any,
-                 dataset_name: str):
-        backends = Backends(generator, retriever, prompt_template)
+                 dataset_name: str, recorder: Any = None):
+        backends = Backends(generator, retriever, prompt_template,
+                            recorder if flags.profile_calls else None)
         self._ctx = StageContext(flags, backends, dataset_name)
 
     @property
