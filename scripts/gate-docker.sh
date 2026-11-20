@@ -28,6 +28,23 @@ fi
 GIT_DIR="$(git rev-parse --absolute-git-dir)"
 GIT_COMMON="$(cd "$(git rev-parse --git-common-dir)" && pwd -P)"
 
+# The tmpfs below is mounted over .runtime, which must exist on the host first:
+# a fresh clone has no .runtime, and Docker's read-only bind refuses to create a
+# mount point inside it. Remove the directory again if this script created it.
+RUNTIME="$ROOT/.runtime"
+CREATED_RUNTIME=0
+if [ ! -d "$RUNTIME" ]; then
+  mkdir -p "$RUNTIME"
+  CREATED_RUNTIME=1
+fi
+
+cleanup() {
+  if [ "$CREATED_RUNTIME" = 1 ]; then
+    rmdir "$RUNTIME" 2>/dev/null || true
+  fi
+}
+trap cleanup EXIT
+
 echo "==> install git in a throwaway image layer"
 # --network host is required here too: bridge networking is broken on the laptop
 # (veth pairs cannot be created) until a reboot, so the default build network fails.
