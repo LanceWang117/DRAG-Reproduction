@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -34,6 +35,7 @@ PACK_PREFIXES = ('docs/prompts/', 'docs/jobs/', 'docs/ledger/', 'docs/research/'
                  '.github/copilot-instructions.md')
 TRAILERS = ('co-authored-by:', 'assisted-by:')
 GENERATED_MARKER = 'generated with'
+PR_SUBJECT = re.compile(r'\(#\d+\)$')
 MAX_BYTES = 1024 * 1024
 
 
@@ -63,31 +65,40 @@ def _resolve(git: Git, candidate):
 
 
 def resolve_base(git: Git, requested):
-    """Pick a comparison base that exists and differs from ``HEAD``."""
+    """Pick a comparison base that exists and differs from ``HEAD``.
+
+    An explicit ``--base`` that does not resolve is an error: the caller asked for
+    a specific comparison. ``GUARD_BASE`` may be missing — a first push reports an
+    all-zero ``before`` commit — so an unusable value falls back to the defaults.
+    """
     head = git.head()
-    for candidate in (requested, os.environ.get('GUARD_BASE')):
-        if not candidate:
-            continue
-        base = _resolve(git, candidate)
+    if requested:
+        base = _resolve(git, requested)
         if not base:
-            raise ValueError(f'cannot resolve a comparison base for {candidate!r}')
-        if base != head:
+            raise ValueError(f'cannot resolve --base {requested!r}')
+        return base if base != head else (git.existing('rev-parse', 'HEAD~1') or base)
+    candidate = os.environ.get('GUARD_BASE')
+    if candidate:
+        base = _resolve(git, candidate)
+        if base and base != head:
             return base
-        break
     branch = git.existing('rev-parse', '--abbrev-ref', 'HEAD')
     if branch == 'main' and git.existing('rev-parse', '--verify', '--quiet', 'HEAD~1'):
         return 'HEAD~1'
-    for candidate in ('origin/main', 'main'):
-        base = _resolve(git, candidate)
+    for name in ('origin/main', 'main'):
+        base = _resolve(git, name)
         if base and base != head:
             return base
     if git.existing('rev-parse', '--verify', '--quiet', 'HEAD~1'):
         return 'HEAD~1'
-    raise ValueError('no comparison base available; pass --base')
+    # A single-commit history (the repository's first push) has nothing to compare.
+    return ''
 
 
 def changed_files(git: Git, base):
     """Every path touched between ``base`` and ``HEAD``, both sides of a rename."""
+    if not base:
+        return []
     output = git.run('diff', '--name-only', '--no-renames', '--diff-filter=ACMRD',
                      '-z', base, 'HEAD')
     return [path for path in output.split('\0') if path]
@@ -172,6 +183,29 @@ def check_messages(git: Git, base):
     return problems
 
 
+def check_main_history(git: Git, base, enabled):
+    """On a push to main, every new commit must name the pull request it came from.
+
+    Branch protection is not available to this team (no admin rights, and the
+    owner cannot enable it on their plan), so nothing at the server stops a
+    direct push to main. This is the in-repo substitute: a squash merge ends
+    its subject with ``(#N)`` and a merge commit starts with
+    ``Merge pull request #``, while a direct push does neither.
+
+    It runs only when the caller asks (CI sets ``MAIN_MERGE_POLICY=1`` on the
+    push event), so an old checkout or a feature branch is never judged by a
+    policy adopted later.
+    """
+    if not enabled or not base:
+        return []
+    problems = []
+    for subject in git.run('log', '--format=%s', f'{base}..HEAD').splitlines():
+        if PR_SUBJECT.search(subject) or subject.lower().startswith('merge pull request #'):
+            continue
+        problems.append(f'main: not from a pull request: {subject[:60]}')
+    return problems
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--base', help='commit or ref to compare against')
@@ -187,6 +221,7 @@ def main(argv=None) -> int:
         problems += check_large(git, base, every_path)
         problems += check_hygiene(every_path + untracked_files(git))
         problems += check_messages(git, base)
+        problems += check_main_history(git, base, os.environ.get('MAIN_MERGE_POLICY') == '1')
     except (ValueError, subprocess.CalledProcessError) as error:
         print(f'FAILED guard check: {error}', file=sys.stderr)
         return 1

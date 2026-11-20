@@ -41,6 +41,10 @@ jobs:
       - name: Run the gate
         run: bash scripts/gate.sh
         env:
-          # Checkout leaves a detached HEAD, so name the base branch explicitly;
-          # the guards then diff against the merge base with it.
-          GUARD_BASE: origin/${{ github.base_ref || 'main' }}
+          # On a pull request the guards diff against the base branch's merge base.
+          # On a push to main they diff against the previous main tip, so every
+          # commit in the push is examined, not just the last one.
+          GUARD_BASE: ${{ github.event_name == 'pull_request' && format('origin/{0}', github.base_ref) || github.event.before }}
+          # Branch protection is unavailable to this team, so on a push to main the
+          # guards also require every new commit to come from a pull request.
+          MAIN_MERGE_POLICY: ${{ github.event_name == 'push' && '1' || '0' }}
