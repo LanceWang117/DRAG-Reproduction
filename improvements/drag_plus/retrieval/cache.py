@@ -5,11 +5,12 @@ points can never disagree. On a miss, one ``batch_search`` resolves every query 
 request is missing, results are deep-copied on the way out, and one JSONL line per query
 is appended only after that call succeeded.
 
-The key is ``(index, encoder, top_k, normalised query)``, so a different index or depth
-cannot hit a stale entry. Queries are compared after Unicode NFC and whitespace
-normalisation and are never lowercased: the key has to stay correct if a later job swaps
-in a cased encoder, even though E5-base-v2 itself is uncased. Normalisation is for the
-key only; the retriever is asked with the caller's own text.
+The key is ``(index, encoder, top_k, normalised query, config)``, where ``config`` is a
+fingerprint of the retriever settings (dense vs hybrid, k values, weights, floors,
+reranker, title cap), so no stale or cross-configuration entry can be hit. Queries are
+compared after Unicode NFC and whitespace normalisation and are never lowercased: the key
+stays correct if a later job swaps in a cased encoder, though E5-base-v2 is uncased.
+Normalisation is for the key only; the retriever is asked with the caller's own text.
 """
 from __future__ import annotations
 
@@ -44,31 +45,37 @@ def index_identity(path: Any) -> str:
 
 @dataclass(frozen=True)
 class CacheKey:
-    """Everything that must match for a hit to be valid."""
+    """Everything that must match for a hit to be valid.
+
+    ``config`` is a canonical fingerprint of the retrieval configuration
+    (:func:`drag_plus.retrieval.hybrid.config_fingerprint`), so a dense entry can never
+    answer a hybrid query that happens to share index, encoder, depth and text.
+    """
 
     index: str
     encoder: str
     top_k: Optional[int]
     query: str
+    config: str = ""
 
     @classmethod
     def build(cls, identity: Mapping[str, Any], query: str,
               num: Optional[int] = None) -> "CacheKey":
         depth = num if num is not None else identity.get("top_k")
         return cls(str(identity["index"]), str(identity["encoder"]), depth,
-                   normalise_query(query))
+                   normalise_query(query), str(identity.get("config", "")))
 
     @classmethod
     def from_dict(cls, data: Mapping[str, Any]) -> "CacheKey":
         try:
             return cls(str(data["index"]), str(data["encoder"]), data.get("top_k"),
-                       str(data["query"]))
+                       str(data["query"]), str(data.get("config", "")))
         except (KeyError, TypeError) as error:
             raise ValueError(f"not a cache key: {data!r}") from error
 
     def as_dict(self) -> Dict[str, Any]:
         return {"index": self.index, "encoder": self.encoder, "top_k": self.top_k,
-                "query": self.query}
+                "query": self.query, "config": self.config}
 
 
 def _valid_docs(docs: Any) -> bool:
@@ -78,9 +85,8 @@ def _valid_docs(docs: Any) -> bool:
 def _valid_scores(scores: Any) -> bool:
     if scores is None:
         return True
-    numeric = (int, float)
     return isinstance(scores, list) and all(
-        isinstance(score, numeric) and not isinstance(score, bool) for score in scores)
+        isinstance(s, (int, float)) and not isinstance(s, bool) for s in scores)
 
 
 class CacheStore:
@@ -148,11 +154,10 @@ class CacheStore:
 
 
 def _accepts(func: Any, name: str) -> bool:
-    """True if ``func`` takes a keyword called ``name``.
+    """True if ``func`` takes a keyword called ``name``; ``**kwargs`` counts too.
 
-    ``**kwargs`` also counts, because FlashRAG's retriever hides its real signature
-    behind a decorator; the return shape is validated in ``_call`` so that guess can
-    never silently corrupt an entry.
+    FlashRAG's retriever hides its real signature behind a decorator, so the return shape
+    is validated in ``_call``; that guess can never silently corrupt an entry.
     """
     try:
         parameters = inspect.signature(func).parameters
@@ -167,13 +172,14 @@ class CachingRetriever:
 
     def __init__(self, inner: Any, *, index: str, encoder: str,
                  top_k: Optional[int], path: Optional[Any] = None,
-                 store: Optional[CacheStore] = None,
+                 store: Optional[CacheStore] = None, config: str = "",
                  warn: Callable[[str], None] = warnings.warn) -> None:
         for name in ("search", "batch_search"):
             if not callable(getattr(inner, name, None)):
                 raise TypeError(f"the wrapped retriever has no {name}()")
         self.inner = inner
-        self.identity = {"index": index, "encoder": encoder, "top_k": top_k}
+        self.identity = {"index": index, "encoder": encoder, "top_k": top_k,
+                         "config": config}
         self.store = store if store is not None else CacheStore(path, warn)
         self._scored = _accepts(inner.batch_search, "return_score")
 

@@ -17,8 +17,9 @@ from ..instrument import logs, manifest
 from ..instrument.timing import CallRecorder
 from ..naive import NaivePipeline
 from ..pipeline import DragPlusPipeline
+from ..retrieval.hybrid import config_fingerprint
 from . import records, resume
-from .backends import Backend
+from .backends import Backend, build_retriever
 from .variant import Variant
 
 CHECKPOINTS, TIMINGS, TRANSCRIPTS = "checkpoints.jsonl", "stage-timings.jsonl", "transcripts.jsonl"
@@ -67,15 +68,19 @@ class _Pipelines:
     def _shared_retriever(self):
         """One proxy for every arm, so a query is retrieved once for the whole run.
 
-        A relative cache path is relative to the run directory, like the other logs.
+        The retriever is composed here (dense, or dense + BM25 fused) and only then
+        cached; a relative cache path is relative to the run directory, like the logs.
         """
+        backend = self._request.backend
+        retriever = build_retriever(self._flags, backend.retriever)
         path = self._flags.retrieval_cache
         if path is None:
-            return self._request.backend.retriever
+            return retriever
         resolved = Path(path).expanduser()
         if not resolved.is_absolute():
             resolved = self._request.out_dir / resolved
-        return self._request.backend.cached_retriever(resolved)
+        return backend.cached_retriever(resolved, retriever,
+                                        config_fingerprint(self._flags))
 
     def get(self, arm: str, dataset: str):
         if (arm, dataset) not in self._cache:

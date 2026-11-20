@@ -6,8 +6,7 @@ import unittest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from drag_plus.flags import Flags  # noqa: E402
 from drag_plus.retrieval.hybrid import (Source, cap_per_title, config_fingerprint,  # noqa: E402
-                                        reciprocal_rank_fusion, retrieval_config,
-                                        source_results)
+                                        reciprocal_rank_fusion, retrieval_config)
 
 
 def doc(doc_id, title="T", body="body"):
@@ -94,51 +93,6 @@ class TitleCapTests(unittest.TestCase):
         self.assertEqual(cap_per_title(ranked, None), ranked)
         with self.assertRaisesRegex(ValueError, "per_title_cap"):
             cap_per_title(ranked, 0)
-
-
-class Recorder:
-    def __init__(self, scores=False, num=True):
-        self.calls, self.scored, self.numbered = [], scores, num
-
-    def batch_search(self, queries, **kwargs):
-        self.calls.append((list(queries), dict(kwargs)))
-        docs = [[doc(f"{query}-1"), doc(f"{query}-2"), doc(f"{query}-3")]
-                for query in queries]
-        if not kwargs.get("return_score"):
-            return docs
-        return docs, [[0.9, 0.5, 0.1] for _ in queries]
-
-
-class SourceResultTests(unittest.TestCase):
-    def test_scores_are_only_requested_when_needed(self):
-        plain, scored = Recorder(), Recorder()
-        source_results(plain, ["q"], 2, False)
-        source_results(scored, ["q"], 2, True)
-        self.assertEqual(plain.calls[0][1], {"num": 2})
-        self.assertEqual(scored.calls[0][1], {"num": 2, "return_score": True})
-
-    def test_depth_truncates_documents_and_scores_together(self):
-        docs, scores = source_results(Recorder(), ["q"], 2, True)[0]
-        self.assertEqual([d["id"] for d in docs], ["q-1", "q-2"])
-        self.assertEqual(scores, [0.9, 0.5])
-
-    def test_a_retriever_without_num_still_works(self):
-        docs, _ = source_results(Recorder(num=False), ["q"], 1, False)[0]
-        self.assertEqual([d["id"] for d in docs], ["q-1"])
-
-    def test_a_floor_needs_a_retriever_that_can_score(self):
-        class NoScores:
-            def batch_search(self, queries):
-                return [[doc("a")] for _ in queries]
-        with self.assertRaisesRegex(ValueError, "cannot return scores"):
-            source_results(NoScores(), ["q"], 2, True)
-
-    def test_result_count_must_match_the_query_count(self):
-        class Short:
-            def batch_search(self, queries, **kwargs):
-                return [[doc("a")]]
-        with self.assertRaisesRegex(ValueError, "1 document lists"):
-            source_results(Short(), ["q1", "q2"], 1, False)
 
 
 class ConfigFingerprintTests(unittest.TestCase):

@@ -154,3 +154,69 @@ def retrieval_config(flags: Any) -> Dict[str, Any]:
 def config_fingerprint(flags: Any) -> str:
     """A canonical one-line form of :func:`retrieval_config` for the cache key."""
     return json.dumps(retrieval_config(flags), sort_keys=True, separators=(",", ":"))
+
+
+class HybridRetriever:
+    """Dense + BM25, fused, optionally reranked, capped per title, truncated to top-k."""
+
+    def __init__(self, dense: Any, bm25: Any, *, dense_k: int = 20, bm25_k: int = 20,
+                 top_k: int = 3, rrf_k: int = 60, dense_weight: float = 1.0,
+                 bm25_weight: float = 1.0, dense_floor: Optional[float] = None,
+                 bm25_floor: Optional[float] = None, reranker: Any = None,
+                 rerank_k: Optional[int] = None,
+                 per_title_cap: Optional[int] = None) -> None:
+        self.dense, self.bm25 = dense, bm25
+        self.dense_k, self.bm25_k, self.top_k = dense_k, bm25_k, top_k
+        self.rrf_k = rrf_k
+        self.dense_weight, self.bm25_weight = dense_weight, bm25_weight
+        self.dense_floor, self.bm25_floor = dense_floor, bm25_floor
+        self.reranker, self.rerank_k = reranker, rerank_k
+        self.per_title_cap = per_title_cap
+        if rerank_k is not None and reranker is None:
+            raise ValueError("rerank_k is set but no reranker was given")
+
+    @classmethod
+    def from_flags(cls, flags: Any, dense: Any, bm25: Any,
+                   reranker: Any = None) -> "HybridRetriever":
+        """Build from the flag registry, so a setting cannot be silently forgotten."""
+        return cls(dense, bm25, dense_k=flags.dense_top_k, bm25_k=flags.bm25_top_k,
+                   top_k=flags.hybrid_top_k, rrf_k=flags.rrf_k,
+                   dense_weight=flags.dense_weight, bm25_weight=flags.bm25_weight,
+                   dense_floor=flags.dense_score_floor, bm25_floor=flags.bm25_score_floor,
+                   reranker=reranker, rerank_k=flags.rerank_k,
+                   per_title_cap=flags.per_title_cap)
+
+    def search(self, query: str, num: Optional[int] = None,
+               return_score: bool = False) -> Any:
+        """One query as the batch path with a single-element request."""
+        return self.batch_search([query], num=num, return_score=return_score)[0]
+
+    def batch_search(self, queries: List[str], num: Optional[int] = None,
+                     return_score: bool = False) -> List[Any]:
+        queries = [queries] if isinstance(queries, str) else list(queries)
+        if num is not None and int(num) < 1:
+            raise ValueError(f"num must be >= 1, got {num}")
+        scored = self.dense_floor is not None or self.bm25_floor is not None
+        dense = source_results(self.dense, queries, self.dense_k, scored)
+        bm25 = source_results(self.bm25, queries, self.bm25_k, scored)
+        return [self._merge(query, dense[index], bm25[index], num, return_score)
+                for index, query in enumerate(queries)]
+
+    def _merge(self, query: str, dense: Tuple[list, Any], bm25: Tuple[list, Any],
+               num: Optional[int], return_score: bool) -> Any:
+        sources = [Source("dense", dense[0], dense[1], self.dense_weight, self.dense_floor),
+                   Source("bm25", bm25[0], bm25[1], self.bm25_weight, self.bm25_floor)]
+        fused = reciprocal_rank_fusion(sources, self.rrf_k)
+        ranked = cap_per_title(self._rerank(query, fused), self.per_title_cap)
+        depth = self.top_k if num is None else int(num)
+        ranked = ranked[:depth]
+        if return_score:
+            return [doc for doc, _ in ranked], [score for _, score in ranked]
+        return [doc for doc, _ in ranked]
+
+    def _rerank(self, query: str, ranked: Ranked) -> Ranked:
+        """Rerank only the head; the tail keeps its fused order."""
+        if self.reranker is None or self.rerank_k is None:
+            return ranked
+        head = [doc for doc, _ in ranked[:self.rerank_k]]
+        return self.reranker.rerank(query, head) + ranked[self.rerank_k:]
