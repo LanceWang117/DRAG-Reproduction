@@ -168,6 +168,12 @@ class CrashResumeTests(RunnerCase):
         with self.assertRaises(ResumeError):
             run_variant(make_request(out, resume=True, interleave=True))
 
+    def test_resuming_with_a_different_variant_is_refused(self):
+        out, _, _ = self.crash_then_resume(40, False)
+        other = parse_variant({"name": "t", "flags": {"max_query_debate_rounds": 1}})
+        with self.assertRaisesRegex(ResumeError, "variant"):
+            run_variant(make_request(out, resume=True, variant=other))
+
     def test_resuming_a_missing_directory_is_refused(self):
         with self.assertRaises(ResumeError):
             run_variant(make_request(self.root / "nowhere", resume=True))

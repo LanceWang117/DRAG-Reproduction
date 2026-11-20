@@ -72,3 +72,36 @@ No test loads the real Llama weights or FAISS index.
 The authors' own entry point remains `src/original_drag/main.py`. It directly
 reads the dev split. Our runner calls the same classes to support PopQA/test
 and StrategyQA/train without relabeling those splits.
+
+## Variant runner
+
+`scripts/run_variant.py` runs a variant of the pipeline (the `drag_plus` package and a
+Naive arm) and records per-call timings. It is separate from `scripts/run_evaluation.py`,
+which stays the reference for the recorded baseline numbers.
+
+A variant file names the flags to set and the arms to run
+(`improvements/configs/baseline.json` is the baseline with every flag at its default):
+
+```bash
+python scripts/run_variant.py --variant improvements/configs/baseline.json --validate-only
+python scripts/run_variant.py --variant improvements/configs/baseline.json \
+    --backend fake --limit 5 --profile --output /tmp/variant-demo     # offline, no GPU
+python scripts/run_variant.py --variant improvements/configs/baseline.json \
+    --config config.local.json --dataset NQ --limit 5 --profile      # needs the A100 stack
+python scripts/run_variant.py --variant improvements/configs/baseline.json \
+    --config config.local.json --resume new-runs/<run-directory>     # after an interruption
+```
+
+Each run writes `new-runs/<UTC>-<variant>/` (ignored by git) with:
+- `checkpoints.jsonl`: one fsynced line per finished (arm, question); the durable record;
+- `transcripts.jsonl`: every prompt and raw output in order with its sha256, and `pred`
+  under both extractors;
+- `stage-timings.jsonl`: one row per generator or retriever call, only with `--profile`;
+  `t_start` is seconds since the question's first call;
+- `run-manifest.json`: variant, flags, commit, package versions, thread settings, backend,
+  start and end, exit status and every resume;
+- `summary.json`: the metrics for each arm and dataset.
+
+`--resume` skips finished questions, drops a torn last checkpoint line, and refuses a
+different variant or `--interleave` setting. The logs of a resumed run equal those of an
+uninterrupted one. The fake backend's answers are meaningless: it exists to test the path.

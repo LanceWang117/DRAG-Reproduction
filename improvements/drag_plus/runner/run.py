@@ -94,6 +94,8 @@ def _open_run(request: RunRequest, schedule) -> tuple:
         return progress, request.now(), []
     previous = request.out_dir / MANIFEST
     old = read_json(previous) if previous.exists() else {}
+    if old and old.get("variant") != request.variant.raw:
+        raise resume.ResumeError("cannot resume: the variant file differs from the original run")
     entry = {"at": request.now(), "completed_before": len(progress.done),
              "repaired_bytes": progress.repaired_bytes}
     return progress, old.get("started", request.now()), old.get("resumes", []) + [entry]
