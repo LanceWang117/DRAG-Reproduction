@@ -1,0 +1,114 @@
+"""Runner integration for the retrieval cache: one proxy, both arms, flag off = baseline."""
+import json
+from pathlib import Path
+import tempfile
+import unittest
+
+import frozen  # noqa: F401
+from drag_plus.pipeline import DragPlusPipeline
+from drag_plus.naive import NaivePipeline
+from drag_plus.retrieval.cache import CachingRetriever
+from drag_plus.runner import run as runner
+from drag_plus.runner.backends import build_fake_backend
+from drag_plus.runner.run import RunRequest, run_variant
+from drag_plus.runner.variant import parse_variant
+
+ROWS = [{"dataset": "NQ", "split": "dev", "id": f"q{i}",
+         "question": f"question number {i}?", "golden_answers": ["answer 1"]}
+        for i in range(3)]
+
+
+def request(out_dir, flags=None, **overrides):
+    values = dict(rows=ROWS, variant=parse_variant({"name": "t", "flags": flags or {}}),
+                  backend=build_fake_backend(), out_dir=out_dir, profile=False,
+                  now=lambda: "2026-01-01T00:00:00Z",
+                  environment=lambda: {"commit": "test"})
+    values.update(overrides)
+    return RunRequest(**values)
+
+
+class SharedProxyTests(unittest.TestCase):
+    def setUp(self):
+        folder = tempfile.TemporaryDirectory()
+        self.addCleanup(folder.cleanup)
+        self.root = Path(folder.name)
+
+    def test_both_arms_receive_the_same_proxy_instance(self):
+        pipelines = runner._Pipelines(request(self.root / "run",
+                                              {"retrieval_cache": str(self.root / "c.jsonl")}))
+        drag, naive = pipelines.get("drag", "NQ"), pipelines.get("naive", "NQ")
+        self.assertIsInstance(drag._ctx.backends.retriever, CachingRetriever)
+        self.assertIs(drag._ctx.backends.retriever, naive._ctx.backends.retriever)
+        self.assertIs(drag._ctx.backends.retriever, pipelines.retriever)
+
+    def test_every_dataset_shares_that_one_proxy(self):
+        pipelines = runner._Pipelines(request(self.root / "run",
+                                              {"retrieval_cache": str(self.root / "c.jsonl")}))
+        built = {pipelines.get(arm, dataset)._ctx.backends.retriever
+                 for arm in ("drag", "naive") for dataset in ("NQ", "StrategyQA")}
+        self.assertEqual(len(built), 1)
+
+    def test_the_underlying_retriever_is_called_once_per_unique_query(self):
+        out = self.root / "run"
+        cache_path = self.root / "cache" / "retrieval-cache.jsonl"
+        cache_path.parent.mkdir()
+        run_variant(request(out, {"retrieval_cache": str(cache_path)}))
+        lines = [json.loads(line) for line in cache_path.read_text().splitlines()]
+        keys = [(line["query"], line["top_k"]) for line in lines]
+        self.assertEqual(len(keys), len(set(keys)), "each query must be stored once")
+        self.assertTrue({row["question"] for row in ROWS} <= {line["query"] for line in lines})
+
+
+class FlagOffTests(unittest.TestCase):
+    def setUp(self):
+        folder = tempfile.TemporaryDirectory()
+        self.addCleanup(folder.cleanup)
+        self.root = Path(folder.name)
+
+    def test_the_default_passes_the_bare_retriever_through(self):
+        backend = build_fake_backend()
+        pipelines = runner._Pipelines(request(self.root / "run", backend=backend))
+        self.assertIs(pipelines.retriever, backend.retriever)
+        self.assertIs(pipelines.get("drag", "NQ")._ctx.backends.retriever, backend.retriever)
+
+    def test_the_default_run_writes_no_cache_file_and_the_same_transcripts(self):
+        off, on = self.root / "off", self.root / "on"
+        cache_path = self.root / "c.jsonl"
+        plain = run_variant(request(off))
+        self.assertFalse(cache_path.exists(), "the default run must not create a cache")
+        cached = run_variant(request(on, {"retrieval_cache": str(cache_path)}))
+        self.assertTrue(cache_path.exists())
+        self.assertIsNone(plain["flags"]["retrieval_cache"])
+        self.assertEqual(cached["flags"]["retrieval_cache"], str(cache_path))
+        self.assertEqual(
+            (off / "transcripts.jsonl").read_text().replace('"run_id": "off"', '"run_id": "on"'),
+            (on / "transcripts.jsonl").read_text())
+
+    def test_both_arms_see_identical_passages_for_the_original_query(self):
+        out = self.root / "run"
+        run_variant(request(out, {"retrieval_cache": str(self.root / "c.jsonl")},
+                            interleave=True))
+        naive, drag = {}, {}
+        for line in (out / "transcripts.jsonl").read_text().splitlines():
+            row = json.loads(line)
+            pool = next((e["value"] for e in row["entries"]
+                         if e["key"] == "QueryStage_QueryPool"), None)
+            if row["arm"] == "naive":
+                naive[row["id"]] = next(e["value"] for e in row["entries"]
+                                        if e["key"] == "retrieval_result")
+            elif pool is not None:
+                drag[row["id"]] = pool
+        self.assertEqual(set(drag), set(naive))
+        compared = 0
+        for question_id, pool in drag.items():
+            question = next(row["question"] for row in ROWS if row["id"] == question_id)
+            if question not in pool:  # a rewritten query replaced the original entry
+                continue
+            self.assertEqual(pool[question], naive[question_id],
+                             "the same query must retrieve the same passages in both arms")
+            compared += 1
+        self.assertTrue(compared, "at least one question kept its original query")
+
+
+if __name__ == "__main__":
+    unittest.main()

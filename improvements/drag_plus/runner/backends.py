@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any, Callable, Dict, List
 
 from ..instrument.timing import whitespace_tokens
+from ..retrieval.cache import CachingRetriever, index_identity
 from . import fake
 
 METRICS = ["em", "f1", "acc", "precision", "recall"]
@@ -25,17 +26,47 @@ class Backend:
     evaluate: Callable[[str, str, List[Dict[str, Any]]], Dict[str, Any]]
     describe: Callable[[], Dict[str, Any]]
     count_tokens: Callable[[str], int] = whitespace_tokens
+    retrieval_identity: Callable[[], Dict[str, Any]] = lambda: {"index": "unknown",
+                                                               "encoder": "unknown",
+                                                               "top_k": None}
+
+    def cached_retriever(self, path: Path) -> CachingRetriever:
+        """One proxy per run, so both arms share the cache and the underlying calls."""
+        return CachingRetriever(self.retriever, path=path, **self.retrieval_identity())
+
+
+def _fake_identity() -> Dict[str, Any]:
+    return {"index": "fake-retriever", "encoder": "fake", "top_k": 2}
 
 
 def build_fake_backend() -> Backend:
     template = fake.FakeTemplate()
     return Backend("fake", fake.FakeGenerator(), fake.FakeRetriever(),
-                   lambda arm, dataset: template, fake.fake_evaluate, fake.fake_description)
+                   lambda arm, dataset: template, fake.fake_evaluate, fake.fake_description,
+                   retrieval_identity=_fake_identity)
 
 
 def _gpu_name() -> str:
     import torch  # lazy: only the real backend, only on the server
     return torch.cuda.get_device_name(0) if torch.cuda.is_available() else "none"
+
+
+def _flashrag_describe(overrides: Dict[str, Any]) -> Callable[[], Dict[str, Any]]:
+    """The manifest's backend block: which GPU, model, index and seed the run used."""
+    def describe() -> Dict[str, Any]:
+        return {"gpu": _gpu_name(), "model": overrides["model2path"][overrides["generator_model"]],
+                "index": overrides["index_path"], "corpus": overrides["corpus_path"],
+                "seed": overrides.get("seed")}
+    return describe
+
+
+def _flashrag_identity(overrides: Dict[str, Any]) -> Callable[[], Dict[str, Any]]:
+    """What a cache entry depends on besides the query: index, encoder, depth."""
+    def identity() -> Dict[str, Any]:
+        encoder = overrides["model2path"][overrides["retrieval_method"]]
+        return {"index": index_identity(overrides["index_path"]), "encoder": encoder,
+                "top_k": overrides.get("retrieval_topk")}
+    return identity
 
 
 def build_flashrag_backend(source: Path, overrides: Dict[str, Any], rows: List[dict],
@@ -71,10 +102,7 @@ def build_flashrag_backend(source: Path, overrides: Dict[str, Any], rows: List[d
             output={"pred": r["pred"]}) for r in records])
         return Evaluator(config).evaluate(data)
 
-    def describe() -> Dict[str, Any]:
-        return {"gpu": _gpu_name(), "model": overrides["model2path"][overrides["generator_model"]],
-                "index": overrides["index_path"], "corpus": overrides["corpus_path"],
-                "seed": overrides.get("seed")}
-
-    return Backend("flashrag", generator, retriever, make_template, evaluate, describe,
-                   lambda text: len(tokenizer.encode(text, add_special_tokens=False)))
+    return Backend("flashrag", generator, retriever, make_template, evaluate,
+                   _flashrag_describe(overrides),
+                   lambda text: len(tokenizer.encode(text, add_special_tokens=False)),
+                   _flashrag_identity(overrides))

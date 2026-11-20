@@ -24,6 +24,7 @@ class FlagSpec:
     choices: Optional[Tuple[Any, ...]] = None
     minimum: Optional[int] = None
     doc: str = ""
+    optional: bool = False
 
 
 FLAG_SPECS: Tuple[FlagSpec, ...] = (
@@ -35,12 +36,16 @@ FLAG_SPECS: Tuple[FlagSpec, ...] = (
              doc="Record one timing row per generator and retriever call."),
     FlagSpec("answer_extractor", str, "native", choices=("native", "unified"),
              doc="native keeps the raw moderator text as pred; unified applies E(.)."),
+    FlagSpec("retrieval_cache", str, None, optional=True,
+             doc="Path to retrieval-cache.jsonl; null disables the caching proxy."),
 )
 _SPECS_BY_NAME = {spec.name: spec for spec in FLAG_SPECS}
 
 
 def _check(spec: FlagSpec, value: Any) -> Any:
     # bool is an int subclass, so True would otherwise pass for an integer flag.
+    if value is None and spec.optional:
+        return None
     if isinstance(value, bool) != (spec.kind is bool) or not isinstance(value, spec.kind):
         raise FlagError(
             f"flag {spec.name!r} expects {spec.kind.__name__}, "
