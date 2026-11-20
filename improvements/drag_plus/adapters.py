@@ -10,6 +10,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, List, Protocol, runtime_checkable
 
+from .flags import Flags
+
 
 @runtime_checkable
 class Generator(Protocol):
@@ -49,3 +51,16 @@ class Backends:
 
     def search(self, query: str) -> List[dict]:
         return self.retriever.search(query)
+
+
+@dataclass(frozen=True)
+class StageContext:
+    """Run-wide, read-only inputs every stage receives next to the question state."""
+
+    flags: Flags
+    backends: Backends
+    dataset_name: str
+
+    @property
+    def strategy_qa(self) -> bool:
+        return self.dataset_name == "StrategyQA"
