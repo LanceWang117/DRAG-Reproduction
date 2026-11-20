@@ -30,9 +30,11 @@ class TimedResult(unittest.TextTestResult):
         super().startTest(test)
 
     def stopTest(self, test):
-        elapsed = time.monotonic() - self._started
-        if elapsed > self.max_seconds:
-            self.slow.append((test.id(), elapsed))
+        started = getattr(self, '_started', None)
+        if started is not None:
+            elapsed = time.monotonic() - started
+            if elapsed > self.max_seconds:
+                self.slow.append((test.id(), elapsed))
         super().stopTest(test)
 
 
@@ -64,6 +66,8 @@ def _result_factory(max_seconds):
 def report(result, stream):
     """Return the process exit code, explaining every failure mode."""
     failures = []
+    if result.testsRun == 0:
+        failures.append('no tests were collected')
     if result.failures or result.errors:
         failures.append(f'{len(result.failures)} failure(s), {len(result.errors)} error(s)')
     if result.skipped:

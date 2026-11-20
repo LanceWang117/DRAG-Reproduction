@@ -14,4 +14,7 @@ class BasicPipeline:
         self.prompt_template = prompt_template
 
     def evaluate(self, dataset, do_eval=True):
-        return dataset
+        raise RuntimeError(
+            'BasicPipeline.evaluate is not available in the test stub; '
+            'inject a fake evaluator instead'
+        )

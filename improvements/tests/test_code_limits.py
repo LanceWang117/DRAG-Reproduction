@@ -1,6 +1,7 @@
 """Prove the code-limit checker rejects each rule it enforces."""
 import json
 from pathlib import Path
+import subprocess
 import sys
 import tempfile
 import textwrap
@@ -8,8 +9,7 @@ import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'scripts'))
 from check_code_limits import (  # noqa: E402
-    MAX_COMPLEXITY, MAX_FILE_LINES, MAX_FUNCTION_LINES, check_file, complexity, measure,
-    run,
+    MAX_COMPLEXITY, MAX_FILE_LINES, MAX_FUNCTION_LINES, check_file, measure, run,
 )
 
 
@@ -18,43 +18,68 @@ def body(lines):
 
 
 def function_of(lines):
-    """A function whose total length, comments included, is exactly ``lines``."""
+    """A function whose total length, decorators included, is exactly ``lines``."""
     return f'def target():\n{body(lines - 1)}\n'
+
+
+def measure_source(source):
+    with tempfile.TemporaryDirectory() as directory:
+        path = Path(directory) / 'sample.py'
+        path.write_text(textwrap.dedent(source))
+        return measure(path, 'sample.py')
+
+
+def check_source(source, allowlist=None):
+    with tempfile.TemporaryDirectory() as directory:
+        path = Path(directory) / 'sample.py'
+        path.write_text(textwrap.dedent(source))
+        return check_file(path, 'sample.py', allowlist or {})
+
+
+def record(lines, cx=1):
+    return {'lines': lines, 'complexity': cx}
 
 
 class FunctionLengthTests(unittest.TestCase):
     def test_the_limit_itself_passes(self):
-        found = self.check(function_of(MAX_FUNCTION_LINES), allowlist={})
-        self.assertEqual(found, [])
+        self.assertEqual(check_source(function_of(MAX_FUNCTION_LINES)), [])
 
     def test_one_line_over_the_limit_fails(self):
-        found = self.check(function_of(MAX_FUNCTION_LINES + 1), allowlist={})
-        self.assertEqual(len(found), 1)
-        self.assertIn('function lines', found[0].rule)
+        found = check_source(function_of(MAX_FUNCTION_LINES + 1))
+        self.assertEqual([violation.rule for violation in found], ['function lines'])
         self.assertEqual(found[0].measured, MAX_FUNCTION_LINES + 1)
 
-    def check(self, source, allowlist):
-        with tempfile.TemporaryDirectory() as directory:
-            path = Path(directory) / 'sample.py'
-            path.write_text(textwrap.dedent(source))
-            return check_file(path, 'sample.py', allowlist)
+    def test_decorators_count_towards_the_length(self):
+        source = '@decorator\n' * (MAX_FUNCTION_LINES - 1) + 'def target():\n    return 1\n'
+        self.assertEqual([violation.rule for violation in check_source(source)],
+                         ['function lines'])
+
+    def test_a_definition_inside_try_is_still_measured(self):
+        source = ('try:\n    import x\nexcept ImportError:\n    x = None\n\n'
+                  + function_of(MAX_FUNCTION_LINES + 1))
+        self.assertEqual([violation.rule for violation in check_source(source)],
+                         ['function lines'])
+
+    def test_an_earlier_duplicate_definition_is_still_measured(self):
+        duplicate = function_of(MAX_FUNCTION_LINES + 1) + '\ndef target():\n    return 1\n'
+        self.assertEqual([violation.rule for violation in check_source(duplicate)],
+                         ['function lines'])
 
 
 class FileLengthTests(unittest.TestCase):
     def test_a_file_at_the_limit_passes(self):
         source = '\n'.join('x = 1' for _ in range(MAX_FILE_LINES)) + '\n'
-        self.assertEqual(self.check(source), [])
+        self.assertEqual(check_source(source), [])
 
     def test_a_file_one_line_over_the_limit_fails(self):
         source = '\n'.join('x = 1' for _ in range(MAX_FILE_LINES + 1)) + '\n'
-        found = self.check(source)
-        self.assertEqual([violation.rule for violation in found], ['file lines'])
+        self.assertEqual([violation.rule for violation in check_source(source)],
+                         ['file lines'])
 
-    def check(self, source):
-        with tempfile.TemporaryDirectory() as directory:
-            path = Path(directory) / 'sample.py'
-            path.write_text(source)
-            return check_file(path, 'sample.py', {})
+    def test_a_last_line_without_a_newline_still_counts(self):
+        source = '\n'.join('x = 1' for _ in range(MAX_FILE_LINES + 1))
+        self.assertEqual([violation.rule for violation in check_source(source)],
+                         ['file lines'])
 
 
 class ComplexityTests(unittest.TestCase):
@@ -63,8 +88,20 @@ class ComplexityTests(unittest.TestCase):
         self.assertEqual(self.complexity_of(source), 2)
 
     def test_ten_branches_pass_and_eleven_fail(self):
-        self.assertEqual(self.complexity_of(self.branches(MAX_COMPLEXITY - 1)), MAX_COMPLEXITY)
-        self.assertEqual(self.complexity_of(self.branches(MAX_COMPLEXITY)), MAX_COMPLEXITY + 1)
+        passing = self.complexity_of(self.branches(MAX_COMPLEXITY - 1))
+        failing = self.complexity_of(self.branches(MAX_COMPLEXITY))
+        self.assertEqual((passing, failing), (MAX_COMPLEXITY, MAX_COMPLEXITY + 1))
+        found = check_source(self.branches(MAX_COMPLEXITY))
+        self.assertEqual([violation.rule for violation in found], ['complexity'])
+
+    def test_a_try_block_counts_like_mccabe(self):
+        # 1 base + 2 try + 2 except + 9 if = 14, the number mccabe reports.
+        source = ('def target(value):\n'
+                  '    try:\n        value += 1\n    except ValueError:\n        pass\n'
+                  '    try:\n        value += 1\n    except KeyError:\n        pass\n'
+                  + ''.join(f'    if value == {i}:\n        return {i}\n' for i in range(9))
+                  + '    return -1\n')
+        self.assertEqual(self.complexity_of(source), 14)
 
     def test_a_nested_function_is_counted_separately(self):
         source = (
@@ -75,9 +112,9 @@ class ComplexityTests(unittest.TestCase):
             '        return 0\n'
             '    return inner\n'
         )
-        measured = self.measure(source)[1]
-        self.assertEqual(measured['outer.inner'], (4, 2))
-        self.assertEqual(measured['outer'], (6, 2))
+        measured = measure_source(source)[1]
+        self.assertEqual(measured['outer.inner'][0], (4, 2))
+        self.assertEqual(measured['outer'][0], (6, 2))
 
     def branches(self, count):
         lines = ['def target(value):']
@@ -86,42 +123,35 @@ class ComplexityTests(unittest.TestCase):
         return '\n'.join(lines) + '\n'
 
     def complexity_of(self, source):
-        return self.measure(source)[1]['target'][1]
-
-    def measure(self, source):
-        with tempfile.TemporaryDirectory() as directory:
-            path = Path(directory) / 'sample.py'
-            path.write_text(source)
-            return measure(path, 'sample.py')
+        return measure_source(source)[1]['target'][0][1]
 
 
 class AllowlistTests(unittest.TestCase):
     def test_a_grandfathered_function_may_keep_its_size(self):
-        found = self.check(grown(0), {'sample.py': {'target': record(MAX_FUNCTION_LINES + 1)}})
-        self.assertEqual(found, [])
+        allowlist = {'sample.py': {'target': record(MAX_FUNCTION_LINES + 1)}}
+        self.assertEqual(check_source(function_of(MAX_FUNCTION_LINES + 1), allowlist), [])
 
     def test_a_grandfathered_function_may_shrink(self):
-        found = self.check(grown(-1), {'sample.py': {'target': record(MAX_FUNCTION_LINES + 2)}})
-        self.assertEqual(found, [])
+        allowlist = {'sample.py': {'target': record(MAX_FUNCTION_LINES + 2)}}
+        self.assertEqual(check_source(function_of(MAX_FUNCTION_LINES + 1), allowlist), [])
 
     def test_a_grandfathered_function_may_not_grow(self):
-        found = self.check(grown(0), {'sample.py': {'target': record(MAX_FUNCTION_LINES)}})
-        self.assertEqual(len(found), 1)
-        self.assertEqual(found[0].rule, 'allowed size')
+        allowlist = {'sample.py': {'target': record(MAX_FUNCTION_LINES)}}
+        found = check_source(function_of(MAX_FUNCTION_LINES + 1), allowlist)
+        self.assertEqual([violation.rule for violation in found], ['allowed lines'])
 
-    def check(self, source, allowlist):
+
+class FailClosedTests(unittest.TestCase):
+    def test_a_directory_that_is_not_a_repository_is_an_error(self):
         with tempfile.TemporaryDirectory() as directory:
-            path = Path(directory) / 'sample.py'
-            path.write_text(source)
-            return check_file(path, 'sample.py', allowlist)
+            with self.assertRaises(ValueError):
+                run(Path(directory), Path(directory) / 'missing.json')
 
-
-def record(lines):
-    return {'lines': lines, 'complexity': 1}
-
-
-def grown(extra):
-    return function_of(MAX_FUNCTION_LINES + 1 + extra)
+    def test_an_unknown_flag_is_an_error(self):
+        script = Path(__file__).resolve().parents[2] / 'scripts/check_code_limits.py'
+        completed = subprocess.run([sys.executable, str(script), '--nonsense'],
+                                   capture_output=True, text=True)
+        self.assertNotEqual(completed.returncode, 0)
 
 
 class RepositoryTests(unittest.TestCase):
@@ -129,8 +159,7 @@ class RepositoryTests(unittest.TestCase):
 
     def test_the_repository_passes_its_own_limits(self):
         root = Path(__file__).resolve().parents[2]
-        allowlist = root / 'scripts/code_limits_allowlist.json'
-        self.assertEqual(run(root, allowlist), [])
+        self.assertEqual(run(root, root / 'scripts/code_limits_allowlist.json'), [])
 
     def test_the_allowlist_is_valid_json_with_sizes(self):
         root = Path(__file__).resolve().parents[2]

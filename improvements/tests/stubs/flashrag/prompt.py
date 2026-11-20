@@ -14,4 +14,7 @@ class PromptTemplate:
         self.kwargs = kwargs
 
     def get_string(self, **kwargs):
-        return self.kwargs.get('system_prompt', '') + str(kwargs)
+        raise RuntimeError(
+            'PromptTemplate.get_string is not available in the test stub; '
+            'inject a fake template instead'
+        )
