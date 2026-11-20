@@ -9,7 +9,7 @@ from __future__ import annotations
 from typing import Any, Iterable, List, Optional, Tuple
 
 from .adapters import Backends, StageContext
-from .analysis.extract import extract_answer
+from .answers import unified_pred
 from .answer_stage import run_answer_stage
 from .flags import Flags
 from .query_stage import run_query_stage
@@ -18,8 +18,9 @@ from .state import QuestionState
 
 class DragPlusPipeline:
     def __init__(self, flags: Flags, generator: Any, retriever: Any, prompt_template: Any,
-                 dataset_name: str):
-        backends = Backends(generator, retriever, prompt_template)
+                 dataset_name: str, recorder: Any = None):
+        backends = Backends(generator, retriever, prompt_template,
+                            recorder if flags.profile_calls else None)
         self._ctx = StageContext(flags, backends, dataset_name)
 
     @property
@@ -43,5 +44,5 @@ class DragPlusPipeline:
         if self._ctx.flags.answer_extractor == "native":
             return
         state.emit("raw_pred", state.raw_pred)
-        state.pred = extract_answer(state.raw_pred, yes_no=self._ctx.strategy_qa)
+        state.pred = unified_pred(state.raw_pred, self._ctx.dataset_name)
         state.emit("pred", state.pred)
