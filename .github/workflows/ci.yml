@@ -1,0 +1,46 @@
+name: CI
+
+# The gate is the only check. It runs here exactly as it does on a laptop, so a
+# local pass means a green run, and nothing here needs a GPU, FlashRAG or vLLM.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+# A newer push to the same branch makes the older run irrelevant; cancelling it
+# keeps the free runner pool and the checks list readable.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    name: gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out
+        uses: actions/checkout@v7
+        with:
+          # The guards diff against a base commit, so the history must be there.
+          fetch-depth: 0
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: requirements-ci.txt
+
+      - name: Install gate requirements
+        run: pip install -r requirements-ci.txt
+
+      - name: Run the gate
+        run: bash scripts/gate.sh
+        env:
+          # Checkout leaves a detached HEAD, so name the base branch explicitly;
+          # the guards then diff against the merge base with it.
+          GUARD_BASE: origin/${{ github.base_ref || 'main' }}

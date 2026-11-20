@@ -7,6 +7,7 @@ envs/
 downloads/
 new-runs/
 .runtime/
+.venv/
 config.local.json
 .env
 .env.*
