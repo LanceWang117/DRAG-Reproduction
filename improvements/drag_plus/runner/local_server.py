@@ -12,6 +12,7 @@ import json
 import os
 import subprocess
 import time
+import urllib.error
 import urllib.request
 from pathlib import Path
 from typing import Any, Callable, Dict, Mapping, Optional
@@ -55,13 +56,19 @@ class OllamaServer:
     def reachable(self) -> bool:
         try:
             self._call("/api/version")
+        except urllib.error.HTTPError:
+            return True  # something answered; a second `ollama serve` would only collide with it
         except (OSError, ValueError):
             return False
         return True
 
     def models(self) -> Dict[str, int]:
         """Installed model names with their sizes in bytes."""
-        return {m["name"]: m.get("size", 0) for m in self._call("/api/tags").get("models", [])}
+        try:
+            listing = self._call("/api/tags")
+        except (OSError, ValueError) as error:
+            raise ServerError(f"cannot list the models on {self.host}: {error}") from error
+        return {m["name"]: m.get("size", 0) for m in listing.get("models", [])}
 
     def has_model(self, model: str) -> bool:
         installed = self.models()
@@ -78,6 +85,7 @@ class OllamaServer:
             self._process = self._popen([self._ollama, "serve"], env=env, stdout=self._log,
                                         stderr=subprocess.STDOUT)
         except OSError as error:
+            self._close_log()
             raise ServerError(f"cannot run `{self._ollama} serve`: {error}") from error
         self.started = True
         self._wait_until_reachable()
@@ -119,6 +127,10 @@ class OllamaServer:
         except subprocess.TimeoutExpired:
             self._process.kill()
             self._process.wait()
+        self._close_log()
+        self.started = False
+
+    def _close_log(self) -> None:
         if self._log not in (None, subprocess.DEVNULL):
             self._log.close()
-        self.started = False
+        self._log = None

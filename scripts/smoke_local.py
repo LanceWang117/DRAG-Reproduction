@@ -64,6 +64,9 @@ def main(argv=None, *, hardware=read_hardware, server_factory=default_server):
     args = parse_args(sys.argv[1:] if argv is None else argv)
     variants = [load_variant(path) for path in args.variant]
     rows = select_questions(args.manifest, args.dataset, args.questions)
+    if not args.replay.is_file():
+        print(f'Smoke run refused: replay file not found: {args.replay}', file=sys.stderr)
+        return 2
     args.output.mkdir(parents=True, exist_ok=True)
     job = SmokeJob(args.model, rows, variants, args.output, args.replay, args.manifest,
                    allow_pull=not args.no_pull)

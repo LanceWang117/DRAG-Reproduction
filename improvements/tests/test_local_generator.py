@@ -149,6 +149,25 @@ class ContextFitTests(unittest.TestCase):
         self.assertEqual(sum(len(m["content"]) for m in fitted), 100 * lg.CHARS_PER_TOKEN)
         self.assertEqual(messages[0]["content"][:5], "HEAD ")
 
+    def test_trimming_spreads_over_messages_when_one_is_not_enough(self):
+        messages = [{"role": "system", "content": "a" * 400}, {"role": "user", "content": "b" * 400}]
+        fitted, trimmed = lg.fit_messages(messages, 100)
+        self.assertTrue(trimmed)
+        self.assertEqual(sum(len(m["content"]) for m in fitted), 100 * lg.CHARS_PER_TOKEN)
+        self.assertTrue(all(lg.TRIM_MARK in m["content"] for m in fitted))
+
+    def test_a_message_shorter_than_the_trim_mark_is_never_grown(self):
+        messages = [{"role": "user", "content": "short"}]
+        self.assertEqual(lg.fit_messages(messages, 0), (messages, False))
+
+    def test_a_huge_output_budget_is_clamped_to_half_the_context_and_counted(self):
+        with FakeOllama() as server:
+            generator = make(server, context_tokens=1000)
+            generator.generate(PROMPT, max_new_tokens=4096)
+        sent = server.requests[0][1]
+        self.assertEqual((sent["max_tokens"], sent["messages"]), (500, PROMPT))
+        self.assertEqual((generator.stats.clamped_max_tokens, generator.stats.trimmed_prompts), (1, 0))
+
     def test_the_generator_trims_before_sending_and_counts_it(self):
         long_prompt = [{"role": "user", "content": "w " * 6000}]
         with FakeOllama() as server:

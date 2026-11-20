@@ -1,10 +1,15 @@
 """Server lifecycle with a fake process and fake HTTP: nothing real is ever started."""
 import json
+from pathlib import Path
 import subprocess
+import tempfile
 import unittest
+import urllib.error
 from types import SimpleNamespace
+from unittest import mock
 
 import frozen  # noqa: F401
+from drag_plus.runner import local_server
 from drag_plus.runner.local_server import OllamaServer, ServerError
 
 
@@ -90,6 +95,22 @@ class ReachTests(unittest.TestCase):
         self.assertFalse(server.has_model("missing:3b"))
 
 
+def busy(request, timeout=None):
+    raise urllib.error.HTTPError(request.full_url, 503, "busy", None, None)
+
+
+class AnswerTests(unittest.TestCase):
+    def test_an_http_error_status_still_means_a_server_answered(self):
+        server, spawned, _, _ = make(opener=busy)
+        server.ensure_running()
+        self.assertEqual((spawned, server.started), ([], False))
+
+    def test_a_model_listing_that_fails_is_a_server_error(self):
+        server, *_ = make(opener=busy)
+        with self.assertRaisesRegex(ServerError, "cannot list the models"):
+            server.has_model("tiny:1b")
+
+
 class StartTests(unittest.TestCase):
     def test_a_missing_server_is_started_with_one_model_one_request_and_4096_context(self):
         server, spawned, _, _ = make(FakeHttp(up_after=3))
@@ -143,6 +164,17 @@ class StartTests(unittest.TestCase):
         with self.assertRaisesRegex(ServerError, "cannot run `ollama serve`"):
             server.ensure_running()
         self.assertFalse(server.started)
+
+    def test_the_log_file_is_closed_when_the_spawn_fails(self):
+        def popen(command, **kwargs):
+            raise FileNotFoundError(command[0])
+
+        with tempfile.TemporaryDirectory() as folder, \
+                mock.patch.object(local_server, "open", create=True) as opened:
+            server, *_ = make(FakeHttp(up_after=99), popen=popen, log_path=Path(folder) / "serve.log")
+            with self.assertRaises(ServerError):
+                server.ensure_running()
+        opened.return_value.close.assert_called_once_with()
 
     def test_close_without_a_model_skips_the_unload_request(self):
         server, _, http, _ = make(FakeHttp(up_after=1))

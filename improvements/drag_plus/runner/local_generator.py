@@ -45,19 +45,25 @@ def estimate_tokens(text: str) -> int:
     return -(-len(text) // CHARS_PER_TOKEN)
 
 
-def fit_messages(messages: List[dict], budget_tokens: int) -> Tuple[List[dict], bool]:
-    """Cut the middle out of the longest message until the estimate fits the budget."""
-    excess = sum(len(m["content"]) for m in messages) - budget_tokens * CHARS_PER_TOKEN
-    if excess <= 0:
-        return messages, False
-    longest = max(range(len(messages)), key=lambda i: len(messages[i]["content"]))
-    text = messages[longest]["content"]
+def _cut_middle(text: str, excess: int) -> str:
+    """Remove up to ``excess`` characters from the middle; never longer than the input."""
     keep = max(len(text) - excess - len(TRIM_MARK), 0)
     head = keep * 2 // 3
     tail = text[len(text) - (keep - head):] if keep > head else ""
+    return text[:head] + TRIM_MARK + tail
+
+
+def fit_messages(messages: List[dict], budget_tokens: int) -> Tuple[List[dict], bool]:
+    """Cut the middle out of the longest messages until the estimate fits the budget."""
+    excess = sum(len(m["content"]) for m in messages) - budget_tokens * CHARS_PER_TOKEN
     fitted = list(messages)
-    fitted[longest] = dict(messages[longest], content=text[:head] + TRIM_MARK + tail)
-    return fitted, True
+    for index in sorted(range(len(fitted)), key=lambda i: -len(fitted[i]["content"])):
+        text = fitted[index]["content"]
+        if excess <= 0 or len(text) <= len(TRIM_MARK):
+            break
+        fitted[index] = dict(fitted[index], content=_cut_middle(text, excess))
+        excess -= len(text) - len(fitted[index]["content"])
+    return fitted, fitted != list(messages)
 
 
 def _is_conversation(value: Any) -> bool:
@@ -79,12 +85,14 @@ class GeneratorStats:
     retries: int = 0
     empty_outputs: int = 0
     trimmed_prompts: int = 0
+    clamped_max_tokens: int = 0
     finish_reasons: Dict[str, int] = field(default_factory=dict)
     ignored_params: Set[str] = field(default_factory=set)
 
     def as_dict(self) -> Dict[str, Any]:
         return {"calls": self.calls, "retries": self.retries, "empty_outputs": self.empty_outputs,
                 "trimmed_prompts": self.trimmed_prompts,
+                "clamped_max_tokens": self.clamped_max_tokens,
                 "finish_reasons": dict(self.finish_reasons),
                 "ignored_params": sorted(self.ignored_params)}
 
@@ -114,6 +122,9 @@ class OllamaGenerator:
                 options[_FORWARDED[name]] = value
             else:
                 self.stats.ignored_params.add(name)
+        if options["max_tokens"] > self._context // 2:
+            options["max_tokens"] = self._context // 2  # leave at least half for the prompt
+            self.stats.clamped_max_tokens += 1
         return options
 
     def _complete(self, messages: List[dict], options: Dict[str, Any]) -> str:

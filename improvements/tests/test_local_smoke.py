@@ -167,6 +167,14 @@ class ScriptTests(unittest.TestCase):
         self.assertEqual(code, 2)
         self.assertIn("--no-pull", err)
 
+    def test_a_missing_replay_file_exits_2_before_any_server_work(self):
+        with tempfile.TemporaryDirectory() as folder, FakeOllama() as fake:
+            host = fake.base_url.split("//")[1].split("/")[0]
+            code, _, err = self.run_main(folder, "--replay", "/nonexistent/replay.jsonl", host=host)
+            self.assertEqual((fake.requests, fake.gets), ([], []))
+        self.assertEqual(code, 2)
+        self.assertIn("replay file not found", err)
+
     def test_more_than_five_questions_is_rejected(self):
         with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
             smoke_local.parse_args(["--questions", "6"])
