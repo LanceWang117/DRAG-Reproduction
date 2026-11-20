@@ -1,0 +1,6 @@
+{
+  "name": "local-smoke",
+  "description": "Baseline prompts with one query round and one answer round, so a small local model finishes a smoke run quickly",
+  "flags": {"max_query_debate_rounds": 1, "max_answer_debate_rounds": 1},
+  "arms": ["drag", "naive"]
+}

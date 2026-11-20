@@ -4,6 +4,7 @@ Each request consumes the next scripted action, or echoes when the script is emp
 ``("text", "...")`` answers, ``("status", code)`` fails, ``("hang",)`` never answers (the
 client times out first), ``("empty",)`` answers with an empty completion, ``("raw", body)``
 sends the body as is. A ``brain`` callable turns the prompt text into the reply instead.
+GET ``/api/version`` and ``/api/tags`` (the installed ``models``) answer like the real server.
 """
 import http.server
 import json
@@ -16,9 +17,10 @@ def completion(text, finish_reason="stop"):
 
 
 class FakeOllama:
-    def __init__(self, script=(), brain=None):
-        self.script, self.brain = list(script), brain
+    def __init__(self, script=(), brain=None, models=("tiny:1b",)):
+        self.script, self.brain, self.models = list(script), brain, list(models)
         self.requests = []
+        self.gets = []
         self._release = threading.Event()
         owner = self
 
@@ -27,6 +29,10 @@ class FakeOllama:
                 length = int(self.headers.get("Content-Length", 0))
                 owner.requests.append((self.path, json.loads(self.rfile.read(length))))
                 owner._answer(self)
+
+            def do_GET(self):
+                owner.gets.append(self.path)
+                owner._reply(self, 200, owner._info(self.path))
 
             def log_message(self, *args):
                 pass
@@ -57,9 +63,17 @@ class FakeOllama:
         if action[0] == "hang":
             self._release.wait(10)
             return
-        status, body = 200, self._body(action)
+        self._reply(handler, action[1] if action[0] == "status" else 200, self._body(action))
+
+    def _info(self, path):
+        if path == "/api/tags":
+            return {"models": [{"name": name, "size": 1000} for name in self.models]}
+        return {"version": "fake"}
+
+    @staticmethod
+    def _reply(handler, status, body):
         data = body if isinstance(body, bytes) else json.dumps(body).encode()
-        handler.send_response(status if action[0] != "status" else action[1])
+        handler.send_response(status)
         handler.send_header("Content-Type", "application/json")
         handler.send_header("Content-Length", str(len(data)))
         handler.end_headers()
