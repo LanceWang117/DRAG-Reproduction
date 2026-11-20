@@ -1,0 +1,8 @@
+{
+  "scripts/run_evaluation.py": {
+    "run": {"lines": 85, "complexity": 10, "reason": "Submission runner; split in a later job, never grown."}
+  },
+  "scripts/verify_evidence.py": {
+    "verify": {"lines": 50, "complexity": 8, "reason": "Evidence verifier; split in a later job, never grown."}
+  }
+}
