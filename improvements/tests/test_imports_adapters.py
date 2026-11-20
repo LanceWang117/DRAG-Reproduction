@@ -10,13 +10,16 @@ sys.path.insert(0, str(PROJECT / "improvements"))
 from drag_plus.adapters import Backends  # noqa: E402
 from drag_plus.state import QuestionState  # noqa: E402
 
-HEAVY = ("flashrag", "vllm", "torch", "faiss")
+HEAVY = ("flashrag", "vllm", "torch", "faiss", "bm25s", "sentence_transformers")
 PROBE = f"""
 import sys
 sys.path.insert(0, {str(PROJECT)!r})
 import improvements.drag_plus
 import improvements.drag_plus.pipeline, improvements.drag_plus.prompts
 import improvements.drag_plus.flags, improvements.drag_plus.state, improvements.drag_plus.adapters
+import improvements.drag_plus.retrieval.bm25, improvements.drag_plus.retrieval.rerank
+import improvements.drag_plus.retrieval.hybrid
+import improvements.drag_plus.analysis.retrieval
 loaded = [m for m in {HEAVY!r} if m in sys.modules]
 print(','.join(loaded))
 """

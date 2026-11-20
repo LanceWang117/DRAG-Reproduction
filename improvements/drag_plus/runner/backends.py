@@ -28,9 +28,30 @@ class Backend:
     retrieval_identity: Callable[[], Dict[str, Any]]
     count_tokens: Callable[[str], int] = whitespace_tokens
 
-    def cached_retriever(self, path: Path) -> CachingRetriever:
+    def cached_retriever(self, path: Path, retriever: Any = None,
+                         config: str = "") -> CachingRetriever:
         """One proxy per run, so both arms share the cache and the underlying calls."""
-        return CachingRetriever(self.retriever, path=path, **self.retrieval_identity())
+        return CachingRetriever(retriever if retriever is not None else self.retriever,
+                                path=path, config=config, **self.retrieval_identity())
+
+
+def build_retriever(flags: Any, dense: Any) -> Any:
+    """Compose the run's retriever: the dense one, or the hybrid over it.
+
+    The hybrid imports happen here, not at module import, so an ``e5`` run never loads
+    the BM25 or reranker modules and ``bm25s`` is only imported on the first BM25 query.
+    """
+    if flags.retriever == "e5":
+        return dense
+    from ..retrieval.bm25 import Bm25Retriever
+    from ..retrieval.hybrid import HybridRetriever
+    from ..retrieval.rerank import CrossEncoderReranker
+    if not flags.bm25_index:
+        raise ValueError("retriever='hybrid' needs a bm25_index path")
+    reranker = None if flags.rerank_k is None else CrossEncoderReranker(flags.rerank_model)
+    return HybridRetriever.from_flags(flags, dense,
+                                      Bm25Retriever(flags.bm25_index, depth=flags.bm25_top_k),
+                                      reranker)
 
 
 def _fake_identity() -> Dict[str, Any]:

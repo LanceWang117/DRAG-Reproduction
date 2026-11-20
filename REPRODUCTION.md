@@ -125,11 +125,53 @@ pools differed, and every one of them has a query longer than 57 characters. The
 `search` is defined as `batch_search([query])[0]`, so the two call shapes cannot diverge.
 
 Each query is stored in `<path>` as one JSONL line keyed by
-`(index, encoder, top_k, normalised query)`, with its documents and scores. A miss sends
-one `batch_search` for all missing queries in the request; repeats within a request are
-asked once, the first caller spelling is what the retriever sees, and the result order is
-preserved. Documents and score lists are deep-copied on the way out. On load a torn final
-line is truncated and any other unreadable line is skipped with a warning, so a partial
-write cannot poison later records. A relative path resolves against the run directory,
-and a missing parent directory is created. Leave the flag at `null` (the default) for the
-bare baseline call: no proxy, no file.
+`(index, encoder, top_k, normalised query, config)`, with its documents and scores.
+`config` is a canonical fingerprint of the retriever settings (`retriever`, the k values,
+both weights and floors, the BM25 index, `rerank_k` and its model, `per_title_cap`), so a
+dense entry can never answer a hybrid query that happens to share the other four fields.
+A miss sends one `batch_search` for all missing queries in the request; repeats within a
+request are asked once, the first caller spelling is what the retriever sees, and the
+result order is preserved. Documents and score lists are deep-copied on the way out. On
+load a torn final line is truncated and any other unreadable line is skipped with a
+warning, so a partial write cannot poison later records. A relative path resolves against
+the run directory, and a missing parent directory is created. Leave the flag at `null`
+(the default) for the bare baseline call: no proxy, no file.
+
+### Hybrid retrieval
+
+`retriever = "hybrid"` fuses E5's dense top-K with BM25's top-K by weighted reciprocal
+rank fusion (Cormack et al., SIGIR 2009: `sum_r w_r / (k + rank_r(d))`, k = 60), then
+optionally reranks the head with a cross-encoder and caps passages per article:
+
+| Flag | Default | Meaning |
+| --- | --- | --- |
+| `retriever` | `e5` | `hybrid` composes the retriever below; `e5` is the bare dense one |
+| `dense_top_k`, `bm25_top_k` | `20`, `20` | candidates each source contributes to the fusion |
+| `hybrid_top_k` | `3` | passages returned per query (the baseline depth) |
+| `rrf_k`, `dense_weight`, `bm25_weight` | `60`, `1.0`, `1.0` | the fusion itself; weight 0 drops a source |
+| `dense_score_floor`, `bm25_score_floor` | `null` | drop a source's candidates below this score before fusion |
+| `bm25_index` | `null` | directory saved by `BM25.save(..., corpus=[{"id", "contents"}])` |
+| `rerank_k` | `null` | rerank this many fused candidates with a cross-encoder; `null` imports none |
+| `rerank_model` | `BAAI/bge-reranker-base` | cross-encoder id, MIT, `max_length=512` |
+| `per_title_cap` | `null` | at most N passages per article, the title being the first line of `contents` |
+
+Ties break on the passage id, a source that returns fewer than k results contributes the
+ranks it has, and each query returns at most `hybrid_top_k` passages. The BM25 adapter
+loads the index memory-mapped on its first query, so an `e5` run never imports `bm25s`
+and a hybrid run without `rerank_k` never imports `sentence-transformers`. E04 builds the
+real index; nothing here assumes its size.
+
+`scripts/eval_retrieval.py` scores candidate lists alone, so it can score a fresh run or
+the committed baseline passages:
+
+```bash
+python scripts/eval_retrieval.py --retrieval results/retrieval-200.jsonl
+python scripts/eval_retrieval.py --retrieval results/retrieval-200.jsonl \
+    --timings new-runs/<run>/stage-timings.jsonl --out /tmp/retrieval.json
+```
+
+It reports Containment@k (gold normalised by J01's scorer, measured on the question plus
+the top-k passages), MRR, nDCG@k, the unique-title ratio, and p50/p99 retrieval latency
+from the timing log. On the committed passages it gives 114/200 for each arm and 115/200
+for their union, which is how finding B17 recorded containment. Passages alone give
+105/200, so the two numbers are not interchangeable.

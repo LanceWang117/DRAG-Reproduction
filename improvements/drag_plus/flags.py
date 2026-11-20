@@ -38,6 +38,32 @@ FLAG_SPECS: Tuple[FlagSpec, ...] = (
              doc="native keeps the raw moderator text as pred; unified applies E(.)."),
     FlagSpec("retrieval_cache", str, None, optional=True,
              doc="Path to retrieval-cache.jsonl; null disables the caching proxy."),
+    FlagSpec("retriever", str, "e5", choices=("e5", "hybrid"),
+             doc="e5 keeps the dense retriever; hybrid fuses it with BM25 by weighted RRF."),
+    FlagSpec("dense_top_k", int, 20, minimum=1,
+             doc="Dense candidates per query before fusion (hybrid only)."),
+    FlagSpec("bm25_top_k", int, 20, minimum=1,
+             doc="BM25 candidates per query before fusion (hybrid only)."),
+    FlagSpec("hybrid_top_k", int, 3, minimum=1,
+             doc="Passages the hybrid retriever returns; 3 matches the recorded baseline."),
+    FlagSpec("rrf_k", int, 60, minimum=1,
+             doc="RRF rank constant; Cormack et al. (2009) fixed k=60."),
+    FlagSpec("dense_weight", float, 1.0, minimum=0,
+             doc="RRF weight of the dense ranking; 0 drops it."),
+    FlagSpec("bm25_weight", float, 1.0, minimum=0,
+             doc="RRF weight of the BM25 ranking; 0 drops it."),
+    FlagSpec("dense_score_floor", float, None, optional=True,
+             doc="Drop dense candidates scoring below this before fusion."),
+    FlagSpec("bm25_score_floor", float, None, optional=True,
+             doc="Drop BM25 candidates scoring below this before fusion."),
+    FlagSpec("bm25_index", str, None, optional=True,
+             doc="Path to a bm25s index directory saved with its corpus; hybrid only."),
+    FlagSpec("rerank_k", int, None, optional=True, minimum=1,
+             doc="Rerank the first N fused candidates with a cross-encoder; null disables it."),
+    FlagSpec("rerank_model", str, "BAAI/bge-reranker-base",
+             doc="Cross-encoder id used when rerank_k is set."),
+    FlagSpec("per_title_cap", int, None, optional=True, minimum=1,
+             doc="Keep at most this many passages per article title; null keeps all."),
 )
 _SPECS_BY_NAME = {spec.name: spec for spec in FLAG_SPECS}
 
@@ -46,6 +72,8 @@ def _check(spec: FlagSpec, value: Any) -> Any:
     # bool is an int subclass, so True would otherwise pass for an integer flag.
     if value is None and spec.optional:
         return None
+    if spec.kind is float and isinstance(value, int) and not isinstance(value, bool):
+        value = float(value)  # 1 and 1.0 are the same weight; "1" is still an error
     if isinstance(value, bool) != (spec.kind is bool) or not isinstance(value, spec.kind):
         raise FlagError(
             f"flag {spec.name!r} expects {spec.kind.__name__}, "
