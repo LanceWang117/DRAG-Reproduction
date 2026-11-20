@@ -1,0 +1,7 @@
+# Light, CPU-only packages for the gate. Versions match ENVIRONMENT.md.
+#
+# Keep this list minimal: CI and the laptop install it on every run. Nothing here
+# may pull in torch, vLLM, FlashRAG or FAISS.
+numpy==1.26.4
+tqdm==4.70.1
+Levenshtein==0.26.1
