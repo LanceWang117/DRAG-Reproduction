@@ -3,6 +3,7 @@ import subprocess
 import sys
 import tempfile
 from pathlib import Path
+from typing import NamedTuple
 import unittest
 
 IMPROVEMENTS = Path(__file__).resolve().parents[1]
@@ -19,17 +20,24 @@ def passage(doc_id, title="T"):
 
 
 class FakeIndex:
-    """A bm25s-shaped index: ``retrieve(tokens, k)`` -> (doc rows, score rows)."""
+    """A bm25s-shaped index: ``retrieve(tokens, k)`` -> ``.documents``/``.scores``."""
 
     def __init__(self, rows):
         self.rows = rows
         self.calls = []
 
-    def retrieve(self, tokens, k):
-        self.calls.append((list(tokens), k))
+    def retrieve(self, tokens, k, show_progress=True):
+        self.calls.append((list(tokens), k, show_progress))
         row = list(self.rows[0][:k])
-        return ([row for _ in tokens],
-                [[1.0 / (rank + 1) for rank in range(len(row))] for _ in tokens])
+        return Results([row for _ in tokens],
+                       [[1.0 / (rank + 1) for rank in range(len(row))] for _ in tokens])
+
+
+class Results(NamedTuple):
+    """Whatever ``bm25s`` returns: an object with ``documents`` and ``scores``."""
+
+    documents: list
+    scores: list
 
 
 class Bm25Tests(unittest.TestCase):
@@ -52,7 +60,7 @@ class Bm25Tests(unittest.TestCase):
         docs = retriever.search("first")
         retriever.search("second")
         self.assertEqual(self.loaded, [retriever.path])
-        self.assertEqual(self.index.calls, [(["FIRST"], 20), (["SECOND"], 20)])
+        self.assertEqual(self.index.calls, [(["FIRST"], 20, False), (["SECOND"], 20, False)])
         self.assertEqual([d["id"] for d in docs], ["a", "b", "c"])
 
     def test_depth_comes_from_num_or_the_constructor(self):
@@ -67,6 +75,7 @@ class Bm25Tests(unittest.TestCase):
         rows = retriever.batch_search(["one", "two"])
         self.assertEqual(len(rows), 2)
         self.assertEqual(self.index.calls[0][0], ["ONE", "TWO"])
+        self.assertFalse(self.index.calls[0][2], "progress bars must stay off")
         with self.assertRaisesRegex(ValueError, ">= 1"):
             retriever.search("q", num=0)
 
@@ -118,12 +127,16 @@ class Blocker:
         return None
 sys.meta_path.insert(0, Blocker())
 sys.path.insert(0, __IMPROVEMENTS__)
+from collections import namedtuple
+
 from drag_plus.retrieval.bm25 import Bm25Retriever
 from drag_plus.retrieval.rerank import CrossEncoderReranker
 
+Results = namedtuple("Results", ["documents", "scores"])
+
 class Index:
-    def retrieve(self, tokens, k):
-        return ([[{"id": "a", "contents": "T\\nbody"}]], [[2.0]])
+    def retrieve(self, tokens, k, show_progress=True):
+        return Results([[{"id": "a", "contents": "T\\nbody"}]], [[2.0]])
 
 retriever = Bm25Retriever("/tmp", load=lambda path: Index(),
                           tokenize=lambda queries: queries)

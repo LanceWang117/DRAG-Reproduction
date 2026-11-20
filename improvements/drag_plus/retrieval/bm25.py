@@ -23,10 +23,15 @@ def load_bm25s(path: Path) -> Any:
 
 
 def tokenize_bm25s(queries: Sequence[str]) -> Any:
-    """Default query tokenisation; an index built with a stemmer needs its own."""
+    """Query tokenisation with ``bm25s``'s own defaults (lowercase, stopwords, no stem).
+
+    The index build must tokenise its corpus the same way or the query tokens miss the
+    vocabulary. E04 owns that build; this call is the default its README implies, and an
+    index built differently passes its own ``tokenize``.
+    """
     import bm25s
 
-    return bm25s.tokenize(list(queries))
+    return bm25s.tokenize(list(queries), show_progress=False)
 
 
 class Bm25Retriever:
@@ -60,15 +65,17 @@ class Bm25Retriever:
 
     def batch_search(self, queries: List[str], num: Optional[int] = None,
                      return_score: bool = False) -> Any:
+        """Every query in one ``retrieve`` call; ``show_progress`` stays off for logs."""
         queries = [queries] if isinstance(queries, str) else list(queries)
         depth = self.depth if num is None else int(num)
         if depth < 1:
             raise ValueError(f"BM25 depth must be >= 1, got {depth}")
-        results, scores = self.index.retrieve(self._tokenize(queries), k=depth)
-        documents = [self._documents(row) for row in results]
+        results = self.index.retrieve(self._tokenize(queries), k=depth,
+                                      show_progress=False)
+        documents = [self._documents(row) for row in results.documents]
         if not return_score:
             return documents
-        return documents, [[float(score) for score in row] for row in scores]
+        return documents, [[float(score) for score in row] for row in results.scores]
 
     @staticmethod
     def _documents(row: Any) -> List[dict]:
