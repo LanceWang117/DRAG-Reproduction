@@ -3,7 +3,9 @@
 Unlike scripts/run_evaluation.py, which reproduces the recorded baseline, this runner takes
 a variant file (flags + arms) and writes stage-timings.jsonl, transcripts.jsonl and
 run-manifest.json into new-runs/<UTC>-<variant>/. ``--backend fake`` runs the whole path
-offline; ``--backend flashrag`` needs the A100 stack and has not been run on the laptop.
+offline; ``--backend local`` runs a small model through a local Ollama server and replays
+stored passages (smoke only, never results); ``--backend flashrag`` needs the A100 stack and
+has not been run on the laptop.
 """
 import argparse
 import json
@@ -16,12 +18,18 @@ from run_evaluation import MANIFEST, PROJECT, resolve_paths, select_questions
 
 DATASETS = ['NQ', 'TriviaQA', 'PopQA', '2wiki', 'HotpotQA', 'StrategyQA']
 sys.path.insert(0, str(PROJECT / 'improvements'))
+from drag_plus.runner.backends import BACKEND_NAMES  # noqa: E402
+from drag_plus.runner.local_generator import DEFAULT_MODEL, DEFAULT_URL  # noqa: E402
 
 
 def parse_args(argv):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--variant', type=Path, required=True, help='Variant JSON file')
-    parser.add_argument('--backend', choices=['fake', 'flashrag'], default='flashrag')
+    parser.add_argument('--backend', choices=BACKEND_NAMES, default='flashrag')
+    parser.add_argument('--local-model', default=DEFAULT_MODEL, help='Ollama model (--backend local)')
+    parser.add_argument('--local-url', default=DEFAULT_URL, help='Ollama OpenAI base URL (--backend local)')
+    parser.add_argument('--replay', type=Path, default=PROJECT / 'results/retrieval-200.jsonl',
+                        help='Stored passages to replay (--backend local)')
     parser.add_argument('--manifest', type=Path, default=MANIFEST)
     parser.add_argument('--config', type=Path, default=PROJECT / 'config.example.json')
     parser.add_argument('--dataset', choices=DATASETS)
@@ -42,6 +50,8 @@ def validate(args):
     rows = select_questions(args.manifest, args.dataset, args.limit)
     if args.backend == 'flashrag':
         resolve_paths(json.loads(args.config.read_text()), args.config.parent)
+    if args.backend == 'local' and not args.replay.is_file():
+        raise FileNotFoundError(f'Replay file not found: {args.replay}')
     return variant, rows
 
 
@@ -49,6 +59,10 @@ def build_backend(args, rows, out_dir):
     from drag_plus.runner.backends import build_fake_backend, build_flashrag_backend
     if args.backend == 'fake':
         return build_fake_backend()
+    if args.backend == 'local':
+        from drag_plus.runner.local_backend import build_local_backend
+        return build_local_backend(model=args.local_model, base_url=args.local_url,
+                                   retrieval_path=args.replay, questions_path=args.manifest)
     overrides = resolve_paths(json.loads(args.config.read_text()), args.config.parent)
     for value in [*overrides['model2path'].values(), overrides['index_path'], overrides['corpus_path']]:
         if not Path(value).exists():

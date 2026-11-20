@@ -1,8 +1,10 @@
 """Backend registry: the objects a run injects into the pipelines.
 
-``fake`` is fully offline. ``build_flashrag_backend`` imports FlashRAG, vLLM and
-transformers only when it is called, mirroring ``scripts/run_evaluation.py``; it is not
-exercised on the laptop (see the Server-unverified list in the pull request).
+``fake`` is fully offline. ``local`` (``local_backend.build_local_backend``) talks to a
+local Ollama server and replays stored passages; it is for smoke runs only.
+``build_flashrag_backend`` imports FlashRAG, vLLM and transformers only when it is called,
+mirroring ``scripts/run_evaluation.py``; it is not exercised on the laptop (see the
+Server-unverified list in the pull request).
 """
 from __future__ import annotations
 
@@ -15,6 +17,7 @@ from ..retrieval.cache import CachingRetriever, index_identity
 from . import fake
 
 METRICS = ["em", "f1", "acc", "precision", "recall"]
+BACKEND_NAMES = ("fake", "flashrag", "local")
 
 
 @dataclass

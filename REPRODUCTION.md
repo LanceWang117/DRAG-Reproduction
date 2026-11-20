@@ -106,6 +106,48 @@ Each run writes `new-runs/<UTC>-<variant>/` (ignored by git) with:
 different variant or `--interleave` setting. The logs of a resumed run equal those of an
 uninterrupted one. The fake backend's answers are meaningless: it exists to test the path.
 
+### Local smoke run
+
+`scripts/smoke_local.py` runs 1 to 5 dev questions end to end with a **real** small model,
+to catch prompt, parsing and stage-flow bugs on real model text before the A100 stage.
+It is never a source of results: the default model, `llama3.2:3b`, is a different family
+and size than the A100's Llama-3.1-8B BF16, so nothing it prints is comparable, and no
+accuracy is reported. Its output goes to `new-runs/local-smoke/` (ignored by git).
+
+```bash
+python scripts/smoke_local.py --questions 3        # improvements/configs/local-smoke.json
+python scripts/smoke_local.py --questions 3 \
+    --variant improvements/configs/baseline.json improvements/configs/cached.json
+python scripts/run_variant.py --variant improvements/configs/baseline.json \
+    --backend local --limit 3 --profile            # with an Ollama server already running
+```
+
+- **Generator:** Ollama's OpenAI-compatible `/v1/chat/completions`, standard library only.
+  It sends message lists (not chat strings) at temperature 0, `max_tokens` 256 and seed
+  2024, retries a timeout, dropped connection or HTTP 5xx at most twice, and returns
+  outputs in input order. The OpenAI endpoint cannot set the context size, so every
+  prompt is fitted to 4096 tokens (a conservative 3 characters per token) by cutting the
+  middle of its longest message; the summary counts trimmed prompts.
+- **Retriever:** replays `results/retrieval-200.jsonl`. A stored query returns its stored
+  passages (the question text maps to the Naive list when the DRAG map lacks it); a new
+  query ranks every stored passage by token overlap. No FAISS, no corpus.
+- **Preflight:** refuses to start with under 3 GiB of free VRAM, 4 GiB of free RAM or
+  1 GiB of free disk. If no server answers it runs `ollama serve` with one parallel
+  request, one loaded model and a 4096-token context, and stops it (after unloading the
+  model) when it finishes, even on failure. A server that was already running is never
+  stopped. A missing model is pulled only if its tag is 4B parameters or fewer and 10 GiB
+  of disk are free; `--no-pull` turns that off.
+- **Summary:** per variant, `PASS` or `FAIL` with completed answers, parse failures (a final
+  answer without `The answer is:`), empty model outputs and log-schema errors. A variant
+  fails when the run did not complete, a log row misses a field, a model call came back
+  empty, or no answer at all carried the marker. Exit status: 0 all passed, 1 a variant
+  failed, 2 the preflight or the server refused.
+
+The generator does not request log-probs. Ollama 0.34.4 returns them on the same endpoint
+(`logprobs: true`, OpenAI-shaped, checked against a live server), so a log-prob Judge can be
+smoke-tested locally once it asks for them. Smoke runs prove nothing about FlashRAG, vLLM,
+FAISS, the Llama-3.1 tokenizer or GPU memory; those stay on the A100.
+
 ### Retrieval cache
 
 Setting `retrieval_cache` to a path wraps the backend's retriever in one caching proxy
