@@ -1,0 +1,7 @@
+{
+  "name": "baseline",
+  "description": "v1.0.1 DRAG and Naive RAG with every flag at its default",
+  "flags": {},
+  "arms": ["drag", "naive"],
+  "seed": 2024
+}
