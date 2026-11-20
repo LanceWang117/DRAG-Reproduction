@@ -20,6 +20,10 @@ step() {
   echo "==> $*"
 }
 
+require() {
+  "$@" || fail "$*"
+}
+
 # The pinned interpreter is 3.11; another version may install different wheels
 # or report different results, so refuse rather than produce a misleading pass.
 VERSION="$(python -c 'import sys; print("%d.%d" % sys.version_info[:2])' 2>/dev/null || true)"
@@ -33,32 +37,40 @@ against this laptop's OpenSSL 4.1, which is why Docker is the local route."
 fi
 step "Python $VERSION"
 
-export PYTHONPATH="$ROOT/scripts:$ROOT/improvements/tests/stubs${PYTHONPATH:+:$PYTHONPATH}"
 export PYTHONDONTWRITEBYTECODE=1
+SCRIPTS="$ROOT/scripts"
+STUBS="$ROOT/improvements/tests/stubs"
+
+# Runtime and evidence scripts run with no stub on the path, so the test-only
+# `flashrag` package can never satisfy an import in real code.
+export PYTHONPATH="$SCRIPTS${PYTHONPATH:+:$PYTHONPATH}"
 
 step "Evidence integrity"
-python scripts/verify_evidence.py || fail "verify_evidence.py"
+require python scripts/verify_evidence.py
 
 step "Submission tests"
-python scripts/run_tests.py scripts --pattern test_submission.py || fail "scripts tests"
+require python scripts/run_tests.py scripts --pattern test_submission.py
 
 step "Evaluation input validation"
-python scripts/run_evaluation.py --validate-only || fail "run_evaluation.py --validate-only"
+require python scripts/run_evaluation.py --validate-only
 
 # DRAG_REQUIRE_INTEGRATION turns the frozen group's skip into a failure, so a
-# missing import cannot pass as green. The stub satisfies model.drag's imports.
+# missing import cannot pass as green. The stub is on the path for this step and
+# the team tests only.
 step "Frozen Judge tests (integration required)"
-DRAG_REQUIRE_INTEGRATION=1 \
+PYTHONPATH="$SCRIPTS:$STUBS${PYTHONPATH:+:$PYTHONPATH}" \
+  DRAG_REQUIRE_INTEGRATION=1 \
   python scripts/run_tests.py src/reproduction_changes/tests --pattern 'test_*.py' \
   || fail "frozen Judge tests"
 
 step "Team tests (no skips)"
-python scripts/run_tests.py improvements/tests || fail "improvements/tests"
+PYTHONPATH="$SCRIPTS:$STUBS${PYTHONPATH:+:$PYTHONPATH}" \
+  python scripts/run_tests.py improvements/tests || fail "improvements/tests"
 
 step "Code limits"
-python scripts/check_code_limits.py || fail "code limits"
+require python scripts/check_code_limits.py
 
 step "Repository guards"
-python scripts/check_guards.py || fail "repository guards"
+require python scripts/check_guards.py
 
 echo "GATE PASSED in $((SECONDS - STARTED))s"

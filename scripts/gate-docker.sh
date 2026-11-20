@@ -15,7 +15,6 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
-IMAGE="${GATE_IMAGE:-python:3.11-slim}"
 VOLUME="${GATE_PIP_VOLUME:-drag-gate-pip-cache}"
 
 if ! command -v docker >/dev/null 2>&1; then
