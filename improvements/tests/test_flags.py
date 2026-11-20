@@ -9,7 +9,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from drag_plus.flags import FLAG_SPECS, FlagError, Flags, load_flags  # noqa: E402
 
 BASELINE = {"max_query_debate_rounds": 3, "max_answer_debate_rounds": 3, "profile_calls": False,
-            "answer_extractor": "native", "retrieval_cache": None}
+            "answer_extractor": "native", "retrieval_cache": None, "retriever": "e5",
+            "dense_top_k": 20, "bm25_top_k": 20, "hybrid_top_k": 3, "rrf_k": 60,
+            "dense_weight": 1.0, "bm25_weight": 1.0, "dense_score_floor": None,
+            "bm25_score_floor": None, "bm25_index": None, "rerank_k": None,
+            "rerank_model": "BAAI/bge-reranker-base", "per_title_cap": None}
 
 
 class FlagDefaultTests(unittest.TestCase):
@@ -58,6 +62,20 @@ class FlagValidationTests(unittest.TestCase):
             Flags({"retrieval_cache": 3})
         with self.assertRaisesRegex(FlagError, "must not be blank"):
             Flags({"retrieval_cache": "  "})
+
+    def test_retrieval_flags_validate_their_ranges(self):
+        self.assertEqual(Flags({"dense_weight": 2}).dense_weight, 2.0)
+        self.assertEqual(Flags({"rerank_k": 10}).rerank_k, 10)
+        self.assertEqual(Flags({"retriever": "hybrid"}).retriever, "hybrid")
+        for values, message in (({"retriever": "bm25"}, "must be one of"),
+                                ({"rrf_k": 0}, ">= 1"),
+                                ({"bm25_top_k": -1}, ">= 1"),
+                                ({"dense_weight": -0.5}, ">= 0"),
+                                ({"dense_weight": "1.0"}, "expects float"),
+                                ({"per_title_cap": 0}, ">= 1"),
+                                ({"hybrid_top_k": 1.5}, "expects int")):
+            with self.subTest(values=values), self.assertRaisesRegex(FlagError, message):
+                Flags(values)
 
 
 class FlagFileTests(unittest.TestCase):
