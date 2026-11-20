@@ -12,6 +12,7 @@ exactly like the recorded v1.0.1 baseline (`src/reproduction_changes/model/drag.
 | `prompts.py` | Every baseline prompt string, verbatim |
 | `query_stage.py`, `answer_stage.py` | The two debate stages |
 | `pipeline.py` | Orchestration: `DragPlusPipeline(flags, generator, retriever, template, dataset).run(items)` |
+| `retrieval/cache.py` | Caching retriever proxy: `search` is `batch_search([q])[0]`, one JSONL line per query |
 | `analysis/` | Scoring, the unified answer extractor and paired statistics |
 
 The package imports without FlashRAG, vLLM, torch or FAISS; the runner injects those

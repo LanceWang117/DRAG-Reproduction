@@ -51,12 +51,23 @@ class SharedProxyTests(unittest.TestCase):
     def test_the_underlying_retriever_is_called_once_per_unique_query(self):
         out = self.root / "run"
         cache_path = self.root / "cache" / "retrieval-cache.jsonl"
-        cache_path.parent.mkdir()
         run_variant(request(out, {"retrieval_cache": str(cache_path)}))
         lines = [json.loads(line) for line in cache_path.read_text().splitlines()]
         keys = [(line["query"], line["top_k"]) for line in lines]
         self.assertEqual(len(keys), len(set(keys)), "each query must be stored once")
         self.assertTrue({row["question"] for row in ROWS} <= {line["query"] for line in lines})
+
+    def test_a_missing_parent_directory_is_created(self):
+        cache_path = self.root / "deep" / "nested" / "retrieval-cache.jsonl"
+        run_variant(request(self.root / "run", {"retrieval_cache": str(cache_path)}))
+        self.assertTrue(cache_path.exists())
+
+    def test_a_relative_path_resolves_against_the_run_directory(self):
+        out = self.root / "run"
+        manifest = run_variant(request(out, {"retrieval_cache": "retrieval-cache.jsonl"}))
+        self.assertEqual(manifest["flags"]["retrieval_cache"], "retrieval-cache.jsonl")
+        self.assertTrue((out / "retrieval-cache.jsonl").exists())
+        self.assertFalse((Path.cwd() / "retrieval-cache.jsonl").exists())
 
 
 class FlagOffTests(unittest.TestCase):

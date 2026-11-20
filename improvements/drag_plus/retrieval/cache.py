@@ -99,6 +99,7 @@ class CacheStore:
         stored = (copy.deepcopy(docs), copy.deepcopy(scores))
         self._entries[key] = stored
         if self.path is not None:
+            self.path.parent.mkdir(parents=True, exist_ok=True)
             append_line(self.path, {**key.as_dict(), "docs": stored[0],
                                     "scores": stored[1]})
 

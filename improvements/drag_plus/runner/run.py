@@ -65,11 +65,17 @@ class _Pipelines:
         self.retriever = self._shared_retriever()
 
     def _shared_retriever(self):
-        """One proxy for every arm, so a query is retrieved once for the whole run."""
+        """One proxy for every arm, so a query is retrieved once for the whole run.
+
+        A relative cache path is relative to the run directory, like the other logs.
+        """
         path = self._flags.retrieval_cache
         if path is None:
             return self._request.backend.retriever
-        return self._request.backend.cached_retriever(Path(path))
+        resolved = Path(path)
+        if not resolved.is_absolute():
+            resolved = self._request.out_dir / resolved
+        return self._request.backend.cached_retriever(resolved)
 
     def get(self, arm: str, dataset: str):
         if (arm, dataset) not in self._cache:
