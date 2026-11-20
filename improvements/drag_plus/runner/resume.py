@@ -1,9 +1,10 @@
 """Schedule planning and checkpoint loading for ``--resume``."""
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Sequence, Tuple
+from typing import Any, Dict, List, Optional, Sequence, Tuple
 
 from ..instrument import logs
 
@@ -44,3 +45,30 @@ def load_progress(path: Path, schedule: List[Slot]) -> Progress:
                 f"variant, questions and --interleave setting")
         done[order] = record
     return Progress(done, repaired)
+
+
+def check_resumable(out_dir: Path, variant: Dict[str, Any], flags: Dict[str, Any],
+                    backend_name: str, questions: int) -> Dict[str, Any]:
+    """Refuse to resume under different settings; return the earlier manifest ({} if none).
+
+    The effective flags include ``profile_calls``, so resuming without ``--profile`` after
+    a profiled start cannot leave a half-profiled timing log.
+    """
+    if not out_dir.is_dir():
+        raise ResumeError(f"cannot resume: {out_dir} does not exist")
+    path = out_dir / "run-manifest.json"
+    old = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+    expected = {"variant": variant, "flags": flags, "questions": questions}
+    for key, value in expected.items():
+        if old and old.get(key) != value:
+            raise ResumeError(f"cannot resume: '{key}' differs from the original run "
+                              f"({old.get(key)!r} vs {value!r})")
+    if old and old.get("backend", {}).get("name") != backend_name:
+        raise ResumeError(f"cannot resume: the original run used another backend "
+                          f"({old.get('backend', {}).get('name')!r} vs {backend_name!r})")
+    return old
+
+
+def previous_manifest(out_dir: Path) -> Optional[Dict[str, Any]]:
+    path = out_dir / "run-manifest.json"
+    return json.loads(path.read_text(encoding="utf-8")) if path.exists() else None

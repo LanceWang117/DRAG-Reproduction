@@ -48,5 +48,5 @@ def build_manifest(*, run_id: str, variant: Dict[str, Any], flags: Dict[str, Any
                    command: List[str], arms: List[str], questions: int) -> Dict[str, Any]:
     return {"run_id": run_id, "variant": variant, "flags": flags, "arms": arms,
             "questions": questions, "command": command, "backend": backend,
-            "environment": environment, "seed": variant.get("seed"), "started": started,
+            "environment": environment, "started": started,
             "ended": ended, "exit_status": exit_status, "resumes": resumes}

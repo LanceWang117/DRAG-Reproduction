@@ -69,8 +69,12 @@ def main(argv=None):
     if args.validate_only:
         print('Input validation passed; no model loaded.')
         return 0
+    from drag_plus.runner.resume import check_resumable
     from drag_plus.runner.run import RunRequest, default_run_dir, run_variant
     out_dir = args.resume or default_run_dir(args.output, variant.name)
+    if args.resume:  # fail in seconds, not after the model and index have loaded
+        flags = variant.flags.with_changes(profile_calls=True) if args.profile else variant.flags
+        check_resumable(out_dir, variant.raw, flags.to_manifest(), args.backend, len(rows))
     request = RunRequest(
         rows=rows, variant=variant, backend=build_backend(args, rows, out_dir), out_dir=out_dir,
         profile=args.profile, interleave=args.interleave, resume=args.resume is not None,

@@ -5,6 +5,7 @@ and is re-raised; the question in flight is not checkpointed, so ``--resume`` re
 """
 from __future__ import annotations
 
+import contextlib
 import datetime
 import json
 import time
@@ -76,7 +77,8 @@ def _write_manifest(request: RunRequest, started: str, resumes: List[dict], stat
                     ended: Optional[str]) -> None:
     built = manifest.build_manifest(
         run_id=request.out_dir.name, variant=request.variant.raw,
-        flags=_flags(request).to_manifest(), backend=request.backend.describe(),
+        flags=_flags(request).to_manifest(),
+        backend={"name": request.backend.name, **request.backend.describe()},
         environment=request.environment(), started=started, ended=ended,
         exit_status=status, resumes=resumes, command=list(request.command),
         arms=list(request.variant.arms), questions=len(request.rows))
@@ -85,17 +87,18 @@ def _write_manifest(request: RunRequest, started: str, resumes: List[dict], stat
 
 def _open_run(request: RunRequest, schedule) -> tuple:
     """Return (progress, started, resumes) after creating or validating the directory."""
-    if request.resume and not request.out_dir.is_dir():
-        raise resume.ResumeError(f"cannot resume: {request.out_dir} does not exist")
-    request.out_dir.mkdir(parents=True, exist_ok=request.resume)
     checkpoints = request.out_dir / CHECKPOINTS
-    progress = resume.load_progress(checkpoints, schedule)
     if not request.resume:
-        return progress, request.now(), []
-    previous = request.out_dir / MANIFEST
-    old = read_json(previous) if previous.exists() else {}
-    if old and old.get("variant") != request.variant.raw:
-        raise resume.ResumeError("cannot resume: the variant file differs from the original run")
+        # FlashRAG's Config creates its save_dir inside the run directory, so an empty
+        # directory is fine; a directory that already holds a run is not.
+        request.out_dir.mkdir(parents=True, exist_ok=True)
+        if checkpoints.exists() or (request.out_dir / MANIFEST).exists():
+            raise FileExistsError(f"{request.out_dir} already holds a run; use --resume")
+        return resume.load_progress(checkpoints, schedule), request.now(), []
+    old = resume.check_resumable(request.out_dir, request.variant.raw,
+                                 _flags(request).to_manifest(), request.backend.name,
+                                 len(request.rows))
+    progress = resume.load_progress(checkpoints, schedule)
     entry = {"at": request.now(), "completed_before": len(progress.done),
              "repaired_bytes": progress.repaired_bytes}
     return progress, old.get("started", request.now()), old.get("resumes", []) + [entry]
@@ -145,12 +148,13 @@ def run_variant(request: RunRequest) -> Dict[str, Any]:
     status = "complete"
     try:
         _execute(request, schedule, progress)
+        _write_logs(request, progress.done)
+        _summarise(request, progress.done)
     except BaseException as error:
         status = "interrupted" if isinstance(error, KeyboardInterrupt) else "failed"
+        with contextlib.suppress(Exception):
+            _write_logs(request, progress.done)
         raise
     finally:
-        _write_logs(request, progress.done)
-        if status == "complete":
-            _summarise(request, progress.done)
         _write_manifest(request, started, resumes, status, request.now())
     return read_json(request.out_dir / MANIFEST)

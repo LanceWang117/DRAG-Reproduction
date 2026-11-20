@@ -43,7 +43,7 @@ class NaivePipelineTests(unittest.TestCase):
         self.assertEqual(template.calls[0]["question"], "capital of France?")
         self.assertEqual(gen.calls, [("PROMPT capital of France? | 1 docs", {})])
         self.assertEqual([k for k, _ in item.calls],
-                         ["retrieval_result", "prompt", "pred", "raw_pred", "pred"])
+                         ["retrieval_result", "prompt", "raw_pred", "pred"])
 
     def test_native_applies_the_baseline_parse_and_keeps_the_raw_text(self):
         pipeline = build(self.RAW)[0]
@@ -102,9 +102,9 @@ class VariantTests(unittest.TestCase):
 
     def test_flags_and_arms_are_applied(self):
         variant = parse_variant({"name": "v1", "flags": {"max_answer_debate_rounds": 1},
-                                 "arms": ["drag"], "seed": 3})
+                                 "arms": ["drag"]})
         self.assertEqual(variant.flags.max_answer_debate_rounds, 1)
-        self.assertEqual((variant.arms, variant.seed), (("drag",), 3))
+        self.assertEqual(variant.arms, ("drag",))
 
     def test_bad_variants_raise_clear_errors(self):
         bad = [(["x"], "JSON object"), ({"name": "a b"}, "name"), ({}, "name"),
@@ -112,8 +112,7 @@ class VariantTests(unittest.TestCase):
                ({"name": "v", "arms": []}, "non-empty"),
                ({"name": "v", "arms": ["drag", "drag"]}, "distinct"),
                ({"name": "v", "arms": ["mad"]}, "distinct"),
-               ({"name": "v", "flags": []}, "flags"), ({"name": "v", "seed": "1"}, "seed"),
-               ({"name": "v", "seed": True}, "seed")]
+               ({"name": "v", "flags": []}, "flags"), ({"name": "v", "seed": 1}, "unknown")]
         for data, message in bad:
             with self.subTest(data=data), self.assertRaisesRegex(VariantError, message):
                 parse_variant(data)

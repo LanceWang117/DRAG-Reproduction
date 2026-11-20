@@ -128,13 +128,12 @@ class ManifestTests(unittest.TestCase):
 
     def test_manifest_carries_every_required_field(self):
         built = manifest.build_manifest(
-            run_id="r", variant={"name": "v", "seed": 7}, flags=Flags().to_manifest(),
+            run_id="r", variant={"name": "v"}, flags=Flags().to_manifest(),
             backend={"gpu": "none"}, environment={"commit": "c"}, started="s", ended=None,
             exit_status="running", resumes=[], command=["x"], arms=["drag"], questions=1)
-        for key in ("run_id", "variant", "flags", "backend", "environment", "seed",
+        for key in ("run_id", "variant", "flags", "backend", "environment",
                     "started", "ended", "exit_status", "resumes", "command", "arms"):
             self.assertIn(key, built)
-        self.assertEqual(built["seed"], 7)
 
 
 if __name__ == "__main__":

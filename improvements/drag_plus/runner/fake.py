@@ -63,4 +63,4 @@ def fake_evaluate(arm: str, dataset: str, records: List[Dict[str, Any]]) -> Dict
 
 
 def fake_description() -> Dict[str, str]:
-    return {"gpu": "none (fake backend)", "model": "fake-generator", "index": "fake-retriever"}
+    return {"gpu": "none (fake backend)", "model": "fake-generator", "index": "fake-retriever", "seed": None}

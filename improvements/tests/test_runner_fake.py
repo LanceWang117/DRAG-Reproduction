@@ -72,7 +72,7 @@ class EndToEndTests(RunnerCase):
             self.assertEqual(row["run_id"], "run")
         self.assertEqual({row["arm"] for row in timings}, {"drag", "naive"})
         self.assertEqual(self.manifest["exit_status"], "complete")
-        for key in ("flags", "backend", "environment", "variant", "seed", "resumes", "command"):
+        for key in ("flags", "backend", "environment", "variant", "resumes", "command"):
             self.assertIn(key, self.manifest)
         self.assertEqual(self.manifest["environment"]["commit"], "test")
 
@@ -173,6 +173,36 @@ class CrashResumeTests(RunnerCase):
         other = parse_variant({"name": "t", "flags": {"max_query_debate_rounds": 1}})
         with self.assertRaisesRegex(ResumeError, "variant"):
             run_variant(make_request(out, resume=True, variant=other))
+
+    def test_resuming_under_different_settings_is_refused(self):
+        out, _, _ = self.crash_then_resume(40, False)
+        cases = {"profile": dict(profile=False), "questions": dict(rows=ROWS[:3])}
+        for name, change in cases.items():
+            with self.subTest(change=name), self.assertRaisesRegex(ResumeError, "differs"):
+                run_variant(make_request(out, resume=True, **change))
+        other = build_fake_backend()
+        other.name = "flashrag"
+        with self.assertRaisesRegex(ResumeError, "backend"):
+            run_variant(make_request(out, resume=True, backend=other))
+
+    def test_a_failing_evaluator_still_finalises_the_manifest_and_logs(self):
+        out = self.root / "eval-fails"
+        backend = build_fake_backend()
+        backend.evaluate = lambda arm, dataset, records: 1 / 0
+        with self.assertRaises(ZeroDivisionError):
+            run_variant(make_request(out, backend=backend))
+        manifest = json.loads((out / "run-manifest.json").read_text())
+        self.assertEqual((manifest["exit_status"], manifest["ended"] is not None),
+                         ("failed", True))
+        self.assertTrue((out / "transcripts.jsonl").exists())
+        self.assertFalse((out / "summary.json").exists())
+        final = run_variant(make_request(out, resume=True))
+        self.assertEqual(final["exit_status"], "complete")
+
+    def test_an_empty_existing_directory_is_accepted_for_a_fresh_run(self):
+        out = self.root / "preexisting"
+        (out / "drag").mkdir(parents=True)  # FlashRAG's Config creates its save_dir first
+        self.assertEqual(run_variant(make_request(out))["exit_status"], "complete")
 
     def test_resuming_a_missing_directory_is_refused(self):
         with self.assertRaises(ResumeError):

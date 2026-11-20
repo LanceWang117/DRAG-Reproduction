@@ -12,16 +12,30 @@ from pathlib import Path
 from typing import Any, Iterable, List
 
 
+def _fsync_directory(directory: Path) -> None:
+    descriptor = os.open(directory, os.O_RDONLY)
+    try:
+        os.fsync(descriptor)
+    finally:
+        os.close(descriptor)
+
+
 def append_line(path: Path, record: Any) -> None:
     data = (json.dumps(record, ensure_ascii=False) + "\n").encode("utf-8")
+    created = not path.exists()
     with open(path, "ab") as handle:
         handle.write(data)
         handle.flush()
         os.fsync(handle.fileno())
+    if created:
+        _fsync_directory(path.parent)  # make the new directory entry durable too
 
 
 def repair_tail(path: Path) -> int:
-    """Truncate a trailing line that has no newline; return the bytes removed."""
+    """Truncate a trailing line that has no newline; return the bytes removed.
+
+    A record and its newline go out in one write, so a missing newline means a torn write.
+    """
     if not path.exists():
         return 0
     data = path.read_bytes()

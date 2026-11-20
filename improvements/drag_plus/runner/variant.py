@@ -1,4 +1,4 @@
-"""The variant file: a name, the flags to set, the arms to run and an optional seed.
+"""The variant file: a name, the flags to set and the arms to run.
 
 Anything unrecognised is an error, like an unknown flag, so a typo cannot silently run
 the baseline.
@@ -9,12 +9,12 @@ import json
 import re
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Dict, Tuple
 
 from ..flags import Flags
 
 ARMS = ("drag", "naive")
-_KEYS = {"name", "description", "flags", "arms", "seed"}
+_KEYS = {"name", "description", "flags", "arms"}
 _NAME = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]*")
 
 
@@ -27,7 +27,6 @@ class Variant:
     name: str
     flags: Flags
     arms: Tuple[str, ...]
-    seed: Optional[int]
     raw: Dict[str, Any]
 
 
@@ -52,10 +51,7 @@ def parse_variant(data: Any) -> Variant:
     flags = data.get("flags", {})
     if not isinstance(flags, dict):
         raise VariantError("'flags' must be a JSON object")
-    seed = data.get("seed")
-    if seed is not None and (isinstance(seed, bool) or not isinstance(seed, int)):
-        raise VariantError(f"'seed' must be an integer or null, got {seed!r}")
-    return Variant(name, Flags(flags), _arms(data.get("arms", list(ARMS))), seed, dict(data))
+    return Variant(name, Flags(flags), _arms(data.get("arms", list(ARMS))), dict(data))
 
 
 def load_variant(path: Any) -> Variant:

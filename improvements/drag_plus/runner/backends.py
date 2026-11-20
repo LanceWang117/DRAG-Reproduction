@@ -73,7 +73,8 @@ def build_flashrag_backend(source: Path, overrides: Dict[str, Any], rows: List[d
 
     def describe() -> Dict[str, Any]:
         return {"gpu": _gpu_name(), "model": overrides["model2path"][overrides["generator_model"]],
-                "index": overrides["index_path"], "corpus": overrides["corpus_path"]}
+                "index": overrides["index_path"], "corpus": overrides["corpus_path"],
+                "seed": overrides.get("seed")}
 
     return Backend("flashrag", generator, retriever, make_template, evaluate, describe,
                    lambda text: len(tokenizer.encode(text, add_special_tokens=False)))

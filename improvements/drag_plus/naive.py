@@ -2,7 +2,8 @@
 
 For a single question that is ``batch_search([q])``, ``get_string(question=,
 retrieval_result=)`` and one ``generate`` call, followed by the extractor. ``raw_pred`` is
-always written, as ``single_agent_pred_parse`` does.
+always written, as ``single_agent_pred_parse`` does. ``pred`` is written once, after the
+extractor (FlashRAG writes the raw text first and overwrites it; the transcript keeps one).
 """
 from __future__ import annotations
 
@@ -32,7 +33,6 @@ class NaivePipeline:
             question=item.question, retrieval_result=docs)
         state.emit("prompt", prompt)
         raw = ctx.backends.complete(prompt, call=state.call("answer_agent", "naive"))
-        state.emit("pred", raw)
         self._finish(state, raw)
         return state
 
