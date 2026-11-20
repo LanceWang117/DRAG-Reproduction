@@ -15,5 +15,6 @@ exactly like the recorded v1.0.1 baseline (`src/reproduction_changes/model/drag.
 | `analysis/` | Scoring, the unified answer extractor and paired statistics |
 
 The package imports without FlashRAG, vLLM, torch or FAISS; the runner injects those
-objects. Keep new variants behind flags whose defaults equal the baseline, and compare
+objects. Its only third-party imports are the light `Levenshtein` (query-pool edit
+distance) and, for the analysis modules, `numpy`. Keep new variants behind flags whose defaults equal the baseline, and compare
 on fixed questions.

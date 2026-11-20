@@ -33,6 +33,7 @@ class DragPlusPipeline:
         state.emit("QueryStage_QueryPool", state.query_pool)
         run_answer_stage(self._ctx, state)
         self._finish(state)
+        state.status = "done"
         return state
 
     def run(self, dataset: Iterable[Any]) -> List[QuestionState]:

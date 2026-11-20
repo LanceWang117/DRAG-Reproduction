@@ -2,8 +2,8 @@
 
 ``typing.Protocol`` is structural: FlashRAG classes and test fakes satisfy it without
 inheriting from anything, so this package never imports FlashRAG, vLLM, torch or FAISS.
-``runtime_checkable`` lets the pipeline reject a missing method at construction rather
-than part-way through a run on the server (it checks method names, not signatures).
+``runtime_checkable`` plus a callable check lets the pipeline reject a missing method at
+construction rather than part-way through a run on the server (names only, not signatures).
 """
 from __future__ import annotations
 
@@ -37,9 +37,11 @@ class Backends:
     prompt_template: PromptTemplate
 
     def __post_init__(self) -> None:
-        for name, protocol in (("generator", Generator), ("retriever", Retriever),
-                               ("prompt_template", PromptTemplate)):
-            if not isinstance(getattr(self, name), protocol):
+        for name, protocol, method in (("generator", Generator, "generate"),
+                                       ("retriever", Retriever, "search"),
+                                       ("prompt_template", PromptTemplate, "get_string")):
+            backend = getattr(self, name)
+            if not isinstance(backend, protocol) or not callable(getattr(backend, method)):
                 raise TypeError(f"{name} does not implement {protocol.__name__}")
 
     def render(self, messages: list) -> Any:

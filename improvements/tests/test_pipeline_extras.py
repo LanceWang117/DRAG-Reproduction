@@ -1,11 +1,13 @@
 """Behaviour T0 does not cover: the extractor flag, error path, isolation, parity."""
 import contextlib
+import inspect
 import io
 import unittest
 
 import frozen
 from drag_plus import prompts
 from drag_plus.flags import Flags
+from drag_plus import judge_decision
 from drag_plus.judge_decision import resolve_judge_decision
 from drag_plus.pipeline import DragPlusPipeline
 from drag_plus.query_stage import QueryPoolError
@@ -78,7 +80,7 @@ class IsolationTests(unittest.TestCase):
         self.assertEqual(state.key, ("NQ", "dev", "q0"))
         self.assertEqual(state.decisions, [{"stage": "query", "round": 0,
                                             "decision": "Proponent", "status": "valid_initial"}])
-        self.assertEqual((state.stage, state.status), ("answer", "active"))
+        self.assertEqual((state.stage, state.status), ("answer", "done"))
 
 
 class ErrorPathTests(unittest.TestCase):
@@ -102,11 +104,19 @@ class ErrorPathTests(unittest.TestCase):
     def test_unknown_agent_name_is_rejected(self):
         with self.assertRaises(ValueError):
             prompts.query_agent_system("Neutral Agent 0")
+        with self.assertRaises(ValueError):
+            prompts.answer_agent_system("Neutral Agent 0", {}, False)
 
 
 class VerdictParityTests(unittest.TestCase):
     OUTPUTS = ["Proponent", " opponent agent 1. ", "Opponent!", "Proponent Agent 1:\nOpponent",
                "both", "", None, "Proponent Agent", "OPPONENT", "Winner: Proponent"]
+
+    def test_copied_source_is_identical_to_the_frozen_module(self):
+        for name in ("JudgeDecision", "parse_judge_decision", "resolve_judge_decision"):
+            with self.subTest(name=name):
+                self.assertEqual(inspect.getsource(getattr(judge_decision, name)),
+                                 inspect.getsource(getattr(frozen.frozen_judge, name)))
 
     def test_copied_resolver_matches_the_frozen_module(self):
         for output in self.OUTPUTS:

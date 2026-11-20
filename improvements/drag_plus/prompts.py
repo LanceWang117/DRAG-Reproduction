@@ -102,8 +102,10 @@ def answer_agent_system(agent_name: str, query_pool, strategy_qa: bool) -> dict:
         return {"role": "system", "content": (
             f"Answer the question based on the given document. {fmt} "
             f"The following are given documents.\n{format_query_pool(query_pool)}")}
-    return {"role": "system",
-            "content": f"Answer the question based on your own knowledge. {fmt}"}
+    if "Opponent" in agent_name:
+        return {"role": "system",
+                "content": f"Answer the question based on your own knowledge. {fmt}"}
+    raise ValueError("The agent name must contain either Proponent or Opponent")
 
 
 def answer_only_system(query_pool, strategy_qa: bool) -> dict:

@@ -1,4 +1,4 @@
-"""The package imports on a bare interpreter; adapters reject incomplete objects."""
+"""The package imports without the heavy backends; adapters reject incomplete objects."""
 from pathlib import Path
 import subprocess
 import sys
@@ -37,6 +37,12 @@ class BackendsTests(unittest.TestCase):
                                get_string=lambda **k: k)
         with self.assertRaisesRegex(TypeError, "retriever"):
             Backends(good, SimpleNamespace(), good)
+
+    def test_non_callable_method_is_rejected(self):
+        good = SimpleNamespace(generate=lambda p: [p], search=lambda q: [],
+                               get_string=lambda **k: k)
+        with self.assertRaisesRegex(TypeError, "generator"):
+            Backends(SimpleNamespace(generate="nope"), good, good)
 
     def test_calls_forward_params_only_when_given(self):
         seen = []
