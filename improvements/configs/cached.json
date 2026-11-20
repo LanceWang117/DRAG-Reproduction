@@ -1,0 +1,6 @@
+{
+  "name": "cached",
+  "description": "Both arms share one caching retriever proxy; identical retrieval for identical queries",
+  "flags": {"retrieval_cache": "retrieval-cache.jsonl"},
+  "arms": ["drag", "naive"]
+}

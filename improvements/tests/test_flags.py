@@ -9,7 +9,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from drag_plus.flags import FLAG_SPECS, FlagError, Flags, load_flags  # noqa: E402
 
 BASELINE = {"max_query_debate_rounds": 3, "max_answer_debate_rounds": 3, "profile_calls": False,
-            "answer_extractor": "native"}
+            "answer_extractor": "native", "retrieval_cache": None}
 
 
 class FlagDefaultTests(unittest.TestCase):
@@ -51,6 +51,13 @@ class FlagValidationTests(unittest.TestCase):
             Flags({"max_query_debate_rounds": -1})
         with self.assertRaisesRegex(FlagError, "must be one of"):
             Flags({"answer_extractor": "fancy"})
+
+    def test_an_optional_flag_accepts_null_and_still_rejects_bad_values(self):
+        self.assertIsNone(Flags({"retrieval_cache": None}).retrieval_cache)
+        with self.assertRaisesRegex(FlagError, "expects str"):
+            Flags({"retrieval_cache": 3})
+        with self.assertRaisesRegex(FlagError, "must not be blank"):
+            Flags({"retrieval_cache": "  "})
 
 
 class FlagFileTests(unittest.TestCase):

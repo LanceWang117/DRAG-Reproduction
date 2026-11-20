@@ -62,13 +62,27 @@ class _Pipelines:
     def __init__(self, request: RunRequest):
         self._request, self._flags, self._cache = request, _flags(request), {}
         self._recorder = CallRecorder(request.clock, request.backend.count_tokens)
+        self.retriever = self._shared_retriever()
+
+    def _shared_retriever(self):
+        """One proxy for every arm, so a query is retrieved once for the whole run.
+
+        A relative cache path is relative to the run directory, like the other logs.
+        """
+        path = self._flags.retrieval_cache
+        if path is None:
+            return self._request.backend.retriever
+        resolved = Path(path).expanduser()
+        if not resolved.is_absolute():
+            resolved = self._request.out_dir / resolved
+        return self._request.backend.cached_retriever(resolved)
 
     def get(self, arm: str, dataset: str):
         if (arm, dataset) not in self._cache:
             backend = self._request.backend
             cls = DragPlusPipeline if arm == "drag" else NaivePipeline
             self._cache[(arm, dataset)] = cls(
-                self._flags, backend.generator, backend.retriever,
+                self._flags, backend.generator, self.retriever,
                 backend.make_template(arm, dataset), dataset, self._recorder)
         return self._cache[(arm, dataset)]
 
