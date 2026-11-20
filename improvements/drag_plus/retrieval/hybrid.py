@@ -19,6 +19,7 @@ from __future__ import annotations
 import inspect
 import json
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
 Ranked = List[Tuple[dict, float]]
@@ -138,15 +139,32 @@ def source_results(retriever: Any, queries: List[str], depth: int,
             for docs, scores in zip(docs_list, scores_list)]
 
 
+def bm25_identity(path: Any) -> str:
+    """Identify an index directory by its files' names, sizes and mtimes.
+
+    A cache entry must not survive a rebuilt index. A directory's own mtime does not
+    change when a file inside is overwritten, so the files are listed instead.
+    """
+    directory = Path(str(path)).expanduser()
+    try:
+        files = sorted((entry.name, entry.stat().st_size, entry.stat().st_mtime_ns)
+                       for entry in directory.iterdir() if entry.is_file())
+    except OSError:
+        return str(directory)
+    return "{}:{}".format(directory, "|".join(f"{name}:{size}:{mtime}"
+                                              for name, size, mtime in files))
+
+
 def retrieval_config(flags: Any) -> Dict[str, Any]:
     """The retrieval settings a cache entry depends on besides index and query."""
     if flags.retriever == "e5":
         return {"retriever": "e5"}
+    index = bm25_identity(flags.bm25_index) if flags.bm25_index else None
     return {"retriever": "hybrid", "dense_top_k": flags.dense_top_k,
             "bm25_top_k": flags.bm25_top_k, "hybrid_top_k": flags.hybrid_top_k,
             "rrf_k": flags.rrf_k, "dense_weight": flags.dense_weight,
             "bm25_weight": flags.bm25_weight, "dense_score_floor": flags.dense_score_floor,
-            "bm25_score_floor": flags.bm25_score_floor, "bm25_index": flags.bm25_index,
+            "bm25_score_floor": flags.bm25_score_floor, "bm25_index": index,
             "rerank_k": flags.rerank_k, "rerank_model": flags.rerank_model,
             "per_title_cap": flags.per_title_cap}
 

@@ -1,5 +1,7 @@
 """Weighted RRF, score floors, the per-title cap and the cache fingerprint."""
+import os
 import sys
+import tempfile
 from pathlib import Path
 import unittest
 
@@ -114,6 +116,24 @@ class ConfigFingerprintTests(unittest.TestCase):
                          config_fingerprint(Flags(config)))
         changed = flags.with_changes(rerank_model="other")
         self.assertNotEqual(config_fingerprint(flags), config_fingerprint(changed))
+
+    def test_a_rebuilt_bm25_index_changes_the_fingerprint(self):
+        folder = tempfile.TemporaryDirectory()
+        self.addCleanup(folder.cleanup)
+        index = Path(folder.name) / "bm25"
+        index.mkdir()
+        data = index / "data.csc.index.npy"
+        data.write_bytes(b"old")
+        os.utime(data, (1, 1))
+        flags = Flags({"retriever": "hybrid", "bm25_index": str(index)})
+        before = config_fingerprint(flags)
+        data.write_bytes(b"a rebuilt index")
+        os.utime(data, (2, 2))
+        self.assertNotEqual(before, config_fingerprint(flags))
+
+    def test_a_missing_index_directory_still_fingerprints(self):
+        flags = Flags({"retriever": "hybrid", "bm25_index": "/no/such/index"})
+        self.assertIn("/no/such/index", config_fingerprint(flags))
 
 
 if __name__ == "__main__":
