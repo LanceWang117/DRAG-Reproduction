@@ -5,16 +5,17 @@ forbidden change and asserts the guard reports it. They also pin the cases that
 must stay quiet, so a guard cannot pass by flagging everything.
 """
 from pathlib import Path
+import os
 import subprocess
 import sys
 import tempfile
 import unittest
+import unittest.mock
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'scripts'))
-import check_guards  # noqa: E402
 from check_guards import (  # noqa: E402
-    Git, MAX_BYTES, check_frozen, check_hygiene, check_large, check_messages, changed_files,
-    resolve_base,
+    Git, MAX_BYTES, check_frozen, check_hygiene, check_large, check_main_history,
+    check_messages, changed_files, resolve_base,
 )
 
 
@@ -157,6 +158,59 @@ class BaseResolutionTests(GuardTestCase):
     def test_an_unresolvable_explicit_base_is_an_error(self):
         with self.assertRaises(ValueError):
             resolve_base(self.repo.git, 'no-such-ref')
+
+    def test_an_all_zero_before_commit_falls_back(self):
+        # A first push reports an all-zero "before" commit for GUARD_BASE. The
+        # repository here has one commit and no parent, so there is nothing to
+        # compare and the guards must stay quiet rather than fail CI.
+        before = '0' * 40
+        with unittest.mock.patch.dict(os.environ, {'GUARD_BASE': before}):
+            base = resolve_base(self.repo.git, None)
+        self.assertEqual(base, '')
+        self.assertEqual(changed_files(self.repo.git, base), [])
+        self.assertEqual(check_main_history(self.repo.git, base, enabled=True), [])
+
+
+class MainMergePolicyTests(GuardTestCase):
+    """Nothing may reach main except through a pull request.
+
+    Branch protection is unavailable to this team (no admin rights, and the repo
+    owner cannot enable it on their plan), so the gate carries this rule instead.
+    """
+
+    def test_the_policy_is_off_unless_requested(self):
+        self.repo.write('direct.txt')
+        self.repo.commit('direct push to main')
+        self.assertEqual(
+            check_main_history(self.repo.git, self.base, enabled=False), [])
+
+    def test_a_direct_commit_is_reported(self):
+        self.repo.write('direct.txt')
+        self.repo.commit('direct push to main')
+        problems = check_main_history(self.repo.git, self.base, enabled=True)
+        self.assertEqual(len(problems), 1)
+        self.assertIn('not from a pull request', problems[0])
+
+    def test_a_squash_merge_is_accepted(self):
+        self.repo.write('feature.txt')
+        self.repo.commit('J01: add analysis toolkit (#7)')
+        self.assertEqual(
+            check_main_history(self.repo.git, self.base, enabled=True), [])
+
+    def test_a_merge_commit_is_accepted(self):
+        self.repo.write('feature.txt')
+        self.repo.commit('Merge pull request #8 from team/job-J01')
+        self.assertEqual(
+            check_main_history(self.repo.git, self.base, enabled=True), [])
+
+    def test_every_commit_in_the_push_is_checked(self):
+        self.repo.write('one.txt')
+        self.repo.commit('J01: good step (#9)')
+        self.repo.write('two.txt')
+        self.repo.commit('sneaky direct commit')
+        problems = check_main_history(self.repo.git, self.base, enabled=True)
+        self.assertEqual(len(problems), 1)
+        self.assertIn('sneaky direct commit', problems[0])
 
 
 if __name__ == '__main__':
