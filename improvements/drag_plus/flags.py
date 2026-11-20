@@ -52,6 +52,8 @@ def _check(spec: FlagSpec, value: Any) -> Any:
             f"got {type(value).__name__}: {value!r}")
     if spec.choices is not None and value not in spec.choices:
         raise FlagError(f"flag {spec.name!r} must be one of {list(spec.choices)}, got {value!r}")
+    if spec.kind is str and not value.strip():
+        raise FlagError(f"flag {spec.name!r} must not be blank")
     if spec.minimum is not None and value < spec.minimum:
         raise FlagError(f"flag {spec.name!r} must be >= {spec.minimum}, got {value!r}")
     return value

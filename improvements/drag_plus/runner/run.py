@@ -72,7 +72,7 @@ class _Pipelines:
         path = self._flags.retrieval_cache
         if path is None:
             return self._request.backend.retriever
-        resolved = Path(path)
+        resolved = Path(path).expanduser()
         if not resolved.is_absolute():
             resolved = self._request.out_dir / resolved
         return self._request.backend.cached_retriever(resolved)

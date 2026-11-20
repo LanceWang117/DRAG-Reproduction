@@ -25,10 +25,8 @@ class Backend:
     make_template: Callable[[str, str], Any]
     evaluate: Callable[[str, str, List[Dict[str, Any]]], Dict[str, Any]]
     describe: Callable[[], Dict[str, Any]]
+    retrieval_identity: Callable[[], Dict[str, Any]]
     count_tokens: Callable[[str], int] = whitespace_tokens
-    retrieval_identity: Callable[[], Dict[str, Any]] = lambda: {"index": "unknown",
-                                                               "encoder": "unknown",
-                                                               "top_k": None}
 
     def cached_retriever(self, path: Path) -> CachingRetriever:
         """One proxy per run, so both arms share the cache and the underlying calls."""
@@ -43,7 +41,7 @@ def build_fake_backend() -> Backend:
     template = fake.FakeTemplate()
     return Backend("fake", fake.FakeGenerator(), fake.FakeRetriever(),
                    lambda arm, dataset: template, fake.fake_evaluate, fake.fake_description,
-                   retrieval_identity=_fake_identity)
+                   _fake_identity)
 
 
 def _gpu_name() -> str:
@@ -103,6 +101,5 @@ def build_flashrag_backend(source: Path, overrides: Dict[str, Any], rows: List[d
         return Evaluator(config).evaluate(data)
 
     return Backend("flashrag", generator, retriever, make_template, evaluate,
-                   _flashrag_describe(overrides),
-                   lambda text: len(tokenizer.encode(text, add_special_tokens=False)),
-                   _flashrag_identity(overrides))
+                   _flashrag_describe(overrides), _flashrag_identity(overrides),
+                   lambda text: len(tokenizer.encode(text, add_special_tokens=False)))

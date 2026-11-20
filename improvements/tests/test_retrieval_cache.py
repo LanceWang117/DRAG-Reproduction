@@ -1,13 +1,15 @@
-"""The caching proxy: one path for both call shapes, once per key, and persistence (J04)."""
-import json
+"""The caching proxy: one path for both call shapes, once per key, scores (J04)."""
 from pathlib import Path
+import sys
 import tempfile
 import unittest
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from drag_plus.retrieval.cache import (CacheKey, CacheStore, CachingRetriever,
                                        index_identity, normalise_query)
 
 DEFAULT_DOCS = 2
+IDENTITY = {"index": "idx", "encoder": "e5", "top_k": 3}
 
 
 def _docs_for(query, num=None):
@@ -16,11 +18,11 @@ def _docs_for(query, num=None):
 
 
 class DivergentRetriever:
-    """Answers differ on purpose: the single path returns junk, the batch path is right.
+    """The single and batch paths answer differently on purpose.
 
     This is the shape of the pinned FlashRAG defect B2, where ``search`` and
-    ``batch_search`` embed different text for the same query. If the proxy ever sends a
-    single query down ``search``, these results would show up.
+    ``batch_search`` embed different text for the same query. If the proxy ever sent a
+    single query down ``search``, these results would surface.
     """
 
     def __init__(self):
@@ -44,10 +46,8 @@ class UnscoredRetriever:
 
     def __init__(self):
         self.batch_calls = []
-        self.search_calls = []
 
     def search(self, query, num=None):
-        self.search_calls.append(query)
         return [{"id": f"wrong::{query}", "contents": "single path"}]
 
     def batch_search(self, queries, num=None):
@@ -55,18 +55,51 @@ class UnscoredRetriever:
         return [_docs_for(query, num) for query in queries]
 
 
-def build(inner=None, path=None, warn=None):
+class NoNumRetriever(UnscoredRetriever):
+    """Neither a ``num`` nor a ``return_score`` parameter."""
+
+    def batch_search(self, queries):
+        self.batch_calls.append(list(queries))
+        return [_docs_for(query) for query in queries]
+
+
+class KwargsOnlyRetriever:
+    """Accepts ``**kwargs`` but ignores them and never returns scores."""
+
+    def search(self, query, **kwargs):
+        return []
+
+    def batch_search(self, queries, **kwargs):
+        return [_docs_for(query) for query in queries]
+
+
+class CountingRetriever:
+    """Records the exact requests the proxy forwards, keeping the inner behaviour."""
+
+    def __init__(self):
+        self.inner = DivergentRetriever()
+        self.requests = []
+
+    def search(self, query, **kwargs):
+        return self.inner.search(query, **kwargs)
+
+    def batch_search(self, queries, **kwargs):
+        self.requests.append((list(queries), dict(kwargs)))
+        return self.inner.batch_search(queries, **kwargs)
+
+
+def build(inner=None, **kwargs):
     inner = inner or DivergentRetriever()
-    kwargs = {} if warn is None else {"warn": warn}
-    proxy = CachingRetriever(inner, index="idx", encoder="e5", top_k=3, path=path, **kwargs)
-    return proxy, inner
+    return CachingRetriever(inner, index="idx", encoder="e5", top_k=3, **kwargs), inner
 
 
 class SinglePathTests(unittest.TestCase):
     def test_search_and_batch_search_agree_on_ids_scores_and_order(self):
-        proxy, inner = build()
-        single = proxy.search("a question", return_score=True)
-        batched = proxy.batch_search(["a question"], return_score=True)[0]
+        # Separate stores, so each call really resolves through the inner retriever.
+        single_proxy, _ = build()
+        batch_proxy, _ = build()
+        single = single_proxy.search("a question", return_score=True)
+        batched = batch_proxy.batch_search(["a question"], return_score=True)[0]
         self.assertEqual(single, batched)
         self.assertEqual([d["id"] for d in single[0]], [d["id"] for d in batched[0]])
 
@@ -100,6 +133,14 @@ class OneCallPerKeyTests(unittest.TestCase):
         docs = proxy.batch_search(["b", "a", "b"])
         self.assertEqual([d[0]["id"].split("::")[0] for d in docs], ["b", "a", "b"])
 
+    def test_the_inner_receives_the_callers_query_text_not_the_normalised_key(self):
+        counting = CountingRetriever()
+        proxy = CachingRetriever(counting, index="idx", encoder="e5", top_k=3)
+        proxy.batch_search(["  a   b  ", "a b"])
+        self.assertEqual(counting.requests, [(["  a   b  "], {"return_score": True})],
+                         "one fetch, using the first spelling")
+        self.assertEqual(len(proxy.store.get(CacheKey("idx", "e5", 3, "a b"))[0]), 2)
+
     def test_a_different_top_k_is_a_miss(self):
         proxy, inner = build()
         proxy.batch_search(["one"], num=3)
@@ -107,15 +148,29 @@ class OneCallPerKeyTests(unittest.TestCase):
         self.assertEqual(inner.batch_calls, [["one"], ["one"]])
 
     def test_a_different_index_or_encoder_is_a_miss(self):
+        store = CacheStore()
         inner = DivergentRetriever()
-        other = CachingRetriever(inner, index="other", encoder="e5", top_k=3)
-        base = CachingRetriever(inner, index="idx", encoder="e5", top_k=3)
+        base = CachingRetriever(inner, store=store, index="idx", encoder="e5", top_k=3)
+        other = CachingRetriever(inner, store=store, index="other", encoder="e5", top_k=3)
+        renamed = CachingRetriever(inner, store=store, index="idx", encoder="bge", top_k=3)
         base.search("one")
         other.search("one")
-        self.assertEqual(len(inner.batch_calls), 2)
-        renamed = CachingRetriever(inner, index="idx", encoder="bge", top_k=3)
         renamed.search("one")
         self.assertEqual(len(inner.batch_calls), 3)
+        other.search("one")
+        renamed.search("one")
+        self.assertEqual(len(inner.batch_calls), 3, "each identity now has its own entry")
+
+    def test_an_inner_retriever_without_num_refuses_a_requested_depth(self):
+        proxy = CachingRetriever(NoNumRetriever(), index="idx", encoder="e5", top_k=3)
+        with self.assertRaisesRegex(ValueError, "cannot honour num"):
+            proxy.search("one", num=1)
+        self.assertEqual(len(proxy.search("one")), DEFAULT_DOCS)
+
+    def test_a_string_batch_is_one_query_not_its_characters(self):
+        proxy, inner = build()
+        self.assertEqual(len(proxy.batch_search("abc")), 1)
+        self.assertEqual(inner.batch_calls, [["abc"]])
 
 
 class CopyTests(unittest.TestCase):
@@ -138,64 +193,17 @@ class UnscoredRetrieverTests(unittest.TestCase):
         self.assertEqual(len(proxy.search("one")), DEFAULT_DOCS)
         proxy.search("one")
         self.assertEqual(len(inner.batch_calls), 1)
-        self.assertNotIn("score", proxy.search("one")[0])
 
     def test_asking_an_unscored_retriever_for_scores_is_an_error(self):
         proxy, _ = build(UnscoredRetriever())
         with self.assertRaisesRegex(ValueError, "cannot return scores"):
             proxy.search("one", return_score=True)
 
-
-class PersistenceTests(unittest.TestCase):
-    def setUp(self):
-        handle = tempfile.NamedTemporaryFile("w", suffix=".jsonl", delete=False)
-        handle.close()
-        Path(handle.name).unlink()
-        self.path = Path(handle.name)
-        self.addCleanup(lambda: self.path.unlink(missing_ok=True))
-
-    def test_round_trip_survives_a_new_process(self):
-        first, inner = build(path=self.path)
-        before = first.batch_search(["one", "two"], return_score=True)
-        self.assertEqual(len(self.path.read_text().splitlines()), 2)
-        reopened, reopened_inner = build(DivergentRetriever(), path=self.path)
-        self.assertEqual(reopened.batch_search(["one", "two"], return_score=True), before)
-        self.assertEqual(reopened_inner.batch_calls, [])
-
-    def test_one_line_per_query_with_the_key_and_the_scores(self):
-        proxy, _ = build(path=self.path)
-        proxy.batch_search(["one"], num=3)
-        record = json.loads(self.path.read_text().splitlines()[0])
-        self.assertEqual(record["index"], "idx")
-        self.assertEqual(record["encoder"], "e5")
-        self.assertEqual(record["top_k"], 3)
-        self.assertEqual(record["query"], "one")
-        self.assertEqual(record["scores"], [1.0, 0.5, 0.0])
-        self.assertEqual([d["id"] for d in record["docs"]], ["one::0", "one::1", "one::2"])
-
-    def test_a_corrupt_last_line_is_skipped_with_a_warning(self):
-        proxy, _ = build(path=self.path)
-        proxy.search("one")
-        with open(self.path, "a", encoding="utf-8") as handle:
-            handle.write('{"index": "idx", "encoder": "e5", "top_k": 3, "que')
-        warned = []
-        reopened, inner = build(DivergentRetriever(), path=self.path, warn=warned.append)
-        self.assertEqual(len(warned), 1)
-        self.assertIn("line 2", warned[0])
-        self.assertEqual(reopened.search("one")[0]["id"], "one::0")
-        self.assertEqual(inner.batch_calls, [])
-
-    def test_nothing_is_written_when_the_inner_call_fails(self):
-        class Broken:
-            def search(self, query, **kwargs):
-                raise AssertionError("unused")
-
-            def batch_search(self, queries, **kwargs):
-                raise RuntimeError("index unavailable")
-        proxy, _ = build(Broken(), path=self.path)
-        with self.assertRaisesRegex(RuntimeError, "index unavailable"):
-            proxy.search("one")
-        self.assertFalse(self.path.exists())
+    def test_a_kwargs_only_retriever_that_ignores_return_score_is_not_trusted(self):
+        proxy = CachingRetriever(KwargsOnlyRetriever(), index="idx", encoder="e5", top_k=3)
+        with self.assertRaisesRegex(TypeError, "must return"):
+            proxy.search("one", return_score=True)
+        self.assertTrue(proxy.store.contains(CacheKey("idx", "e5", 3, "one")) is False)
 
 
 class KeyTests(unittest.TestCase):
@@ -205,19 +213,25 @@ class KeyTests(unittest.TestCase):
         self.assertNotEqual(normalise_query("Paris"), normalise_query("paris"))
 
     def test_key_uses_the_configured_top_k_when_num_is_absent(self):
-        key = CacheKey.build({"index": "i", "encoder": "e", "top_k": 3}, " q ")
+        key = CacheKey.build(IDENTITY, " q ")
         self.assertEqual((key.top_k, key.query), (3, "q"))
-        self.assertEqual(CacheKey.build({"index": "i", "encoder": "e", "top_k": 3},
-                                        "q", num=7).top_k, 7)
+        self.assertEqual(CacheKey.build(IDENTITY, "q", num=7).top_k, 7)
 
-    def test_index_identity_tracks_size_and_invalid_paths(self):
+    def test_index_identity_changes_with_the_file_contents(self):
         handle = tempfile.NamedTemporaryFile("w", suffix=".idx", delete=False)
         handle.write("x")
         handle.close()
         self.addCleanup(lambda: Path(handle.name).unlink(missing_ok=True))
-        self.assertTrue(index_identity(handle.name).startswith(str(Path(handle.name).resolve())))
-        self.assertIn(str(Path("/nonexistent/x.idx")), index_identity("/nonexistent/x.idx"))
-        self.assertTrue(CacheStore(path=None).contains(CacheKey("i", "e", 1, "q")) is False)
+        before = index_identity(handle.name)
+        with open(handle.name, "a", encoding="utf-8") as stream:
+            stream.write("y")
+        after = index_identity(handle.name)
+        self.assertNotEqual(before, after)
+        self.assertTrue(before.startswith(str(Path(handle.name).resolve())))
+        self.assertIn(":1:", before)
+
+    def test_a_missing_index_file_still_gets_a_stable_identity(self):
+        self.assertIn("/nonexistent/x.idx", index_identity("/nonexistent/x.idx"))
 
 
 if __name__ == "__main__":

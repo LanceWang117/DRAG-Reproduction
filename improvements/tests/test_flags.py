@@ -52,6 +52,13 @@ class FlagValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(FlagError, "must be one of"):
             Flags({"answer_extractor": "fancy"})
 
+    def test_an_optional_flag_accepts_null_and_still_rejects_bad_values(self):
+        self.assertIsNone(Flags({"retrieval_cache": None}).retrieval_cache)
+        with self.assertRaisesRegex(FlagError, "expects str"):
+            Flags({"retrieval_cache": 3})
+        with self.assertRaisesRegex(FlagError, "must not be blank"):
+            Flags({"retrieval_cache": "  "})
+
 
 class FlagFileTests(unittest.TestCase):
     def write(self, text):

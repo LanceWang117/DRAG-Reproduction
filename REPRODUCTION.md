@@ -127,8 +127,9 @@ pools differed, and every one of them has a query longer than 57 characters. The
 Each query is stored in `<path>` as one JSONL line keyed by
 `(index, encoder, top_k, normalised query)`, with its documents and scores. A miss sends
 one `batch_search` for all missing queries in the request; repeats within a request are
-asked once, and the result order is preserved. Documents and score lists are deep-copied
-on the way out. A corrupt line on load is skipped with a warning, so a torn write cannot
-poison the run. A relative path resolves against the run directory, and a missing parent
-directory is created. Leave the flag at `null` (the default) for the bare baseline call:
-no proxy, no file.
+asked once, the first caller spelling is what the retriever sees, and the result order is
+preserved. Documents and score lists are deep-copied on the way out. On load a torn final
+line is truncated and any other unreadable line is skipped with a warning, so a partial
+write cannot poison later records. A relative path resolves against the run directory,
+and a missing parent directory is created. Leave the flag at `null` (the default) for the
+bare baseline call: no proxy, no file.

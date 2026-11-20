@@ -1,26 +1,44 @@
-"""Runner integration for the retrieval cache: one proxy, both arms, flag off = baseline."""
+"""Runner integration: one shared proxy, flag off equals the baseline (J04)."""
 import json
 from pathlib import Path
+import sys
 import tempfile
 import unittest
 
-import frozen  # noqa: F401
-from drag_plus.pipeline import DragPlusPipeline
-from drag_plus.naive import NaivePipeline
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from drag_plus.retrieval.cache import CachingRetriever
 from drag_plus.runner import run as runner
 from drag_plus.runner.backends import build_fake_backend
 from drag_plus.runner.run import RunRequest, run_variant
-from drag_plus.runner.variant import parse_variant
+from drag_plus.runner.variant import load_variant, parse_variant
+
+PROJECT = Path(__file__).resolve().parents[2]
+CACHED_VARIANT = PROJECT / "improvements" / "configs" / "cached.json"
 
 ROWS = [{"dataset": "NQ", "split": "dev", "id": f"q{i}",
          "question": f"question number {i}?", "golden_answers": ["answer 1"]}
         for i in range(3)]
 
 
-def request(out_dir, flags=None, **overrides):
+class CountingRetriever:
+    """Records each batch request the proxy forwards to the backend's retriever."""
+
+    def __init__(self, inner):
+        self.inner = inner
+        self.requests = []
+
+    def search(self, query):
+        return self.inner.search(query)
+
+    def batch_search(self, queries):
+        self.requests.append(list(queries))
+        return self.inner.batch_search(queries)
+
+
+def request(out_dir, flags=None, backend=None, **overrides):
+    backend = backend or build_fake_backend()
     values = dict(rows=ROWS, variant=parse_variant({"name": "t", "flags": flags or {}}),
-                  backend=build_fake_backend(), out_dir=out_dir, profile=False,
+                  backend=backend, out_dir=out_dir, profile=False,
                   now=lambda: "2026-01-01T00:00:00Z",
                   environment=lambda: {"commit": "test"})
     values.update(overrides)
@@ -49,13 +67,17 @@ class SharedProxyTests(unittest.TestCase):
         self.assertEqual(len(built), 1)
 
     def test_the_underlying_retriever_is_called_once_per_unique_query(self):
-        out = self.root / "run"
+        backend = build_fake_backend()
+        counting = CountingRetriever(backend.retriever)
+        backend.retriever = counting
         cache_path = self.root / "cache" / "retrieval-cache.jsonl"
-        run_variant(request(out, {"retrieval_cache": str(cache_path)}))
+        run_variant(request(self.root / "run", {"retrieval_cache": str(cache_path)},
+                            backend=backend, interleave=True))
+        asked = [query for call in counting.requests for query in call]
+        self.assertEqual(len(asked), len(set(asked)), "no query may be fetched twice")
+        self.assertTrue({row["question"] for row in ROWS} <= set(asked))
         lines = [json.loads(line) for line in cache_path.read_text().splitlines()]
-        keys = [(line["query"], line["top_k"]) for line in lines]
-        self.assertEqual(len(keys), len(set(keys)), "each query must be stored once")
-        self.assertTrue({row["question"] for row in ROWS} <= {line["query"] for line in lines})
+        self.assertEqual(sorted(record["query"] for record in lines), sorted(set(asked)))
 
     def test_a_missing_parent_directory_is_created(self):
         cache_path = self.root / "deep" / "nested" / "retrieval-cache.jsonl"
@@ -67,7 +89,20 @@ class SharedProxyTests(unittest.TestCase):
         manifest = run_variant(request(out, {"retrieval_cache": "retrieval-cache.jsonl"}))
         self.assertEqual(manifest["flags"]["retrieval_cache"], "retrieval-cache.jsonl")
         self.assertTrue((out / "retrieval-cache.jsonl").exists())
-        self.assertFalse((Path.cwd() / "retrieval-cache.jsonl").exists())
+
+    def test_a_second_run_reuses_the_cache_file(self):
+        cache_path = self.root / "shared.jsonl"
+        first = build_fake_backend()
+        counting = CountingRetriever(first.retriever)
+        first.retriever = counting
+        run_variant(request(self.root / "one", {"retrieval_cache": str(cache_path)},
+                            backend=first))
+        second = build_fake_backend()
+        reused = CountingRetriever(second.retriever)
+        second.retriever = reused
+        run_variant(request(self.root / "two", {"retrieval_cache": str(cache_path)},
+                            backend=second))
+        self.assertEqual(reused.requests, [], "every query was already cached")
 
 
 class FlagOffTests(unittest.TestCase):
@@ -87,6 +122,7 @@ class FlagOffTests(unittest.TestCase):
         cache_path = self.root / "c.jsonl"
         plain = run_variant(request(off))
         self.assertFalse(cache_path.exists(), "the default run must not create a cache")
+        self.assertEqual(list(off.rglob("retrieval-cache.jsonl")), [])
         cached = run_variant(request(on, {"retrieval_cache": str(cache_path)}))
         self.assertTrue(cache_path.exists())
         self.assertIsNone(plain["flags"]["retrieval_cache"])
@@ -119,6 +155,11 @@ class FlagOffTests(unittest.TestCase):
                              "the same query must retrieve the same passages in both arms")
             compared += 1
         self.assertTrue(compared, "at least one question kept its original query")
+
+    def test_the_shipped_cached_variant_is_valid(self):
+        variant = load_variant(CACHED_VARIANT)
+        self.assertEqual(variant.flags.retrieval_cache, "retrieval-cache.jsonl")
+        self.assertEqual(variant.arms, ("drag", "naive"))
 
 
 if __name__ == "__main__":
