@@ -1,0 +1,13 @@
+{
+  "name": "hybrid",
+  "description": "E5 dense and BM25 fused by weighted RRF; needs a BM25 index directory (E04 builds it)",
+  "flags": {
+    "retriever": "hybrid",
+    "bm25_index": "wiki_corpus/bm25",
+    "dense_top_k": 20,
+    "bm25_top_k": 20,
+    "hybrid_top_k": 3,
+    "rrf_k": 60
+  },
+  "arms": ["drag", "naive"]
+}
