@@ -1,5 +1,19 @@
-# Future improvements
+# Improvements
 
-Reserved for later improvement code, configurations, and experiment notes.
-No improvement has been implemented or evaluated here yet. Keep new variants
-separate from the recorded reproduction baseline and compare on fixed questions.
+`drag_plus/` is the team's pipeline package. With every flag at its default it behaves
+exactly like the recorded v1.0.1 baseline (`src/reproduction_changes/model/drag.py`), and
+`tests/test_golden_transcript.py` (T0) proves that call for call on scripted fakes.
+
+| Module | Role |
+| --- | --- |
+| `flags.py` | Validated flag registry; an unknown flag or a wrong type is an error |
+| `state.py` | Per-question state record; nothing persists on the pipeline between questions |
+| `adapters.py` | Protocols for the injected generator, retriever and prompt template |
+| `prompts.py` | Every baseline prompt string, verbatim |
+| `query_stage.py`, `answer_stage.py` | The two debate stages |
+| `pipeline.py` | Orchestration: `DragPlusPipeline(flags, generator, retriever, template, dataset).run(items)` |
+| `analysis/` | Scoring, the unified answer extractor and paired statistics |
+
+The package imports without FlashRAG, vLLM, torch or FAISS; the runner injects those
+objects. Keep new variants behind flags whose defaults equal the baseline, and compare
+on fixed questions.

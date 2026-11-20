@@ -15,6 +15,7 @@ PROBE = f"""
 import sys
 sys.path.insert(0, {str(PROJECT)!r})
 import improvements.drag_plus
+import improvements.drag_plus.pipeline, improvements.drag_plus.prompts
 import improvements.drag_plus.flags, improvements.drag_plus.state, improvements.drag_plus.adapters
 loaded = [m for m in {HEAVY!r} if m in sys.modules]
 print(','.join(loaded))
