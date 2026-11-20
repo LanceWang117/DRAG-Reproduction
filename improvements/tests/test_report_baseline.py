@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "improvements"))
 sys.path.insert(0, str(ROOT / "scripts"))
 from drag_plus.analysis.report import (  # noqa: E402
-    by_dataset, format_only_counts, load_pairs, pooled_summary)
+    by_dataset, format_only_counts, load_pairs, pooled_summary, render)
 import report_baseline  # noqa: E402
 
 PAIRS_PATH = ROOT / "results" / "paired-200.json"
@@ -59,6 +59,33 @@ class BaselineReportTests(unittest.TestCase):
         text = out.getvalue()
         self.assertIn("| **Pooled** | 200 |", text)
         self.assertIn("Holm rejects: none", text)
+
+
+def _pair(dataset, split, naive, drag, gold="Paris"):
+    return {"dataset": dataset, "split": split, "id": f"{dataset}-{naive}-{drag}",
+            "golden_answers": [gold], "naive_answer": naive, "drag_answer": drag}
+
+
+class EdgeCaseReportTests(unittest.TestCase):
+    def test_identical_arms_report_without_error(self):
+        # An A/A run: zero discordant pairs, so Connor's power figures are undefined.
+        pairs = [_pair("NQ", "dev", "Paris", "Paris"), _pair("NQ", "dev", "Rome", "Rome")]
+        summary = pooled_summary(pairs)
+        self.assertEqual(summary["p"], 1.0)
+        self.assertIsNone(summary["pairs_for_5pp"])
+        self.assertIsNone(summary["mde_pp"])
+        self.assertIn("pairs for 5 pp: n/a", render(pairs))
+
+    def test_unknown_dataset_is_kept_after_known_ones(self):
+        pairs = [_pair("MuSiQue", "dev", "Rome", "Paris"), _pair("NQ", "dev", "Paris", "Paris")]
+        rows = by_dataset(pairs)
+        self.assertEqual([row["dataset"] for row in rows], ["NQ", "MuSiQue"])
+        self.assertEqual(sum(row["n"] for row in rows), len(pairs))
+
+    def test_mixed_splits_are_all_named(self):
+        pairs = [_pair("PopQA", "test", "Paris", "Paris"), _pair("PopQA", "dev", "Paris", "Paris")]
+        self.assertEqual(by_dataset(pairs)[0]["split"], "dev+test")
+
 
 
 if __name__ == "__main__":

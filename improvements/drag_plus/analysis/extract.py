@@ -14,7 +14,9 @@ import re
 
 _MARKER = re.compile(r"(?:the answer is|final answer)\s*:", re.IGNORECASE)
 _TRAILING_PUNCTUATION = ".,;:!"
-_YES_NO = re.compile(r"^\W*(yes|no)\b", re.IGNORECASE)
+# Map only a bare yes/no or one followed by punctuation: "Yes, because ..." -> "Yes",
+# but "No one can say" stays as it is.
+_YES_NO = re.compile(r"^\W*(yes|no)(?:\W*$|\s*[,.;:!])", re.IGNORECASE)
 
 
 def _non_empty_lines(text):

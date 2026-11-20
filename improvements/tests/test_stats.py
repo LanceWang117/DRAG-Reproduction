@@ -92,6 +92,15 @@ class WilcoxonTests(unittest.TestCase):
         self.assertLess(result["p"], 0.001)
         self.assertEqual(result["w_plus"], 0.0)
 
+    def test_float_ties_are_grouped(self):
+        # 2/3 and 1 - 1/3 differ in the last ulp but are the same F1 difference.
+        float_ties = wilcoxon_signed_rank([2 / 3, 1 - 1 / 3, -0.5, 0.25, 0.8])
+        exact_ties = wilcoxon_signed_rank([2 / 3, 2 / 3, -0.5, 0.25, 0.8])
+        self.assertEqual(float_ties, exact_ties)
+
+    def test_near_zero_differences_are_dropped(self):
+        self.assertEqual(wilcoxon_signed_rank([1e-17, 1.0, 2.0])["n"], 2)
+
     def test_symmetric_differences_are_not_significant(self):
         self.assertGreater(wilcoxon_signed_rank([1, -1, 2, -2, 3, -3])["p"], 0.5)
 

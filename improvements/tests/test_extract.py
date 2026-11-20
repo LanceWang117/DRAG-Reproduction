@@ -47,6 +47,9 @@ class ExtractAnswerTests(unittest.TestCase):
         self.assertEqual(extract_answer("The answer is: yes, because", yes_no=True), "Yes")
         self.assertEqual(extract_answer("NO.", yes_no=True), "No")
         self.assertEqual(extract_answer("Nobody knows", yes_no=True), "Nobody knows")
+        self.assertEqual(extract_answer("The answer is: No one can say for sure", yes_no=True),
+                         "No one can say for sure")
+        self.assertEqual(extract_answer("Yes", yes_no=True), "Yes")
 
     def test_yes_no_off_leaves_text(self):
         self.assertEqual(extract_answer("yes, because", yes_no=False), "yes, because")

@@ -4,6 +4,7 @@ Every number is recomputed from the stored per-question answers with the FlashRA
 scorer and the paired statistics in this package; nothing is copied from summaries.
 """
 import json
+from math import sqrt
 
 from .score import score_answer
 from .stats import (discordant_counts, holm, mcnemar_p, minimum_detectable_effect,
@@ -41,14 +42,31 @@ def compare(pairs):
     }
 
 
+def _dataset_names(pairs):
+    present = {p["dataset"] for p in pairs}
+    known = [name for name in DATASET_ORDER if name in present]
+    return known + sorted(present - set(DATASET_ORDER))
+
+
 def by_dataset(pairs):
-    """Per-dataset comparison rows in the order used by the ledger."""
+    """Per-dataset rows: the ledger's order first, then any other datasets, sorted."""
     rows = []
-    for name in DATASET_ORDER:
+    for name in _dataset_names(pairs):
         group = [p for p in pairs if p["dataset"] == name]
-        if group:
-            rows.append({"dataset": name, "split": group[0]["split"], **compare(group)})
+        split = "+".join(sorted({p["split"] for p in group}))
+        rows.append({"dataset": name, "split": split, **compare(group)})
     return rows
+
+
+def _power_figures(n, psi):
+    """MDE and pairs needed; None where Connor's formula is undefined (psi too small)."""
+    def pairs_for(delta):
+        return required_pairs(psi, delta) if 0 < delta < sqrt(psi) else None
+    return {
+        "mde_pp": 100 * minimum_detectable_effect(n, psi) if psi > 0 else None,
+        "pairs_for_5pp": pairs_for(0.05),
+        "pairs_for_3pp": pairs_for(0.03),
+    }
 
 
 def format_only_counts(pairs):
@@ -79,9 +97,7 @@ def pooled_summary(pairs):
         "delta_f1": 100 * mean, "delta_f1_ci": (100 * low, 100 * high),
         "holm_rejects": [r["dataset"] for r, rej in zip(rows, holm([r["p"] for r in rows])) if rej],
         "discordance": psi,
-        "mde_pp": 100 * minimum_detectable_effect(pooled["n"], psi),
-        "pairs_for_5pp": required_pairs(psi, 0.05),
-        "pairs_for_3pp": required_pairs(psi, 0.03),
+        **_power_figures(pooled["n"], psi),
     }
 
 
@@ -108,6 +124,10 @@ def render(pairs):
               f"Format-only: {counts['drag_wins_format_only']} of {counts['drag_wins']} DRAG wins, "
               f"{counts['naive_wins_format_only']} of {counts['naive_wins']} Naive wins.",
               f"Discordance {summary['discordance']:.2f}; MDE at n = {summary['n']}: "
-              f"{summary['mde_pp']:.1f} pp; pairs for 5 pp: {summary['pairs_for_5pp']}, "
-              f"for 3 pp: {summary['pairs_for_3pp']}."]
+              f"{_maybe(summary['mde_pp'], '{:.1f} pp')}; pairs for 5 pp: "
+              f"{_maybe(summary['pairs_for_5pp'])}, for 3 pp: {_maybe(summary['pairs_for_3pp'])}."]
     return "\n".join(lines)
+
+
+def _maybe(value, template="{}"):
+    return "n/a" if value is None else template.format(value)

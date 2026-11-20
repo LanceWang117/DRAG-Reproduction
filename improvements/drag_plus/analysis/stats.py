@@ -111,8 +111,11 @@ def tost_paired(differences, margin, alpha=0.05):
             "equivalent": -margin < low and high < margin}
 
 
+_TIE_DECIMALS = 12  # float differences equal to 12 decimals are ties (e.g. 2/3 vs 1 - 1/3)
+
+
 def _signed_ranks(nonzero):
-    magnitudes = np.abs(nonzero)
+    magnitudes = np.round(np.abs(nonzero), _TIE_DECIMALS)
     order = magnitudes.argsort(kind="mergesort")
     ranks = np.empty(nonzero.size)
     ranks[order] = np.arange(1, nonzero.size + 1)
@@ -125,7 +128,7 @@ def _signed_ranks(nonzero):
 def wilcoxon_signed_rank(differences):
     """Two-sided Wilcoxon signed-rank test (normal approximation, ties corrected)."""
     values = np.asarray(differences, dtype=float)
-    nonzero = values[values != 0]
+    nonzero = values[np.round(values, _TIE_DECIMALS) != 0]
     n = nonzero.size
     if n == 0:
         return {"n": 0, "w_plus": 0.0, "z": 0.0, "p": 1.0}
