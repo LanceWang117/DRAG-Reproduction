@@ -225,3 +225,76 @@ the top-k passages), MRR, nDCG@k, the unique-title ratio, and p50/p99 retrieval 
 from the timing log. On the committed passages it gives 114/200 for each arm and 115/200
 for their union, which is how finding B17 recorded containment. Passages alone give
 105/200, so the two numbers are not interchangeable.
+
+### GPU retrieval
+
+Three flags control retrieval acceleration; all defaults reproduce the baseline:
+
+| Flag | Default | Meaning |
+| --- | --- | --- |
+| `faiss_gpu` | `false` | clone the FAISS index onto the visible GPUs in fp16 |
+| `gpu_memory_utilization` | `0.85` | vLLM's per-GPU reservation; lower it when the index is on the GPU |
+| `omp_threads` | `12` | `OMP_NUM_THREADS` and `MKL_NUM_THREADS` for the CPU parts |
+
+`OMP_NUM_THREADS` and `MKL_NUM_THREADS` are set from `omp_threads` at the start of
+backend construction, before `Config` (which imports torch), FAISS or vLLM are imported.
+FAISS reads the OpenMP variable for its CPU threads and MKL reads its setting when its
+shared library loads, so setting them later can be ignored. This also applies when
+`faiss_gpu` is false; a thread-only variant needs no GPU.
+
+With `faiss_gpu=true` the runner builds the retriever before the generator.
+`DenseRetriever` clones the index onto the GPUs in fp16 (`useFloat16=True`,
+`shard=True`) inside its constructor, while FlashRAG's vLLM generator reserves its KV
+pool inside its constructor. Generator-first would reserve the pool before the index
+copy and can exhaust the card. The CPU path keeps the recorded generator-first order. A
+CPU-only FAISS build, or a card that FAISS cannot see, fails immediately with the
+install pointer; the runner never falls back to CPU silently.
+
+`scripts/preflight_gpu.py` refuses a run before anything is loaded when the memory
+cannot fit:
+
+```
+required = gpu_memory_utilization * GPU total
+         + index_bytes / 2          # FAISS keeps an fp16 copy
+         + 0.5 GiB                  # E5 query encoder
+         + 3 GiB                    # allocator/CUDA context margin
+```
+
+An 80 GiB A100 with a 64.5 GiB fp32 index and `gpu_memory_utilization=0.45` needs
+71.75 GiB and passes; `0.85` needs 103.75 GiB and fails with the shortfall and the
+suggested fix. The script reads `nvidia-smi --query-gpu=memory.total` (summing visible
+cards); `--gpu-total-gib` is the offline path used by the PC tests.
+
+#### Install FAISS GPU on the Pod
+
+The pinned environment is Python 3.11, `torch==2.5.1` (CUDA 12.4 wheels) and
+`numpy==1.26.4`. Install the conda-forge CUDA 12 build. Do not use PyPI
+`faiss-gpu-cu12`: its cp311 builds start at 1.10.0 and require `numpy>=2`, which conflicts
+with the pinned numpy. FlashRAG's README suggests
+`conda install -c pytorch -c nvidia faiss-gpu=1.8.0`, but that channel's builds predate
+Python 3.11, so the pinned conda-forge build below is the reproducible route. Each
+command is **[E]** until it has run on the A100.
+
+```bash
+conda activate <drag-env>                                            # [E]
+pip uninstall -y faiss-cpu                                           # [E] conflicts with faiss-gpu
+conda install -y -c conda-forge "faiss=1.8.0=py311cuda120hebc9808_1_cuda"  # [E]
+python -c "import faiss; print(faiss.__version__, faiss.get_num_gpus())"   # [E] expect: 1.8.0 1
+```
+
+The conda-forge package constrains `faiss-cpu <0.0a0`, hence the explicit pip removal,
+and its `numpy >=1.23.5,<2` dependency matches `requirements.txt`. A different Python
+version needs a different build string. Then check the planned memory and run one
+question:
+
+```bash
+INDEX=wiki_corpus/e5_flat_inner.index
+python scripts/preflight_gpu.py --index-bytes "$(stat -c%s "$INDEX")" \
+    --gpu-memory-utilization 0.45                                    # [E]
+python scripts/run_variant.py --variant improvements/configs/s2-gpu-faiss.json \
+    --config config.local.json --dataset NQ --limit 1 --profile       # [E]
+```
+
+`improvements/configs/s2-gpu-faiss.json` sets `faiss_gpu=true`,
+`gpu_memory_utilization=0.45` and `omp_threads=12`. E01 measures the speed and memory;
+this section only makes the configuration safe and reproducible.

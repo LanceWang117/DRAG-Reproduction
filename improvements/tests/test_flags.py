@@ -17,7 +17,8 @@ BASELINE = {"max_query_debate_rounds": 3, "max_answer_debate_rounds": 3, "profil
             "rerank_model": "BAAI/bge-reranker-base", "per_title_cap": None,
             "skip_duplicate_query": False, "zero_novelty_exit": False,
             "response_rounds": None, "agent_max_tokens": None,
-            "moderator_max_tokens": None, "concise_agents": False}
+            "moderator_max_tokens": None, "concise_agents": False,
+            "faiss_gpu": False, "gpu_memory_utilization": 0.85, "omp_threads": 12}
 
 
 class FlagDefaultTests(unittest.TestCase):
