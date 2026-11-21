@@ -74,6 +74,15 @@ FLAG_SPECS: Tuple[FlagSpec, ...] = (
     FlagSpec("zero_novelty_exit", bool, False,
              doc="End the query stage when a search returns no passage ID the pool "
                  "did not already have before the action."),
+    FlagSpec("response_rounds", int, None, choices=(0, 1, 2, 3), optional=True,
+             doc="Answer-stage rounds (0 = answer-only); null inherits "
+                 "max_answer_debate_rounds."),
+    FlagSpec("agent_max_tokens", int, None, optional=True, minimum=1,
+             doc="Per-call max_tokens for answer agents; null leaves the backend default."),
+    FlagSpec("moderator_max_tokens", int, None, optional=True, minimum=1,
+             doc="Per-call max_tokens for the answer moderator; null leaves the default."),
+    FlagSpec("concise_agents", bool, False,
+             doc="Ask answer agents for at most two sentences before the answer marker."),
 )
 _SPECS_BY_NAME = {spec.name: spec for spec in FLAG_SPECS}
 

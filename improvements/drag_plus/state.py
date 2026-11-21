@@ -28,6 +28,7 @@ class QuestionState:
     status: str = "active"
     pred: Optional[str] = None
     raw_pred: Optional[str] = None
+    truncated: bool = False
     calls: List[dict] = field(default_factory=list)
     sink: Optional[Sink] = None
 

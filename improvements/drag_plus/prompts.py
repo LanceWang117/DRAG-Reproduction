@@ -34,6 +34,17 @@ _ANSWER_FORMAT_YES_NO = (
     "Explain your answer, and always put the answer after 'The answer is: ', "
     "e.g.'The answer is: Yes.', at the end of your response."
 )
+_CONCISE_ANSWER = (
+    "Use at most 2 sentences, then put the answer after 'The answer is: ', "
+    "e.g.'The answer is: answer.'."
+)
+
+
+def _answer_format(strategy_qa: bool, concise: bool) -> str:
+    """Agent answer-format text; ``concise`` keeps the same answer marker."""
+    if not concise:
+        return _ANSWER_FORMAT_YES_NO if strategy_qa else _ANSWER_FORMAT
+    return (_YES_NO_CHOICE + _CONCISE_ANSWER) if strategy_qa else _CONCISE_ANSWER
 _DEBATE_INTRO = (
     "I will give the answers and arguments to this question from other agents. "
     "Use their solution as additional advice; note that they may be wrong. "
@@ -96,8 +107,9 @@ def question_user(question: str) -> dict:
     return {"role": "user", "content": f"Question: {question}\n"}
 
 
-def answer_agent_system(agent_name: str, query_pool, strategy_qa: bool) -> dict:
-    fmt = _ANSWER_FORMAT_YES_NO if strategy_qa else _ANSWER_FORMAT
+def answer_agent_system(agent_name: str, query_pool, strategy_qa: bool,
+                        concise: bool = False) -> dict:
+    fmt = _answer_format(strategy_qa, concise)
     if "Proponent" in agent_name:
         return {"role": "system", "content": (
             f"Answer the question based on the given document. {fmt} "
@@ -116,9 +128,9 @@ def answer_only_system(query_pool, strategy_qa: bool) -> dict:
 
 
 def answer_debate_user(others: dict, question: str, round_index: int,
-                       strategy_qa: bool) -> dict:
+                       strategy_qa: bool, concise: bool = False) -> dict:
     """``others`` maps agent name to its chat history; round r reads index 2r."""
-    fmt = _ANSWER_FORMAT_YES_NO if strategy_qa else _ANSWER_FORMAT
+    fmt = _answer_format(strategy_qa, concise)
     text = f"{_DEBATE_INTRO}{fmt}Question: {question}\nOther agents responses:\n"
     for agent_name, history in others.items():
         text += f"{agent_name}: {history[round_index*2]['content']}\n"
