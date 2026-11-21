@@ -78,6 +78,27 @@ class DuplicateGuardTests(unittest.TestCase):
         self.assertEqual(list(state.query_pool), [QUESTION, DUPLICATE])
         self.assertEqual(exit_decisions(state), [])
 
+    def test_a_different_entity_is_searched_normally(self):
+        docs = {QUESTION: passages("q1"), DIFFERENT: passages("d1")}
+        outputs = (query_round("Opponent", f"weak. Query Expansion: {DIFFERENT}")
+                   + query_round("Proponent") + ANSWER)
+        state, _, retriever = run(QUESTION, outputs, docs, max_query_debate_rounds=2,
+                                  skip_duplicate_query=True)
+        self.assertEqual(retriever.calls, [QUESTION, DIFFERENT])
+        self.assertEqual(list(state.query_pool), [QUESTION, DIFFERENT])
+        self.assertEqual(exit_decisions(state), [])
+
+    def test_duplicate_exit_survives_round_counts_and_batching(self):
+        outputs = query_round("Opponent", f"weak. Query Expansion: {DUPLICATE}") + ANSWER
+        for rounds in (1, 2, 3):
+            for batched in (False, True):
+                with self.subTest(rounds=rounds, batched=batched):
+                    state, _, retriever = run(
+                        QUESTION, outputs, self.DOCS, max_query_debate_rounds=rounds,
+                        batch_agents_in_round=batched, skip_duplicate_query=True)
+                    self.assertEqual(retriever.calls, [QUESTION])
+                    self.assertEqual(exit_decisions(state)[0]["status"], "duplicate")
+
     def test_optimization_onto_its_own_key_is_a_duplicate(self):
         outputs = (query_round("Opponent",
                                f"weak. Query Optimization: {QUESTION} -> {QUESTION}")

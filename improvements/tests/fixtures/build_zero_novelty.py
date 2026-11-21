@@ -28,7 +28,7 @@ def _ids(passages: list) -> list:
     return [passage["id"] for passage in passages]
 
 
-def _multi_case(row: dict, question: str):
+def _multi_case(row: dict):
     steps, seen, exit_step = [], set(), None
     for query, passages in row["drag"].items():
         ids = _ids(passages)
@@ -67,7 +67,7 @@ def build(retrieval: Path = RETRIEVAL, questions: Path = QUESTIONS) -> dict:
     for row in rows:
         question = questions_by_id[row["id"]]
         if len(row["drag"]) > 1:
-            case = _multi_case(row, question)
+            case = _multi_case(row)
             if case is not None:
                 multi.append(case)
         elif _is_single_replacement(row, question) and len(single) < SINGLE_LIMIT:
