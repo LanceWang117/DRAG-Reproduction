@@ -38,13 +38,6 @@ _CONCISE_ANSWER = (
     "Use at most 2 sentences, then put the answer after 'The answer is: ', "
     "e.g.'The answer is: answer.'."
 )
-
-
-def _answer_format(strategy_qa: bool, concise: bool) -> str:
-    """Agent answer-format text; ``concise`` keeps the same answer marker."""
-    if not concise:
-        return _ANSWER_FORMAT_YES_NO if strategy_qa else _ANSWER_FORMAT
-    return (_YES_NO_CHOICE + _CONCISE_ANSWER) if strategy_qa else _CONCISE_ANSWER
 _DEBATE_INTRO = (
     "I will give the answers and arguments to this question from other agents. "
     "Use their solution as additional advice; note that they may be wrong. "
@@ -55,6 +48,13 @@ _MODERATOR_INTRO = (
 )
 _FINAL_ONLY = "Output only the final answer with no explanations or additional text."
 _YES_NO_CHOICE = "Given two answer candidates, Yes and No, choose the best answer choice. "
+
+
+def _answer_format(strategy_qa: bool, concise: bool) -> str:
+    """Agent answer-format text; ``concise`` keeps the same answer marker."""
+    if not concise:
+        return _ANSWER_FORMAT_YES_NO if strategy_qa else _ANSWER_FORMAT
+    return (_YES_NO_CHOICE + _CONCISE_ANSWER) if strategy_qa else _CONCISE_ANSWER
 
 
 def format_reference(retrieval_result) -> str:

@@ -15,10 +15,13 @@ from drag_plus.pipeline import DragPlusPipeline  # noqa: E402
 from drag_plus.query_stage import PROPONENT, OPPONENT  # noqa: E402
 from fakes import FakeRetriever, IdentityTemplate, RecordingItem, ScriptedGenerator
 from j06_helpers import run_plus, script
-from t0_scenarios import answer_rounds, query_round
+from t0_scenarios import query_round
 
 QUESTION = "who wrote it?"
-ZERO = lambda: 0.0  # noqa: E731 - a deterministic clock for every row
+
+
+def zero_clock():
+    return 0.0
 
 
 def answer_rows(state):
@@ -34,7 +37,7 @@ def run_budgeted(rounds, final_only=False, **flags):
     if rounds == 0:
         outputs += ["final answer"]
     item, gen, state = run_plus(outputs, values, query_rounds=1, answer_rounds=3,
-                                recorder=CallRecorder(ZERO))
+                                recorder=CallRecorder(zero_clock))
     return item, gen, state
 
 
@@ -96,7 +99,7 @@ class TruncationTests(unittest.TestCase):
         values = {"response_rounds": 1, "moderator_max_tokens": 3,
                   "answer_extractor": "unified", "profile_calls": True}
         item, _gen, state = run_plus(outputs, values, query_rounds=1, answer_rounds=3,
-                                     recorder=CallRecorder(ZERO))
+                                     recorder=CallRecorder(zero_clock))
         self.assertTrue(state.truncated)
         self.assertEqual(state.pred, "First line only")
         self.assertEqual(item.pred, "First line only")
@@ -109,7 +112,7 @@ class TruncationTests(unittest.TestCase):
         values = {"response_rounds": 1, "moderator_max_tokens": 32,
                   "profile_calls": True}
         _item, _gen, state = run_plus(outputs, values, query_rounds=1, answer_rounds=3,
-                                      recorder=CallRecorder(ZERO))
+                                      recorder=CallRecorder(zero_clock))
         self.assertFalse(state.truncated)
         row = [r for r in state.calls if r["stage"] == "answer_moderator"][-1]
         self.assertEqual((row["finish_reason"], row["output_tokens"]), ("stop", 4))
@@ -120,7 +123,7 @@ class TruncationTests(unittest.TestCase):
                       "The answer is: Paris"])
         values = {"response_rounds": 1, "agent_max_tokens": 3, "profile_calls": True}
         _item, _gen, state = run_plus(outputs, values, query_rounds=1, answer_rounds=3,
-                                      recorder=CallRecorder(ZERO))
+                                      recorder=CallRecorder(zero_clock))
         self.assertTrue(state.truncated)
         rows = answer_rows(state)
         self.assertEqual(rows[0]["finish_reason"], "length")
