@@ -1,4 +1,6 @@
 """Tests for the seeded, stratified test-set sampler."""
+import collections
+import hashlib
 import json
 from pathlib import Path
 import sys
@@ -9,6 +11,10 @@ IMPROVEMENTS = Path(__file__).resolve().parents[1]
 PROJECT = IMPROVEMENTS.parent
 sys.path.insert(0, str(PROJECT / "scripts"))
 import draw_testset  # noqa: E402
+
+EVIDENCE = PROJECT / "experiments" / "J05-testset"
+TEST_SET = EVIDENCE / "questions-test.jsonl"
+DEV = PROJECT / "results" / "questions-200.jsonl"
 
 
 def write_jsonl(path, rows):
@@ -116,6 +122,45 @@ class BuildTests(unittest.TestCase):
             (root / "strategyqa" / "train.jsonl").unlink()
             with self.assertRaises(FileNotFoundError):
                 draw_testset.build_testset(root, dev, 1, "seed")
+
+
+class CommittedArtifactTests(unittest.TestCase):
+    def setUp(self):
+        self.rows = draw_testset.read_jsonl(TEST_SET)
+
+    def test_committed_set_has_600_unique_rows_under_one_megabyte(self):
+        counts = collections.Counter(item["dataset"] for item in self.rows)
+        expected = collections.Counter({source.dataset: 100 for source in draw_testset.SOURCES})
+        keys = {(item["dataset"], item["split"], item["id"]) for item in self.rows}
+        texts = {draw_testset.normalise_question(item["question"]) for item in self.rows}
+        self.assertEqual(counts, expected)
+        self.assertEqual(len(self.rows), 600)
+        self.assertEqual((len(keys), len(texts)), (600, 600))
+        self.assertEqual([item["position"] for item in self.rows], list(range(600)))
+        self.assertLessEqual(TEST_SET.stat().st_size, 1024 * 1024)
+        for item in self.rows:
+            self.assertTrue(draw_testset.has_reference_answer(item))
+            self.assertEqual(set(item), {"dataset", "split", "id", "question",
+                                         "golden_answers", "position"})
+
+    def test_committed_set_has_zero_key_and_text_overlap_with_dev(self):
+        dev_keys, dev_texts = draw_testset.dev_exclusions(DEV)
+        keys = {(item["dataset"], item["split"], item["id"]) for item in self.rows}
+        texts = {draw_testset.normalise_question(item["question"]) for item in self.rows}
+        self.assertEqual(keys & dev_keys, set())
+        self.assertEqual(texts & dev_texts, set())
+
+    def test_checksums_cover_and_match_the_sealed_files(self):
+        entries = {}
+        for line in (EVIDENCE / "SHA256SUMS").read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                digest, name = line.split()
+                entries[name] = digest
+        self.assertEqual(set(entries),
+                         {"README.md", "PREREGISTRATION.md", "questions-test.jsonl"})
+        for name, digest in entries.items():
+            self.assertEqual(hashlib.sha256((EVIDENCE / name).read_bytes()).hexdigest(),
+                             digest, name)
 
 
 if __name__ == "__main__":
