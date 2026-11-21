@@ -5,8 +5,10 @@ only when profiling is on, so a run with ``profile_calls`` off makes the bare ba
 call and pays one ``if``. Rows land in the question's own ``calls`` list; the runner adds
 run, variant and question columns when it writes the log.
 
-Not captured (marked IC in the research note): vLLM request metrics and finish reasons,
-because FlashRAG's generator returns text only. ``finish_reason`` is therefore null.
+FlashRAG's generator returns text only, so the real vLLM request metadata is unavailable
+here (server track). J08 infers ``finish_reason`` from a per-call budget: ``length`` when
+the output reaches ``max_tokens``, ``stop`` when a budget is set but not reached, and null
+without a budget (the baseline call).
 """
 from __future__ import annotations
 
@@ -37,6 +39,21 @@ def _as_text(value: Any) -> str:
     return value if isinstance(value, str) else json.dumps(value, sort_keys=True)
 
 
+def _finish_reason(output_tokens: int, limit: Optional[int]) -> Optional[str]:
+    """Infer the reason from a per-call budget; FlashRAG returns text only."""
+    if limit is None:
+        return None
+    return "length" if output_tokens >= limit else "stop"
+
+
+def _batch_finish_reason(tokens: List[int], limit: Optional[int]) -> Optional[str]:
+    """One row per batch: report ``length`` if any output reached its cap."""
+    reasons = [_finish_reason(count, limit) for count in tokens]
+    if not reasons or reasons[0] is None:
+        return None
+    return "length" if "length" in reasons else "stop"
+
+
 class CallRecorder:
     """Time a call with an injected clock and token counter, and append one row."""
 
@@ -45,22 +62,26 @@ class CallRecorder:
         self._clock = clock
         self._count = count_tokens
 
-    def generation(self, info: CallInfo, prompt: Any, call: Callable[[], str]) -> str:
+    def generation(self, info: CallInfo, prompt: Any, call: Callable[[], str],
+                   limit: Optional[int] = None) -> str:
         start = self._clock()
         output = call()
-        row = self._row(info, start, 1, self._count(_as_text(prompt)),
-                        self._count(_as_text(output)))
+        output_tokens = self._count(_as_text(output))
+        row = self._row(info, start, 1, self._count(_as_text(prompt)), output_tokens,
+                        _finish_reason(output_tokens, limit))
         info.sink.append(row)
         return output
 
     def generation_batch(self, info: CallInfo, prompts: List[Any],
-                         call: Callable[[], List[str]]) -> List[str]:
+                         call: Callable[[], List[str]],
+                         limit: Optional[int] = None) -> List[str]:
         """One backend call for several prompts: one row, ``batch_size`` = prompt count."""
         start = self._clock()
         outputs = call()
+        output_tokens = [self._count(_as_text(output)) for output in outputs]
         row = self._row(info, start, len(outputs),
                         sum(self._count(_as_text(prompt)) for prompt in prompts),
-                        sum(self._count(_as_text(output)) for output in outputs))
+                        sum(output_tokens), _batch_finish_reason(output_tokens, limit))
         info.sink.append(row)
         return outputs
 
@@ -71,9 +92,10 @@ class CallRecorder:
         return result
 
     def _row(self, info: CallInfo, start: float, batch_size: int,
-             prompt_tokens: Optional[int], output_tokens: Optional[int]) -> dict:
+             prompt_tokens: Optional[int], output_tokens: Optional[int],
+             finish_reason: Optional[str] = None) -> dict:
         elapsed_ms = round((self._clock() - start) * 1000.0, 3)
         return {"stage": info.stage, "round": info.round, "role": info.role,
                 "batch_size": batch_size, "prompt_tokens": prompt_tokens,
-                "output_tokens": output_tokens, "finish_reason": None,
+                "output_tokens": output_tokens, "finish_reason": finish_reason,
                 "cache_hit": False, "t_start": start, "elapsed_ms": elapsed_ms}

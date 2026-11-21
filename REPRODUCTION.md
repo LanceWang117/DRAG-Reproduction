@@ -102,6 +102,14 @@ Each run writes `new-runs/<UTC>-<variant>/` (ignored by git) with:
   start and end, exit status and every resume;
 - `summary.json`: the metrics for each arm and dataset.
 
+Budget flags (J08): `response_rounds` (0-3, null inherits `max_answer_debate_rounds`)
+sets the answer-stage round count; `agent_max_tokens` and `moderator_max_tokens` are
+passed as per-call `max_tokens` (null leaves the generator/config default);
+`concise_agents` asks each answer agent for at most two sentences and keeps the answer
+marker. With a budget, `finish_reason` is inferred as `length` when the output reaches
+the cap and `stop` when it stays under, and `truncated` marks a budgeted answer that lost
+"The answer is:".
+
 `--resume` skips finished questions, drops a torn last checkpoint line, and refuses a
 different variant or `--interleave` setting. The logs of a resumed run equal those of an
 uninterrupted one. The fake backend's answers are meaningless: it exists to test the path.
