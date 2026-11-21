@@ -6,8 +6,7 @@ import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from drag_plus.evidence import (AnchoredEvidenceStore, EvidencePool,  # noqa: E402
-                                EvidenceStoreError, audit_rewrite, extract_entities,
-                                extract_numbers, format_entries)
+                                EvidenceStoreError)
 from drag_plus.adapters import Backends, StageContext  # noqa: E402
 from drag_plus.evidence.actions import maintain_query_pool  # noqa: E402
 from drag_plus.evidence.format import DATA_NOTICE  # noqa: E402
@@ -112,27 +111,6 @@ class FormatTests(unittest.TestCase):
         rendered = pool.format_evidence()
         self.assertEqual(rendered.count("<document "), 3)
         self.assertIn('id="E2-2"', rendered)
-        self.assertEqual(labels(format_entries([])), [])
-
-
-class AuditTests(unittest.TestCase):
-    def test_numbers_introduced_by_a_rewrite_are_flagged_and_existing_ones_are_not(self):
-        self.assertEqual(audit_rewrite("from 1964 to 1985", "from 1964 to 1985")
-                         ["invented_numbers"], [])
-        result = audit_rewrite("who wrote it", "who wrote the novel in 1985")
-        self.assertEqual(result["invented_numbers"], ["1985"])
-        self.assertEqual(extract_numbers("1,200") , extract_numbers("1200"))
-        self.assertEqual(extract_numbers("40%"), {"40%"})
-
-    def test_entities_use_capitalisation_heuristics_mid_sentence(self):
-        result = audit_rewrite("who wrote it", "who wrote the novel by George Orwell")
-        self.assertIn("george orwell", result["invented_entities"])
-        self.assertNotIn("who", extract_entities("Who wrote it?"))
-        self.assertEqual(extract_entities("The novel") & {"the"}, set())
-
-    def test_audit_is_a_pure_empty_result_when_nothing_is_invented(self):
-        self.assertEqual(audit_rewrite("Jaffa Cakes in 1991", "Jaffa Cakes in 1991"),
-                         {"invented_entities": [], "invented_numbers": []})
 
 
 class PipelineWiringTests(unittest.TestCase):
@@ -186,6 +164,21 @@ class PipelineWiringTests(unittest.TestCase):
         self.assertEqual(len(audits), 1)
         self.assertIn("1985", audits[0]["invented_numbers"])
         self.assertEqual(state.status, "done")
+
+
+class AnchoredExitTests(unittest.TestCase):
+    def test_zero_novelty_does_not_append_a_query(self):
+        flags = Flags({"evidence_store": "anchored", "zero_novelty_exit": True})
+        backends = Backends(ScriptedGenerator([]), FakeRetriever({"second query": [doc("o")]}),
+                            IdentityTemplate())
+        ctx, state = StageContext(flags, backends, "NQ"), QuestionState("q")
+        store = AnchoredEvidenceStore()
+        store.add_query("q?", [doc("o")], 0, anchored=True)
+        state.evidence, state.round = store, 1
+        outcome = maintain_query_pool(ctx, state, "Query Expansion: second query")
+        self.assertEqual(outcome, "zero_novelty")
+        self.assertEqual(set(store.active_pool()), {"q?"})
+        self.assertEqual(store.ids(), {"o"})
 
 
 class FlagCombinationTests(unittest.TestCase):

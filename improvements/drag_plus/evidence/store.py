@@ -74,7 +74,7 @@ class AnchoredEvidenceStore:
             rank += 1
         return rank
 
-    def supersede(self, query: str) -> bool:
+    def supersede(self, query: Optional[str]) -> bool:
         """Mark a non-original query superseded; its passages stay in the store."""
         record = self._queries.get(query)
         if record is None or record.anchored:
