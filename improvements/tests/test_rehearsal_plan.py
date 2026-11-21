@@ -6,7 +6,6 @@ import unittest
 import frozen  # noqa: F401
 from drag_plus.rehearsal.plan import (MAX_QUESTIONS, RehearsalError, check_manifest,
                                       classify, plan_arms, select_rows)
-from drag_plus.runner.variant import parse_variant
 
 PROJECT = Path(__file__).resolve().parents[2]
 DEV = PROJECT / "results" / "questions-200.jsonl"
@@ -89,15 +88,21 @@ class ArmTests(unittest.TestCase):
     def test_real_variant_files_classify(self):
         configs = PROJECT / "improvements" / "configs"
         plans = {p.name: p for p in plan_arms(
-            [parse_variant(json.loads((configs / f).read_text()))
+            [json.loads((configs / f).read_text())
              for f in ("baseline.json", "local-smoke.json", "hybrid.json")])}
         self.assertTrue(plans["baseline"].runnable)
         self.assertFalse(plans["hybrid"].runnable)
 
-    def test_duplicate_names_are_refused(self):
-        variant = parse_variant({"name": "same"})
+    def test_flags_unknown_to_the_registry_still_classify(self):
+        # faiss_gpu is added by a later job; planning works on the raw document.
+        plan = plan_arms([{"name": "gpu", "flags": {"faiss_gpu": True}}])[0]
+        self.assertFalse(plan.runnable)
+
+    def test_duplicate_or_missing_names_are_refused(self):
         with self.assertRaisesRegex(RehearsalError, "same"):
-            plan_arms([variant, variant])
+            plan_arms([{"name": "same"}, {"name": "same"}])
+        with self.assertRaisesRegex(RehearsalError, "name"):
+            plan_arms([{"flags": {}}])
 
 
 if __name__ == "__main__":

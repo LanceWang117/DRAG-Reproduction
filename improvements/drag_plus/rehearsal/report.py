@@ -15,7 +15,7 @@ from statistics import median
 from typing import Any, Dict, Iterable, List, Optional
 
 from ..instrument import logs
-from ..runner.smoke_summary import NOT_A_RESULT, summarise_run
+from ..runner.smoke_summary import summarise_run
 
 NOT_LLM_STAGES = ("retrieval", "rerank")
 RETRIEVAL_CAVEAT = ("RETRIEVAL CAVEAT: passages are replayed from results/; refined queries fall "
@@ -67,13 +67,21 @@ def arm_metrics(rows: List[dict], transcripts: List[dict], questions: int) -> Di
     }
 
 
+def _read_rows(path: Path) -> List[dict]:
+    """Rows of a log, or none if it is damaged (``summarise_run`` counts that as a schema error)."""
+    try:
+        return logs.read_lines(path)
+    except ValueError:
+        return []
+
+
 def variant_report(run_dir: Path) -> Dict[str, Any]:
     """The smoke summary of one variant's run plus its per-arm structural metrics."""
     run_dir = Path(run_dir)
     summary = summarise_run(run_dir)
     manifest = json.loads((run_dir / "run-manifest.json").read_text(encoding="utf-8"))
-    timings = logs.read_lines(run_dir / "stage-timings.jsonl")
-    transcripts = logs.read_lines(run_dir / "transcripts.jsonl")
+    timings = _read_rows(run_dir / "stage-timings.jsonl")
+    transcripts = _read_rows(run_dir / "transcripts.jsonl")
     by_arm_rows: Dict[str, List[dict]] = defaultdict(list)
     by_arm_transcripts: Dict[str, List[dict]] = defaultdict(list)
     for row in timings:

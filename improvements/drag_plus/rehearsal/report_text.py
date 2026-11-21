@@ -46,9 +46,9 @@ def _difference_lines(reports: Sequence[Dict[str, Any]]) -> List[str]:
     return lines
 
 
-def overall_ok(reports: Sequence[Dict[str, Any]]) -> bool:
-    """PASS needs at least one arm run and every run arm passing."""
-    return bool(reports) and all(report["ok"] for report in reports)
+def overall_ok(reports: Sequence[Dict[str, Any]], runnable: int = 0) -> bool:
+    """PASS needs at least one arm run, every runnable arm reported, and all passing."""
+    return bool(reports) and len(reports) >= runnable and all(r["ok"] for r in reports)
 
 
 def format_report(reports: Sequence[Dict[str, Any]], plans: Sequence[ArmPlan],
@@ -61,6 +61,11 @@ def format_report(reports: Sequence[Dict[str, Any]], plans: Sequence[ArmPlan],
         lines += _variant_lines(report, by_name[report["variant"]])
     for plan in skipped:
         lines.append(f"[SKIP] {plan.name}: " + "; ".join(plan.reasons))
+    reported = {report["variant"] for report in reports}
+    for plan in plans:
+        if plan.runnable and plan.name not in reported:
+            lines.append(f"[NOT RUN] {plan.name}: stopped after an earlier model-side error")
     lines += _difference_lines(reports)
-    lines.append(f"Overall: {'PASS' if overall_ok(reports) else 'FAIL'}")
+    runnable = sum(plan.runnable for plan in plans)
+    lines.append(f"Overall: {'PASS' if overall_ok(reports, runnable) else 'FAIL'}")
     return "\n".join(lines)

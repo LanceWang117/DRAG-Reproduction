@@ -8,7 +8,9 @@ import unittest
 
 import frozen  # noqa: F401
 import rehearse_local
-from drag_plus.rehearsal.report import arm_metrics, differences
+from drag_plus.rehearsal.plan import ArmPlan
+from drag_plus.rehearsal.report import arm_metrics, differences, variant_report
+from drag_plus.rehearsal.report_text import format_report
 from drag_plus.rehearsal.session import estimate_minutes, run_rehearsal
 from drag_plus.runner.backends import build_fake_backend
 from drag_plus.runner.local_generator import DEFAULT_MODEL
@@ -61,8 +63,8 @@ class SessionCase(unittest.TestCase):
         self.addCleanup(folder.cleanup)
         self.root = Path(folder.name)
 
-    def rehearse(self, root, backend=build_fake_backend):
-        job = SmokeJob("tiny:1b", ROWS, [BASELINE, SHORT], root, Path("r"), Path("q"))
+    def rehearse(self, root, backend=build_fake_backend, variants=(BASELINE, SHORT)):
+        job = SmokeJob("tiny:1b", ROWS, list(variants), root, Path("r"), Path("q"))
         return run_rehearsal(job, StubServer(), GOOD, lambda job_: backend(), progress=lambda m: None)
 
 
@@ -95,24 +97,54 @@ class SessionTests(SessionCase):
 
     def test_finished_variants_are_not_rerun_or_touched(self):
         self.rehearse(self.root / "done")
-        manifests = sorted((self.root / "done").glob("*/run-manifest.json"))
+        manifests = sorted((self.root / "done").glob("runs/*/run-manifest.json"))
         before = [path.read_text() for path in manifests]
         never = lambda: dataclasses.replace(build_fake_backend(), generator=DyingGenerator(0))
         reports = self.rehearse(self.root / "done", backend=never)
         self.assertTrue(all(report["ok"] for report in reports))
         self.assertEqual([path.read_text() for path in manifests], before)
 
+    def test_a_changed_finished_variant_fails_alone(self):
+        self.rehearse(self.root / "edit")
+        edited = parse_variant({"name": "short", "flags": {"max_query_debate_rounds": 2}})
+        baseline, short = self.rehearse(self.root / "edit", variants=(BASELINE, edited))
+        self.assertTrue(baseline["ok"])
+        self.assertFalse(short["ok"])
+        self.assertIn("differs", short["problems"][0])
+
+    def test_a_finished_run_from_another_model_is_not_reused(self):
+        self.rehearse(self.root / "model", variants=(SHORT,))
+        other = lambda: dataclasses.replace(
+            build_fake_backend(), describe=lambda: {"model": "ollama:other"})
+        (report,) = self.rehearse(self.root / "model", backend=other, variants=(SHORT,))
+        self.assertFalse(report["ok"])
+        self.assertIn("ollama:other", report["problems"][0])
+
+    def test_a_corrupt_log_is_reported_not_raised(self):
+        (report,) = self.rehearse(self.root / "corrupt", variants=(SHORT,))
+        log = Path(report["run_dir"]) / "transcripts.jsonl"
+        log.write_text(log.read_text() + "{not json}\n")
+        damaged = variant_report(Path(report["run_dir"]))
+        self.assertFalse(damaged["ok"])
+        self.assertGreater(damaged["schema_errors"], 0)
+
     def test_estimate_scales_with_rounds(self):
         self.assertGreater(estimate_minutes([BASELINE], 12), estimate_minutes([SHORT], 12))
 
 
 class ScriptTests(SessionCase):
+    def server(self, host, log):
+        if any("missing" in arg or "bad.json" in arg or "absent" in arg for arg in self.args):
+            raise AssertionError("a refused request must not touch the server")
+        return StubServer(models=(DEFAULT_MODEL,))
+
     def run_main(self, *args):
+        self.args = args
         out, err = io.StringIO(), io.StringIO()
         with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
             code = rehearse_local.main(
                 ["--resume", str(self.root), *args], hardware=lambda root: GOOD,
-                server_factory=lambda host, log: StubServer(models=(DEFAULT_MODEL,)),
+                server_factory=self.server,
                 backend_factory=lambda server: (lambda job: build_fake_backend()))
         return code, out.getvalue(), err.getvalue()
 
@@ -137,6 +169,42 @@ class ScriptTests(SessionCase):
                                      str(CONFIGS / "baseline.json"))
         self.assertEqual(code, 2)
         self.assertIn("test set", err)
+
+    def test_unrun_arms_are_listed(self):
+        plans = [ArmPlan("a", True, (), ()), ArmPlan("b", True, (), ())]
+        report = {"variant": "a", "ok": False, "completed": 0, "expected": 2,
+                  "parse_failures": 0, "empty_outputs": 0, "schema_errors": 0,
+                  "problems": ["timeout"], "run_dir": "x"}
+        text = format_report([report], plans, "ollama:x", 6)
+        self.assertIn("[NOT RUN] b", text)
+        self.assertIn("Overall: FAIL", text)
+
+    def test_future_server_only_flag_is_skipped_cleanly(self):
+        path = self.root / "gpu.json"
+        path.write_text('{"name": "gpu", "flags": {"faiss_gpu": true}}')
+        code, out, _ = self.run_main("--questions", "6", "--variant", str(path),
+                                     str(CONFIGS / "local-smoke.json"))
+        self.assertEqual(code, 0)
+        self.assertIn("[SKIP] gpu: faiss_gpu=True", out)
+
+    def test_refusals_happen_before_any_server(self):
+        bad_json = self.root / "bad.json"
+        bad_json.write_text("{not json")
+        cases = (["--replay", str(self.root / "missing.jsonl")], ["--variant", str(bad_json)],
+                 ["--variant", str(self.root / "absent.json")])
+        for extra in cases:
+            args = (["--variant", str(CONFIGS / "baseline.json")] if extra[0] == "--replay" else []) + extra
+            code, _, err = self.run_main(*args)
+            self.assertEqual(code, 2, extra)
+            self.assertIn("refused", err)
+
+    def test_resume_of_a_missing_directory_is_refused(self):
+        out, err = io.StringIO(), io.StringIO()
+        with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+            code = rehearse_local.main(["--resume", str(self.root / "nope"), "--variant",
+                                        str(CONFIGS / "baseline.json")])
+        self.assertEqual(code, 2)
+        self.assertIn("does not exist", err.getvalue())
 
     def test_bad_question_count_is_refused(self):
         code, _, err = self.run_main("--questions", "7", "--variant", str(CONFIGS / "baseline.json"))

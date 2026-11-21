@@ -6,6 +6,10 @@
   run without its feature. Server tuning flags run with a "no local effect" note.
 * Guards: only the dev manifest is accepted (the test set is touched once, on the A100,
   in E06), and two variants may not share a name (their run directories would collide).
+
+Arms are classified from the raw variant JSON, before ``parse_variant``: a server-only
+flag that the flag registry does not know yet (a later job adds it) must still give a
+clean skip, not a ``FlagError``.
 """
 from __future__ import annotations
 
@@ -94,9 +98,12 @@ def classify(name: str, raw: Dict[str, Any]) -> ArmPlan:
     return ArmPlan(name, not reasons, reasons, _matches(NOTE_RULES, flags))
 
 
-def plan_arms(variants: Sequence[Any]) -> List[ArmPlan]:
-    """One plan per variant, in order; duplicate names are refused."""
-    duplicates = sorted(n for n, count in Counter(v.name for v in variants).items() if count > 1)
+def plan_arms(raws: Sequence[Dict[str, Any]]) -> List[ArmPlan]:
+    """One plan per raw variant document, in order; duplicate names are refused."""
+    names = [raw.get("name") if isinstance(raw, dict) else None for raw in raws]
+    if any(not isinstance(name, str) for name in names):
+        raise RehearsalError("every variant file needs a string 'name'")
+    duplicates = sorted(n for n, count in Counter(names).items() if count > 1)
     if duplicates:
         raise RehearsalError(f"variant names must be unique, repeated: {duplicates}")
-    return [classify(variant.name, variant.raw) for variant in variants]
+    return [classify(name, raw) for name, raw in zip(names, raws)]

@@ -16,6 +16,7 @@ Exit status: 0 every run arm passed, 1 an arm failed or none could run,
 """
 import argparse
 import datetime
+import json
 import signal
 import sys
 from pathlib import Path
@@ -31,7 +32,8 @@ from drag_plus.runner.local_preflight import PreflightError, read_hardware  # no
 from drag_plus.runner.local_server import DEFAULT_HOST, OllamaServer, ServerError  # noqa: E402
 from drag_plus.runner.local_smoke import SmokeJob  # noqa: E402
 from drag_plus.runner.resume import ResumeError  # noqa: E402
-from drag_plus.runner.variant import load_variant  # noqa: E402
+from drag_plus.flags import FlagError  # noqa: E402
+from drag_plus.runner.variant import VariantError, parse_variant  # noqa: E402
 
 OUTPUT = PROJECT / 'new-runs/local-rehearsal'
 
@@ -51,15 +53,34 @@ def parse_args(argv):
     return parser.parse_args(argv)
 
 
-def _prepare(args):
+def _read_raw(path):
+    try:
+        return json.loads(Path(path).read_text(encoding='utf-8'))
+    except (OSError, json.JSONDecodeError) as error:
+        raise RehearsalError(f'cannot read variant file {path}: {error}') from error
+
+
+def _check_paths(args):
     check_manifest(args.manifest, MANIFEST)
-    rows = select_rows(select_questions(args.manifest), args.questions)
-    variants = [load_variant(path) for path in args.variant]
-    plans = plan_arms(variants)
-    runnable = [v for v, plan in zip(variants, plans) if plan.runnable]
+    for label, path in (('manifest', args.manifest), ('replay file', args.replay)):
+        if not Path(path).is_file():
+            raise RehearsalError(f'{label} not found: {path}')
+    if args.resume is not None and not args.resume.is_dir():
+        raise RehearsalError(f'cannot resume: {args.resume} does not exist')
+
+
+def _prepare(args):
+    """Validate everything before any server is touched; raise RehearsalError on refusal."""
+    _check_paths(args)
+    try:
+        rows = select_rows(select_questions(args.manifest), args.questions)
+        raws = [_read_raw(path) for path in args.variant]
+        plans = plan_arms(raws)
+        runnable = [parse_variant(raw) for raw, plan in zip(raws, plans) if plan.runnable]
+    except (VariantError, FlagError, ValueError) as error:
+        raise RehearsalError(str(error)) from error
     stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ')
-    root = args.resume or OUTPUT / stamp
-    return rows, runnable, plans, root
+    return rows, runnable, plans, args.resume or OUTPUT / stamp
 
 
 def default_server(host, log_path):
@@ -93,7 +114,7 @@ def main(argv=None, *, hardware=read_hardware, server_factory=default_server, ba
             print(f'Rehearsal refused: {error}', file=sys.stderr)
             return 2
     print(format_report(reports, plans, f'ollama:{args.model}', len(rows)))
-    return 0 if overall_ok(reports) else 1
+    return 0 if overall_ok(reports, len(runnable)) else 1
 
 
 if __name__ == '__main__':
