@@ -3,8 +3,10 @@ import collections
 import hashlib
 import json
 from pathlib import Path
+import re
 import sys
 import tempfile
+import unicodedata
 import unittest
 
 IMPROVEMENTS = Path(__file__).resolve().parents[1]
@@ -15,6 +17,13 @@ import draw_testset  # noqa: E402
 EVIDENCE = PROJECT / "experiments" / "J05-testset"
 TEST_SET = EVIDENCE / "questions-test.jsonl"
 DEV = PROJECT / "results" / "questions-200.jsonl"
+SEALED_SHA256 = "5d76fbe39c36e7b15a3bd4330e6909429f455ff4e885e79a2a0496c2ac338a38"
+
+
+def independent_normalise(text):
+    """Separate formulation of the documented normalisation, for the seal test."""
+    folded = unicodedata.normalize("NFKC", text).casefold()
+    return " ".join(re.sub(r"[\W_]+", " ", folded).split())
 
 
 def write_jsonl(path, rows):
@@ -53,7 +62,7 @@ class NormalisationTests(unittest.TestCase):
 
 
 class EligibilityTests(unittest.TestCase):
-    def test_excludes_dev_key_dev_text_empty_answers_and_duplicates(self):
+    def test_excludes_dev_key_dev_text_and_empty_answers(self):
         source = draw_testset.Source("StrategyQA", "strategyqa/train.jsonl", "train")
         rows = [
             row("StrategyQA", "train", "train_7", "A unique question"),
@@ -64,7 +73,7 @@ class EligibilityTests(unittest.TestCase):
         ]
         dev_keys = {("StrategyQA", "train", "train_7")}
         chosen = draw_testset.eligible_candidates(rows, source, dev_keys, {"what is alpha"})
-        self.assertEqual([item["id"] for item in chosen], ["train_3"])
+        self.assertEqual([item["id"] for item in chosen], ["train_3", "train_4"])
         self.assertEqual(chosen[0]["dataset"], "StrategyQA")
         self.assertEqual(chosen[0]["split"], "train")
 
@@ -74,18 +83,63 @@ class EligibilityTests(unittest.TestCase):
             [row("NQ", "test", "test_1", "  ")], source, set(), set())
         self.assertEqual(chosen, [])
 
+    def test_a_row_without_an_id_is_ineligible(self):
+        source = draw_testset.Source("NQ", "nq/test.jsonl", "test")
+        item = row("NQ", "test", None, "A question")
+        self.assertEqual(draw_testset.eligible_candidates([item], source, set(), set()), [])
+
+    def test_an_empty_dev_file_is_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dev = Path(tmp) / "dev.jsonl"
+            write_jsonl(dev, [])
+            with self.assertRaises(ValueError):
+                draw_testset.dev_exclusions(dev)
+
+    def test_candidate_order_does_not_depend_on_source_row_order(self):
+        source = draw_testset.Source("NQ", "nq/test.jsonl", "test")
+        rows = [row("NQ", "test", "test_2", "Beta?"), row("NQ", "test", "test_1", "Alpha?")]
+        first = draw_testset.eligible_candidates(rows, source, set(), set())
+        second = draw_testset.eligible_candidates(list(reversed(rows)), source, set(), set())
+        self.assertEqual([item["id"] for item in first], ["test_1", "test_2"])
+        self.assertEqual([item["id"] for item in first], [item["id"] for item in second])
+
 
 class DrawTests(unittest.TestCase):
     def test_draw_keeps_the_requested_number_in_a_seeded_order(self):
-        candidates = [{"dataset": "NQ", "id": f"test_{index}"} for index in range(5)]
+        candidates = [{"dataset": "NQ", "id": f"test_{index}", "question": f"Question {index}?"}
+                      for index in range(5)]
         first = draw_testset.draw(candidates, 2, "seed")
         second = draw_testset.draw(list(reversed(candidates)), 2, "seed")
         self.assertEqual(len(first), 2)
         self.assertEqual([item["id"] for item in first], [item["id"] for item in second])
 
     def test_shortfall_returns_every_eligible_row(self):
-        candidates = [{"dataset": "NQ", "id": "a"}, {"dataset": "NQ", "id": "b"}]
+        candidates = [{"dataset": "NQ", "id": "a", "question": "Alpha?"},
+                      {"dataset": "NQ", "id": "b", "question": "Beta?"}]
         self.assertEqual(len(draw_testset.draw(candidates, 10, "seed")), 2)
+
+    def test_draw_keeps_one_row_per_normalised_question(self):
+        candidates = [
+            {"dataset": "NQ", "id": "a", "question": "What is Delta?"},
+            {"dataset": "NQ", "id": "b", "question": "what is   delta"},
+            {"dataset": "NQ", "id": "c", "question": "What is Gamma?"},
+        ]
+        chosen = draw_testset.draw(candidates, 10, "seed")
+        self.assertEqual(len(chosen), 2)
+        self.assertEqual(len({draw_testset.normalise_question(item["question"]) for item in chosen}), 2)
+
+    def test_draw_skips_text_selected_by_an_earlier_dataset(self):
+        seen = set()
+        first = draw_testset.draw(
+            [{"dataset": "NQ", "id": "a", "question": "Same question?"}], 5, "seed", seen)
+        second = draw_testset.draw(
+            [{"dataset": "HotpotQA", "id": "b", "question": "same   question"}], 5, "seed", seen)
+        self.assertEqual(len(first), 1)
+        self.assertEqual(second, [])
+
+    def test_rank_key_is_pinned(self):
+        self.assertEqual(draw_testset.rank_key("20261121", "NQ", "test_0"),
+                         "0a0ca671c7568f324b562b05c2eee29332a36aecd52e69e64483091c179cecb9")
 
 
 class BuildTests(unittest.TestCase):
@@ -144,11 +198,16 @@ class CommittedArtifactTests(unittest.TestCase):
                                          "golden_answers", "position"})
 
     def test_committed_set_has_zero_key_and_text_overlap_with_dev(self):
-        dev_keys, dev_texts = draw_testset.dev_exclusions(DEV)
+        dev = draw_testset.read_jsonl(DEV)
+        dev_keys = {(item["dataset"], item["split"], str(item["id"])) for item in dev}
+        dev_texts = {independent_normalise(item["question"]) for item in dev}
         keys = {(item["dataset"], item["split"], item["id"]) for item in self.rows}
-        texts = {draw_testset.normalise_question(item["question"]) for item in self.rows}
+        texts = {independent_normalise(item["question"]) for item in self.rows}
         self.assertEqual(keys & dev_keys, set())
         self.assertEqual(texts & dev_texts, set())
+
+    def test_sealed_file_hash_is_pinned(self):
+        self.assertEqual(hashlib.sha256(TEST_SET.read_bytes()).hexdigest(), SEALED_SHA256)
 
     def test_checksums_cover_and_match_the_sealed_files(self):
         entries = {}

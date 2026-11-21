@@ -119,3 +119,42 @@ from committed Matplotlib scripts.
 This document is append-only. An amendment is a new dated section added in a
 commit made before the test run; it never edits sections 1–8. The original
 commit remains the pre-registration timestamp.
+
+## 10. Amendment A1 (2026-11-21, before any test run)
+
+This amendment predates the first test run and any model output. It clarifies
+implementation details and inlines the protocol clauses this document cites; it
+does not change the hypotheses, endpoints, α or exclusions in sections 1–8.
+
+1. **Draw order.** Section 2 is applied as: filter; rank each dataset's
+   candidates by `SHA-256("<seed>:<dataset>:<id>")`; then scan the ranked rows
+   and keep the first row of each unseen normalised question text until the
+   dataset has 100. The scan continues across datasets in the fixed order
+   2wiki, HotpotQA, NQ, PopQA, StrategyQA, TriviaQA, so no question text is
+   selected twice. Section 2's "already-selected candidate" means this scan.
+2. **Duplicate texts with conflicting answers.** When several source rows share
+   a normalised question but carry different reference answers, the
+   highest-ranked row supplies the selection, including its `golden_answers`.
+   Eight of the 600 selected rows come from such groups (all PopQA). They are
+   documented in the evidence README and are not excluded post hoc.
+3. **Bootstrap settings.** Every bootstrap interval in sections 3 and 4 (ΔEM,
+   F1 pooled and per dataset, latency median and p90) uses 10,000 resamples,
+   percentile 95% bounds and seed 2026, matching
+   `improvements/drag_plus/analysis/stats.py::paired_bootstrap_ci`.
+4. **Sample size.** The committed `required_pairs(0.19, 0.05)` returns 595; the
+   protocol rounds this to "about 590". At n = 600 the MDE is 4.98 pp.
+5. **Confirmatory family.** Each configuration frozen in
+   `experiments/E06/FROZEN.md` is one separate pre-registered comparison tested
+   at α = 0.05. All are reported, with no selection among them; the report does
+   not claim a family-wise error rate across configurations. Holm–Bonferroni
+   applies only within the six-dataset secondary family.
+6. **Protocol clauses cited above, inlined.** Pairing: same questions, same
+   retrieval cache, same answer extractor, same commit and environment; the
+   baseline is E00's rerun, never the historical results. Reporting: EM, F1,
+   acc and Recall@k; calls and tokens per question; median and p90 seconds per
+   question and questions/hour; startup time; peak VRAM; the A/A floor; every
+   p-value, CI and the MDE.
+7. **Checksums and amendments.** `SHA256SUMS` seals this document and the
+   question file. An amendment updates `SHA256SUMS` and the checksum test in the
+   same commit; the SHA-256 of `questions-test.jsonl` must never change once the
+   first test run starts.
