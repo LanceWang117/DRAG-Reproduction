@@ -105,7 +105,7 @@ class TruncationTests(unittest.TestCase):
 
     def test_a_complete_budgeted_output_logs_stop(self):
         outputs = (query_round("Proponent")
-                   + ["proponent answer", "opponent answer", "The answer is: Paris"])
+                   + ["proponent answer", "opponent answer", "the answer is: Paris"])
         values = {"response_rounds": 1, "moderator_max_tokens": 32,
                   "profile_calls": True}
         _item, _gen, state = run_plus(outputs, values, query_rounds=1, answer_rounds=3,

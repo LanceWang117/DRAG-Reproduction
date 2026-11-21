@@ -35,7 +35,7 @@ def _budget_params(budget: Optional[int]) -> dict:
 
 def _truncated(output: str, budget: Optional[int]) -> bool:
     """A budgeted answer without its marker is presumed cut off before the answer."""
-    return budget is not None and FINAL_ANSWER_PREFIX not in output
+    return budget is not None and FINAL_ANSWER_PREFIX.lower() not in output.lower()
 
 
 def _agent_prompt(ctx: StageContext, state: QuestionState, round_index: int, agent: str):

@@ -47,6 +47,7 @@ def _finish_reason(output_tokens: int, limit: Optional[int]) -> Optional[str]:
 
 
 def _batch_finish_reason(tokens: List[int], limit: Optional[int]) -> Optional[str]:
+    """One row per batch: report ``length`` if any output reached its cap."""
     reasons = [_finish_reason(count, limit) for count in tokens]
     if not reasons or reasons[0] is None:
         return None
