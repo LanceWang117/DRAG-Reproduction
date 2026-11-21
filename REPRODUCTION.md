@@ -226,6 +226,27 @@ from the timing log. On the committed passages it gives 114/200 for each arm and
 for their union, which is how finding B17 recorded containment. Passages alone give
 105/200, so the two numbers are not interchangeable.
 
+### Anchored evidence
+
+`evidence_store="anchored"` keeps an append-only, `doc_id`-keyed evidence store per
+question. The original question's passages are anchored, so a query Optimization or
+Expansion can add passages and supersede later queries but cannot evict them. Duplicate
+passages are dropped and each surviving passage gets a global label `E{qid}-{rank}`
+(query ordinal, first-seen order). `evidence_delimiters=true` renders every passage as a
+`<document id="E..." title="...">` block with a data-not-instructions notice;
+`rewrite_novelty_audit=true` logs entities and numbers a rewrite invents. All three
+default to the baseline (`dict`, `false`, `false`).
+
+`scripts/replay_evidence.py` estimates the recall effect from the committed passages.
+It substitutes the Naive arm's passages for the original retrieval an Optimization may
+have deleted, so its output is an approximation, not a rerun. On the 175 non-StrategyQA
+dev questions it gives 92/175 for the stored final pool and 102/175 for the anchored
+union (gold-string recall, 0.5257 vs 0.5829).
+
+```bash
+python scripts/replay_evidence.py
+```
+
 ### GPU retrieval
 
 Three flags control retrieval acceleration; all defaults reproduce the baseline:

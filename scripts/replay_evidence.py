@@ -4,7 +4,7 @@ The committed dump has the final DRAG pool only. An Optimization that deleted th
 original query's passages is invisible there, so this replay substitutes the Naive
 arm's passages as a proxy for the deleted original retrieval. That proxy is imperfect
 (B2: Naive and DRAG retrieve different passages), so the numbers are an estimate, not
-a rerun. The script reports gold-string recall for:
+a rerun. The script reports question-level gold-string recall for:
 
 * ``baseline``: the final DRAG pool exactly as stored;
 * ``anchored``: the same pool plus the Naive proxy unioned by passage id.
@@ -41,10 +41,11 @@ def unique(passages):
     """First occurrence of each passage id, preserving deterministic order."""
     seen, ordered = set(), []
     for passage in passages:
-        key = str(passage.get('id'))
-        if key not in seen:
-            seen.add(key)
-            ordered.append(passage)
+        key = passage.get('id')
+        if key is None or str(key) in seen:
+            continue
+        seen.add(str(key))
+        ordered.append(passage)
     return ordered
 
 

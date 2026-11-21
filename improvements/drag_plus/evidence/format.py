@@ -44,13 +44,19 @@ def _escape(value: str) -> str:
             .replace(">", "&gt;").replace('"', "&quot;"))
 
 
+def _escape_body(text: str) -> str:
+    """Escape tag characters so a passage cannot close the document block."""
+    return (str(text).replace("&", "&amp;").replace("<", "&lt;")
+            .replace(">", "&gt;"))
+
+
 def format_entry(entry: EvidenceEntry, delimiters: bool = False) -> str:
     """One labelled passage; delimiters add an explicit data boundary."""
     title, text = split_title(entry.contents)
     if not delimiters:
         return f"{entry.label}(Title: {title}) {text}"
     return (f'<document id="{entry.label}" title="{_escape(title)}">\n'
-            f"{text}\n</document>")
+            f"{_escape_body(text)}\n</document>")
 
 
 def format_entries(entries: Iterable[EvidenceEntry], delimiters: bool = False) -> str:
