@@ -3,6 +3,9 @@
 Reproduces the v1.0.1 behaviour: the moderator runs after every round and each round
 overwrites ``pred``, so the last round wins; round ``r`` shows each agent the other's
 round ``r-1`` answer (history index ``2r``).
+
+``moderator_final_only`` runs the moderator once, after the last round, with the same
+last-round prompt; the rounds 0..R-2 ``AnswerStage_Moderator_Round*`` keys are absent.
 """
 from __future__ import annotations
 
@@ -31,6 +34,11 @@ def _agent_turn(ctx: StageContext, state: QuestionState, round_index: int, agent
     state.emit(f"AnswerStage_{agent}_Round{round_index}_InputPrompt", prompt)
     state.emit(f"AnswerStage_{agent}_Round{round_index}_Output", output)
     state.answer_messages[agent].append({"role": "assistant", "content": output})
+
+
+def _moderator_due(ctx: StageContext, round_index: int, rounds: int) -> bool:
+    """With moderator_final_only only the last round is moderated (paper Eq. 13)."""
+    return not ctx.flags.moderator_final_only or round_index == rounds - 1
 
 
 def _moderate(ctx: StageContext, state: QuestionState, round_index: int) -> None:
@@ -69,4 +77,5 @@ def run_answer_stage(ctx: StageContext, state: QuestionState) -> None:
         state.round = round_index
         for agent in AGENTS:
             _agent_turn(ctx, state, round_index, agent)
-        _moderate(ctx, state, round_index)
+        if _moderator_due(ctx, round_index, rounds):
+            _moderate(ctx, state, round_index)

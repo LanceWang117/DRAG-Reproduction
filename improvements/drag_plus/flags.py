@@ -36,6 +36,8 @@ FLAG_SPECS: Tuple[FlagSpec, ...] = (
              doc="Record one timing row per generator and retriever call."),
     FlagSpec("answer_extractor", str, "native", choices=("native", "unified"),
              doc="native keeps the raw moderator text as pred; unified applies E(.)."),
+    FlagSpec("moderator_final_only", bool, False,
+             doc="Answer moderator runs once, after the last round (paper Eq. 13)."),
     FlagSpec("retrieval_cache", str, None, optional=True,
              doc="Path to retrieval-cache.jsonl; null disables the caching proxy."),
     FlagSpec("retriever", str, "e5", choices=("e5", "hybrid"),
