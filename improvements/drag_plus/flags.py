@@ -68,6 +68,12 @@ FLAG_SPECS: Tuple[FlagSpec, ...] = (
              doc="Cross-encoder id used when rerank_k is set."),
     FlagSpec("per_title_cap", int, None, optional=True, minimum=1,
              doc="Keep at most this many passages per article title; null keeps all."),
+    FlagSpec("skip_duplicate_query", bool, False,
+             doc="Skip the search and end the query stage when a proposed query is "
+                 "effectively already in the pool (normalised token set)."),
+    FlagSpec("zero_novelty_exit", bool, False,
+             doc="End the query stage when a search returns no passage ID the pool "
+                 "did not already have before the action."),
 )
 _SPECS_BY_NAME = {spec.name: spec for spec in FLAG_SPECS}
 

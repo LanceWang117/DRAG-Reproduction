@@ -14,11 +14,17 @@ import Levenshtein
 from . import prompts
 from .adapters import BATCH_ROLE, StageContext
 from .judge_decision import JudgeDecision, resolve_judge_decision
+from .query_norm import is_duplicate_query
 from .state import QuestionState
 
 PROPONENT = "Proponent Agent 0"
 OPPONENT = "Opponent Agent 0"
 AGENTS = (PROPONENT, OPPONENT)
+
+ACTION_APPLIED = "applied"
+ACTION_NONE = "no_action"
+EXIT_DUPLICATE = "duplicate"
+EXIT_ZERO_NOVELTY = "zero_novelty"
 
 
 class QueryPoolError(ValueError):
@@ -34,29 +40,73 @@ def find_most_similar_key(pool: dict, target: str) -> Optional[str]:
     return best_key
 
 
-def _apply_action(ctx: StageContext, state: QuestionState, text: str) -> Optional[dict]:
+def _split_optimization(instruction: str):
+    if "->" in instruction:
+        parts = instruction.split("->")
+        return parts[0].strip(), parts[1].strip()
+    return instruction, instruction
+
+
+def _pool_ids(pool: dict) -> set:
+    return {passage.get("id") for passages in pool.values() for passage in passages
+            if passage.get("id") is not None}
+
+
+def _has_new_id(passages: list, before: set) -> bool:
+    found = {passage.get("id") for passage in passages if passage.get("id") is not None}
+    return bool(found - before)
+
+
+def _is_pool_duplicate(query: str, pool: dict) -> bool:
+    return is_duplicate_query(query, pool)
+
+
+def _optimize(ctx: StageContext, state: QuestionState, instruction: str) -> str:
     pool = state.query_pool
-    call = state.call("retrieval", "retriever")
+    original, new_query = _split_optimization(instruction)
+    old_key = find_most_similar_key(pool, original)
+    if ctx.flags.skip_duplicate_query and _is_pool_duplicate(new_query, pool):
+        return EXIT_DUPLICATE
+    before = _pool_ids(pool)
+    saved = list(pool.items()) if ctx.flags.zero_novelty_exit else None
+    pool.pop(old_key)
+    passages = ctx.backends.search(new_query, call=state.call("retrieval", "retriever"))
+    if ctx.flags.zero_novelty_exit and not _has_new_id(passages, before):
+        pool.clear()
+        pool.update(saved)
+        return EXIT_ZERO_NOVELTY
+    pool[new_query] = passages
+    return ACTION_APPLIED
+
+
+def _expand(ctx: StageContext, state: QuestionState, new_query: str) -> str:
+    pool = state.query_pool
+    if ctx.flags.skip_duplicate_query and _is_pool_duplicate(new_query, pool):
+        return EXIT_DUPLICATE
+    before = _pool_ids(pool)
+    passages = ctx.backends.search(new_query, call=state.call("retrieval", "retriever"))
+    if ctx.flags.zero_novelty_exit and not _has_new_id(passages, before):
+        return EXIT_ZERO_NOVELTY
+    pool[new_query] = passages
+    return ACTION_APPLIED
+
+
+def _apply_action(ctx: StageContext, state: QuestionState, text: str) -> str:
     if "Query Optimization:" in text:
-        instruction = text.split("Query Optimization:")[1].strip()
-        if "->" in instruction:
-            parts = instruction.split("->")
-            original, new_query = parts[0].strip(), parts[1].strip()
-        else:
-            original = new_query = instruction
-        pool.pop(find_most_similar_key(pool, original))
-        pool[new_query] = ctx.backends.search(new_query, call=call)
-    elif "Query Expansion:" in text:
-        new_query = text.split("Query Expansion:")[1].strip()
-        pool[new_query] = ctx.backends.search(new_query, call=call)
-    else:
-        return None
-    return pool
+        return _optimize(ctx, state, text.split("Query Optimization:")[1].strip())
+    if "Query Expansion:" in text:
+        return _expand(ctx, state, text.split("Query Expansion:")[1].strip())
+    return ACTION_NONE
 
 
 def maintain_query_pool(ctx: StageContext, state: QuestionState,
-                        opponent_output: str) -> Optional[dict]:
-    """Apply the Opponent's action in place; None means it proposed no action."""
+                        opponent_output: str) -> str:
+    """Apply the Opponent's action in place; returns an action or exit outcome.
+
+    ``EXIT_DUPLICATE`` means the duplicate guard skipped the search and the stage must
+    end; ``EXIT_ZERO_NOVELTY`` means the search added no passage ID and the pool is
+    restored to its pre-action contents. ``ACTION_NONE`` means no action was proposed.
+    """
     try:
         return _apply_action(ctx, state, opponent_output)
     except Exception as error:
@@ -133,8 +183,12 @@ def _continues_after(ctx: StageContext, state: QuestionState, verdict: JudgeDeci
         return True
     if verdict.decision == "Proponent":
         return False
-    updated = maintain_query_pool(ctx, state, state.query_messages[OPPONENT][1])
-    return updated is not None
+    outcome = maintain_query_pool(ctx, state, state.query_messages[OPPONENT][1])
+    if outcome in (EXIT_DUPLICATE, EXIT_ZERO_NOVELTY):
+        state.decisions.append({"stage": "query", "round": state.round,
+                                "decision": "query_exit", "status": outcome})
+        return False
+    return outcome == ACTION_APPLIED
 
 
 def run_query_stage(ctx: StageContext, state: QuestionState) -> None:
