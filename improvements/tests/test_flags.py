@@ -10,7 +10,7 @@ from drag_plus.flags import FLAG_SPECS, FlagError, Flags, load_flags  # noqa: E4
 
 BASELINE = {"max_query_debate_rounds": 3, "max_answer_debate_rounds": 3, "profile_calls": False,
             "answer_extractor": "native", "moderator_final_only": False,
-            "retrieval_cache": None, "retriever": "e5",
+            "batch_agents_in_round": False, "retrieval_cache": None, "retriever": "e5",
             "dense_top_k": 20, "bm25_top_k": 20, "hybrid_top_k": 3, "rrf_k": 60,
             "dense_weight": 1.0, "bm25_weight": 1.0, "dense_score_floor": None,
             "bm25_score_floor": None, "bm25_index": None, "rerank_k": None,

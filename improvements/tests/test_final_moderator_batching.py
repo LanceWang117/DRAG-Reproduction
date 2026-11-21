@@ -1,108 +1,27 @@
-"""J06 T-flag test, step 1: ``moderator_final_only``.
+"""J06 T-flag tests: final-only moderator and intra-round agent batching.
 
-The flag must be answer-preserving: with it on, the answer stage makes exactly 2R + 1
-generations, and the final moderator prompt, every agent prompt and ``pred`` equal the
-frozen v1.0.1 pipeline's. Only the rounds 0..R-2 moderator outputs are absent.
+Both flags are answer-preserving. The reference is the frozen v1.0.1 pipeline: with a
+flag on, every emitted output and every generator prompt must match it, except for the
+two documented groupings (one 2-prompt call per round; early moderator keys absent).
 """
 import unittest
 
-import frozen
-from drag_plus.flags import Flags
+from drag_plus.adapters import GeneratorContractError, prompt_count
 from drag_plus.instrument.timing import CallRecorder
-from drag_plus.pipeline import DragPlusPipeline
-from fakes import FakeRetriever, IdentityTemplate, RecordingItem, ScriptedGenerator
-from t0_scenarios import query_round
+from drag_plus.query_stage import AGENTS
+from j06_helpers import (drop_early_moderator_outputs, drop_early_moderator_prompts,
+                         prompts_of, run_baseline, run_plus, script)
 
-QUESTION = "who wrote it?"
-MODERATOR_MARKER = "You are a moderator in a debate competition"
-
-
-class FrozenBaseline(frozen.DebateAugmentedRAG):
-    def evaluate(self, dataset, do_eval=True):
-        return dataset
-
-
-def script(answer_rounds, final_only=False):
-    """One query round that ends, then R answer rounds.
-
-    A final-only script omits the moderator outputs of rounds 0..R-2: those calls are
-    never made, so the baseline's script would leave them unconsumed.
-    """
-    outputs = query_round("Proponent")
-    for r in range(answer_rounds):
-        outputs += [f"proponent answer {r}", f"opponent answer {r}"]
-        if not final_only or r == answer_rounds - 1:
-            outputs.append(f"The answer is: moderator {r}")
-    return outputs
-
-
-def run_baseline(outputs, rounds):
-    gen, ret, template = ScriptedGenerator(outputs), FakeRetriever(), IdentityTemplate()
-    pipeline = FrozenBaseline(
-        {"dataset_name": "NQ"}, prompt_template=template, max_query_debate_rounds=1,
-        max_answer_debate_rounds=rounds, generator=gen, retriever=ret)
-    item = RecordingItem(QUESTION)
-    pipeline.run([item])
-    return item, gen
-
-
-def run_plus(outputs, values=None, rounds=2, recorder=None):
-    gen, ret, template = ScriptedGenerator(outputs), FakeRetriever(), IdentityTemplate()
-    flags = {"max_query_debate_rounds": 1, "max_answer_debate_rounds": rounds,
-             **(values or {})}
-    pipeline = DragPlusPipeline(Flags(flags), gen, ret, template, "NQ", recorder=recorder)
-    item = RecordingItem(QUESTION)
-    return item, gen, pipeline.run_item(item)
-
-
-def prompts_of(calls):
-    return [prompts for prompts, _params in calls]
-
-
-def is_moderator_prompt(prompt):
-    return isinstance(prompt, list) and any(
-        MODERATOR_MARKER in message.get("content", "") for message in prompt)
-
-
-def drop_early_moderator_prompts(prompts, rounds):
-    """Baseline prompts minus the moderator prompts of rounds 0..R-2, in order."""
-    kept, seen = [], 0
-    for prompt in prompts:
-        if is_moderator_prompt(prompt):
-            seen += 1
-            if seen < rounds:
-                continue
-        kept.append(prompt)
-    return kept
-
-
-def is_early_moderator(key, rounds):
-    if not key.startswith("AnswerStage_Moderator_Round"):
-        return False
-    return int(key.split("Round")[1].split("_")[0]) < rounds - 1
-
-
-def drop_early_moderator_outputs(calls, rounds):
-    """The baseline transcript minus the early moderator outputs and their pred writes."""
-    total_preds = sum(1 for key, _ in calls if key == "pred")
-    kept, seen = [], 0
-    for key, value in calls:
-        if key == "pred" and seen < total_preds - 1:
-            seen += 1
-            continue
-        if not is_early_moderator(key, rounds):
-            kept.append((key, value))
-    return kept
+PROPONENT, OPPONENT = AGENTS
 
 
 class FinalModeratorTests(unittest.TestCase):
     def answer_generations(self, rounds):
         _item, gen, state = run_plus(
-            script(rounds, final_only=True),
-            {"moderator_final_only": True, "profile_calls": True}, rounds=rounds,
-            recorder=CallRecorder(lambda: 0.0))
-        rows = [row for row in state.calls
-                if row["stage"] in ("answer_agent", "answer_moderator")]
+            script(1, rounds, final_only=True),
+            {"moderator_final_only": True, "profile_calls": True},
+            query_rounds=1, answer_rounds=rounds, recorder=CallRecorder(lambda: 0.0))
+        rows = [r for r in state.calls if r["stage"] in ("answer_agent", "answer_moderator")]
         return rows, gen
 
     def test_answer_stage_makes_two_r_plus_one_generations(self):
@@ -116,9 +35,11 @@ class FinalModeratorTests(unittest.TestCase):
     def test_final_prompt_and_pred_equal_the_baseline(self):
         for rounds in (1, 2, 3):
             with self.subTest(rounds=rounds):
-                base, base_gen = run_baseline(script(rounds), rounds)
-                item, plus_gen, _ = run_plus(script(rounds, final_only=True),
-                                             {"moderator_final_only": True}, rounds=rounds)
+                base, base_gen = run_baseline(script(1, rounds), query_rounds=1,
+                                              answer_rounds=rounds)
+                item, plus_gen, _ = run_plus(
+                    script(1, rounds, final_only=True), {"moderator_final_only": True},
+                    query_rounds=1, answer_rounds=rounds)
                 last = f"AnswerStage_Moderator_Round{rounds - 1}_InputPrompt"
                 self.assertEqual(item.output[last], base.output[last])
                 self.assertEqual(item.pred, base.pred)
@@ -127,27 +48,115 @@ class FinalModeratorTests(unittest.TestCase):
                                                               rounds))
 
     def test_only_the_last_moderator_keys_remain(self):
-        base, _ = run_baseline(script(2), 2)
-        item, _, _ = run_plus(script(2, final_only=True), {"moderator_final_only": True})
+        base, _ = run_baseline(script(2, 2))
+        item, _, _ = run_plus(script(2, 2, final_only=True), {"moderator_final_only": True})
         self.assertEqual(item.calls, drop_early_moderator_outputs(base.calls, 2))
         self.assertEqual(item.pred, base.pred)
 
     def test_answer_only_path_is_unchanged(self):
-        outputs = query_round("Proponent") + ["final answer"]
-        base, base_gen = run_baseline(outputs, 0)
+        outputs = script(1, 0) + ["final answer"]
+        base, base_gen = run_baseline(outputs, query_rounds=1, answer_rounds=0)
         for final_only in (False, True):
             with self.subTest(final_only=final_only):
                 item, gen, _ = run_plus(outputs, {"moderator_final_only": final_only},
-                                        rounds=0)
+                                        query_rounds=1, answer_rounds=0)
                 self.assertEqual(prompts_of(gen.calls), prompts_of(base_gen.calls))
                 self.assertEqual(item.calls, base.calls)
-                self.assertEqual(item.pred, base.pred)
+                self.assertEqual(item.pred, "final answer")
 
     def test_flag_off_makes_the_baseline_call_count(self):
-        base, base_gen = run_baseline(script(3), 3)
-        _item, gen, _ = run_plus(script(3), rounds=3)
+        base, base_gen = run_baseline(script(2, 3), answer_rounds=3)
+        _item, gen, _ = run_plus(script(2, 3), answer_rounds=3)
         self.assertEqual(len(gen.calls), len(base_gen.calls))
-        self.assertEqual(len(gen.calls), 3 + 3 * 3)
+        self.assertEqual(len(gen.calls), 2 * 3 + 3 * 3)
+
+
+class BatchingTests(unittest.TestCase):
+    def test_one_two_prompt_call_per_round_in_both_stages(self):
+        _item, gen, _ = run_plus(script(), {"batch_agents_in_round": True})
+        sizes = [prompt_count(prompts) for prompts, _ in gen.calls]
+        self.assertEqual(sizes, [2, 1, 2, 1, 2, 1, 2, 1])
+
+    def test_each_prompt_is_the_baseline_prompt_in_order(self):
+        base, base_gen = run_baseline(script())
+        item, plus_gen, _ = run_plus(script(), {"batch_agents_in_round": True})
+        self.assertEqual(prompts_of(plus_gen.calls), prompts_of(base_gen.calls))
+        self.assertEqual(item.calls, base.calls)
+        self.assertEqual(item.pred, base.pred)
+
+    def test_outputs_are_mapped_to_roles_by_position(self):
+        item, gen, state = run_plus(script(), {"batch_agents_in_round": True})
+        batches = [prompts for prompts, _ in gen.calls if prompt_count(prompts) == 2]
+        query_batches = [batch for batch in batches
+                         if "Argue that the current retrieved content" in batch[0][0]["content"]]
+        first, last = query_batches[0], query_batches[-1]
+        self.assertIn("challenge the sufficiency of the current retrieved content",
+                      first[1][0]["content"])
+        self.assertEqual(state.query_messages[PROPONENT], [last[0], "proponent argument "])
+        self.assertEqual(state.query_messages[OPPONENT], [last[1], "no action here"])
+        self.assertEqual(item.output[f"AnswerStage_{PROPONENT}_Round0_Output"],
+                         "proponent answer 0")
+        self.assertEqual(item.output[f"AnswerStage_{OPPONENT}_Round0_Output"],
+                         "opponent answer 0")
+
+    def test_a_batched_call_is_one_timing_row_with_batch_size_two(self):
+        _item, _gen, state = run_plus(
+            script(1, 1), {"batch_agents_in_round": True, "profile_calls": True},
+            query_rounds=1, answer_rounds=1, recorder=CallRecorder(lambda: 0.0))
+        rows = [(row["stage"], row["role"], row["batch_size"]) for row in state.calls
+                if row["stage"] in ("query_agent", "answer_agent")]
+        self.assertEqual(rows, [("query_agent", "agents", 2),
+                                ("answer_agent", "agents", 2)])
+
+    def test_flag_off_sends_one_prompt_at_a_time(self):
+        _item, gen, _ = run_plus(script())
+        self.assertEqual({prompt_count(prompts) for prompts, _ in gen.calls}, {1})
+
+
+class CombinationTests(unittest.TestCase):
+    def test_all_four_combinations_preserve_prompts_and_pred(self):
+        base, base_gen = run_baseline(script())
+        base_prompts = prompts_of(base_gen.calls)
+        for final_only in (False, True):
+            for batched in (False, True):
+                with self.subTest(final_only=final_only, batched=batched):
+                    item, gen, _ = run_plus(
+                        script(final_only=final_only),
+                        {"moderator_final_only": final_only,
+                         "batch_agents_in_round": batched})
+                    expected = (drop_early_moderator_prompts(base_prompts, 2) if final_only
+                                else base_prompts)
+                    self.assertEqual(prompts_of(gen.calls), expected)
+                    self.assertEqual(item.pred, base.pred)
+                    sizes = [prompt_count(prompts) for prompts, _ in gen.calls]
+                    self.assertEqual(set(sizes), {2, 1} if batched else {1})
+                    moderators = [k for k, _ in item.calls
+                                  if k.startswith("AnswerStage_Moderator_Round")]
+                    self.assertEqual(len(moderators), 2 if final_only else 4)
+
+
+class ContractTests(unittest.TestCase):
+    class ShortGenerator:
+        def generate(self, prompts, **params):
+            return ["only one output"]
+
+    class SwappedGenerator:
+        """Correct outputs in the wrong order, so a positional mapping must show it."""
+
+        def generate(self, prompts, **params):
+            count = prompt_count(prompts)
+            return [f"output {i}" for i in reversed(range(count))]
+
+    def test_a_short_batch_is_a_clear_error(self):
+        with self.assertRaisesRegex(GeneratorContractError, "1 outputs for 2 prompts"):
+            run_plus(script(), {"batch_agents_in_round": True},
+                     generator=self.ShortGenerator())
+
+    def test_roles_follow_output_position_not_output_text(self):
+        _item, _gen, state = run_plus(script(), {"batch_agents_in_round": True},
+                                     generator=self.SwappedGenerator())
+        self.assertEqual(state.query_messages[PROPONENT][1], "output 1")
+        self.assertEqual(state.query_messages[OPPONENT][1], "output 0")
 
 
 if __name__ == "__main__":

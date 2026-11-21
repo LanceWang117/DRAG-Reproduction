@@ -9,6 +9,7 @@ from __future__ import annotations
 import hashlib
 from typing import Any, Dict, List
 
+from ..adapters import prompt_count
 from ..analysis.score import score_answer
 
 
@@ -20,8 +21,9 @@ class FakeGenerator:
     """Pick a reply by the role markers the baseline prompts contain."""
 
     def generate(self, prompts: Any, **params: Any) -> List[str]:
-        text = prompts if isinstance(prompts, str) else "\n".join(prompts)
-        return [self._reply(text)]
+        batch = prompts if prompt_count(prompts) > 1 else [prompts]
+        return [self._reply(prompt if isinstance(prompt, str) else "\n".join(prompt))
+                for prompt in batch]
 
     @staticmethod
     def _reply(text: str) -> str:

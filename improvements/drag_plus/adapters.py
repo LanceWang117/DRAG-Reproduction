@@ -14,6 +14,25 @@ from .flags import Flags
 from .instrument.timing import CallInfo, CallRecorder
 
 
+class GeneratorContractError(ValueError):
+    """A generator returned a different number of outputs than prompts."""
+
+
+BATCH_ROLE = "agents"
+"""Timing-row role of a batched two-agent call: one backend call, two prompts."""
+
+
+def prompt_count(prompts: Any) -> int:
+    """How many prompts one ``generate`` call carries.
+
+    A single prompt is a string or a message list; a batch is a list of prompts, so
+    its first element is not a message dict.
+    """
+    if isinstance(prompts, list) and prompts and not isinstance(prompts[0], dict):
+        return len(prompts)
+    return 1
+
+
 @runtime_checkable
 class Generator(Protocol):
     def generate(self, prompts: Any, **params: Any) -> List[str]: ...
@@ -56,6 +75,19 @@ class Backends:
         if self.recorder is None or call is None:
             return invoke()
         return self.recorder.generation(call, prompt, invoke)
+
+    def complete_batch(self, prompts: List[Any], *, call: Optional[CallInfo] = None,
+                       **params: Any) -> List[str]:
+        """One generation returning ``len(prompts)`` outputs, mapped back by position."""
+        def invoke() -> List[str]:
+            outputs = list(self.generator.generate(prompts, **params))
+            if len(outputs) != len(prompts):
+                raise GeneratorContractError(
+                    f"generator returned {len(outputs)} outputs for {len(prompts)} prompts")
+            return outputs
+        if self.recorder is None or call is None:
+            return invoke()
+        return self.recorder.generation_batch(call, prompts, invoke)
 
     def search(self, query: str, *, call: Optional[CallInfo] = None) -> List[dict]:
         if self.recorder is None or call is None:
