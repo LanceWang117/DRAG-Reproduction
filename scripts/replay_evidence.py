@@ -67,6 +67,7 @@ def recalled(passages, golden_answers):
 
 
 def score(policy, records, questions):
+    """Question-level gold-string recall over the non-StrategyQA records."""
     rows = [(record, questions[record['id']]) for record in records
             if record['id'] in questions
             and questions[record['id']].get('dataset') != 'StrategyQA']
@@ -93,6 +94,7 @@ def print_report(report):
 
 
 def parse_args(argv):
+    """Parse the replay command line."""
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--retrieval', type=Path, default=RETRIEVAL,
@@ -104,6 +106,7 @@ def parse_args(argv):
 
 
 def main(argv=None):
+    """Print the report and optionally write it as JSON; returns 0."""
     args = parse_args(argv)
     report = run(args.retrieval, args.questions)
     print_report(report)

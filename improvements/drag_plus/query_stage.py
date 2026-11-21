@@ -69,6 +69,7 @@ def _judge(ctx: StageContext, state: QuestionState, round_index: int) -> JudgeDe
     state.emit(f"{prefix}_Output", output)
 
     def retry() -> str:
+        """Re-ask the Judge once with the retry instruction."""
         retry_message = message + [{"role": "assistant", "content": output},
                                    prompts.judge_retry_user()]
         retry_prompt = ctx.backends.render(retry_message)

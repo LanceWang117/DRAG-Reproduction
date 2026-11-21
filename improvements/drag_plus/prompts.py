@@ -58,6 +58,7 @@ def _answer_format(strategy_qa: bool, concise: bool) -> str:
 
 
 def format_reference(retrieval_result) -> str:
+    """Render one query's passages in the baseline ``Doc i(Title: t) text`` format."""
     out = ""
     for idx, doc_item in enumerate(retrieval_result):
         content = doc_item["contents"]
@@ -113,6 +114,7 @@ def question_user(question: str) -> dict:
 
 def answer_agent_system(agent_name: str, query_pool, strategy_qa: bool,
                         concise: bool = False) -> dict:
+    """Grounded Proponent or closed-book Opponent system message."""
     fmt = _answer_format(strategy_qa, concise)
     if "Proponent" in agent_name:
         return {"role": "system", "content": (

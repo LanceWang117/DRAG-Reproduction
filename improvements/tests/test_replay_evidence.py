@@ -20,6 +20,7 @@ def write_jsonl(path, rows):
 
 class ReplayTests(unittest.TestCase):
     def make_inputs(self, folder):
+        """Write tiny question/retrieval fixtures and return their paths."""
         questions = [
             {"dataset": "NQ", "split": "dev", "id": "q1", "question": "q1?",
              "golden_answers": ["Paris"]},

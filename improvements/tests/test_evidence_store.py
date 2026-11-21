@@ -30,30 +30,37 @@ class AnchoredStoreTests(unittest.TestCase):
     def test_generated_action_sequences_never_evict_or_duplicate(self):
         rng = random.Random(10)
         for case in range(40):
-            store = AnchoredEvidenceStore()
-            original = [f"o{case}-{i}" for i in range(3)]
-            store.add_query("original?", [doc(d) for d in original], 0, anchored=True)
-            stable = {entry.doc_id: entry.label for entry in store.entries}
-            supersedable = []
-            for round_index in range(1, rng.randint(2, 5)):
-                query = f"q{case}-{round_index}"
-                added = [f"q{case}-{round_index}-{i}" for i in range(3)]
-                store.add_query(query, [doc(d) for d in added], round_index)
-                supersedable.append(query)
-                if rng.random() < 0.5:
-                    store.supersede(rng.choice(supersedable))
-                with self.subTest(case=case, round=round_index):
-                    self.assertTrue(set(original) <= store.ids())
-                    self.assertTrue(set(original) <= {e.doc_id for e in store.entries})
-                    self.assertEqual(len(labels(store.entries)), len(set(labels(store.entries))))
-                    self.assertEqual(len(store.entries), len(store.ids()))
-                    for entry in store.entries:
-                        if entry.doc_id in stable:
-                            self.assertEqual(entry.label, stable[entry.doc_id])
-                    rendered = store.format(delimiters=True)
-                    self.assertIn(DATA_NOTICE, rendered)
-                    for doc_id in original:
-                        self.assertIn(doc_id, rendered)
+            self.run_generated_case(case, rng)
+
+    def run_generated_case(self, case, rng):
+        """Exercise one random action sequence and check the store invariants."""
+        store = AnchoredEvidenceStore()
+        original = [f"o{case}-{i}" for i in range(3)]
+        store.add_query("original?", [doc(d) for d in original], 0, anchored=True)
+        stable = {entry.doc_id: entry.label for entry in store.entries}
+        supersedable = []
+        for round_index in range(1, rng.randint(2, 5)):
+            query = f"q{case}-{round_index}"
+            store.add_query(query, [doc(f"{query}-{i}") for i in range(3)], round_index)
+            supersedable.append(query)
+            if rng.random() < 0.5:
+                store.supersede(rng.choice(supersedable))
+            self.check_invariants(case, round_index, store, original, stable)
+
+    def check_invariants(self, case, round_index, store, original, stable):
+        """Assert no eviction, no duplicate id/label and a complete data block."""
+        with self.subTest(case=case, round=round_index):
+            self.assertTrue(set(original) <= store.ids())
+            self.assertTrue(set(original) <= {e.doc_id for e in store.entries})
+            self.assertEqual(len(labels(store.entries)), len(set(labels(store.entries))))
+            self.assertEqual(len(store.entries), len(store.ids()))
+            for entry in store.entries:
+                if entry.doc_id in stable:
+                    self.assertEqual(entry.label, stable[entry.doc_id])
+            rendered = store.format(delimiters=True)
+            self.assertIn(DATA_NOTICE, rendered)
+            for doc_id in original:
+                self.assertIn(doc_id, rendered)
 
     def test_duplicate_doc_ids_are_skipped_and_labels_stay_stable(self):
         store = AnchoredEvidenceStore()
