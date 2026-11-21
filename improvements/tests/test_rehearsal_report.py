@@ -179,6 +179,16 @@ class ScriptTests(SessionCase):
         self.assertIn("[NOT RUN] b", text)
         self.assertIn("Overall: FAIL", text)
 
+    def test_finish_reasons_fall_back_to_generator_stats(self):
+        plans = [ArmPlan("a", True, (), ())]
+        metrics = arm_metrics([row("answer_agent", finish=None)], [], 1)
+        report = {"variant": "a", "ok": True, "completed": 1, "expected": 1, "parse_failures": 0,
+                  "empty_outputs": 0, "schema_errors": 0, "problems": [], "run_dir": "x",
+                  "arms": {"drag": metrics}, "generator": {"finish_reasons": {"stop": 1}}}
+        text = format_report([report], plans, "ollama:x", 6)
+        self.assertIn("finish not in timing rows", text)
+        self.assertIn("generator finish reasons (all arms): {'stop': 1}", text)
+
     def test_future_server_only_flag_is_skipped_cleanly(self):
         path = self.root / "gpu.json"
         path.write_text('{"name": "gpu", "flags": {"faiss_gpu": true}}')

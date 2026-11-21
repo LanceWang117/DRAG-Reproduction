@@ -12,6 +12,13 @@ def _fmt(value: Any, spec: str = "{:.2f}") -> str:
     return "n/a" if value is None else spec.format(value)
 
 
+def _finish(reasons: Dict[Any, int]) -> str:
+    # Timing rows may carry no finish reason (the local backend counts them only in its
+    # generator stats, shown once per variant), so an all-None tally is not printed.
+    known = {key: count for key, count in reasons.items() if key is not None}
+    return str(known) if known else "not in timing rows"
+
+
 def _arm_lines(arm: str, m: Dict[str, Any]) -> List[str]:
     return [
         f"       {arm}: {m['llm_calls_per_question']:.2f} model calls/q, "
@@ -19,7 +26,7 @@ def _arm_lines(arm: str, m: Dict[str, Any]) -> List[str]:
         f"{m['query_rounds']:.2f}, answer rounds {m['answer_rounds']:.2f}",
         f"         prompt tokens median {_fmt(m['prompt_tokens_median'], '{:.0f}')} / p90 "
         f"{_fmt(m['prompt_tokens_p90'], '{:.0f}')}, output median "
-        f"{_fmt(m['output_tokens_median'], '{:.0f}')}; finish {m['finish_reasons']}; "
+        f"{_fmt(m['output_tokens_median'], '{:.0f}')}; finish {_finish(m['finish_reasons'])}; "
         f"judge {m['judge_statuses'] or '-'}; local time {m['local_seconds']:.0f}s (not comparable)"]
 
 
@@ -30,6 +37,9 @@ def _variant_lines(report: Dict[str, Any], plan: ArmPlan) -> List[str]:
              f"schema errors {report['schema_errors']}"]
     for arm, metrics in report.get("arms", {}).items():
         lines += _arm_lines(arm, metrics)
+    generator = report.get("generator") or {}
+    if generator.get("finish_reasons"):
+        lines.append(f"       generator finish reasons (all arms): {generator['finish_reasons']}")
     lines += [f"       note: {note}" for note in plan.notes]
     lines += [f"       problem: {problem}" for problem in report["problems"]]
     return lines + [f"       run directory: {report['run_dir']}"]

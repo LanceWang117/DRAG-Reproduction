@@ -23,8 +23,10 @@ from ..runner.run import RunRequest, run_variant
 from ..runner.variant import Variant
 from .report import variant_report
 
-DRAG_SECONDS_PER_ROUND = 10  # ~60 s per question at 3 + 3 rounds on llama3.2:3b (J04b)
-NAIVE_SECONDS = 10
+# Measured in the L01 live rehearsal (llama3.2:3b, GTX 1660 Ti, 6 dev questions): baseline DRAG
+# 174 s/question over 6 rounds, the 1 + 1 round variant 46 s/question, Naive 5 s/question.
+DRAG_SECONDS_PER_ROUND = 28
+NAIVE_SECONDS = 5
 
 BackendFactory = Callable[[SmokeJob], Any]
 
