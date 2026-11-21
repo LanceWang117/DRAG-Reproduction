@@ -88,6 +88,50 @@ class TokenBudgetTests(unittest.TestCase):
         self.assertEqual(rows[0]["batch_size"], 2)
 
 
+class TruncationTests(unittest.TestCase):
+    def test_a_truncated_moderator_still_predicts_via_e_first_line(self):
+        outputs = (query_round("Proponent")
+                   + ["proponent answer", "opponent answer",
+                      "First line only\nnever finished"])
+        values = {"response_rounds": 1, "moderator_max_tokens": 3,
+                  "answer_extractor": "unified", "profile_calls": True}
+        item, _gen, state = run_plus(outputs, values, query_rounds=1, answer_rounds=3,
+                                     recorder=CallRecorder(ZERO))
+        self.assertTrue(state.truncated)
+        self.assertEqual(state.pred, "First line only")
+        self.assertEqual(item.pred, "First line only")
+        row = [r for r in state.calls if r["stage"] == "answer_moderator"][-1]
+        self.assertEqual((row["finish_reason"], row["output_tokens"]), ("length", 5))
+
+    def test_a_complete_budgeted_output_logs_stop(self):
+        outputs = (query_round("Proponent")
+                   + ["proponent answer", "opponent answer", "The answer is: Paris"])
+        values = {"response_rounds": 1, "moderator_max_tokens": 32,
+                  "profile_calls": True}
+        _item, _gen, state = run_plus(outputs, values, query_rounds=1, answer_rounds=3,
+                                      recorder=CallRecorder(ZERO))
+        self.assertFalse(state.truncated)
+        row = [r for r in state.calls if r["stage"] == "answer_moderator"][-1]
+        self.assertEqual((row["finish_reason"], row["output_tokens"]), ("stop", 4))
+
+    def test_a_truncated_agent_turn_is_flagged(self):
+        outputs = (query_round("Proponent")
+                   + ["The evidence is thin", "The answer is: Paris",
+                      "The answer is: Paris"])
+        values = {"response_rounds": 1, "agent_max_tokens": 3, "profile_calls": True}
+        _item, _gen, state = run_plus(outputs, values, query_rounds=1, answer_rounds=3,
+                                      recorder=CallRecorder(ZERO))
+        self.assertTrue(state.truncated)
+        rows = answer_rows(state)
+        self.assertEqual(rows[0]["finish_reason"], "length")
+        self.assertIsNone(rows[-1]["finish_reason"])  # the moderator has no budget
+
+    def test_without_a_budget_no_reason_is_invented(self):
+        _item, _gen, state = run_budgeted(1)
+        self.assertFalse(state.truncated)
+        self.assertEqual({row["finish_reason"] for row in answer_rows(state)}, {None})
+
+
 class ConciseAgentTests(unittest.TestCase):
     def test_concise_text_reaches_both_agent_turns_only(self):
         _item, _gen, state = run_budgeted(2, concise_agents=True)

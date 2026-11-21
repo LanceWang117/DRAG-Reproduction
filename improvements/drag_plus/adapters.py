@@ -74,7 +74,7 @@ class Backends:
             return self.generator.generate(prompt, **params)[0]
         if self.recorder is None or call is None:
             return invoke()
-        return self.recorder.generation(call, prompt, invoke)
+        return self.recorder.generation(call, prompt, invoke, limit=params.get("max_tokens"))
 
     def complete_batch(self, prompts: List[Any], *, call: Optional[CallInfo] = None,
                        **params: Any) -> List[str]:
@@ -87,7 +87,8 @@ class Backends:
             return outputs
         if self.recorder is None or call is None:
             return invoke()
-        return self.recorder.generation_batch(call, prompts, invoke)
+        return self.recorder.generation_batch(call, prompts, invoke,
+                                              limit=params.get("max_tokens"))
 
     def search(self, query: str, *, call: Optional[CallInfo] = None) -> List[dict]:
         if self.recorder is None or call is None:
