@@ -90,6 +90,16 @@ class PreflightCliTests(unittest.TestCase):
         done = self.run_cli("--gpu-total-gib", "80", "--gpu-memory-utilization", "0.45")
         self.assertNotEqual(done.returncode, 0)
 
+    def test_the_bytes_path_uses_the_real_file_size(self):
+        size = int(64.5 * preflight_gpu.GIB)
+        ok = self.run_cli("--index-bytes", str(size), "--gpu-total-gib", "80",
+                          "--gpu-memory-utilization", "0.45")
+        self.assertEqual(ok.returncode, 0, ok.stderr)
+        bad = self.run_cli("--index-bytes", str(size), "--gpu-total-gib", "80",
+                           "--gpu-memory-utilization", "0.85")
+        self.assertEqual(bad.returncode, 1)
+        self.assertIn("103.75", bad.stderr)
+
 
 if __name__ == "__main__":
     unittest.main()
