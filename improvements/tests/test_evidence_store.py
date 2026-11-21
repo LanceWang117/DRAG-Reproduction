@@ -8,7 +8,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from drag_plus.evidence import (AnchoredEvidenceStore, EvidencePool,  # noqa: E402
                                 EvidenceStoreError, audit_rewrite, extract_entities,
                                 extract_numbers, format_entries)
+from drag_plus.adapters import Backends, StageContext  # noqa: E402
+from drag_plus.evidence.actions import maintain_query_pool  # noqa: E402
 from drag_plus.evidence.format import DATA_NOTICE  # noqa: E402
+from drag_plus.state import QuestionState  # noqa: E402
 from drag_plus.flags import Flags  # noqa: E402
 from drag_plus.pipeline import DragPlusPipeline  # noqa: E402
 
@@ -175,6 +178,64 @@ class PipelineWiringTests(unittest.TestCase):
         self.assertEqual(len(audits), 1)
         self.assertIn("1985", audits[0]["invented_numbers"])
         self.assertEqual(state.status, "done")
+
+
+class FlagCombinationTests(unittest.TestCase):
+    def run_pipeline(self, flags, outputs, docs):
+        generator = ScriptedGenerator(outputs)
+        item = RecordingItem("who wrote it?")
+        pipeline = DragPlusPipeline(flags, generator, FakeRetriever(docs),
+                                    IdentityTemplate(), "NQ")
+        return item, pipeline.run([item])[0]
+
+    def test_anchored_without_delimiters_keeps_labels_and_original_evidence(self):
+        docs = {"who wrote it?": [doc("orig1", "original one")],
+                "who wrote the novel": [doc("new1", "new one")]}
+        outputs = query_round("Opponent", "Query Optimization: who wrote it? -> who wrote the novel") \
+            + answer_rounds(1)
+        flags = Flags({"max_query_debate_rounds": 1, "max_answer_debate_rounds": 1,
+                       "evidence_store": "anchored"})
+        item, _ = self.run_pipeline(flags, outputs, docs)
+        prompt = item.output["AnswerStage_Proponent Agent 0_Round0_InputPrompt"][0]["content"]
+        self.assertIn("E1-1(Title:", prompt)
+        self.assertIn("original one", prompt)
+        self.assertNotIn("<document", prompt)
+
+    def test_delimiters_work_with_the_default_dict_store(self):
+        docs = {"who wrote it?": [doc("orig1", "original one")],
+                "who wrote the novel": [doc("new1", "new one")]}
+        outputs = query_round("Opponent", "Query Optimization: who wrote it? -> who wrote the novel") \
+            + answer_rounds(1)
+        flags = Flags({"max_query_debate_rounds": 1, "max_answer_debate_rounds": 1,
+                       "evidence_delimiters": True})
+        item, _ = self.run_pipeline(flags, outputs, docs)
+        prompt = item.output["AnswerStage_Proponent Agent 0_Round0_InputPrompt"][0]["content"]
+        self.assertEqual(prompt.count("<document "), 1)
+        self.assertIn("new one", prompt)
+        self.assertNotIn("original one", prompt)
+
+    def test_audit_off_records_no_rewrite_decision(self):
+        docs = {"who wrote it?": [doc("orig1")], "who wrote it in 1985": [doc("new1")]}
+        outputs = query_round("Opponent", "Query Optimization: who wrote it? -> who wrote it in 1985") \
+            + answer_rounds(1)
+        flags = Flags({"max_query_debate_rounds": 1, "max_answer_debate_rounds": 1})
+        _, state = self.run_pipeline(flags, outputs, docs)
+        self.assertFalse([row for row in state.decisions
+                          if row["decision"] == "rewrite_audit"])
+
+    def test_optimization_onto_the_same_query_keeps_it_active(self):
+        flags = Flags({"evidence_store": "anchored"})
+        backends = Backends(ScriptedGenerator([]), FakeRetriever({"second query": [doc("s")]}),
+                            IdentityTemplate())
+        ctx, state = StageContext(flags, backends, "NQ"), QuestionState("q")
+        store = AnchoredEvidenceStore()
+        store.add_query("original?", [doc("o")], 0, anchored=True)
+        store.add_query("second query", [doc("s")], 1)
+        state.evidence, state.round = store, 1
+        outcome = maintain_query_pool(ctx, state,
+                                      "Query Optimization: second query -> second query")
+        self.assertEqual(outcome, "applied")
+        self.assertEqual(set(store.active_pool()), {"original?", "second query"})
 
 
 if __name__ == "__main__":

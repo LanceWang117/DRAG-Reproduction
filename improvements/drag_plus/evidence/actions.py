@@ -44,12 +44,13 @@ def split_optimization(instruction: str):
 
 
 def pool_ids(pool: dict) -> set:
-    return {passage.get("id") for passages in pool.values() for passage in passages
+    return {str(passage.get("id")) for passages in pool.values() for passage in passages
             if passage.get("id") is not None}
 
 
 def has_new_id(passages: list, before: set) -> bool:
-    found = {passage.get("id") for passage in passages if passage.get("id") is not None}
+    found = {str(passage.get("id")) for passage in passages
+             if passage.get("id") is not None}
     return bool(found - before)
 
 
@@ -98,7 +99,8 @@ def _anchored_optimize(ctx: StageContext, state: QuestionState, original: str,
     if ctx.flags.zero_novelty_exit and not has_new_id(passages, before):
         return EXIT_ZERO_NOVELTY
     store.add_query(new_query, passages, state.round)
-    store.supersede(old_key)
+    if old_key is not None and old_key != new_query:
+        store.supersede(old_key)
     sync_pool(ctx, state)
     return ACTION_APPLIED
 
