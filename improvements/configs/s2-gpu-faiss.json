@@ -1,0 +1,10 @@
+{
+  "name": "s2-gpu-faiss",
+  "description": "E01 arm: FAISS index on the A100 in fp16, vLLM pool lowered to 0.45",
+  "flags": {
+    "faiss_gpu": true,
+    "gpu_memory_utilization": 0.45,
+    "omp_threads": 12
+  },
+  "arms": ["drag", "naive"]
+}

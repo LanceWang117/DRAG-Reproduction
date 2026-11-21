@@ -23,6 +23,7 @@ from drag_plus.runner.local_generator import DEFAULT_MODEL, DEFAULT_URL  # noqa:
 
 
 def parse_args(argv):
+    """Parse the variant-runner command line."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--variant', type=Path, required=True, help='Variant JSON file')
     parser.add_argument('--backend', choices=BACKEND_NAMES, default='flashrag')
@@ -55,8 +56,11 @@ def validate(args):
     return variant, rows
 
 
-def build_backend(args, rows, out_dir):
-    from drag_plus.runner.backends import build_fake_backend, build_flashrag_backend
+def build_backend(args, flags, rows, out_dir):
+    """Build the requested backend; thread env and the GPU preflight come first."""
+    from drag_plus.runner.backends import (apply_thread_environment, build_fake_backend,
+                                           build_flashrag_backend)
+    apply_thread_environment(flags)
     if args.backend == 'fake':
         return build_fake_backend()
     if args.backend == 'local':
@@ -67,15 +71,21 @@ def build_backend(args, rows, out_dir):
     for value in [*overrides['model2path'].values(), overrides['index_path'], overrides['corpus_path']]:
         if not Path(value).exists():
             raise FileNotFoundError(f'Resource not found: {value}; see DATA_DOWNLOADS.md')
-    os.environ.setdefault('OMP_NUM_THREADS', '12')
-    os.environ.setdefault('MKL_NUM_THREADS', '12')
     os.environ.setdefault('TOKENIZERS_PARALLELISM', 'false')
+    if flags.faiss_gpu:  # before the model or the index is loaded
+        import preflight_gpu
+        index_bytes = Path(overrides['index_path']).stat().st_size
+        preflight_gpu.check_fit_bytes(
+            total_gib=preflight_gpu.read_gpu_total_gib(),
+            gpu_memory_utilization=flags.gpu_memory_utilization,
+            index_bytes=index_bytes)
     source = build_runtime()
     sys.path.insert(0, str(source))
-    return build_flashrag_backend(source, overrides, rows, out_dir)
+    return build_flashrag_backend(source, overrides, rows, out_dir, flags)
 
 
 def main(argv=None):
+    """Validate the inputs, build the backend and run (or resume) the variant."""
     argv = sys.argv[1:] if argv is None else argv
     args = parse_args(argv)
     variant, rows = validate(args)
@@ -90,7 +100,8 @@ def main(argv=None):
         flags = variant.flags.with_changes(profile_calls=True) if args.profile else variant.flags
         check_resumable(out_dir, variant.raw, flags.to_manifest(), args.backend, len(rows))
     request = RunRequest(
-        rows=rows, variant=variant, backend=build_backend(args, rows, out_dir), out_dir=out_dir,
+        rows=rows, variant=variant, backend=build_backend(args, variant.flags, rows, out_dir),
+        out_dir=out_dir,
         profile=args.profile, interleave=args.interleave, resume=args.resume is not None,
         command=['run_variant.py', *argv], progress=lambda text: print(text, flush=True))
     result = run_variant(request)

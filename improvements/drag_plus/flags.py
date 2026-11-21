@@ -7,6 +7,7 @@ unknown name, a value of the wrong type or a value outside the allowed set is a
 from __future__ import annotations
 
 import json
+import math
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Mapping, Optional, Tuple
@@ -22,7 +23,9 @@ class FlagSpec:
     kind: type
     default: Any
     choices: Optional[Tuple[Any, ...]] = None
-    minimum: Optional[int] = None
+    minimum: Optional[float] = None
+    maximum: Optional[float] = None
+    strict_minimum: bool = False
     doc: str = ""
     optional: bool = False
 
@@ -83,27 +86,84 @@ FLAG_SPECS: Tuple[FlagSpec, ...] = (
              doc="Per-call max_tokens for the answer moderator; null leaves the default."),
     FlagSpec("concise_agents", bool, False,
              doc="Ask answer agents for at most two sentences before the answer marker."),
+    FlagSpec("faiss_gpu", bool, False,
+             doc="Place the FAISS index on the GPUs in fp16 before vLLM reserves its pool."),
+    FlagSpec("gpu_memory_utilization", float, 0.85, minimum=0.0, maximum=1.0,
+             strict_minimum=True,
+             doc="vLLM's per-GPU reservation ratio (0, 1]; lower it when the index is "
+                 "on the GPU."),
+    FlagSpec("omp_threads", int, 12, minimum=1,
+             doc="OMP_NUM_THREADS and MKL_NUM_THREADS, set before FAISS, torch or "
+                 "FlashRAG is imported."),
 )
 _SPECS_BY_NAME = {spec.name: spec for spec in FLAG_SPECS}
 
 
-def _check(spec: FlagSpec, value: Any) -> Any:
-    # bool is an int subclass, so True would otherwise pass for an integer flag.
-    if value is None and spec.optional:
-        return None
+def _as_float(spec: FlagSpec, value: Any) -> Any:
+    """Accept 1 for a float flag as 1.0; a string is still a type error."""
     if spec.kind is float and isinstance(value, int) and not isinstance(value, bool):
-        value = float(value)  # 1 and 1.0 are the same weight; "1" is still an error
-    if isinstance(value, bool) != (spec.kind is bool) or not isinstance(value, spec.kind):
+        return float(value)
+    return value
+
+
+def _require_type(spec: FlagSpec, value: Any) -> None:
+    """Reject the wrong type, including True for an integer flag."""
+    wrong_bool = isinstance(value, bool) != (spec.kind is bool)
+    if wrong_bool or not isinstance(value, spec.kind):
         raise FlagError(
             f"flag {spec.name!r} expects {spec.kind.__name__}, "
             f"got {type(value).__name__}: {value!r}")
+
+
+def _check_type(spec: FlagSpec, value: Any) -> Any:
+    """Resolve the optional default, coerce ints to floats and enforce the type."""
+    if value is None and spec.optional:
+        return None
+    value = _as_float(spec, value)
+    _require_type(spec, value)
+    if spec.kind is float and not math.isfinite(value):
+        raise FlagError(f"flag {spec.name!r} must be finite, got {value!r}")
+    return value
+
+
+def _check_choices(spec: FlagSpec, value: Any) -> None:
     if spec.choices is not None and value not in spec.choices:
         raise FlagError(f"flag {spec.name!r} must be one of {list(spec.choices)}, got {value!r}")
+
+
+def _check_blank(spec: FlagSpec, value: Any) -> None:
     if spec.kind is str and not value.strip():
         raise FlagError(f"flag {spec.name!r} must not be blank")
-    if spec.minimum is not None and value < spec.minimum:
-        raise FlagError(f"flag {spec.name!r} must be >= {spec.minimum}, got {value!r}")
+
+
+def _check_minimum(spec: FlagSpec, value: Any) -> None:
+    too_small = value < spec.minimum or (spec.strict_minimum and value == spec.minimum)
+    if too_small:
+        relation = ">" if spec.strict_minimum else ">="
+        raise FlagError(f"flag {spec.name!r} must be {relation} {spec.minimum}, "
+                        f"got {value!r}")
+
+
+def _check_range(spec: FlagSpec, value: Any) -> None:
+    if spec.minimum is not None:
+        _check_minimum(spec, value)
+    if spec.maximum is not None and value > spec.maximum:
+        raise FlagError(f"flag {spec.name!r} must be <= {spec.maximum}, got {value!r}")
+
+
+def _check_value(spec: FlagSpec, value: Any) -> Any:
+    """Enforce choices, non-blank strings and the numeric range."""
+    _check_choices(spec, value)
+    _check_blank(spec, value)
+    _check_range(spec, value)
     return value
+
+
+def _check(spec: FlagSpec, value: Any) -> Any:
+    checked = _check_type(spec, value)
+    if checked is None and spec.optional:
+        return None
+    return _check_value(spec, checked)
 
 
 class Flags:

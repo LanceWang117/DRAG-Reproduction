@@ -9,8 +9,9 @@ Server-unverified list in the pull request).
 from __future__ import annotations
 
 from dataclasses import dataclass
+import os
 from pathlib import Path
-from typing import Any, Callable, Dict, List
+from typing import Any, Callable, Dict, List, MutableMapping, Optional
 
 from ..instrument.timing import whitespace_tokens
 from ..retrieval.cache import CachingRetriever, index_identity
@@ -18,6 +19,8 @@ from . import fake
 
 METRICS = ["em", "f1", "acc", "precision", "recall"]
 BACKEND_NAMES = ("fake", "flashrag", "local")
+FAISS_GPU_HELP = ("faiss_gpu=true needs FAISS with GPU support; install the pinned "
+                  "faiss-gpu build (see REPRODUCTION.md, 'GPU retrieval')")
 
 
 @dataclass
@@ -91,9 +94,83 @@ def _flashrag_identity(overrides: Dict[str, Any]) -> Callable[[], Dict[str, Any]
     return identity
 
 
+def apply_thread_environment(flags: Any,
+                             environ: Optional[MutableMapping[str, str]] = None
+                             ) -> MutableMapping[str, str]:
+    """Set OpenMP/MKL thread counts before FAISS, torch or FlashRAG is imported.
+
+    FAISS reads ``OMP_NUM_THREADS`` at its OpenMP runtime and MKL reads
+    ``MKL_NUM_THREADS`` when its shared library loads; setting them afterwards can be
+    ignored. The variant is authoritative, so an inherited value is replaced. The same
+    call works for ``faiss_gpu=false``, where only the CPU scan changes.
+    """
+    target = os.environ if environ is None else environ
+    threads = str(flags.omp_threads)
+    target["OMP_NUM_THREADS"] = threads
+    target["MKL_NUM_THREADS"] = threads
+    return target
+
+
+def ensure_faiss_gpu(faiss_module: Any) -> None:
+    """Fail early when FAISS has no GPU support or sees no GPU; never fall back to CPU."""
+    if not hasattr(faiss_module, "index_cpu_to_all_gpus"):
+        raise RuntimeError(FAISS_GPU_HELP)
+    try:
+        gpu_count = faiss_module.get_num_gpus()
+    except Exception as error:  # a driver/runtime error is a configuration error here
+        raise RuntimeError(f"{FAISS_GPU_HELP}: {error}") from error
+    if gpu_count < 1:
+        raise RuntimeError(f"{FAISS_GPU_HELP}: no CUDA GPU is visible")
+
+
+def _require_faiss(flags: Any) -> None:
+    """Import FAISS (after the thread env) and refuse a CPU-only build for faiss_gpu."""
+    try:
+        import faiss
+    except ImportError as error:
+        raise RuntimeError(
+            "FAISS is not installed; see REPRODUCTION.md, 'GPU retrieval'") from error
+    if flags.faiss_gpu:
+        ensure_faiss_gpu(faiss)
+
+
+def build_rag_objects(config: Any, faiss_gpu: bool, generator_factory: Callable[[Any], Any],
+                      retriever_factory: Callable[[Any], Any]) -> tuple:
+    """Build the retriever before the generator when the index moves to the GPU.
+
+    ``DenseRetriever`` places the fp16 index on the GPUs in its constructor, while
+    FlashRAG's vLLM generator reserves its KV pool in its constructor. Building the
+    generator first would reserve that pool before the index clone and can exhaust the
+    card. The CPU path keeps the recorded baseline order: generator first.
+    """
+    if faiss_gpu:
+        retriever = retriever_factory(config)
+        generator = generator_factory(config)
+    else:
+        generator = generator_factory(config)
+        retriever = retriever_factory(config)
+    return generator, retriever
+
+
+def flashrag_settings(overrides: Dict[str, Any], flags: Any, dataset: str, split: str,
+                      arm: str, out_dir: Path) -> Dict[str, Any]:
+    """The Config override dict for one (arm, dataset): variant flags win over config.
+
+    ``faiss_gpu`` and ``gpu_memory_utilization`` are always explicit so the run's
+    manifest and trace show the values the backend actually used.
+    """
+    return dict(overrides, dataset_name=dataset, split=[split], random_sample=False,
+                save_dir=str(out_dir / arm), save_note=f"{arm}_{dataset}",
+                metrics=METRICS, save_intermediate_data=True, save_metric_score=True,
+                faiss_gpu=flags.faiss_gpu,
+                gpu_memory_utilization=flags.gpu_memory_utilization)
+
+
 def build_flashrag_backend(source: Path, overrides: Dict[str, Any], rows: List[dict],
-                           out_dir: Path) -> Backend:
+                           out_dir: Path, flags: Any) -> Backend:
     """Build FlashRAG objects once, like the submission runner. Needs the A100 stack."""
+    apply_thread_environment(flags)  # before Config/torch/faiss import, not after
+    _require_faiss(flags)
     from flashrag.config import Config
     from flashrag.dataset import Dataset
     from flashrag.evaluator import Evaluator
@@ -103,14 +180,13 @@ def build_flashrag_backend(source: Path, overrides: Dict[str, Any], rows: List[d
     from transformers import AutoTokenizer
 
     def config_for(dataset: str, split: str, arm: str) -> Any:
-        settings = dict(overrides, dataset_name=dataset, split=[split], random_sample=False,
-                        save_dir=str(out_dir / arm), save_note=f"{arm}_{dataset}",
-                        metrics=METRICS, save_intermediate_data=True, save_metric_score=True)
+        settings = flashrag_settings(overrides, flags, dataset, split, arm, out_dir)
         return Config(str(source / "config/base_config.yaml"), settings)
 
     first = rows[0]
     base = config_for(first["dataset"], first["split"], "drag")
-    generator, retriever = get_generator(base), get_retriever(base)
+    generator, retriever = build_rag_objects(base, flags.faiss_gpu, get_generator,
+                                             get_retriever)
     tokenizer = AutoTokenizer.from_pretrained(overrides["model2path"][overrides["generator_model"]])
 
     def make_template(arm: str, dataset: str) -> Any:
