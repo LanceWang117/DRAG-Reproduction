@@ -204,6 +204,13 @@ class RecordedFixtureTests(unittest.TestCase):
                 self.assertEqual(list(state.query_pool), expected)
                 self.assertEqual(len(retriever.calls), case["exit_step"] + 1)
 
+    def test_fixture_has_the_eight_recorded_cases(self):
+        cases = self.load()["cases"]
+        self.assertEqual(len(cases), 8)
+        kinds = [case["kind"] for case in cases]
+        self.assertEqual(kinds.count("multi"), 3)
+        self.assertEqual(kinds.count("single_replacement"), 5)
+
     def test_fixture_matches_its_builder(self):
         path = FIXTURE.with_name("build_zero_novelty.py")
         spec = importlib.util.spec_from_file_location("build_zero_novelty", path)
