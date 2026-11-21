@@ -53,6 +53,17 @@ class CallRecorder:
         info.sink.append(row)
         return output
 
+    def generation_batch(self, info: CallInfo, prompts: List[Any],
+                         call: Callable[[], List[str]]) -> List[str]:
+        """One backend call for several prompts: one row, ``batch_size`` = prompt count."""
+        start = self._clock()
+        outputs = call()
+        row = self._row(info, start, len(outputs),
+                        sum(self._count(_as_text(prompt)) for prompt in prompts),
+                        sum(self._count(_as_text(output)) for output in outputs))
+        info.sink.append(row)
+        return outputs
+
     def retrieval(self, info: CallInfo, batch_size: int, call: Callable[[], Any]) -> Any:
         start = self._clock()
         result = call()

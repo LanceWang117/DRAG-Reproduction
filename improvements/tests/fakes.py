@@ -1,9 +1,15 @@
 """Scripted, recording stand-ins for the injected generator, retriever and template."""
 import copy
 
+from drag_plus.adapters import prompt_count
+
 
 class ScriptedGenerator:
-    """Return the next scripted output per call and record every call."""
+    """Return the next scripted output per prompt and record every call.
+
+    A batched call consumes one scripted output per prompt, in input order, like the
+    real generator contract.
+    """
 
     def __init__(self, outputs):
         self.outputs = list(outputs)
@@ -11,9 +17,10 @@ class ScriptedGenerator:
 
     def generate(self, prompts, **params):
         self.calls.append((copy.deepcopy(prompts), dict(params)))
-        if not self.outputs:
+        count = prompt_count(prompts)
+        if len(self.outputs) < count:
             raise AssertionError(f"scripted outputs exhausted at call {len(self.calls)}")
-        return [self.outputs.pop(0)]
+        return [self.outputs.pop(0) for _ in range(count)]
 
 
 class FakeRetriever:

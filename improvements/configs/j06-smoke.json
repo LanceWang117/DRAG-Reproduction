@@ -1,0 +1,11 @@
+{
+  "name": "j06-smoke",
+  "description": "J06 smoke: one query round, one answer round, both flags on; never a result",
+  "flags": {
+    "max_query_debate_rounds": 1,
+    "max_answer_debate_rounds": 1,
+    "moderator_final_only": true,
+    "batch_agents_in_round": true
+  },
+  "arms": ["drag", "naive"]
+}

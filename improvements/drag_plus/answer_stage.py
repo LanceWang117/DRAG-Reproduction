@@ -3,11 +3,15 @@
 Reproduces the v1.0.1 behaviour: the moderator runs after every round and each round
 overwrites ``pred``, so the last round wins; round ``r`` shows each agent the other's
 round ``r-1`` answer (history index ``2r``).
+
+``moderator_final_only`` runs the moderator once, after the last round, with the same
+last-round prompt; the rounds 0..R-2 ``AnswerStage_Moderator_Round*`` keys are absent.
+``batch_agents_in_round`` sends both agents' prompts of a round in one 2-prompt call.
 """
 from __future__ import annotations
 
 from . import prompts
-from .adapters import StageContext
+from .adapters import BATCH_ROLE, StageContext
 from .query_stage import AGENTS
 from .state import QuestionState
 
@@ -25,12 +29,39 @@ def _agent_prompt(ctx: StageContext, state: QuestionState, round_index: int, age
     return ctx.backends.render(history[agent])
 
 
-def _agent_turn(ctx: StageContext, state: QuestionState, round_index: int, agent: str) -> None:
-    prompt = _agent_prompt(ctx, state, round_index, agent)
-    output = ctx.backends.complete(prompt, call=state.call("answer_agent", agent))
+def _record_turn(state: QuestionState, round_index: int, agent: str,
+                 prompt, output: str) -> None:
     state.emit(f"AnswerStage_{agent}_Round{round_index}_InputPrompt", prompt)
     state.emit(f"AnswerStage_{agent}_Round{round_index}_Output", output)
     state.answer_messages[agent].append({"role": "assistant", "content": output})
+
+
+def _agent_turn(ctx: StageContext, state: QuestionState, round_index: int, agent: str) -> None:
+    prompt = _agent_prompt(ctx, state, round_index, agent)
+    output = ctx.backends.complete(prompt, call=state.call("answer_agent", agent))
+    _record_turn(state, round_index, agent, prompt, output)
+
+
+def _agent_round(ctx: StageContext, state: QuestionState, round_index: int) -> None:
+    """Both agents of one round in a single 2-prompt call; outputs map by position."""
+    prompts_per_agent = [_agent_prompt(ctx, state, round_index, agent) for agent in AGENTS]
+    outputs = ctx.backends.complete_batch(prompts_per_agent,
+                                          call=state.call("answer_agent", BATCH_ROLE))
+    for agent, prompt, output in zip(AGENTS, prompts_per_agent, outputs):
+        _record_turn(state, round_index, agent, prompt, output)
+
+
+def _run_agents(ctx: StageContext, state: QuestionState, round_index: int) -> None:
+    if ctx.flags.batch_agents_in_round:
+        _agent_round(ctx, state, round_index)
+        return
+    for agent in AGENTS:
+        _agent_turn(ctx, state, round_index, agent)
+
+
+def _moderator_due(ctx: StageContext, round_index: int, rounds: int) -> bool:
+    """With moderator_final_only only the last round is moderated (paper Eq. 13)."""
+    return not ctx.flags.moderator_final_only or round_index == rounds - 1
 
 
 def _moderate(ctx: StageContext, state: QuestionState, round_index: int) -> None:
@@ -67,6 +98,6 @@ def run_answer_stage(ctx: StageContext, state: QuestionState) -> None:
         return
     for round_index in range(rounds):
         state.round = round_index
-        for agent in AGENTS:
-            _agent_turn(ctx, state, round_index, agent)
-        _moderate(ctx, state, round_index)
+        _run_agents(ctx, state, round_index)
+        if _moderator_due(ctx, round_index, rounds):
+            _moderate(ctx, state, round_index)

@@ -12,7 +12,7 @@ from typing import Optional
 import Levenshtein
 
 from . import prompts
-from .adapters import StageContext
+from .adapters import BATCH_ROLE, StageContext
 from .judge_decision import JudgeDecision, resolve_judge_decision
 from .state import QuestionState
 
@@ -65,14 +65,39 @@ def maintain_query_pool(ctx: StageContext, state: QuestionState,
         ) from error
 
 
-def _agent_turn(ctx: StageContext, state: QuestionState, round_index: int, agent: str) -> None:
+def _agent_prompt(ctx: StageContext, state: QuestionState, agent: str):
     messages = [prompts.query_agent_system(agent),
                 prompts.query_round_user(state.question, state.query_pool)]
-    prompt = ctx.backends.render(messages)
-    output = ctx.backends.complete(prompt, call=state.call("query_agent", agent))
+    return ctx.backends.render(messages)
+
+
+def _record_turn(state: QuestionState, round_index: int, agent: str,
+                 prompt, output: str) -> None:
     state.emit(f"QueryStage_{agent}_Round{round_index}_InputPrompt", prompt)
     state.emit(f"QueryStage_{agent}_Round{round_index}_Output", output)
     state.query_messages[agent] = [prompt, output]
+
+
+def _agent_turn(ctx: StageContext, state: QuestionState, round_index: int, agent: str) -> None:
+    prompt = _agent_prompt(ctx, state, agent)
+    output = ctx.backends.complete(prompt, call=state.call("query_agent", agent))
+    _record_turn(state, round_index, agent, prompt, output)
+
+
+def _agent_round(ctx: StageContext, state: QuestionState, round_index: int) -> None:
+    """Both agents of one round in a single 2-prompt call; outputs map by position."""
+    prompts = [_agent_prompt(ctx, state, agent) for agent in AGENTS]
+    outputs = ctx.backends.complete_batch(prompts, call=state.call("query_agent", BATCH_ROLE))
+    for agent, prompt, output in zip(AGENTS, prompts, outputs):
+        _record_turn(state, round_index, agent, prompt, output)
+
+
+def _run_agents(ctx: StageContext, state: QuestionState, round_index: int) -> None:
+    if ctx.flags.batch_agents_in_round:
+        _agent_round(ctx, state, round_index)
+        return
+    for agent in AGENTS:
+        _agent_turn(ctx, state, round_index, agent)
 
 
 def _judge(ctx: StageContext, state: QuestionState, round_index: int) -> JudgeDecision:
@@ -124,7 +149,6 @@ def run_query_stage(ctx: StageContext, state: QuestionState) -> None:
                 question, call=state.call("retrieval", "retriever"))
         if rounds == 0:
             return
-        for agent in AGENTS:
-            _agent_turn(ctx, state, round_index, agent)
+        _run_agents(ctx, state, round_index)
         if not _continues_after(ctx, state, _judge(ctx, state, round_index)):
             return
