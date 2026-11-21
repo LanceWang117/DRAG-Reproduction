@@ -18,7 +18,9 @@ BASELINE = {"max_query_debate_rounds": 3, "max_answer_debate_rounds": 3, "profil
             "skip_duplicate_query": False, "zero_novelty_exit": False,
             "response_rounds": None, "agent_max_tokens": None,
             "moderator_max_tokens": None, "concise_agents": False,
-            "faiss_gpu": False, "gpu_memory_utilization": 0.85, "omp_threads": 12}
+            "faiss_gpu": False, "gpu_memory_utilization": 0.85, "omp_threads": 12,
+            "evidence_store": "dict", "evidence_delimiters": False,
+            "rewrite_novelty_audit": False}
 
 
 class FlagDefaultTests(unittest.TestCase):

@@ -95,6 +95,14 @@ FLAG_SPECS: Tuple[FlagSpec, ...] = (
     FlagSpec("omp_threads", int, 12, minimum=1,
              doc="OMP_NUM_THREADS and MKL_NUM_THREADS, set before FAISS, torch or "
                  "FlashRAG is imported."),
+    FlagSpec("evidence_store", str, "dict", choices=("dict", "anchored"),
+             doc="dict keeps the baseline query pool; anchored keeps an append-only, "
+                 "doc-id-keyed store whose original passages can never be evicted."),
+    FlagSpec("evidence_delimiters", bool, False,
+             doc="Render each passage in a labelled <document> data block with a "
+                 "notice that retrieved text is not instructions."),
+    FlagSpec("rewrite_novelty_audit", bool, False,
+             doc="Log entities and numbers a rewritten query introduces; log-only."),
 )
 _SPECS_BY_NAME = {spec.name: spec for spec in FLAG_SPECS}
 
