@@ -68,6 +68,10 @@ def format_reference(retrieval_result) -> str:
 
 
 def format_query_pool(query_pool) -> str:
+    """Render the pool; an evidence-aware pool supplies its own labelled layout."""
+    render = getattr(query_pool, "format_evidence", None)
+    if callable(render):
+        return render()
     out = ""
     for i, query in enumerate(query_pool):
         out += f"Query {i+1}: {query}\nRetrieved Content: {format_reference(query_pool[query])}"

@@ -19,6 +19,7 @@ class QuestionState:
     question: str
     key: Optional[Tuple[Any, ...]] = None
     query_pool: Dict[str, list] = field(default_factory=dict)
+    evidence: Optional[Any] = None
     query_messages: Dict[str, list] = field(default_factory=dict)
     answer_messages: Dict[str, list] = field(default_factory=dict)
     decisions: List[dict] = field(default_factory=list)
