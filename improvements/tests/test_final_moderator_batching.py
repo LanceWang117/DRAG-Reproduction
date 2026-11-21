@@ -5,13 +5,17 @@ flag on, every emitted output and every generator prompt must match it, except f
 two documented groupings (one 2-prompt call per round; early moderator keys absent).
 """
 import unittest
+from pathlib import Path
 
 from drag_plus.adapters import GeneratorContractError, prompt_count
+from drag_plus.flags import Flags
 from drag_plus.instrument.timing import CallRecorder
 from drag_plus.query_stage import AGENTS
+from drag_plus.runner.variant import load_variant
 from j06_helpers import (drop_early_moderator_outputs, drop_early_moderator_prompts,
                          prompts_of, run_baseline, run_plus, script)
 
+PROJECT = Path(__file__).resolve().parents[2]
 PROPONENT, OPPONENT = AGENTS
 
 
@@ -133,6 +137,16 @@ class CombinationTests(unittest.TestCase):
                     moderators = [k for k, _ in item.calls
                                   if k.startswith("AnswerStage_Moderator_Round")]
                     self.assertEqual(len(moderators), 2 if final_only else 4)
+
+
+class SmokeVariantTests(unittest.TestCase):
+    def test_the_smoke_variant_turns_both_flags_on_and_stays_cheap(self):
+        variant = load_variant(PROJECT / "improvements" / "configs" / "j06-smoke.json")
+        self.assertTrue(variant.flags.moderator_final_only)
+        self.assertTrue(variant.flags.batch_agents_in_round)
+        self.assertEqual(variant.flags.max_query_debate_rounds, 1)
+        self.assertEqual(variant.flags.max_answer_debate_rounds, 1)
+        self.assertEqual(Flags(variant.flags.to_manifest()), variant.flags)
 
 
 class ContractTests(unittest.TestCase):
