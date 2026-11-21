@@ -14,7 +14,8 @@ BASELINE = {"max_query_debate_rounds": 3, "max_answer_debate_rounds": 3, "profil
             "dense_top_k": 20, "bm25_top_k": 20, "hybrid_top_k": 3, "rrf_k": 60,
             "dense_weight": 1.0, "bm25_weight": 1.0, "dense_score_floor": None,
             "bm25_score_floor": None, "bm25_index": None, "rerank_k": None,
-            "rerank_model": "BAAI/bge-reranker-base", "per_title_cap": None}
+            "rerank_model": "BAAI/bge-reranker-base", "per_title_cap": None,
+            "skip_duplicate_query": False, "zero_novelty_exit": False}
 
 
 class FlagDefaultTests(unittest.TestCase):

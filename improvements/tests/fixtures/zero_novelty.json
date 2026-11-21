@@ -1,0 +1,203 @@
+{
+  "source": "results/retrieval-200.jsonl",
+  "note": "IDs only; no passage text. Multi cases are exact; single replacements use Naive as the pre-action pool (B2).",
+  "cases": [
+    {
+      "case": "HotpotQA/dev_840",
+      "kind": "multi",
+      "steps": [
+        {
+          "query": "Which American car rental company is also a member of the Association of Car Rental Industry Sytems Standards?",
+          "ids": [
+            "17331962",
+            "20499173",
+            "17072921"
+          ]
+        },
+        {
+          "query": "Which American car rental companies are members of the Association of Car Rental Industry Systems Standards?",
+          "ids": [
+            "17331962",
+            "20499173",
+            "17072921"
+          ]
+        }
+      ],
+      "exit_step": 1
+    },
+    {
+      "case": "PopQA/test_8583",
+      "kind": "multi",
+      "steps": [
+        {
+          "query": "Who was the screenwriter for Tandra Paparayudu?",
+          "ids": [
+            "763311",
+            "763312",
+            "6930416"
+          ]
+        },
+        {
+          "query": "Who was the screenwriter of the 1986 Telugu film Tandra Paparayudu?",
+          "ids": [
+            "763311",
+            "3783820",
+            "763312"
+          ]
+        },
+        {
+          "query": "Who is the screenwriter of the 1986 Telugu film Tandra Paparayudu?",
+          "ids": [
+            "763311",
+            "3783820",
+            "763312"
+          ]
+        }
+      ],
+      "exit_step": 2
+    },
+    {
+      "case": "HotpotQA/dev_987",
+      "kind": "multi",
+      "steps": [
+        {
+          "query": "Chris Jones is a semi-professional footballer, who played with what goalkeeper for Derby County when he was with Yorkshire?",
+          "ids": [
+            "19245627",
+            "1443248",
+            "16370728"
+          ]
+        },
+        {
+          "query": "Chris Jones semi-professional footballer, who played with which goalkeeper for Derby County in Yorkshire.",
+          "ids": [
+            "19245627",
+            "1443248",
+            "16370728"
+          ]
+        }
+      ],
+      "exit_step": 1
+    },
+    {
+      "case": "NQ/dev_7701",
+      "kind": "single_replacement",
+      "steps": [
+        {
+          "query": "Which Book of the Bible follows Job alphabetically?",
+          "ids": [
+            "16984475",
+            "16984474",
+            "19326535"
+          ]
+        },
+        {
+          "query": "are jaffa cakes a biscuit or a cake",
+          "ids": [
+            "16984475",
+            "16984474",
+            "19326535"
+          ]
+        }
+      ],
+      "exit_step": 1,
+      "approximate": "pre-action IDs from Naive (B2)"
+    },
+    {
+      "case": "NQ/dev_4976",
+      "kind": "single_replacement",
+      "steps": [
+        {
+          "query": "Who became the first President of the newly formed Republic of Tanzania in 1964, a position he held until his retirement in 1985?",
+          "ids": [
+            "16274689",
+            "16274673",
+            "4141227"
+          ]
+        },
+        {
+          "query": "who wrote the music for somewhere in time",
+          "ids": [
+            "16274689",
+            "16274673",
+            "4141227"
+          ]
+        }
+      ],
+      "exit_step": 1,
+      "approximate": "pre-action IDs from Naive (B2)"
+    },
+    {
+      "case": "NQ/dev_3280",
+      "kind": "single_replacement",
+      "steps": [
+        {
+          "query": "What is the name given to horse racing over hedges, ditches and other obstacles set on a regular course?",
+          "ids": [
+            "20141419",
+            "20141495",
+            "12562462"
+          ]
+        },
+        {
+          "query": "who played aang in the last airbender movie",
+          "ids": [
+            "20141419",
+            "20141495",
+            "12562462"
+          ]
+        }
+      ],
+      "exit_step": 1,
+      "approximate": "pre-action IDs from Naive (B2)"
+    },
+    {
+      "case": "NQ/dev_6718",
+      "kind": "single_replacement",
+      "steps": [
+        {
+          "query": "Which is the most easterly of these Libyan cities: Benghazi, Misrata, Sirte, Tobruk, Tripoli?",
+          "ids": [
+            "2165209",
+            "599039",
+            "9223552"
+          ]
+        },
+        {
+          "query": "who played lucas on days of our lives",
+          "ids": [
+            "2165209",
+            "599039",
+            "9223552"
+          ]
+        }
+      ],
+      "exit_step": 1,
+      "approximate": "pre-action IDs from Naive (B2)"
+    },
+    {
+      "case": "NQ/dev_4345",
+      "kind": "single_replacement",
+      "steps": [
+        {
+          "query": "What is the biggest city on the Yangtze river?",
+          "ids": [
+            "6315443",
+            "18301670",
+            "8163169"
+          ]
+        },
+        {
+          "query": "the popular sculpture shiva nataraja depicts shiva—or siva—as",
+          "ids": [
+            "6315443",
+            "18301670",
+            "8163169"
+          ]
+        }
+      ],
+      "exit_step": 1,
+      "approximate": "pre-action IDs from Naive (B2)"
+    }
+  ]
+}
