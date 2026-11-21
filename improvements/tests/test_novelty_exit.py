@@ -78,6 +78,16 @@ class DuplicateGuardTests(unittest.TestCase):
         self.assertEqual(list(state.query_pool), [QUESTION, DUPLICATE])
         self.assertEqual(exit_decisions(state), [])
 
+    def test_optimization_onto_its_own_key_is_a_duplicate(self):
+        outputs = (query_round("Opponent",
+                               f"weak. Query Optimization: {QUESTION} -> {QUESTION}")
+                   + ANSWER)
+        state, _, retriever = run(QUESTION, outputs, {QUESTION: passages("q1")},
+                                  max_query_debate_rounds=3, skip_duplicate_query=True)
+        self.assertEqual(retriever.calls, [QUESTION])
+        self.assertEqual(list(state.query_pool), [QUESTION])
+        self.assertEqual(exit_decisions(state)[0]["status"], "duplicate")
+
     def test_optimization_onto_another_key_is_a_duplicate(self):
         docs = {QUESTION: passages("q1"), "second query": passages("s1")}
         outputs = (query_round("Opponent", "weak. Query Expansion: second query")

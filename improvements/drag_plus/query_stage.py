@@ -57,15 +57,15 @@ def _has_new_id(passages: list, before: set) -> bool:
     return bool(found - before)
 
 
-def _duplicate_elsewhere(query: str, pool: dict, excluded: Optional[str] = None) -> bool:
-    return is_duplicate_query(query, [key for key in pool if key != excluded])
+def _is_pool_duplicate(query: str, pool: dict) -> bool:
+    return is_duplicate_query(query, pool)
 
 
 def _optimize(ctx: StageContext, state: QuestionState, instruction: str) -> str:
     pool = state.query_pool
     original, new_query = _split_optimization(instruction)
     old_key = find_most_similar_key(pool, original)
-    if ctx.flags.skip_duplicate_query and _duplicate_elsewhere(new_query, pool, old_key):
+    if ctx.flags.skip_duplicate_query and _is_pool_duplicate(new_query, pool):
         return EXIT_DUPLICATE
     before = _pool_ids(pool)
     saved = list(pool.items()) if ctx.flags.zero_novelty_exit else None
@@ -81,7 +81,7 @@ def _optimize(ctx: StageContext, state: QuestionState, instruction: str) -> str:
 
 def _expand(ctx: StageContext, state: QuestionState, new_query: str) -> str:
     pool = state.query_pool
-    if ctx.flags.skip_duplicate_query and _duplicate_elsewhere(new_query, pool):
+    if ctx.flags.skip_duplicate_query and _is_pool_duplicate(new_query, pool):
         return EXIT_DUPLICATE
     before = _pool_ids(pool)
     passages = ctx.backends.search(new_query, call=state.call("retrieval", "retriever"))
