@@ -53,12 +53,19 @@ _MODERATOR_INTRO = (
 )
 _FINAL_ONLY = "Output only the final answer with no explanations or additional text."
 _YES_NO_CHOICE = "Given two answer candidates, Yes and No, choose the best answer choice. "
-_JUDGE_INTRO = (
+_JUDGE_INTRO_HEAD = (
     "You are the judge in a debate. Your task is to evaluate the arguments from agents. "
     "There are two types of agents:\n"
-    "1. Proponent Agent: Argues that the current retrieved content is sufficient.\n"
-    "2. Opponent Agent: Argues that the current retrieved content is insufficient and "
-    "proposes query refinement.\n"
+)
+_JUDGE_AGENT_LINES = {
+    "Proponent": "Argues that the current retrieved content is sufficient.",
+    "Opponent": ("Argues that the current retrieved content is insufficient and "
+                 "proposes query refinement."),
+}
+_JUDGE_INTRO = (
+    _JUDGE_INTRO_HEAD
+    + "1. Proponent Agent: " + _JUDGE_AGENT_LINES["Proponent"] + "\n"
+    + "2. Opponent Agent: " + _JUDGE_AGENT_LINES["Opponent"] + "\n"
 )
 _JUDGE_TAIL = "Output only the agent's name. No explanations."
 
@@ -111,11 +118,36 @@ def query_round_user(question: str, query_pool, prefix: Optional[str] = None) ->
     return {"role": "user", "content": f"Question: {question}\n{format_query_pool(query_pool)}"}
 
 
+def _agent_role(agent: str) -> str:
+    """Map a full agent name to the role label used by the Judge intro."""
+    if "Proponent" in agent:
+        return "Proponent"
+    if "Opponent" in agent:
+        return "Opponent"
+    raise ValueError("The agent name must contain either Proponent or Opponent")
+
+
+def _judge_intro(agent_order) -> str:
+    """The baseline intro, or the same lines renumbered in ``agent_order`` (J12)."""
+    if agent_order is None:
+        return _JUDGE_INTRO
+    roles = (_agent_role(agent) for agent in agent_order)
+    lines = [f"{index}. {role} Agent: {_JUDGE_AGENT_LINES[role]}"
+             for index, role in enumerate(roles, 1)]
+    return _JUDGE_INTRO_HEAD + "\n".join(lines) + "\n"
+
+
 def query_moderator_system(agent_outputs: dict, input_query: str, query_pool,
-                           prefix: Optional[str] = None) -> dict:
-    """``agent_outputs`` maps agent name to its raw output for the current round."""
-    arguments = "".join(f"{agent}: {output}\n" for agent, output in agent_outputs.items())
-    body = f"{_JUDGE_INTRO}"
+                           prefix: Optional[str] = None,
+                           agent_order=None) -> dict:
+    """``agent_outputs`` maps agent name to its raw output for the current round.
+
+    ``agent_order`` (J12) lists the agents in presentation order; None keeps the
+    baseline Proponent-then-Opponent intro and argument order byte for byte.
+    """
+    order = tuple(agent_outputs) if agent_order is None else tuple(agent_order)
+    arguments = "".join(f"{agent}: {agent_outputs[agent]}\n" for agent in order)
+    body = _judge_intro(agent_order)
     if prefix is None:
         body += f"Question: {input_query}\n{format_query_pool(query_pool)}\n"
     body += f"Agents Arguments:\n{arguments}\n{_JUDGE_TAIL}"

@@ -21,7 +21,9 @@ BASELINE = {"max_query_debate_rounds": 3, "max_answer_debate_rounds": 3, "profil
             "faiss_gpu": False, "gpu_memory_utilization": 0.85, "omp_threads": 12,
             "evidence_store": "dict", "evidence_delimiters": False,
             "rewrite_novelty_audit": False, "context_token_budget": None,
-            "prompt_layout": "role_first", "enable_prefix_caching": False}
+            "prompt_layout": "role_first", "enable_prefix_caching": False,
+            "judge_scoring": "generative", "judge_order_balance": False,
+            "judge_tau": 0.0}
 
 
 class FlagDefaultTests(unittest.TestCase):

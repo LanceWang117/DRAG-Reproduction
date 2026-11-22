@@ -112,6 +112,15 @@ FLAG_SPECS: Tuple[FlagSpec, ...] = (
     FlagSpec("enable_prefix_caching", bool, False,
              doc="Enable vLLM automatic prefix caching in the FlashRAG backend; off by "
                  "default because it is not bit-identical to a cold prefill."),
+    FlagSpec("judge_scoring", str, "generative", choices=("generative", "logprob"),
+             doc="generative parses the Judge text; logprob scores the Proponent and "
+                 "Opponent label log-probabilities and never retries."),
+    FlagSpec("judge_order_balance", bool, False,
+             doc="Score the Proponent-first and Opponent-first presentations in one "
+                 "batched call and average their margins; needs judge_scoring=logprob."),
+    FlagSpec("judge_tau", float, 0.0,
+             doc="Opponent wins when the (averaged) Opponent-minus-Proponent log-prob "
+                 "margin exceeds this threshold; ties go to Proponent."),
 )
 _SPECS_BY_NAME = {spec.name: spec for spec in FLAG_SPECS}
 
@@ -193,6 +202,8 @@ class Flags:
             raise FlagError(
                 f"unknown flag(s) {unknown}; known flags: {sorted(_SPECS_BY_NAME)}")
         resolved = {s.name: _check(s, values.get(s.name, s.default)) for s in FLAG_SPECS}
+        if resolved["judge_order_balance"] and resolved["judge_scoring"] != "logprob":
+            raise FlagError("judge_order_balance requires judge_scoring='logprob'")
         object.__setattr__(self, "_values", resolved)
 
     def __getattr__(self, name: str) -> Any:
