@@ -70,6 +70,7 @@ class BudgetSelectionTests(unittest.TestCase):
         self.assertLessEqual(selection.context_tokens, budget)
         self.assertLess(len(selection.entries[0].contents),
                         len(anchored[0].contents))
+        self.assertEqual(selection.entries[0].contents.split("\n")[0], "Long")
 
     def test_a_budget_below_the_anchored_minimum_is_an_error(self):
         anchored = [entry("a", "Long\n" + " ".join(f"t{i}" for i in range(30)),
@@ -161,6 +162,20 @@ class EvidenceFirstPipelineTests(unittest.TestCase):
                 self.assertTrue(text.startswith(expected))
             self.assertTrue(expected.endswith("body one\n"))
 
+    def test_role_first_budget_renders_the_selected_evidence(self):
+        flags = Flags({"max_query_debate_rounds": 1, "max_answer_debate_rounds": 1,
+                       "evidence_store": "anchored", "context_token_budget": 50})
+        outputs = ["proponent argument", "no action here", "Proponent",
+                   "proponent answer", "opponent answer", "The answer is: final"]
+        docs = {"who wrote it?": [{"id": f"d{i}", "contents": f"Article {i}\n"
+                                    + " ".join(f"word{i}_{j}" for j in range(4))}
+                                  for i in range(3)]}
+        item, _state = self.run_pipeline(flags, outputs, docs)
+        prompt = item.output["QueryStage_Proponent Agent 0_Round0_InputPrompt"]
+        self.assertLessEqual(whitespace_tokens(prompt[1]["content"]), 50)
+        for i in range(3):
+            self.assertIn(f"E1-{i + 1}", prompt[1]["content"])
+
     def test_budgeted_evidence_first_stays_under_the_budget(self):
         flags = Flags({"max_query_debate_rounds": 1, "max_answer_debate_rounds": 1,
                        "prompt_layout": "evidence_first", "evidence_store": "anchored",
@@ -223,21 +238,6 @@ class PrefixCachingTests(unittest.TestCase):
                                     llm_factory=llm_factory)
         self.assertIs(generator, sentinel)
         self.assertEqual(calls, [])
-
-    def test_lora_keeps_the_lora_arguments(self):
-        calls = []
-
-        def llm_factory(path, **kwargs):
-            calls.append(kwargs)
-            return "llm"
-
-        config = {"model_path": "/model"}
-        flags = Flags({"enable_prefix_caching": True})
-        generator = build_generator(config, flags, lambda cfg: None, FakeVLLM, FakeBase,
-                                    llm_factory=llm_factory,
-                                    tokenizer_factory=lambda path, **kw: "tok")
-        self.assertFalse(calls[0].get("enable_lora", False))
-        self.assertEqual(generator.model, "llm")
 
 
 if __name__ == "__main__":

@@ -71,8 +71,23 @@ def _cost(entries: Sequence[EvidenceEntry], count_tokens: Callable[[str], int],
 def _truncate(entry: EvidenceEntry, selected: List[EvidenceEntry], index: int,
               available: int, count_tokens: Callable[[str], int],
               delimiters: bool) -> EvidenceEntry:
-    """Shrink one passage's words until the whole anchored block fits."""
-    words = entry.contents.split()
+    """Shrink one passage's body, then its title, until the anchored block fits."""
+    title, separator, body = entry.contents.partition("\n")
+    words = body.split() if separator else []
+    while words:
+        candidate = replace(entry, contents=f"{title}\n{' '.join(words)}")
+        trial = list(selected)
+        trial[index] = candidate
+        if _cost(trial, count_tokens, delimiters) <= available:
+            return candidate
+        words.pop()
+    if separator:
+        candidate = replace(entry, contents=title)
+        trial = list(selected)
+        trial[index] = candidate
+        if _cost(trial, count_tokens, delimiters) <= available:
+            return candidate
+    words = title.split()
     while words:
         candidate = replace(entry, contents=" ".join(words))
         trial = list(selected)
