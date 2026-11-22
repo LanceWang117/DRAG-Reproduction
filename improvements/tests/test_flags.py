@@ -104,6 +104,15 @@ class FlagFileTests(unittest.TestCase):
         with self.assertRaisesRegex(FlagError, "JSON object"):
             load_flags(self.write("[1, 2]"))
 
+    def test_layout_and_budget_flags_validate(self):
+        self.assertEqual(Flags({"prompt_layout": "evidence_first"}).prompt_layout,
+                         "evidence_first")
+        for values in ({"prompt_layout": "role_second"}, {"context_token_budget": 0},
+                       {"context_token_budget": True},
+                       {"enable_prefix_caching": "yes"}):
+            with self.subTest(values=values), self.assertRaises(FlagError):
+                Flags(values)
+
     def test_manifest_round_trips_through_json(self):
         flags = Flags({"answer_extractor": "unified", "max_query_debate_rounds": 0})
         restored = Flags(json.loads(json.dumps(flags.to_manifest())))
