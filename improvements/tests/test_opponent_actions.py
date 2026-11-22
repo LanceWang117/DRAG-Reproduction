@@ -227,16 +227,18 @@ class PipelineTests(unittest.TestCase):
                                tag="r0")
                    + query_round("Proponent", tag="r1") + answer_rounds(1))
         base = {"max_query_debate_rounds": 2, "max_answer_debate_rounds": 1}
-        off, _ = self.run_pipeline(base, outputs)
-        on, _ = self.run_pipeline({**base, "judge_sees_refined_query": True}, outputs)
-        key = "QueryStage_Moderator_Round1_InputPrompt"
-        old = off.output[key][0]["content"].splitlines()
-        new = on.output[key][0]["content"].splitlines()
-        self.assertEqual(len(old), len(new))
-        changed = [(left, right) for left, right in zip(old, new) if left != right]
-        self.assertEqual(len(changed), 1)
-        self.assertTrue(changed[0][0].startswith("Question: original question?"))
-        self.assertEqual(changed[0][1], "Question: second query now")
+        for extra in ({}, {"prompt_layout": "evidence_first"}):
+            off, _ = self.run_pipeline({**base, **extra}, outputs)
+            on, _ = self.run_pipeline({**base, **extra,
+                                       "judge_sees_refined_query": True}, outputs)
+            key = "QueryStage_Moderator_Round1_InputPrompt"
+            old = off.output[key][0]["content"].splitlines()
+            new = on.output[key][0]["content"].splitlines()
+            self.assertEqual(len(old), len(new))
+            changed = [(left, right) for left, right in zip(old, new) if left != right]
+            self.assertEqual(len(changed), 1)
+            self.assertTrue(changed[0][0].startswith("Question: original question?"))
+            self.assertEqual(changed[0][1], "Question: second query now")
 
 
 if __name__ == "__main__":

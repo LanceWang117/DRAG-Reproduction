@@ -114,6 +114,9 @@ def _judge_message(ctx: StageContext, state: QuestionState, prefix, agent_order=
     if prefix is None:
         pool = _budgeted_pool(ctx, state, f"Question: {state.question}\n")
     question = _judge_question(ctx, state)
+    if prefix is not None and ctx.flags.judge_sees_refined_query:
+        prefix = prefix.replace(f"Question: {state.question}",
+                                f"Question: {question}", 1)
     return [prompts.query_moderator_system(outputs, question, pool,
                                            prefix=prefix, agent_order=agent_order)]
 
