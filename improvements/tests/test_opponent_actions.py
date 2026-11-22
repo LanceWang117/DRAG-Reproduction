@@ -13,7 +13,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from drag_plus.adapters import Backends, StageContext  # noqa: E402
 from drag_plus.evidence.actions import (ACTION_APPLIED, EXIT_ZERO_NOVELTY,  # noqa: E402
                                         find_most_similar_key)
-from drag_plus.evidence.store import register_query  # noqa: E402
+from drag_plus.evidence.store import (AnchoredEvidenceStore,  # noqa: E402
+                                      register_query)
 from drag_plus.flags import Flags  # noqa: E402
 from drag_plus.judge.action_schema import (ActionError, parse_action,  # noqa: E402
                                            validate_action)
@@ -163,6 +164,23 @@ class ApplyTests(unittest.TestCase):
         self.assertEqual(outcome, "no_action")
         self.assertEqual(state.query_pool, before)
         self.assertIn("boom", state.decisions[-1]["error"])
+
+    def test_anchored_optimize_targets_the_named_id_and_keeps_original_evidence(self):
+        state = QuestionState("original question?")
+        store = AnchoredEvidenceStore()
+        store.add_query("who wrote it?", [doc("original")], 0, anchored=True)
+        store.add_query("who wrote the novel", [doc("rewrite")], 1)
+        state.evidence, state.round = store, 2
+        register_query(state.queries, "who wrote it?", "original", 0)
+        register_query(state.queries, "who wrote the novel", "expand", 1)
+        text = raw(action="optimize", source_query_id=2,
+                   new_query="who wrote it now", reason="tighten")
+        self.assertEqual(apply_opponent_action(context({"evidence_store": "anchored"}),
+                                               state, text), ACTION_APPLIED)
+        self.assertEqual(set(state.evidence.active_pool()),
+                         {"who wrote it?", "who wrote it now"})
+        self.assertIn("original", state.evidence.ids())
+        self.assertTrue(state.evidence.query_record("who wrote the novel").superseded)
 
     def test_optimize_uses_stable_id_not_levenshtein(self):
         state = state_with("who wrote it?", "who wrote the novel")

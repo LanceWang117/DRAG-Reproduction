@@ -35,7 +35,7 @@ OPPONENT_SCHEMA = """You are a critical thinker and debater. Challenge whether t
 - optimize replaces the active query with source_query_id by new_query.
 - expand adds new_query to the pool.
 - no_op means the current evidence is sufficient.
-Use the stable ID (Q1, Q2, ...) as source_query_id, never a quoted query. new_query must be 3-30 words and keep every entity and number from its source unless the reason names the change. Add no other fields and no second JSON object."""
+Use the integer part of the stable ID (Q1 -> 1, Q2 -> 2) as source_query_id, never a quoted query. new_query must be 3-30 words and keep every entity and number from its source unless the reason names the change. Add no other fields and no second JSON object."""
 
 
 def query_opponent_schema_system(active_queries, prefix: Optional[str] = None) -> dict:
