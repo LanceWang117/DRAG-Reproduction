@@ -6,6 +6,11 @@ baseline has them, including the missing space before ``Question:`` in the debat
 """
 from __future__ import annotations
 
+from typing import Optional
+
+PROCEED = "Proceed with your role instructions."
+_EVIDENCE_ABOVE = "The evidence is in the shared context above. "
+
 PROPONENT_QUERY = (
     "You are a debater. Argue that the current retrieved content is sufficient to answer "
     "the question and no further retrieval is needed. Deliver a brief, strong argument "
@@ -48,6 +53,19 @@ _MODERATOR_INTRO = (
 )
 _FINAL_ONLY = "Output only the final answer with no explanations or additional text."
 _YES_NO_CHOICE = "Given two answer candidates, Yes and No, choose the best answer choice. "
+_JUDGE_INTRO = (
+    "You are the judge in a debate. Your task is to evaluate the arguments from agents. "
+    "There are two types of agents:\n"
+    "1. Proponent Agent: Argues that the current retrieved content is sufficient.\n"
+    "2. Opponent Agent: Argues that the current retrieved content is insufficient and "
+    "proposes query refinement.\n"
+)
+_JUDGE_TAIL = "Output only the agent's name. No explanations."
+
+
+def _with_prefix(content: str, prefix: Optional[str]) -> str:
+    """Append the unchanged role instruction after a shared evidence-first prefix."""
+    return content if prefix is None else f"{prefix}{content}"
 
 
 def _answer_format(strategy_qa: bool, concise: bool) -> str:
@@ -79,75 +97,85 @@ def format_query_pool(query_pool) -> str:
     return out
 
 
-def query_agent_system(agent_name: str) -> dict:
+def query_agent_system(agent_name: str, prefix: Optional[str] = None) -> dict:
     if "Proponent" in agent_name:
-        return {"role": "system", "content": PROPONENT_QUERY}
+        return {"role": "system", "content": _with_prefix(PROPONENT_QUERY, prefix)}
     if "Opponent" in agent_name:
-        return {"role": "system", "content": OPPONENT_QUERY}
+        return {"role": "system", "content": _with_prefix(OPPONENT_QUERY, prefix)}
     raise ValueError("The agent name must contain either Proponent or Opponent")
 
 
-def query_round_user(question: str, query_pool) -> dict:
+def query_round_user(question: str, query_pool, prefix: Optional[str] = None) -> dict:
+    if prefix is not None:
+        return {"role": "user", "content": PROCEED}
     return {"role": "user", "content": f"Question: {question}\n{format_query_pool(query_pool)}"}
 
 
-def query_moderator_system(agent_outputs: dict, input_query: str, query_pool) -> dict:
+def query_moderator_system(agent_outputs: dict, input_query: str, query_pool,
+                           prefix: Optional[str] = None) -> dict:
     """``agent_outputs`` maps agent name to its raw output for the current round."""
     arguments = "".join(f"{agent}: {output}\n" for agent, output in agent_outputs.items())
-    return {"role": "system", "content": (
-        "You are the judge in a debate. Your task is to evaluate the arguments from agents. "
-        "There are two types of agents:\n"
-        "1. Proponent Agent: Argues that the current retrieved content is sufficient.\n"
-        "2. Opponent Agent: Argues that the current retrieved content is insufficient and "
-        "proposes query refinement.\n"
-        f"Question: {input_query}\n{format_query_pool(query_pool)}\n"
-        f"Agents Arguments:\n{arguments}\nOutput only the agent's name. No explanations.")}
+    body = f"{_JUDGE_INTRO}"
+    if prefix is None:
+        body += f"Question: {input_query}\n{format_query_pool(query_pool)}\n"
+    body += f"Agents Arguments:\n{arguments}\n{_JUDGE_TAIL}"
+    return {"role": "system", "content": _with_prefix(body, prefix)}
 
 
 def judge_retry_user() -> dict:
     return {"role": "user", "content": JUDGE_RETRY}
 
 
-def question_user(question: str) -> dict:
+def question_user(question: str, prefix: Optional[str] = None) -> dict:
+    if prefix is not None:
+        return {"role": "user", "content": PROCEED}
     return {"role": "user", "content": f"Question: {question}\n"}
 
 
 def answer_agent_system(agent_name: str, query_pool, strategy_qa: bool,
-                        concise: bool = False) -> dict:
+                        concise: bool = False, prefix: Optional[str] = None) -> dict:
     """Grounded Proponent or closed-book Opponent system message."""
     fmt = _answer_format(strategy_qa, concise)
     if "Proponent" in agent_name:
-        return {"role": "system", "content": (
-            f"Answer the question based on the given document. {fmt} "
-            f"The following are given documents.\n{format_query_pool(query_pool)}")}
+        docs = (_EVIDENCE_ABOVE if prefix is not None
+                else f"The following are given documents.\n{format_query_pool(query_pool)}")
+        content = f"Answer the question based on the given document. {fmt} {docs}"
+        return {"role": "system", "content": _with_prefix(content, prefix)}
     if "Opponent" in agent_name:
-        return {"role": "system",
-                "content": f"Answer the question based on your own knowledge. {fmt}"}
+        content = f"Answer the question based on your own knowledge. {fmt}"
+        return {"role": "system", "content": _with_prefix(content, prefix)}
     raise ValueError("The agent name must contain either Proponent or Opponent")
 
 
-def answer_only_system(query_pool, strategy_qa: bool) -> dict:
+def answer_only_system(query_pool, strategy_qa: bool,
+                       prefix: Optional[str] = None) -> dict:
     choice = _YES_NO_CHOICE if strategy_qa else ""
-    return {"role": "system", "content": (
-        f"Answer the question based on the given document. {choice}{_FINAL_ONLY}"
-        f"\n{format_query_pool(query_pool)}")}
+    docs = "" if prefix is not None else f"\n{format_query_pool(query_pool)}"
+    content = f"Answer the question based on the given document. {choice}{_FINAL_ONLY}{docs}"
+    return {"role": "system", "content": _with_prefix(content, prefix)}
 
 
 def answer_debate_user(others: dict, question: str, round_index: int,
-                       strategy_qa: bool, concise: bool = False) -> dict:
+                       strategy_qa: bool, concise: bool = False,
+                       prefix: Optional[str] = None) -> dict:
     """``others`` maps agent name to its chat history; round r reads index 2r."""
     fmt = _answer_format(strategy_qa, concise)
-    text = f"{_DEBATE_INTRO}{fmt}Question: {question}\nOther agents responses:\n"
+    asked = "" if prefix is not None else f"Question: {question}\n"
+    text = f"{_DEBATE_INTRO}{fmt}{asked}Other agents responses:\n"
     for agent_name, history in others.items():
         text += f"{agent_name}: {history[round_index*2]['content']}\n"
     return {"role": "user", "content": text}
 
 
-def answer_moderator_system(strategy_qa: bool) -> dict:
+def answer_moderator_system(strategy_qa: bool, prefix: Optional[str] = None) -> dict:
     choice = _YES_NO_CHOICE if strategy_qa else ""
-    return {"role": "system", "content": f"{_MODERATOR_INTRO}{choice}{_FINAL_ONLY}"}
+    content = f"{_MODERATOR_INTRO}{choice}{_FINAL_ONLY}"
+    return {"role": "system", "content": _with_prefix(content, prefix)}
 
 
-def answer_moderator_user(question: str, query_pool, responses: str) -> dict:
+def answer_moderator_user(question: str, query_pool, responses: str,
+                          prefix: Optional[str] = None) -> dict:
+    if prefix is not None:
+        return {"role": "user", "content": responses}
     return {"role": "user",
             "content": f"Question: {question}\n{format_query_pool(query_pool)}\n{responses}"}

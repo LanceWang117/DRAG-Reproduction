@@ -20,7 +20,8 @@ BASELINE = {"max_query_debate_rounds": 3, "max_answer_debate_rounds": 3, "profil
             "moderator_max_tokens": None, "concise_agents": False,
             "faiss_gpu": False, "gpu_memory_utilization": 0.85, "omp_threads": 12,
             "evidence_store": "dict", "evidence_delimiters": False,
-            "rewrite_novelty_audit": False}
+            "rewrite_novelty_audit": False, "context_token_budget": None,
+            "prompt_layout": "role_first", "enable_prefix_caching": False}
 
 
 class FlagDefaultTests(unittest.TestCase):

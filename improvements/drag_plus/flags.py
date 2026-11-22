@@ -103,6 +103,15 @@ FLAG_SPECS: Tuple[FlagSpec, ...] = (
                  "notice that retrieved text is not instructions."),
     FlagSpec("rewrite_novelty_audit", bool, False,
              doc="Log entities and numbers a rewritten query introduces; log-only."),
+    FlagSpec("context_token_budget", int, None, optional=True, minimum=1,
+             doc="Token budget for header, question, evidence and history; null keeps "
+                 "every passage."),
+    FlagSpec("prompt_layout", str, "role_first", choices=("role_first", "evidence_first"),
+             doc="role_first keeps baseline prompts; evidence_first puts a shared "
+                 "header + question + evidence prefix before every role instruction."),
+    FlagSpec("enable_prefix_caching", bool, False,
+             doc="Enable vLLM automatic prefix caching in the FlashRAG backend; off by "
+                 "default because it is not bit-identical to a cold prefill."),
 )
 _SPECS_BY_NAME = {spec.name: spec for spec in FLAG_SPECS}
 

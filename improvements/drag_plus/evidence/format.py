@@ -79,7 +79,8 @@ def entries_from_pool(pool) -> List[EvidenceEntry]:
                 continue
             seen.add(doc_id)
             entries.append(EvidenceEntry(doc_id, str(passage.get("contents", "")),
-                                         label(qid, rank), qid, rank, 0))
+                                         label(qid, rank), qid, rank, 0,
+                                         anchored=(qid == 1)))
     return entries
 
 
