@@ -1,11 +1,12 @@
 """J12: log-prob Judge decisions, order balancing and the no-retry path."""
 import copy
 import unittest
+from types import SimpleNamespace
 
 from drag_plus.adapters import prompt_count
 from drag_plus.flags import FlagError, Flags
-from drag_plus.judge.logprob import (LABELS, ScoredOutput, decide, margin,
-                                     resolve_scored)
+from drag_plus.judge.logprob import (LABELS, ScoredGenerator, ScoredOutput, decide,
+                                     margin, resolve_scored)
 from drag_plus.pipeline import DragPlusPipeline
 from fakes import FakeRetriever, IdentityTemplate, RecordingItem, ScriptedGenerator
 
@@ -58,6 +59,71 @@ def argument_order(prompt):
     lines = prompt.splitlines()
     start = lines.index("Agents Arguments:")
     return [line.split(":", 1)[0] for line in lines[start + 1:start + 3]]
+
+
+class _Logprob:
+    def __init__(self, value):
+        self.logprob = value
+
+
+class FakeTokenizer:
+    def __init__(self, vocab):
+        self.vocab = vocab
+
+    def encode(self, text, add_special_tokens=False):
+        return list(self.vocab.get(text, []))
+
+
+class FakeVLLMGenerator:
+    """Return raw vLLM-shaped outputs: text plus per-position token log-probs."""
+
+    def __init__(self, tokenizer, replies):
+        self.tokenizer = tokenizer
+        self.replies = list(replies)
+        self.calls = []
+
+    def generate(self, prompts, **params):
+        self.calls.append((copy.deepcopy(prompts), dict(params)))
+        return [self._output(*self.replies.pop(0)) for _ in prompts]
+
+    @staticmethod
+    def _output(text, positions):
+        maps = [{token: _Logprob(value) for token, value in position.items()}
+                for position in positions]
+        return SimpleNamespace(outputs=[SimpleNamespace(text=text, logprobs=maps)])
+
+
+class ScoredGeneratorTests(unittest.TestCase):
+    def test_first_token_scores_and_sampling_params(self):
+        vocab = {"Proponent": [10, 11], " Proponent": [12],
+                 "Opponent": [30, 31], " Opponent": [32]}
+        generator = FakeVLLMGenerator(FakeTokenizer(vocab),
+                                      [("Opponent", [{10: -2.0, 30: -1.0}])])
+        adapter = ScoredGenerator(generator)
+        outputs = adapter.generate_with_scores(["prompt"], labels=LABELS)
+        self.assertEqual(outputs, [ScoredOutput("Opponent", {"Proponent": -2.0,
+                                                             "Opponent": -1.0})])
+        _, params = generator.calls[0]
+        self.assertEqual((params["max_tokens"], params["logprobs"]), (2, 32))
+        self.assertTrue(params["return_raw_output"])
+        self.assertEqual(params["temperature"], 0.0)
+
+    def test_colliding_first_tokens_sum_the_full_label(self):
+        vocab = {"Proponent": [10, 11], " Opponent": [21], "Opponent": [10, 12]}
+        positions = [{10: -1.0}, {11: -0.5, 12: -0.25}]
+        generator = FakeVLLMGenerator(FakeTokenizer(vocab), [("x", positions)])
+        scores = ScoredGenerator(generator).generate_with_scores(
+            ["p"], labels=LABELS)[0].label_logprobs
+        self.assertAlmostEqual(scores["Proponent"], -1.5)
+        self.assertAlmostEqual(scores["Opponent"], -1.25)
+
+    def test_absent_label_token_is_none_not_zero(self):
+        vocab = {"Proponent": [10], "Opponent": [30]}
+        generator = FakeVLLMGenerator(FakeTokenizer(vocab),
+                                      [("Opponent", [{10: -2.0}])])
+        scores = ScoredGenerator(generator).generate_with_scores(
+            ["p"], labels=LABELS)[0].label_logprobs
+        self.assertEqual((scores["Proponent"], scores["Opponent"]), (-2.0, None))
 
 
 class DecisionTests(unittest.TestCase):

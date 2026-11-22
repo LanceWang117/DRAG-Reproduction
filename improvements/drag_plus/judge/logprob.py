@@ -95,11 +95,11 @@ class ScoredGenerator:
     """FlashRAG's ``VLLMGenerator`` plus ``generate_with_scores`` for the Judge.
 
     ``generate`` is the unchanged baseline path. ``generate_with_scores`` asks vLLM for
-    the top-k log-probabilities of the first generated position (``max_tokens=1``) and
-    maps each label's first token to its log-probability. The label is tried with and
-    without a leading space; a label whose first token is absent, or two labels that
-    share it and cannot be summed over the returned positions, maps to ``None`` so the
-    pipeline falls back to the generated text.
+    the top-k log-probabilities of the first generated positions (a generation only as
+    long as the longest label) and maps each label's first token to its log-probability.
+    The label is tried with and without a leading space; a label whose first token is
+    absent, or two labels that share it and cannot be summed over the returned
+    positions, maps to ``None`` so the pipeline falls back to the generated text.
 
     ``outputs`` must be raw vLLM ``RequestOutput`` objects, which FlashRAG returns for
     ``return_raw_output=True``.
@@ -118,7 +118,9 @@ class ScoredGenerator:
         """One vLLM call for all prompts; one scored text per prompt, in order."""
         batch = prompts if isinstance(prompts, list) and prompts and not isinstance(
             prompts[0], dict) else [prompts]
-        options = {"return_raw_output": True, "temperature": 0.0, "max_tokens": 1,
+        lengths = [len(ids) for label in labels for ids in self._candidates(label)]
+        options = {"return_raw_output": True, "temperature": 0.0,
+                   "max_tokens": max(lengths, default=1),
                    "logprobs": max(self._logprob_k, 2 * len(labels) + 4)}
         options.update(params)
         raw = self._generator.generate(batch, **options)
@@ -155,13 +157,16 @@ class ScoredGenerator:
                 if positions and ids[0] in positions[0]:
                     picked[label] = ids
                     break
-        if len(picked) != len(labels):
+        if not picked:
             return scores
         firsts = [ids[0] for ids in picked.values()]
-        if len(set(firsts)) == len(firsts):
-            return {label: positions[0][ids[0]] for label, ids in picked.items()}
-        return {label: self._sequence_sum(positions, ids)
-                for label, ids in picked.items()}
+        if len(set(firsts)) != len(firsts):
+            for label, ids in picked.items():
+                scores[label] = self._sequence_sum(positions, ids)
+            return scores
+        for label, ids in picked.items():
+            scores[label] = positions[0][ids[0]]
+        return scores
 
     @staticmethod
     def _sequence_sum(positions: List[Dict[int, float]],
