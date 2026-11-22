@@ -121,6 +121,12 @@ FLAG_SPECS: Tuple[FlagSpec, ...] = (
     FlagSpec("judge_tau", float, 0.0,
              doc="Opponent wins when the (averaged) Opponent-minus-Proponent log-prob "
                  "margin exceeds this threshold; ties go to Proponent."),
+    FlagSpec("opponent_action_schema", bool, False,
+             doc="Opponent ends its reasoning with a JSON action; parse, validate and "
+                 "apply it transactionally with stable query IDs."),
+    FlagSpec("judge_sees_refined_query", bool, False,
+             doc="The query-stage Judge sees the latest active refined query in its "
+                 "Question line instead of the original question."),
 )
 _SPECS_BY_NAME = {spec.name: spec for spec in FLAG_SPECS}
 

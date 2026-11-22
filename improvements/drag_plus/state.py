@@ -2,7 +2,9 @@
 
 Nothing about a question survives on the pipeline object. Stages read and write this
 record, and every ``update_output`` write goes through ``emit`` so it is both forwarded
-to the dataset item and kept in order for transcripts.
+to the dataset item and kept in order for transcripts. ``queries`` is the stable query
+trail (J13): ``{qid, text, source, round}`` in first-seen order, where a numeric ID is
+never reused even after its query leaves the active pool.
 """
 from __future__ import annotations
 
@@ -20,6 +22,7 @@ class QuestionState:
     key: Optional[Tuple[Any, ...]] = None
     query_pool: Dict[str, list] = field(default_factory=dict)
     evidence: Optional[Any] = None
+    queries: List[dict] = field(default_factory=list)
     query_messages: Dict[str, list] = field(default_factory=dict)
     answer_messages: Dict[str, list] = field(default_factory=dict)
     decisions: List[dict] = field(default_factory=list)

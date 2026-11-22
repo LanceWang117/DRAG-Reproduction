@@ -17,6 +17,9 @@ from .evidence import layout
 from .evidence.actions import (ACTION_APPLIED, EXIT_DUPLICATE, EXIT_ZERO_NOVELTY,
                                QueryPoolError, maintain_query_pool, prepare_pool,
                                search, sync_pool)
+from .evidence.store import id_map, latest_refined, register_query
+from .judge.action_schema import active_queries
+from .judge.actions import apply_opponent_action
 from .judge_decision import JudgeDecision, resolve_judge_decision
 from .judge.logprob import LABELS, ScoredVerdict, resolve_scored
 from .state import QuestionState
@@ -26,6 +29,24 @@ OPPONENT = "Opponent Agent 0"
 AGENTS = (PROPONENT, OPPONENT)
 
 
+def _register_queries(state: QuestionState, source: str) -> None:
+    """Give every current plan query a stable ID (J13); existing records keep theirs."""
+    for query in active_queries(state):
+        register_query(state.queries, query, source, state.round)
+
+
+def _schema_prompt(ctx: StageContext, state: QuestionState, prefix=None):
+    """The schema-mode Opponent prompt: stable-ID map plus baseline evidence pool."""
+    pairs = id_map(state.queries, active_queries(state))
+    system = prompts.query_opponent_schema_system(pairs, prefix=prefix)
+    if prefix is None:
+        pool = _budgeted_pool(ctx, state, f"Question: {state.question}\n")
+        user = prompts.query_round_user(state.question, pool)
+    else:
+        user = prompts.query_round_user(state.question, state.query_pool, prefix=prefix)
+    return ctx.backends.render([system, user])
+
+
 def _budgeted_pool(ctx: StageContext, state: QuestionState, fixed_text: str):
     """Role-first rendering under a budget; the baseline pool without one."""
     return layout.role_pool(ctx, state, fixed_text, "query")
@@ -33,6 +54,8 @@ def _budgeted_pool(ctx: StageContext, state: QuestionState, fixed_text: str):
 
 def _agent_prompt(ctx: StageContext, state: QuestionState, agent: str,
                   prefix=None):
+    if ctx.flags.opponent_action_schema and "Opponent" in agent:
+        return _schema_prompt(ctx, state, prefix)
     if prefix is not None:
         messages = [prompts.query_agent_system(agent, prefix=prefix),
                     prompts.query_round_user(state.question, state.query_pool,
@@ -76,6 +99,13 @@ def _run_agents(ctx: StageContext, state: QuestionState, round_index: int,
         _agent_turn(ctx, state, round_index, agent, prefix)
 
 
+def _judge_question(ctx: StageContext, state: QuestionState) -> str:
+    """The original question, or the latest active refined query when J13 asks for it."""
+    if not ctx.flags.judge_sees_refined_query:
+        return state.question
+    return latest_refined(state.queries, active_queries(state)) or state.question
+
+
 def _judge_message(ctx: StageContext, state: QuestionState, prefix, agent_order=None):
     """The Judge's system message for one presentation order (None = baseline)."""
     order = tuple(state.query_messages) if agent_order is None else tuple(agent_order)
@@ -83,7 +113,8 @@ def _judge_message(ctx: StageContext, state: QuestionState, prefix, agent_order=
     pool = state.query_pool
     if prefix is None:
         pool = _budgeted_pool(ctx, state, f"Question: {state.question}\n")
-    return [prompts.query_moderator_system(outputs, state.question, pool,
+    question = _judge_question(ctx, state)
+    return [prompts.query_moderator_system(outputs, question, pool,
                                            prefix=prefix, agent_order=agent_order)]
 
 
@@ -164,7 +195,14 @@ def _continues_after(ctx: StageContext, state: QuestionState, verdict: JudgeDeci
         return True
     if verdict.decision == "Proponent":
         return False
-    outcome = maintain_query_pool(ctx, state, state.query_messages[OPPONENT][1])
+    output = state.query_messages[OPPONENT][1]
+    if ctx.flags.opponent_action_schema:
+        outcome = apply_opponent_action(ctx, state, output)
+    else:
+        outcome = maintain_query_pool(ctx, state, output)
+        source = ("optimize" if "Query Optimization:" in output else
+                  "expand" if "Query Expansion:" in output else "refined")
+        _register_queries(state, source)
     if outcome in (EXIT_DUPLICATE, EXIT_ZERO_NOVELTY):
         state.decisions.append({"stage": "query", "round": state.round,
                                 "decision": "query_exit", "status": outcome})
@@ -198,6 +236,7 @@ def run_query_stage(ctx: StageContext, state: QuestionState) -> None:
                 sync_pool(ctx, state)
             else:
                 state.query_pool[question.strip()] = passages
+            _register_queries(state, "original")
         if rounds == 0:
             return
         prefix = _round_prefix(ctx, state)
