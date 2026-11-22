@@ -8,7 +8,7 @@ precondition for J11.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional
+from typing import Dict, Iterable, List, Optional, Tuple
 
 from .format import EvidenceEntry, format_entries, format_pool, label
 
@@ -27,6 +27,58 @@ class QueryRecord:
     superseded: bool = False
 
 
+def register_query(records: List[dict], query: str, source: str,
+                   round_index: int) -> int:
+    """Return the stable ID of ``query``, appending a first-seen record if new.
+
+    ``records`` is the per-question query trail (``QuestionState.queries``). IDs are
+    allocated in order and never reused, so an action can address a query long after
+    a Levenshtein key match would have become ambiguous.
+    """
+    text = str(query).strip()
+    for record in records:
+        if record["text"] == text:
+            return int(record["qid"])
+    qid = max((int(record["qid"]) for record in records), default=0) + 1
+    records.append({"qid": qid, "text": text, "source": source,
+                    "round": round_index})
+    return qid
+
+
+def query_id(records: List[dict], query: str) -> Optional[int]:
+    """The stable ID for ``query``, or None when it was never registered."""
+    text = str(query).strip()
+    for record in records:
+        if record["text"] == text:
+            return int(record["qid"])
+    return None
+
+
+def query_text(records: List[dict], qid: int) -> Optional[str]:
+    """The text a stable ID was assigned to, or None for an unknown/retired ID."""
+    for record in records:
+        if int(record["qid"]) == qid:
+            return str(record["text"])
+    return None
+
+
+def id_map(records: List[dict], active: Iterable[str]) -> List[Tuple[int, str]]:
+    """Active ``(qid, text)`` pairs in stable ID order, for the Opponent prompt."""
+    current = {str(query).strip() for query in active}
+    return [(int(record["qid"]), str(record["text"])) for record in records
+            if str(record["text"]) in current]
+
+
+def latest_refined(records: List[dict], active: Iterable[str]) -> Optional[str]:
+    """The highest-ID active non-original query, or None when none was refined."""
+    current = {str(query).strip() for query in active}
+    refined = [record for record in records
+               if record["source"] != "original" and str(record["text"]) in current]
+    if not refined:
+        return None
+    return str(max(refined, key=lambda record: int(record["qid"]))["text"])
+
+
 class AnchoredEvidenceStore:
     """Append-only, deterministic evidence for one question."""
 
@@ -36,6 +88,24 @@ class AnchoredEvidenceStore:
         self._labels: set = set()
         self._queries: Dict[str, QueryRecord] = {}
         self._next_qid = 1
+
+    def copy(self) -> "AnchoredEvidenceStore":
+        """A deep-enough clone for transactional actions (lists and records copied).
+
+        Entries are immutable; the query records and their passage lists are not, so
+        the clone gets its own records and lists. A failed action discards the clone
+        and the original store is untouched.
+        """
+        clone = AnchoredEvidenceStore()
+        clone.entries = list(self.entries)
+        clone._by_id = dict(self._by_id)
+        clone._labels = set(self._labels)
+        clone._queries = {
+            query: QueryRecord(record.qid, record.query, list(record.passages),
+                               record.anchored, record.superseded)
+            for query, record in self._queries.items()}
+        clone._next_qid = self._next_qid
+        return clone
 
     def add_query(self, query: str, passages: List[dict], round_index: int,
                   anchored: bool = False) -> int:

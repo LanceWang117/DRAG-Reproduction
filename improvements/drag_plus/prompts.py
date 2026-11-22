@@ -30,6 +30,21 @@ JUDGE_RETRY = (
     "Do not list both names, add punctuation, or explain."
 )
 
+OPPONENT_SCHEMA = """You are a critical thinker and debater. Challenge whether the current retrieved content is sufficient. Reason briefly, then end with exactly one JSON object and no text after it:
+{"action": "optimize" | "expand" | "no_op", "source_query_id": <integer or null>, "new_query": "<query or empty>", "reason": "<one sentence>"}
+- optimize replaces the active query with source_query_id by new_query.
+- expand adds new_query to the pool.
+- no_op means the current evidence is sufficient.
+Use the integer part of the stable ID (Q1 -> 1, Q2 -> 2) as source_query_id, never a quoted query. new_query must be 3-30 words and keep every entity and number from its source unless the reason names the change. Add no other fields and no second JSON object."""
+
+
+def query_opponent_schema_system(active_queries, prefix: Optional[str] = None) -> dict:
+    """The schema-mode Opponent system message with the active stable-ID map."""
+    lines = ["Active queries (stable IDs):"]
+    lines.extend(f"Q{qid}: {text}" for qid, text in active_queries)
+    content = OPPONENT_SCHEMA + "\n" + "\n".join(lines)
+    return {"role": "system", "content": _with_prefix(content, prefix)}
+
 _ANSWER_FORMAT = (
     "Explain your answer, and always put the answer after 'The answer is: ', "
     "e.g.'The answer is: answer.', at the end of your response."

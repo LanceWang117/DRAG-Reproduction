@@ -247,6 +247,28 @@ union (gold-string recall, 0.5257 vs 0.5829).
 python scripts/replay_evidence.py
 ```
 
+### Structured Opponent actions and Judge visibility
+
+`opponent_action_schema=true` replaces the free-text Opponent instruction with a
+reasoning-plus-JSON schema: `{action, source_query_id, new_query, reason}`, where
+`action` is `optimize`, `expand` or `no_op`. The parser takes the last balanced JSON
+object (fences and trailing text are tolerated), rejects a second action object, unknown
+or missing fields, wrong types and an empty `new_query`; the validator requires 3-30
+tokens, no duplicate of an active query, an existing source ID for `optimize`, and a
+reason when a source entity is dropped. Queries carry stable IDs (`Q1`, `Q2`, ...) in
+first-seen order, so `optimize` targets the named ID instead of the baseline's
+Levenshtein "closest key". The candidate pool is built and validated before one commit;
+any failure leaves the pool unchanged and logs `{raw, parsed, error}` as an
+`opponent_action` decision. An invalid action counts as `no_op` for control flow.
+
+`judge_sees_refined_query=true` changes only the query-stage Judge's `Question:` line,
+from the original question to the latest active refined query. Both flags default to
+`false`, which keeps the v1.0.1 transcript byte for byte.
+
+```json
+{"opponent_action_schema": true, "judge_sees_refined_query": true}
+```
+
 ### Token budget and prompt layout
 
 Three flags control context growth and prompt reuse; all default to the baseline:
