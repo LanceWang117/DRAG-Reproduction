@@ -166,6 +166,46 @@ def flashrag_settings(overrides: Dict[str, Any], flags: Any, dataset: str, split
                 gpu_memory_utilization=flags.gpu_memory_utilization)
 
 
+def _vllm_llm(model_path: str, **kwargs: Any) -> Any:
+    from vllm import LLM  # lazy: only the real backend
+    return LLM(model_path, **kwargs)
+
+
+def _auto_tokenizer(model_path: str, **kwargs: Any) -> Any:
+    from transformers import AutoTokenizer  # lazy: only the real backend
+    return AutoTokenizer.from_pretrained(model_path, **kwargs)
+
+
+def build_generator(config: Any, flags: Any, get_generator: Callable[[Any], Any],
+                    base_cls: Any = None, base_generator_cls: Any = None,
+                    llm_factory: Optional[Callable[..., Any]] = None,
+                    tokenizer_factory: Optional[Callable[..., Any]] = None) -> Any:
+    """FlashRAG's generator, or an APC-enabled VLLMGenerator subclass when flagged.
+
+    FlashRAG builds ``vllm.LLM`` inline with no ``enable_prefix_caching`` hook, so the
+    flag subclasses it with the same arguments; off calls the factory unchanged.
+    """
+    if not flags.enable_prefix_caching:
+        return get_generator(config)
+    if base_cls is None or base_generator_cls is None:
+        raise ValueError("enable_prefix_caching needs the FlashRAG VLLMGenerator classes")
+    make_llm, make_tokenizer = llm_factory or _vllm_llm, tokenizer_factory or _auto_tokenizer
+
+    class PrefixCachingVLLMGenerator(base_cls):
+        def __init__(self, config: Any):
+            base_generator_cls.__init__(self, config)
+            options = dict(tensor_parallel_size=self.tensor_parallel_size,
+                           gpu_memory_utilization=self.gpu_memory_utilization,
+                           max_logprobs=32016, max_model_len=self.max_model_len,
+                           enable_prefix_caching=True)
+            if self.use_lora:
+                options.update(enable_lora=True, max_lora_rank=64)
+            self.model = make_llm(self.model_path, **options)
+            self.tokenizer = make_tokenizer(self.model_path, trust_remote_code=True)
+
+    return PrefixCachingVLLMGenerator(config)
+
+
 def build_flashrag_backend(source: Path, overrides: Dict[str, Any], rows: List[dict],
                            out_dir: Path, flags: Any) -> Backend:
     """Build FlashRAG objects once, like the submission runner. Needs the A100 stack."""
@@ -174,6 +214,7 @@ def build_flashrag_backend(source: Path, overrides: Dict[str, Any], rows: List[d
     from flashrag.config import Config
     from flashrag.dataset import Dataset
     from flashrag.evaluator import Evaluator
+    from flashrag.generator.generator import BaseGenerator, VLLMGenerator
     from flashrag.prompt import PromptTemplate
     from flashrag.utils import get_generator, get_retriever
     from model.prompt import standard_rag_prompt_template
@@ -185,10 +226,12 @@ def build_flashrag_backend(source: Path, overrides: Dict[str, Any], rows: List[d
 
     first = rows[0]
     base = config_for(first["dataset"], first["split"], "drag")
-    generator, retriever = build_rag_objects(base, flags.faiss_gpu, get_generator,
+    def generator_factory(config: Any) -> Any:
+        return build_generator(config, flags, get_generator, VLLMGenerator, BaseGenerator)
+
+    generator, retriever = build_rag_objects(base, flags.faiss_gpu, generator_factory,
                                              get_retriever)
     tokenizer = AutoTokenizer.from_pretrained(overrides["model2path"][overrides["generator_model"]])
-
     def make_template(arm: str, dataset: str) -> Any:
         config = config_for(dataset, first["split"], arm)
         return PromptTemplate(config) if arm == "drag" else standard_rag_prompt_template[dataset](config)

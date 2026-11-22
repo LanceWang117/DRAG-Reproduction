@@ -83,12 +83,14 @@ class _Pipelines:
                                         config_fingerprint(self._flags))
 
     def get(self, arm: str, dataset: str):
+        """The pipeline for one (arm, dataset), built once per run."""
         if (arm, dataset) not in self._cache:
             backend = self._request.backend
             cls = DragPlusPipeline if arm == "drag" else NaivePipeline
+            extra = {"count_tokens": backend.count_tokens} if cls is DragPlusPipeline else {}
             self._cache[(arm, dataset)] = cls(
                 self._flags, backend.generator, self.retriever,
-                backend.make_template(arm, dataset), dataset, self._recorder)
+                backend.make_template(arm, dataset), dataset, self._recorder, **extra)
         return self._cache[(arm, dataset)]
 
 

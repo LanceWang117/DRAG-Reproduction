@@ -6,22 +6,24 @@ runner (J03); the baseline's closing ``evaluate`` call is deliberately not part 
 """
 from __future__ import annotations
 
-from typing import Any, Iterable, List, Optional, Tuple
+from typing import Any, Callable, Iterable, List, Optional, Tuple
 
 from .adapters import Backends, StageContext
 from .answers import unified_pred
 from .answer_stage import run_answer_stage
 from .flags import Flags
+from .instrument.timing import whitespace_tokens
 from .query_stage import run_query_stage
 from .state import QuestionState
 
 
 class DragPlusPipeline:
     def __init__(self, flags: Flags, generator: Any, retriever: Any, prompt_template: Any,
-                 dataset_name: str, recorder: Any = None):
+                 dataset_name: str, recorder: Any = None,
+                 count_tokens: Callable[[str], int] = whitespace_tokens):
         backends = Backends(generator, retriever, prompt_template,
                             recorder if flags.profile_calls else None)
-        self._ctx = StageContext(flags, backends, dataset_name)
+        self._ctx = StageContext(flags, backends, dataset_name, count_tokens)
 
     @property
     def flags(self) -> Flags:

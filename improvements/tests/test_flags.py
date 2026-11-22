@@ -20,7 +20,8 @@ BASELINE = {"max_query_debate_rounds": 3, "max_answer_debate_rounds": 3, "profil
             "moderator_max_tokens": None, "concise_agents": False,
             "faiss_gpu": False, "gpu_memory_utilization": 0.85, "omp_threads": 12,
             "evidence_store": "dict", "evidence_delimiters": False,
-            "rewrite_novelty_audit": False}
+            "rewrite_novelty_audit": False, "context_token_budget": None,
+            "prompt_layout": "role_first", "enable_prefix_caching": False}
 
 
 class FlagDefaultTests(unittest.TestCase):
@@ -102,6 +103,15 @@ class FlagFileTests(unittest.TestCase):
             load_flags(self.write('{"bogus": 1}'))
         with self.assertRaisesRegex(FlagError, "JSON object"):
             load_flags(self.write("[1, 2]"))
+
+    def test_layout_and_budget_flags_validate(self):
+        self.assertEqual(Flags({"prompt_layout": "evidence_first"}).prompt_layout,
+                         "evidence_first")
+        for values in ({"prompt_layout": "role_second"}, {"context_token_budget": 0},
+                       {"context_token_budget": True},
+                       {"enable_prefix_caching": "yes"}):
+            with self.subTest(values=values), self.assertRaises(FlagError):
+                Flags(values)
 
     def test_manifest_round_trips_through_json(self):
         flags = Flags({"answer_extractor": "unified", "max_query_debate_rounds": 0})

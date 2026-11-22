@@ -8,10 +8,10 @@ construction rather than part-way through a run on the server (names only, not s
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, List, Optional, Protocol, runtime_checkable
+from typing import Any, Callable, List, Optional, Protocol, runtime_checkable
 
 from .flags import Flags
-from .instrument.timing import CallInfo, CallRecorder
+from .instrument.timing import CallInfo, CallRecorder, whitespace_tokens
 
 
 class GeneratorContractError(ValueError):
@@ -110,6 +110,7 @@ class StageContext:
     flags: Flags
     backends: Backends
     dataset_name: str
+    count_tokens: Callable[[str], int] = whitespace_tokens
 
     @property
     def strategy_qa(self) -> bool:
