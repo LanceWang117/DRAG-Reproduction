@@ -18,6 +18,7 @@ from .evidence.actions import (ACTION_APPLIED, EXIT_DUPLICATE, EXIT_ZERO_NOVELTY
                                QueryPoolError, maintain_query_pool, prepare_pool,
                                search, sync_pool)
 from .judge_decision import JudgeDecision, resolve_judge_decision
+from .judge.logprob import LABELS, ScoredVerdict, resolve_scored
 from .state import QuestionState
 
 PROPONENT = "Proponent Agent 0"
@@ -75,15 +76,33 @@ def _run_agents(ctx: StageContext, state: QuestionState, round_index: int,
         _agent_turn(ctx, state, round_index, agent, prefix)
 
 
-def _judge(ctx: StageContext, state: QuestionState, round_index: int,
-           prefix=None) -> JudgeDecision:
-    prefix_key = f"QueryStage_Moderator_Round{round_index}"
-    outputs = {agent: state.query_messages[agent][1] for agent in state.query_messages}
+def _judge_message(ctx: StageContext, state: QuestionState, prefix, agent_order=None):
+    """The Judge's system message for one presentation order (None = baseline)."""
+    order = tuple(state.query_messages) if agent_order is None else tuple(agent_order)
+    outputs = {agent: state.query_messages[agent][1] for agent in order}
     pool = state.query_pool
     if prefix is None:
         pool = _budgeted_pool(ctx, state, f"Question: {state.question}\n")
-    message = [prompts.query_moderator_system(outputs, state.question, pool,
-                                              prefix=prefix)]
+    return [prompts.query_moderator_system(outputs, state.question, pool,
+                                           prefix=prefix, agent_order=agent_order)]
+
+
+def _record_verdict(state: QuestionState, round_index: int, verdict) -> None:
+    """Emit and append one Judge decision; a log-prob margin rides along as ``score``."""
+    prefix_key = f"QueryStage_Moderator_Round{round_index}"
+    state.emit(f"{prefix_key}_Decision", verdict.decision)
+    state.emit(f"{prefix_key}_DecisionStatus", verdict.status)
+    entry = {"stage": "query", "round": round_index, "decision": verdict.decision,
+             "status": verdict.status}
+    score = getattr(verdict, "score", None)
+    if score is not None:
+        entry["score"] = score
+    state.decisions.append(entry)
+
+
+def _judge_generative(ctx: StageContext, state: QuestionState, round_index: int,
+                      prefix, prefix_key: str) -> JudgeDecision:
+    message = _judge_message(ctx, state, prefix)
     prompt = ctx.backends.render(message)
     output = ctx.backends.complete(prompt, call=state.call("query_judge", "judge"))
     state.emit(f"{prefix_key}_InputPrompt", prompt)
@@ -101,11 +120,42 @@ def _judge(ctx: StageContext, state: QuestionState, round_index: int,
         return retry_output
 
     verdict = resolve_judge_decision(output, retry)
-    state.emit(f"{prefix_key}_Decision", verdict.decision)
-    state.emit(f"{prefix_key}_DecisionStatus", verdict.status)
-    state.decisions.append({"stage": "query", "round": round_index,
-                            "decision": verdict.decision, "status": verdict.status})
+    _record_verdict(state, round_index, verdict)
     return verdict
+
+
+def _judge_logprob(ctx: StageContext, state: QuestionState, round_index: int,
+                   prefix, prefix_key: str) -> ScoredVerdict:
+    """One scored call; order balancing sends both presentations in the same batch."""
+    order = tuple(AGENTS)
+    orders = [order] + ([order[::-1]] if ctx.flags.judge_order_balance else [])
+    rendered = [ctx.backends.render(_judge_message(ctx, state, prefix, agent_order))
+                for agent_order in orders]
+    scored = ctx.backends.complete_with_scores(
+        rendered, labels=LABELS, call=state.call("query_judge", "judge"))
+    for index, (prompt, output) in enumerate(zip(rendered, scored)):
+        suffix = "" if index == 0 else f"_Order{index + 1}"
+        state.emit(f"{prefix_key}_InputPrompt{suffix}", prompt)
+        state.emit(f"{prefix_key}_Output{suffix}", output.text)
+    verdict = resolve_scored(scored, ctx.flags.judge_tau, ctx.flags.judge_order_balance)
+    state.judge_score = verdict.score
+    if verdict.score is not None:
+        state.emit(f"{prefix_key}_Score", verdict.score)
+    if verdict.status != "valid_logprob":
+        state.emit(f"{prefix_key}_Fallback", verdict.status)
+        state.decisions.append({"stage": "query", "round": round_index,
+                                "decision": "judge_fallback",
+                                "status": verdict.status})
+    _record_verdict(state, round_index, verdict)
+    return verdict
+
+
+def _judge(ctx: StageContext, state: QuestionState, round_index: int,
+           prefix=None) -> JudgeDecision | ScoredVerdict:
+    prefix_key = f"QueryStage_Moderator_Round{round_index}"
+    if ctx.flags.judge_scoring == "logprob":
+        return _judge_logprob(ctx, state, round_index, prefix, prefix_key)
+    return _judge_generative(ctx, state, round_index, prefix, prefix_key)
 
 
 def _continues_after(ctx: StageContext, state: QuestionState, verdict: JudgeDecision) -> bool:

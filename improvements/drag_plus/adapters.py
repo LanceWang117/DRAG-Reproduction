@@ -12,6 +12,7 @@ from typing import Any, Callable, List, Optional, Protocol, runtime_checkable
 
 from .flags import Flags
 from .instrument.timing import CallInfo, CallRecorder, whitespace_tokens
+from .judge.logprob import ScoredOutput
 
 
 class GeneratorContractError(ValueError):
@@ -89,6 +90,42 @@ class Backends:
             return invoke()
         return self.recorder.generation_batch(call, prompts, invoke,
                                               limit=params.get("max_tokens"))
+
+    def complete_with_scores(self, prompts: List[Any], *, labels,
+                             call: Optional[CallInfo] = None,
+                             **params: Any) -> List[ScoredOutput]:
+        """One scored generation (J12): text plus a log-prob per label and prompt.
+
+        The injected generator must implement ``generate_with_scores``; the baseline
+        ``generate`` contract is unchanged. Profiling records the call once, with the
+        generated texts for token counts, as for a text batch.
+        """
+        score = getattr(self.generator, "generate_with_scores", None)
+        if not callable(score):
+            raise TypeError(
+                "judge_scoring='logprob' needs a generator with "
+                "generate_with_scores(prompts, labels=...)")
+
+        def invoke() -> List[ScoredOutput]:
+            outputs = list(score(prompts, labels=labels, **params))
+            if len(outputs) != prompt_count(prompts):
+                raise GeneratorContractError(
+                    f"generator returned {len(outputs)} scored outputs for "
+                    f"{prompt_count(prompts)} prompts")
+            return outputs
+
+        if self.recorder is None or call is None:
+            return invoke()
+        captured: List[ScoredOutput] = []
+
+        def timed() -> List[str]:
+            captured.extend(invoke())
+            return [output.text for output in captured]
+
+        batch = prompts if isinstance(prompts, list) else [prompts]
+        self.recorder.generation_batch(call, batch, timed,
+                                       limit=params.get("max_tokens"))
+        return captured
 
     def search(self, query: str, *, call: Optional[CallInfo] = None) -> List[dict]:
         if self.recorder is None or call is None:
