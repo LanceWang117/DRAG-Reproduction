@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from typing import Callable, Optional, Tuple
 
-from .budget import BudgetedEvidence, Selection, budgeted_evidence, entries_of
+from .budget import Selection, budgeted_evidence, entries_of
 from .format import format_entries
 
 HEADER = (

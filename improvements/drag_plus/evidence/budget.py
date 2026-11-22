@@ -13,7 +13,7 @@ from collections import Counter
 from dataclasses import dataclass, replace
 from typing import Callable, List, Optional, Sequence, Tuple
 
-from .format import EvidenceEntry, entries_from_pool, format_entries, format_entry
+from .format import EvidenceEntry, entries_from_pool, format_entries
 
 DEFAULT_PER_ARTICLE = 2
 DEFAULT_REDUNDANCY = 0.5
@@ -66,11 +66,6 @@ def _render(entries: Sequence[EvidenceEntry], delimiters: bool) -> str:
 def _cost(entries: Sequence[EvidenceEntry], count_tokens: Callable[[str], int],
           delimiters: bool) -> int:
     return count_tokens(_render(entries, delimiters))
-
-
-def _entry_cost(entry: EvidenceEntry, count_tokens: Callable[[str], int],
-                delimiters: bool) -> int:
-    return max(1, count_tokens(format_entry(entry, delimiters)))
 
 
 def _truncate(entry: EvidenceEntry, selected: List[EvidenceEntry], index: int,

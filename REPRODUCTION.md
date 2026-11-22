@@ -247,6 +247,31 @@ union (gold-string recall, 0.5257 vs 0.5829).
 python scripts/replay_evidence.py
 ```
 
+### Token budget and prompt layout
+
+Three flags control context growth and prompt reuse; all default to the baseline:
+
+- `context_token_budget` (integer or `null`): selects evidence MMR-style by relevance
+  per token (retrieval rank is the relevance signal), subtracts a redundancy penalty
+  against already selected passages, and keeps at most two chunks per article. The
+  budget covers the header, question, evidence and history; role instructions are not
+  part of it. Anchored passages are never dropped: if they alone exceed the budget, the
+  lowest-rank anchored passage is truncated and a `context_budget` decision row records
+  the warning. `null` keeps every passage.
+- `prompt_layout` (`role_first` | `evidence_first`): `evidence_first` starts every
+  role's system message with one byte-identical `header + question + evidence` prefix,
+  then appends the unchanged role instruction. Evidence is append-only under
+  `evidence_store="anchored"`, so round r's prefix is a prefix of round r+1's.
+- `enable_prefix_caching` (boolean): passed to vLLM as `enable_prefix_caching=True`
+  when the FlashRAG backend builds its generator. It stays off by default because a
+  cache-hit prefill is not bit-identical to a cold prefill; only E-job variants that
+  pass the A/A floor should turn it on.
+
+```json
+{"context_token_budget": 2500, "prompt_layout": "evidence_first",
+ "enable_prefix_caching": true}
+```
+
 ### GPU retrieval
 
 Three flags control retrieval acceleration; all defaults reproduce the baseline:
