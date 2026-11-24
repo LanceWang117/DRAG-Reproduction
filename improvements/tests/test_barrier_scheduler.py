@@ -17,9 +17,10 @@ from drag_plus.scheduling.barrier import GENERATE, BarrierScheduler, Request
 from fakes import FakeRetriever, IdentityTemplate, RecordingItem
 
 
-def flags(size=1):
-    return Flags({"max_query_debate_rounds": 1, "max_answer_debate_rounds": 1,
-                  "question_batch_size": size})
+def flags(size=1, **changes):
+    values = {"max_query_debate_rounds": 1, "max_answer_debate_rounds": 1,
+              "question_batch_size": size, **changes}
+    return Flags(values)
 
 
 class CountingGenerator:
@@ -41,9 +42,10 @@ class CountingGenerator:
         return "\n".join(message["content"] for message in prompt)
 
 
-def run_questions(size, questions):
+def run_questions(size, questions, **flag_changes):
     gen = CountingGenerator()
-    pipeline = DragPlusPipeline(flags(size), gen, FakeRetriever(), IdentityTemplate(), "NQ")
+    pipeline = DragPlusPipeline(flags(size, **flag_changes), gen, FakeRetriever(),
+                                IdentityTemplate(), "NQ")
     items = [RecordingItem(question, f"q{index}") for index, question in enumerate(questions)]
     return pipeline.run(items), items, gen
 
@@ -76,6 +78,13 @@ class EquivalenceTests(unittest.TestCase):
                 self.assertEqual([item.calls for item in actual_items],
                                  [item.calls for item in expected_items])
 
+class AgentBatchTests(unittest.TestCase):
+    def test_two_prompt_agent_requests_group_across_questions(self):
+        questions = ("same question?",) * 2
+        single, _, _ = run_questions(1, questions[:1], batch_agents_in_round=True)
+        batched, _, gen = run_questions(2, questions, batch_agents_in_round=True)
+        self.assertEqual([state.outputs for state in batched], [single[0].outputs] * 2)
+        self.assertTrue(any(prompt_count(call) == 4 for call in gen.calls))
 
 class CallCountTests(unittest.TestCase):
     def test_generate_calls_equal_barriers_not_questions_times_calls(self):
@@ -164,7 +173,6 @@ class SharedReferenceTests(unittest.TestCase):
         states, _, _ = run_questions(2, ("same?", "same?"))
         self.assertIsNot(states[0], states[1])
         self.assertFalse(self.mutable_ids(states[0]) & self.mutable_ids(states[1]))
-
 
 class StopRun(BaseException):
     """Simulates an operator interrupt after the first question was checkpointed."""
