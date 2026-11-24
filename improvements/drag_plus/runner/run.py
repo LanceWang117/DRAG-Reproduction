@@ -129,8 +129,12 @@ def read_json(path: Path) -> Dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _batches(schedule, done: Dict[int, Dict[str, Any]], size: int):
-    """Yield consecutive unfinished slots of one (arm, dataset), at most ``size``."""
+def _batches(schedule, done: Dict[int, Dict[str, Any]], size: int, refill: bool = False):
+    """Yield consecutive unfinished slots of one (arm, dataset), at most ``size``.
+
+    With ``refill`` the whole unfinished run is yielded; the pipeline keeps ``size``
+    questions live and admits the rest as slots free.
+    """
     batch: List[Tuple[int, str, Dict[str, Any]]] = []
     current = None
     for order, (arm, row) in enumerate(schedule):
@@ -142,7 +146,7 @@ def _batches(schedule, done: Dict[int, Dict[str, Any]], size: int):
             batch = []
         current = key
         batch.append((order, arm, row))
-        if len(batch) >= size:
+        if not refill and len(batch) >= size:
             yield batch
             batch = []
     if batch:
@@ -152,8 +156,10 @@ def _batches(schedule, done: Dict[int, Dict[str, Any]], size: int):
 def _execute(request: RunRequest, schedule, progress: resume.Progress) -> bool:
     """Run the unfinished slots in question batches; return True if any question failed."""
     pipelines = _Pipelines(request)
+    flags = _flags(request)
     failed = False
-    for batch in _batches(schedule, progress.done, _flags(request).question_batch_size):
+    for batch in _batches(schedule, progress.done, flags.question_batch_size,
+                          flags.refill_window):
         arm, dataset = batch[0][1], batch[0][2]["dataset"]
         pipeline = pipelines.get(arm, dataset)
         items, meta = [], {}
@@ -170,7 +176,8 @@ def _execute(request: RunRequest, schedule, progress: resume.Progress) -> bool:
             request.progress(f"{arm} {row['dataset']} {order + 1}/{len(schedule)} {row['id']}")
 
         if isinstance(pipeline, DragPlusPipeline):
-            states = pipeline.run_batch(items, batch_size=len(items), on_finish=on_finish)
+            states = pipeline.run_batch(items, batch_size=flags.question_batch_size,
+                                        on_finish=on_finish)
         else:
             states = []
             for item, key in items:

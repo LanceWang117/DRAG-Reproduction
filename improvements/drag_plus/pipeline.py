@@ -21,6 +21,7 @@ from .instrument.timing import whitespace_tokens
 from .query_stage import run_query_stage
 from .scheduling.barrier import (BarrierContractError, BarrierScheduler, GENERATE,
                                  SCORES, SEARCH, Request)
+from .scheduling.refill import RefillWindow, gather_search, targets_for
 from .state import QuestionState
 
 Entry = Tuple[Any, Optional[Tuple[Any, ...]]]
@@ -36,9 +37,11 @@ def _prompt_batch(prompts: Any) -> List[Any]:
 class _RequestBackends:
     """Turn each stage backend call into a request and block for its result."""
 
-    def __init__(self, real: Backends, scheduler: BarrierScheduler):
+    def __init__(self, real: Backends, scheduler: BarrierScheduler,
+                 retrieval_batch_size: int = 64):
         self._real = real
         self._scheduler = scheduler
+        self._search_cap = retrieval_batch_size
         self.generator = real.generator
         self.retriever = real.retriever
         self.prompt_template = real.prompt_template
@@ -124,9 +127,11 @@ class _RequestBackends:
         self._split(requests, outputs, self._finish_scores, "prompts")
 
     def _execute_search(self, requests: List[Request]) -> None:
-        queries = [query for request in requests for query in request.queries]
-        results = list(self._real.retriever.batch_search(queries))
-        self._split(requests, results, self._finish_search, "queries")
+        """One gathered search group, split into chunks of at most the query cap."""
+        calls = gather_search(requests, self._real.retriever, self._search_cap)
+        self._scheduler.stats.search_calls += max(0, calls - 1)
+        for request in requests:
+            request.result = self._finish_search(request, request.result)
 
     def _split(self, requests: List[Request], values: List[Any], finish, field_name: str):
         expected = sum(len(getattr(request, field_name)) for request in requests)
@@ -200,9 +205,12 @@ class DragPlusPipeline:
         size = self._ctx.flags.question_batch_size if batch_size is None else batch_size
         if size < 1:
             raise ValueError("question_batch_size must be at least 1")
-        states: List[QuestionState] = []
-        for start in range(0, len(entries), size):
-            states.extend(self._run_chunk(entries[start:start + size], on_finish))
+        if self._ctx.flags.refill_window:
+            states = self._run_chunk(entries, on_finish, window=size)
+        else:
+            states = []
+            for start in range(0, len(entries), size):
+                states.extend(self._run_chunk(entries[start:start + size], on_finish))
         if raise_on_error:
             for state in states:
                 if state.status == "failed" and state.exception is not None:
@@ -210,20 +218,21 @@ class DragPlusPipeline:
         return states
 
     def _run_chunk(self, entries: List[Entry],
-                   on_finish: Optional[Callable[[Any, QuestionState], None]]
-                   ) -> List[QuestionState]:
+                   on_finish: Optional[Callable[[Any, QuestionState], None]],
+                   window: Optional[int] = None) -> List[QuestionState]:
+        """Run entries through one barrier; ``window`` refills slots as questions finish."""
         real = self._ctx.backends
         scheduler = BarrierScheduler(lambda requests: proxy.execute(requests))
-        proxy = _RequestBackends(real, scheduler)
+        proxy = _RequestBackends(real, scheduler, self._ctx.flags.retrieval_batch_size)
         ctx = replace(self._ctx, backends=proxy)
         states = [QuestionState(item.question, key=key, sink=item.update_output)
                   for item, key in entries]
         by_state = {id(state): item for (item, _), state in zip(entries, states)}
         callback = None if on_finish is None else \
             (lambda state: on_finish(by_state[id(state)], state))
-        targets = [(state, lambda state=state: self._run_state(ctx, state))
-                   for state in states]
-        scheduler.run(targets, callback)
+        targets = targets_for(states, lambda state: self._run_state(ctx, state))
+        refill = None if window is None else RefillWindow(targets, window)
+        scheduler.run(targets, callback, refill=refill)
         return states
 
     def _run_state(self, ctx: StageContext, state: QuestionState) -> None:

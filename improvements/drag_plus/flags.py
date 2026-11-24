@@ -42,8 +42,11 @@ FLAG_SPECS: Tuple[FlagSpec, ...] = (
     FlagSpec("batch_agents_in_round", bool, False,
              doc="Send both agents' prompts of each round in one 2-prompt call."),
     FlagSpec("question_batch_size", int, 1, minimum=1,
-             doc="Questions per barrier: one generate and one batch_search per "
-                 "(stage, round, role); 1 keeps the baseline call sequence."),
+             doc="Questions per barrier; 1 keeps the baseline call sequence."),
+    FlagSpec("refill_window", bool, False,
+             doc="Admit the next question as soon as one finishes, keeping the batch full."),
+    FlagSpec("retrieval_batch_size", int, 64, minimum=1,
+             doc="Maximum queries per gathered batch_search; 20 crosses FAISS's BLAS path."),
     FlagSpec("retrieval_cache", str, None, optional=True,
              doc="Path to retrieval-cache.jsonl; null disables the caching proxy."),
     FlagSpec("retriever", str, "e5", choices=("e5", "hybrid"),
@@ -84,9 +87,7 @@ FLAG_SPECS: Tuple[FlagSpec, ...] = (
              strict_minimum=True,
              doc="vLLM's per-GPU reservation ratio (0, 1]; lower it when the index is "
                  "on the GPU."),
-    FlagSpec("omp_threads", int, 12, minimum=1,
-             doc="OMP_NUM_THREADS and MKL_NUM_THREADS, set before FAISS, torch or "
-                 "FlashRAG is imported."),
+    FlagSpec("omp_threads", int, 12, minimum=1, doc="OMP/MKL threads, set before imports."),
     FlagSpec("evidence_store", str, "dict", choices=("dict", "anchored"), doc="dict keeps the baseline query pool; anchored keeps an append-only, doc-id-keyed store whose original passages can never be evicted."),
     FlagSpec("evidence_delimiters", bool, False, doc="Render each passage in a labelled <document> data block with a notice that retrieved text is not instructions."),
     FlagSpec("rewrite_novelty_audit", bool, False, doc="Log entities and numbers a rewritten query introduces; log-only."),
