@@ -11,7 +11,8 @@ exactly like the recorded v1.0.1 baseline (`src/reproduction_changes/model/drag.
 | `adapters.py` | Protocols for the injected generator, retriever and prompt template |
 | `prompts.py` | Every baseline prompt string, verbatim |
 | `query_stage.py`, `answer_stage.py` | The two debate stages |
-| `pipeline.py` | Orchestration: `DragPlusPipeline(flags, generator, retriever, template, dataset).run(items)` |
+| `pipeline.py` | Orchestration: `DragPlusPipeline(flags, generator, retriever, template, dataset).run(items)`; `run_batch` feeds B questions to the barrier |
+| `scheduling/barrier.py` | J15 barrier: groups requests at one `(stage, round, role)` into one `generate`/`batch_search`, isolates a failed question and leaves finished ones |
 | `retrieval/cache.py` | Caching retriever proxy: `search` is `batch_search([q])[0]`, one JSONL line per query |
 | `analysis/` | Scoring, the unified answer extractor and paired statistics |
 
