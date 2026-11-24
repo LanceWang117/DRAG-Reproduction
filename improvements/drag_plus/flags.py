@@ -35,10 +35,8 @@ FLAG_SPECS: Tuple[FlagSpec, ...] = (
              doc="Query-stage debate rounds; 0 retrieves for the question only."),
     FlagSpec("max_answer_debate_rounds", int, 3, minimum=0,
              doc="Answer-stage debate rounds; 0 answers directly from the pool."),
-    FlagSpec("profile_calls", bool, False,
-             doc="Record one timing row per generator and retriever call."),
-    FlagSpec("answer_extractor", str, "native", choices=("native", "unified"),
-             doc="native keeps the raw moderator text as pred; unified applies E(.)."),
+    FlagSpec("profile_calls", bool, False, doc="Record one timing row per generator and retriever call."),
+    FlagSpec("answer_extractor", str, "native", choices=("native", "unified"), doc="native keeps the raw moderator text as pred; unified applies E(.)."),
     FlagSpec("moderator_final_only", bool, False,
              doc="Answer moderator runs once, after the last round (paper Eq. 13)."),
     FlagSpec("batch_agents_in_round", bool, False,
@@ -71,21 +69,12 @@ FLAG_SPECS: Tuple[FlagSpec, ...] = (
              doc="Cross-encoder id used when rerank_k is set."),
     FlagSpec("per_title_cap", int, None, optional=True, minimum=1,
              doc="Keep at most this many passages per article title; null keeps all."),
-    FlagSpec("skip_duplicate_query", bool, False,
-             doc="Skip the search and end the query stage when a proposed query is "
-                 "effectively already in the pool (normalised token set)."),
-    FlagSpec("zero_novelty_exit", bool, False,
-             doc="End the query stage when a search returns no passage ID the pool "
-                 "did not already have before the action."),
-    FlagSpec("response_rounds", int, None, choices=(0, 1, 2, 3), optional=True,
-             doc="Answer-stage rounds (0 = answer-only); null inherits "
-                 "max_answer_debate_rounds."),
-    FlagSpec("agent_max_tokens", int, None, optional=True, minimum=1,
-             doc="Per-call max_tokens for answer agents; null leaves the backend default."),
-    FlagSpec("moderator_max_tokens", int, None, optional=True, minimum=1,
-             doc="Per-call max_tokens for the answer moderator; null leaves the default."),
-    FlagSpec("concise_agents", bool, False,
-             doc="Ask answer agents for at most two sentences before the answer marker."),
+    FlagSpec("skip_duplicate_query", bool, False, doc="Skip the search and end the query stage when a proposed query is effectively already in the pool (normalised token set)."),
+    FlagSpec("zero_novelty_exit", bool, False, doc="End the query stage when a search returns no passage ID the pool did not already have before the action."),
+    FlagSpec("response_rounds", int, None, choices=(0, 1, 2, 3), optional=True, doc="Answer-stage rounds (0 = answer-only); null inherits max_answer_debate_rounds."),
+    FlagSpec("agent_max_tokens", int, None, optional=True, minimum=1, doc="Per-call max_tokens for answer agents; null leaves the backend default."),
+    FlagSpec("moderator_max_tokens", int, None, optional=True, minimum=1, doc="Per-call max_tokens for the answer moderator; null leaves the default."),
+    FlagSpec("concise_agents", bool, False, doc="Ask answer agents for at most two sentences before the answer marker."),
     FlagSpec("faiss_gpu", bool, False,
              doc="Place the FAISS index on the GPUs in fp16 before vLLM reserves its pool."),
     FlagSpec("gpu_memory_utilization", float, 0.85, minimum=0.0, maximum=1.0,
@@ -95,14 +84,9 @@ FLAG_SPECS: Tuple[FlagSpec, ...] = (
     FlagSpec("omp_threads", int, 12, minimum=1,
              doc="OMP_NUM_THREADS and MKL_NUM_THREADS, set before FAISS, torch or "
                  "FlashRAG is imported."),
-    FlagSpec("evidence_store", str, "dict", choices=("dict", "anchored"),
-             doc="dict keeps the baseline query pool; anchored keeps an append-only, "
-                 "doc-id-keyed store whose original passages can never be evicted."),
-    FlagSpec("evidence_delimiters", bool, False,
-             doc="Render each passage in a labelled <document> data block with a "
-                 "notice that retrieved text is not instructions."),
-    FlagSpec("rewrite_novelty_audit", bool, False,
-             doc="Log entities and numbers a rewritten query introduces; log-only."),
+    FlagSpec("evidence_store", str, "dict", choices=("dict", "anchored"), doc="dict keeps the baseline query pool; anchored keeps an append-only, doc-id-keyed store whose original passages can never be evicted."),
+    FlagSpec("evidence_delimiters", bool, False, doc="Render each passage in a labelled <document> data block with a notice that retrieved text is not instructions."),
+    FlagSpec("rewrite_novelty_audit", bool, False, doc="Log entities and numbers a rewritten query introduces; log-only."),
     FlagSpec("context_token_budget", int, None, optional=True, minimum=1,
              doc="Token budget for header, question, evidence and history; null keeps "
                  "every passage."),
@@ -127,6 +111,16 @@ FLAG_SPECS: Tuple[FlagSpec, ...] = (
     FlagSpec("judge_sees_refined_query", bool, False,
              doc="The query-stage Judge sees the latest active refined query in its "
                  "Question line instead of the original question."),
+    FlagSpec("escalation_gate", str, "none", choices=("none", "risk"),
+             doc="risk stops the answer stage when the fitted wrong-answer risk is at "
+                 "most escalation_tau; the stage is capped at three rounds."),
+    FlagSpec("escalation_model", str, None, optional=True,
+             doc="Path to the fitted gate JSON; required with escalation_gate='risk'."),
+    FlagSpec("escalation_tau", float, None, optional=True, minimum=0.0, maximum=1.0,
+             doc="Risk/sufficiency probability threshold in [0, 1]; null stays baseline."),
+    FlagSpec("lazy_query_opponent", bool, False,
+             doc="Score retrieval sufficiency first and skip the query debate when it "
+                 "is above escalation_tau; an unavailable score runs the Opponent."),
 )
 _SPECS_BY_NAME = {spec.name: spec for spec in FLAG_SPECS}
 
@@ -210,6 +204,12 @@ class Flags:
         resolved = {s.name: _check(s, values.get(s.name, s.default)) for s in FLAG_SPECS}
         if resolved["judge_order_balance"] and resolved["judge_scoring"] != "logprob":
             raise FlagError("judge_order_balance requires judge_scoring='logprob'")
+        if resolved["escalation_gate"] == "risk" and (
+                resolved["escalation_model"] is None or resolved["escalation_tau"] is None):
+            raise FlagError(
+                "escalation_gate='risk' requires escalation_model and escalation_tau")
+        if resolved["lazy_query_opponent"] and resolved["escalation_tau"] is None:
+            raise FlagError("lazy_query_opponent requires escalation_tau")
         object.__setattr__(self, "_values", resolved)
 
     def __getattr__(self, name: str) -> Any:

@@ -148,6 +148,7 @@ class StageContext:
     backends: Backends
     dataset_name: str
     count_tokens: Callable[[str], int] = whitespace_tokens
+    gate_model: Optional[Any] = None
 
     @property
     def strategy_qa(self) -> bool:

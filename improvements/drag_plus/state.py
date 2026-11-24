@@ -27,6 +27,9 @@ class QuestionState:
     answer_messages: Dict[str, list] = field(default_factory=dict)
     decisions: List[dict] = field(default_factory=list)
     judge_score: Optional[float] = None
+    gate_features: Optional[dict] = None
+    gate_risk: Optional[float] = None
+    sufficiency_score: Optional[float] = None
     outputs: List[Tuple[str, Any]] = field(default_factory=list)
     stage: str = "query"
     round: int = 0

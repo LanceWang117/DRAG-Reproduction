@@ -21,6 +21,8 @@ from . import prompts
 from .adapters import BATCH_ROLE, StageContext
 from .answers import FINAL_ANSWER_PREFIX
 from .evidence import layout
+from .gates.escalation import MAX_GATE_ROUNDS, decide
+from .gates.features import compute_features
 from .query_stage import AGENTS
 from .state import QuestionState
 
@@ -189,6 +191,30 @@ def _answer_prefix(ctx: StageContext, state: QuestionState, round_index: int):
     return prefix
 
 
+def _gate_limit(ctx: StageContext, rounds: int) -> int:
+    """Risk mode hard-caps the answer debate at three response rounds (J14)."""
+    if ctx.flags.escalation_gate != "risk":
+        return rounds
+    return min(rounds, MAX_GATE_ROUNDS)
+
+
+def _record_gate(ctx: StageContext, state: QuestionState, round_index: int):
+    """Compute the label-free features and calibrated risk after one response round."""
+    features = compute_features(state, ctx.strategy_qa)
+    decision = decide(features, ctx.gate_model, ctx.flags.escalation_tau)
+    state.gate_features = dict(features)
+    state.gate_risk = decision.risk
+    key = f"AnswerStage_Escalation_Round{round_index}"
+    state.emit(f"{key}_Features", dict(features))
+    state.emit(f"{key}_Risk", decision.risk)
+    state.emit(f"{key}_Decision", "stop" if decision.stop else "continue")
+    state.decisions.append({"stage": "answer", "round": round_index,
+                            "decision": "escalation_gate",
+                            "status": "stop" if decision.stop else "continue",
+                            "risk": decision.risk})
+    return decision
+
+
 def run_answer_stage(ctx: StageContext, state: QuestionState) -> None:
     """Run the answer debate; each round builds the shared prefix when enabled."""
     state.stage = "answer"
@@ -196,9 +222,15 @@ def run_answer_stage(ctx: StageContext, state: QuestionState) -> None:
     if rounds == 0:
         _answer_only(ctx, state, _answer_prefix(ctx, state, 0))
         return
-    for round_index in range(rounds):
+    limit = _gate_limit(ctx, rounds)
+    for round_index in range(limit):
         state.round = round_index
         prefix = _answer_prefix(ctx, state, round_index)
         _run_agents(ctx, state, round_index, prefix)
-        if _moderator_due(ctx, round_index, rounds):
+        decision = (_record_gate(ctx, state, round_index)
+                    if ctx.flags.escalation_gate == "risk" else None)
+        stop = decision is not None and decision.stop
+        if _moderator_due(ctx, round_index, limit) or stop:
             _moderate(ctx, state, round_index, prefix)
+        if stop:
+            return
