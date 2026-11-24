@@ -12,6 +12,7 @@ from .adapters import Backends, StageContext
 from .answers import unified_pred
 from .answer_stage import run_answer_stage
 from .flags import Flags
+from .gates.escalation import load_model
 from .instrument.timing import whitespace_tokens
 from .query_stage import run_query_stage
 from .state import QuestionState
@@ -23,7 +24,9 @@ class DragPlusPipeline:
                  count_tokens: Callable[[str], int] = whitespace_tokens):
         backends = Backends(generator, retriever, prompt_template,
                             recorder if flags.profile_calls else None)
-        self._ctx = StageContext(flags, backends, dataset_name, count_tokens)
+        gate_model = load_model(flags.escalation_model) \
+            if flags.escalation_gate == "risk" else None
+        self._ctx = StageContext(flags, backends, dataset_name, count_tokens, gate_model)
 
     @property
     def flags(self) -> Flags:

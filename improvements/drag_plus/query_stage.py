@@ -18,6 +18,7 @@ from .evidence.actions import (ACTION_APPLIED, EXIT_DUPLICATE, EXIT_ZERO_NOVELTY
                                QueryPoolError, maintain_query_pool, prepare_pool,
                                search, sync_pool)
 from .evidence.store import id_map, latest_refined, register_query
+from .gates.escalation import run_lazy_opponent
 from .judge.action_schema import active_queries
 from .judge.actions import apply_opponent_action
 from .judge_decision import JudgeDecision, resolve_judge_decision
@@ -126,8 +127,7 @@ def _record_verdict(state: QuestionState, round_index: int, verdict) -> None:
     prefix_key = f"QueryStage_Moderator_Round{round_index}"
     state.emit(f"{prefix_key}_Decision", verdict.decision)
     state.emit(f"{prefix_key}_DecisionStatus", verdict.status)
-    entry = {"stage": "query", "round": round_index, "decision": verdict.decision,
-             "status": verdict.status}
+    entry = {"stage": "query", "round": round_index, "decision": verdict.decision, "status": verdict.status}
     score = getattr(verdict, "score", None)
     if score is not None:
         entry["score"] = score
@@ -241,6 +241,8 @@ def run_query_stage(ctx: StageContext, state: QuestionState) -> None:
                 state.query_pool[question.strip()] = passages
             _register_queries(state, "original")
         if rounds == 0:
+            return
+        if run_lazy_opponent(ctx, state, round_index):
             return
         prefix = _round_prefix(ctx, state)
         _run_agents(ctx, state, round_index, prefix)
