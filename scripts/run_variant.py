@@ -106,7 +106,7 @@ def main(argv=None):
         command=['run_variant.py', *argv], progress=lambda text: print(text, flush=True))
     result = run_variant(request)
     print('Saved:', out_dir, '| exit status:', result['exit_status'], flush=True)
-    return 0
+    return 1 if result['exit_status'] == 'failed' else 0
 
 
 if __name__ == '__main__':
