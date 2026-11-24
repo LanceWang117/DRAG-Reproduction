@@ -108,6 +108,25 @@ class SearchGatheringTests(unittest.TestCase):
         self.assertEqual([len(group) for group in groups], [3])
 
 
+class BoomRetriever(FakeRetriever):
+    def search(self, query):
+        if query.startswith("boom"):
+            raise RuntimeError("index down")
+        return super().search(query)
+
+
+class RefillFailureTests(unittest.TestCase):
+    def test_a_failed_question_frees_its_slot_and_the_others_finish(self):
+        pipeline = DragPlusPipeline(flags(3), CountingGenerator(), BoomRetriever(),
+                                    IdentityTemplate(), "NQ")
+        items = [RecordingItem(question, f"q{index}") for index, question in enumerate(
+            ("boom?", "one?", "two?", "three?"))]
+        states = pipeline.run(items)
+        self.assertEqual([state.status for state in states],
+                         ["failed", "done", "done", "done"])
+        self.assertIn("index down", states[0].error)
+
+
 class RefillWindowTests(unittest.TestCase):
     def test_admits_in_order_and_reports_occupancy(self):
         window = RefillWindow([("a", None), ("b", None), ("c", None)], 2)

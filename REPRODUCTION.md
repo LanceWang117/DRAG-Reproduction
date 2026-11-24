@@ -125,6 +125,9 @@ its neighbours, so every transcript still equals B = 1; resume skips finished qu
 and re-runs the admitted but unfinished ones from scratch.
 `scripts/simulate_throughput.py` models occupancy and questions/hour offline with the
 per-call cost `a + b * batch_size` (no run logs, no measurement).
+Refill is scoped to one contiguous `(arm, dataset)` run, because prompts and templates
+belong to that arm/dataset pair; with `--interleave`, rows alternate between arms and each
+window admits one row at a time.
 
 `--resume` skips finished questions, drops a torn last checkpoint line, and refuses a
 different variant or `--interleave` setting. The logs of a resumed run equal those of an
