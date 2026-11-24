@@ -5,68 +5,21 @@ One worker thread runs each question, so a step is a pure function of that quest
 state; the scheduler itself holds no question data. At every barrier it waits until all
 live workers are blocked, groups their requests by ``(kind, stage, round, role, params,
 labels)``, executes exactly one backend call per group, and hands each request its own
-slice of the result. Finished questions leave the barrier; the rest continue.
+slice of the result. All search requests of a step are one group (J16), so every ready
+query goes to one ``batch_search``; the proxy applies the query cap. Finished questions
+leave the barrier; the rest continue.
+
+With a ``RefillWindow`` (J16) a finished question's slot is refilled at once.
 """
 from __future__ import annotations
 
 import threading
 import traceback
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple
 
-GENERATE = "generate"
-SCORES = "scores"
-SEARCH = "search"
-
-
-def _freeze(value: Any) -> Any:
-    """Make a params/labels value hashable for the group key."""
-    if isinstance(value, dict):
-        return tuple(sorted((str(key), _freeze(item)) for key, item in value.items()))
-    if isinstance(value, (list, tuple)):
-        return tuple(_freeze(item) for item in value)
-    return value
-
-
-@dataclass
-class Request:
-    """One backend call owned by one question; the scheduler fills exactly one result."""
-
-    kind: str
-    stage: str
-    round: int
-    role: str
-    prompts: List[Any] = field(default_factory=list)
-    queries: List[str] = field(default_factory=list)
-    params: Dict[str, Any] = field(default_factory=dict)
-    labels: Any = None
-    call: Any = None
-    single: bool = True
-    result: Any = None
-    error: Optional[BaseException] = None
-    done: bool = False
-
-    def key(self) -> tuple:
-        return (self.kind, self.stage, self.round, self.role,
-                _freeze(self.params), _freeze(self.labels))
-
-
-@dataclass
-class SchedulerStats:
-    """Mechanical evidence: one barrier and one call per dispatched group."""
-
-    barriers: int = 0
-    generate_calls: int = 0
-    score_calls: int = 0
-    search_calls: int = 0
-
-
-class BarrierError(RuntimeError):
-    """A request was submitted outside a worker or a group result was malformed."""
-
-
-class BarrierContractError(BarrierError):
-    """A backend returned a different number of results than prompts or queries."""
+from .refill import (BarrierContractError, BarrierError, GENERATE, SCORES, SEARCH,
+                     Request, SchedulerStats)
 
 
 class _Aborted(BaseException):
@@ -91,19 +44,28 @@ class BarrierScheduler:
         self._lock = threading.Condition()
         self._local = threading.local()
         self._workers: List[_Worker] = []
+        self._threads: List[threading.Thread] = []
+        self._refill: Optional[Any] = None
         self._shutdown: Optional[BaseException] = None
         self.stats = SchedulerStats()
 
     def run(self, workers: Sequence[Tuple[Any, Callable[[], None]]],
-            on_done: Optional[Callable[[Any], None]] = None) -> None:
-        """Run ``(state, target)`` pairs, calling ``on_done(state)`` when each finishes."""
-        self._workers = [_Worker(state, target, index)
-                         for index, (state, target) in enumerate(workers)]
-        threads = [threading.Thread(target=self._worker_main, args=(worker,), daemon=True)
-                   for worker in self._workers]
-        for thread in threads:
-            thread.start()
+            on_done: Optional[Callable[[Any], None]] = None,
+            refill: Optional[Any] = None) -> None:
+        """Run ``(state, target)`` pairs, calling ``on_done(state)`` when each finishes.
+
+        With ``refill`` (a :class:`RefillWindow`), ``workers`` is ignored because the
+        window already holds every target; every finished slot is refilled from its
+        pending queue until it is exhausted.
+        """
+        self._refill = refill
+        self._workers, self._threads = [], []
         try:
+            if refill is None:
+                for state, target in workers:
+                    self._spawn(state, target)
+            else:
+                self._admit()
             self._loop(on_done)
         except _Aborted:
             pass
@@ -111,10 +73,34 @@ class BarrierScheduler:
             self._abort(error)
             raise
         finally:
-            for thread in threads:
+            for thread in self._threads:
                 thread.join(timeout=5)
         if self._shutdown is not None:
             raise self._shutdown
+
+    def _spawn(self, state: Any, target: Callable[[], None]) -> None:
+        """Start one worker thread for a question; call under the lock when running."""
+        worker = _Worker(state, target, len(self._workers))
+        self._workers.append(worker)
+        thread = threading.Thread(target=self._worker_main, args=(worker,), daemon=True)
+        self._threads.append(thread)
+        thread.start()
+
+    def _admit(self) -> None:
+        """Fill the window's free slots from its pending queue."""
+        with self._lock:
+            live = sum(1 for worker in self._workers if not worker.done)
+            for state, target in self._refill.fill(live):
+                self._spawn(state, target)
+            self._lock.notify_all()
+
+    def _drained(self) -> bool:
+        """True when every worker finished, was announced, and no pending question remains."""
+        if not all(worker.done for worker in self._workers):
+            return False
+        if any(worker.done and not worker.notified for worker in self._workers):
+            return False
+        return self._refill is None or self._refill.exhausted
 
     def submit(self, request: Request) -> Any:
         """Block the calling worker until the scheduler has filled ``request``."""
@@ -141,11 +127,13 @@ class BarrierScheduler:
             for state in finished:
                 if on_done is not None:
                     on_done(state)
+            if self._refill is not None:
+                self._admit()
             if batch is not None:
                 self._dispatch(batch)
             elif self._shutdown is not None:
                 raise _Aborted
-            elif all(worker.done for worker in self._workers):
+            elif self._drained():
                 return
 
     def _wait_batch(self):
@@ -182,16 +170,33 @@ class BarrierScheduler:
         return True
 
     def _dispatch(self, requests: List[Request]) -> None:
-        groups: Dict[tuple, List[Request]] = {}
-        for request in requests:
-            groups.setdefault(request.key(), []).append(request)
+        groups = self._groups(requests)
         self.stats.barriers += 1
-        for group in groups.values():
+        if self._refill is not None:
+            self._refill.record(len(requests))
+        for group in groups:
             self._run_group(group)
         with self._lock:
             for request in requests:
                 request.done = True
             self._lock.notify_all()
+
+    @staticmethod
+    def _groups(requests: List[Request]) -> List[List[Request]]:
+        """Group one step: all searches together, other kinds by request key.
+
+        A step may mix query and answer stages or rounds; search requests have no
+        generation params or labels, so one ``batch_search`` can serve every ready
+        query. The proxy splits that group at ``retrieval_batch_size``.
+        """
+        searches = [request for request in requests if request.kind == SEARCH]
+        groups: Dict[tuple, List[Request]] = {}
+        for request in requests:
+            if request.kind != SEARCH:
+                groups.setdefault(request.key(), []).append(request)
+        if searches:
+            groups[("search",)] = searches
+        return list(groups.values())
 
     def _run_group(self, group: List[Request]) -> None:
         try:
