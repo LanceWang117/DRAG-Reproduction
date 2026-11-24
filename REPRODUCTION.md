@@ -116,6 +116,16 @@ groups their requests at the same `(stage, round, role)` into one `generate` cal
 checkpointed as failed, the run's manifest `exit_status` is `failed` and the CLI exits 1,
 while the other questions continue.
 
+Refill window (J16): `refill_window` (default false) keeps `question_batch_size`
+questions live and admits the next question in manifest order as soon as a slot frees,
+instead of running a fixed chunk to completion. All search requests ready at one barrier
+are gathered into one `batch_search`; `retrieval_batch_size` (default 64) caps the queries
+per call, and only a batch above the cap is split. A question's own stage code never sees
+its neighbours, so every transcript still equals B = 1; resume skips finished questions
+and re-runs the admitted but unfinished ones from scratch.
+`scripts/simulate_throughput.py` models occupancy and questions/hour offline with the
+per-call cost `a + b * batch_size` (no run logs, no measurement).
+
 `--resume` skips finished questions, drops a torn last checkpoint line, and refuses a
 different variant or `--interleave` setting. The logs of a resumed run equal those of an
 uninterrupted one. The fake backend's answers are meaningless: it exists to test the path.

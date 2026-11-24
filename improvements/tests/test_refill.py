@@ -46,7 +46,7 @@ class RefillEquivalenceTests(unittest.TestCase):
 
     def test_window_transcripts_equal_one_at_a_time(self):
         expected, expected_items, _, _ = run_questions(1, self.QUESTIONS)
-        for size in (2, 8):
+        for size in (2, 8, 16):
             with self.subTest(size=size):
                 actual, actual_items, _, _ = run_questions(size, self.QUESTIONS)
                 self.assertEqual([state.outputs for state in actual],
