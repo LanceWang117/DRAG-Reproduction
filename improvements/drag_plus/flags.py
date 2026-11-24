@@ -41,6 +41,9 @@ FLAG_SPECS: Tuple[FlagSpec, ...] = (
              doc="Answer moderator runs once, after the last round (paper Eq. 13)."),
     FlagSpec("batch_agents_in_round", bool, False,
              doc="Send both agents' prompts of each round in one 2-prompt call."),
+    FlagSpec("question_batch_size", int, 1, minimum=1,
+             doc="Questions per barrier: one generate and one batch_search per "
+                 "(stage, round, role); 1 keeps the baseline call sequence."),
     FlagSpec("retrieval_cache", str, None, optional=True,
              doc="Path to retrieval-cache.jsonl; null disables the caching proxy."),
     FlagSpec("retriever", str, "e5", choices=("e5", "hybrid"),

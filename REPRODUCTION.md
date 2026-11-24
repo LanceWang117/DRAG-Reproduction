@@ -110,6 +110,12 @@ marker. With a budget, `finish_reason` is inferred as `length` when the output r
 the cap and `stop` when it stays under, and `truncated` marks a budgeted answer that lost
 "The answer is:".
 
+Throughput flag (J15): `question_batch_size` (default 1) runs B questions in lockstep and
+groups their requests at the same `(stage, round, role)` into one `generate` call and one
+`batch_search` call. B = 1 keeps the frozen call sequence; a question that raises is
+checkpointed as failed and the run's manifest `exit_status` is `failed`, while the other
+questions continue.
+
 `--resume` skips finished questions, drops a torn last checkpoint line, and refuses a
 different variant or `--interleave` setting. The logs of a resumed run equal those of an
 uninterrupted one. The fake backend's answers are meaningless: it exists to test the path.

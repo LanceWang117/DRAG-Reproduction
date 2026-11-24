@@ -2,7 +2,9 @@
 
 Nothing about a question survives on the pipeline object. Stages read and write this
 record, and every ``update_output`` write goes through ``emit`` so it is both forwarded
-to the dataset item and kept in order for transcripts. ``queries`` is the stable query
+to the dataset item and kept in order for transcripts. A barrier worker owns one state
+at a time; ``status`` becomes ``failed`` with a traceback summary in ``error`` when that
+question raises, without touching the others. ``queries`` is the stable query
 trail (J13): ``{qid, text, source, round}`` in first-seen order, where a numeric ID is
 never reused even after its query leaves the active pool.
 """
@@ -34,6 +36,8 @@ class QuestionState:
     stage: str = "query"
     round: int = 0
     status: str = "active"
+    error: Optional[str] = None
+    exception: Optional[BaseException] = None
     pred: Optional[str] = None
     raw_pred: Optional[str] = None
     truncated: bool = False
