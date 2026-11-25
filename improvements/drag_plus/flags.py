@@ -37,8 +37,7 @@ FLAG_SPECS: Tuple[FlagSpec, ...] = (
              doc="Answer-stage debate rounds; 0 answers directly from the pool."),
     FlagSpec("profile_calls", bool, False, doc="Record one timing row per generator and retriever call."),
     FlagSpec("answer_extractor", str, "native", choices=("native", "unified"), doc="native keeps the raw moderator text as pred; unified applies E(.)."),
-    FlagSpec("moderator_final_only", bool, False,
-             doc="Answer moderator runs once, after the last round (paper Eq. 13)."),
+    FlagSpec("moderator_final_only", bool, False, doc="Answer moderator runs once, after the last round (paper Eq. 13)."),
     FlagSpec("batch_agents_in_round", bool, False,
              doc="Send both agents' prompts of each round in one 2-prompt call."),
     FlagSpec("question_batch_size", int, 1, minimum=1,
@@ -91,9 +90,7 @@ FLAG_SPECS: Tuple[FlagSpec, ...] = (
     FlagSpec("evidence_store", str, "dict", choices=("dict", "anchored"), doc="dict keeps the baseline query pool; anchored keeps an append-only, doc-id-keyed store whose original passages can never be evicted."),
     FlagSpec("evidence_delimiters", bool, False, doc="Render each passage in a labelled <document> data block with a notice that retrieved text is not instructions."),
     FlagSpec("rewrite_novelty_audit", bool, False, doc="Log entities and numbers a rewritten query introduces; log-only."),
-    FlagSpec("context_token_budget", int, None, optional=True, minimum=1,
-             doc="Token budget for header, question, evidence and history; null keeps "
-                 "every passage."),
+    FlagSpec("context_token_budget", int, None, optional=True, minimum=1, doc="Token budget for header, question, evidence and history; null keeps every passage."),
     FlagSpec("prompt_layout", str, "role_first", choices=("role_first", "evidence_first"),
              doc="role_first keeps baseline prompts; evidence_first puts a shared "
                  "header + question + evidence prefix before every role instruction."),
@@ -106,25 +103,25 @@ FLAG_SPECS: Tuple[FlagSpec, ...] = (
     FlagSpec("judge_order_balance", bool, False,
              doc="Score the Proponent-first and Opponent-first presentations in one "
                  "batched call and average their margins; needs judge_scoring=logprob."),
-    FlagSpec("judge_tau", float, 0.0,
-             doc="Opponent wins when the (averaged) Opponent-minus-Proponent log-prob "
-                 "margin exceeds this threshold; ties go to Proponent."),
+    FlagSpec("judge_tau", float, 0.0, doc="Opponent wins when the (averaged) Opponent-minus-Proponent log-prob margin exceeds this threshold; ties go to Proponent."),
     FlagSpec("opponent_action_schema", bool, False,
              doc="Opponent ends its reasoning with a JSON action; parse, validate and "
                  "apply it transactionally with stable query IDs."),
-    FlagSpec("judge_sees_refined_query", bool, False,
-             doc="The query-stage Judge sees the latest active refined query in its "
-                 "Question line instead of the original question."),
+    FlagSpec("judge_sees_refined_query", bool, False, doc="The query-stage Judge sees the latest active refined query in its Question line instead of the original question."),
     FlagSpec("escalation_gate", str, "none", choices=("none", "risk"),
              doc="risk stops the answer stage when the fitted wrong-answer risk is at "
                  "most escalation_tau; the stage is capped at three rounds."),
-    FlagSpec("escalation_model", str, None, optional=True,
-             doc="Path to the fitted gate JSON; required with escalation_gate='risk'."),
+    FlagSpec("escalation_model", str, None, optional=True, doc="Path to the fitted gate JSON; required with escalation_gate='risk'."),
     FlagSpec("escalation_tau", float, None, optional=True, minimum=0.0, maximum=1.0,
              doc="Risk/sufficiency probability threshold in [0, 1]; null stays baseline."),
     FlagSpec("lazy_query_opponent", bool, False,
              doc="Score retrieval sufficiency first and skip the query debate when it "
                  "is above escalation_tau; an unavailable score runs the Opponent."),
+    FlagSpec("opponent_mode", str, "closed_book", choices=("closed_book", "grounded"), doc="closed_book keeps the baseline parametric Opponent; grounded uses a Conflict Auditor with the evidence pool and an Evidence Synthesizer Proponent that cites [E...] labels."),
+    FlagSpec("verdict_sequestration", bool, False, doc="Withhold every peer 'The answer is:' line when relaying an answer; keep the reasoning."),
+    FlagSpec("aggregator", str, "moderator", choices=("moderator", "vote", "self_consistency"), doc="moderator runs the debate; vote takes one answer per agent; self_consistency samples one grounded answer m times."),
+    FlagSpec("self_consistency_samples", int, 5, minimum=1, doc="Samples per question for aggregator='self_consistency'."),
+    FlagSpec("self_consistency_temperature", float, 0.7, minimum=0.0, strict_minimum=True, doc="Sampling temperature for aggregator='self_consistency'; do_sample is set only on those calls."),
 )
 _SPECS_BY_NAME = {spec.name: spec for spec in FLAG_SPECS}
 

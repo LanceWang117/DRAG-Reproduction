@@ -19,6 +19,7 @@ from typing import Optional
 
 from . import prompts
 from .adapters import BATCH_ROLE, StageContext
+from .aggregators import relayed, run_aggregator
 from .answers import FINAL_ANSWER_PREFIX
 from .evidence import layout
 from .gates.escalation import MAX_GATE_ROUNDS, decide
@@ -50,8 +51,8 @@ def _others(state: QuestionState, agent: str) -> dict:
 def _debate_text(ctx: StageContext, state: QuestionState, round_index: int,
                  agent: str) -> str:
     return prompts.answer_debate_user(
-        _others(state, agent), state.question, round_index, ctx.strategy_qa,
-        ctx.flags.concise_agents)["content"]
+        relayed(ctx, state, agent, round_index), state.question, round_index,
+        ctx.strategy_qa, ctx.flags.concise_agents)["content"]
 
 
 def _responses(state: QuestionState) -> str:
@@ -77,13 +78,15 @@ def _agent_prompt(ctx: StageContext, state: QuestionState, round_index: int, age
             pool = layout.role_pool(ctx, state,
                                     _fixed_context(ctx, state, round_index, agent), "answer")
         history[agent] = [
-            prompts.answer_agent_system(agent, pool, ctx.strategy_qa, concise,
-                                        prefix=prefix),
+            prompts.answer_agent_system(
+                agent, pool, ctx.strategy_qa, concise, prefix=prefix,
+                grounded=ctx.flags.opponent_mode == "grounded"),
             prompts.question_user(question, prefix=prefix)]
     else:
         history[agent].append(
-            prompts.answer_debate_user(_others(state, agent), question, round_index,
-                                       ctx.strategy_qa, concise, prefix=prefix))
+            prompts.answer_debate_user(relayed(ctx, state, agent, round_index),
+                                       question, round_index, ctx.strategy_qa, concise,
+                                       prefix=prefix))
     return ctx.backends.render(history[agent])
 
 
@@ -218,6 +221,9 @@ def _record_gate(ctx: StageContext, state: QuestionState, round_index: int):
 def run_answer_stage(ctx: StageContext, state: QuestionState) -> None:
     """Run the answer debate; each round builds the shared prefix when enabled."""
     state.stage = "answer"
+    if ctx.flags.aggregator != "moderator":
+        run_aggregator(ctx, state)
+        return
     rounds = _effective_rounds(ctx)
     if rounds == 0:
         _answer_only(ctx, state, _answer_prefix(ctx, state, 0))
