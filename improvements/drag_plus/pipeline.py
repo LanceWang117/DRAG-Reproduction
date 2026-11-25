@@ -12,7 +12,7 @@ from __future__ import annotations
 from dataclasses import replace
 from typing import Any, Callable, Iterable, List, Optional, Tuple
 
-from .adapters import Backends, StageContext
+from .adapters import Backends, StageContext, last_finish_reasons
 from .answers import unified_pred
 from .answer_stage import run_answer_stage
 from .flags import Flags
@@ -117,14 +117,14 @@ class _RequestBackends:
             raise BarrierContractError("grouped requests disagree on generation params")
         prompts = [prompt for request in requests for prompt in request.prompts]
         outputs = list(self._real.generator.generate(prompts, **params))
-        self._split(requests, outputs, self._finish_generate, "prompts")
+        self._split(requests, outputs, self._finish_generate)
 
     def _execute_scores(self, requests: List[Request]) -> None:
         params = requests[0].params
         prompts = [prompt for request in requests for prompt in request.prompts]
         outputs = list(self._real.generator.generate_with_scores(
             prompts, labels=requests[0].labels, **params))
-        self._split(requests, outputs, self._finish_scores, "prompts")
+        self._split(requests, outputs, self._finish_scores)
 
     def _execute_search(self, requests: List[Request]) -> None:
         """One gathered search group, split into chunks of at most the query cap."""
@@ -133,14 +133,16 @@ class _RequestBackends:
         for request in requests:
             request.result = self._finish_search(request, request.result)
 
-    def _split(self, requests: List[Request], values: List[Any], finish, field_name: str):
-        expected = sum(len(getattr(request, field_name)) for request in requests)
+    def _split(self, requests: List[Request], values: List[Any], finish):
+        """Hand each request its slice of a grouped generation, with its finish reasons."""
+        expected = sum(len(request.prompts) for request in requests)
         if len(values) != expected:
             raise BarrierContractError(
-                f"batch returned {len(values)} results for {expected} {field_name}")
-        start = 0
+                f"batch returned {len(values)} results for {expected} prompts")
+        reasons, start = last_finish_reasons(self._real.generator, expected), 0
         for request in requests:
-            count = len(getattr(request, field_name))
+            count = len(request.prompts)
+            request.finish_reasons = reasons[start:start + count] if reasons else None
             request.result = finish(request, values[start:start + count])
             start += count
 
@@ -149,11 +151,7 @@ class _RequestBackends:
         return outputs[0] if request.single else list(outputs)
 
     def _finish_scores(self, request: Request, outputs: List[Any]):
-        recorder = self._real.recorder
-        if recorder is not None and request.call is not None:
-            recorder.generation_batch(request.call, request.prompts,
-                                      lambda: [output.text for output in outputs],
-                                      limit=request.params.get("max_tokens"))
+        self._record_generation(request, [output.text for output in outputs])  # a batch row
         return list(outputs)
 
     def _finish_search(self, request: Request, results: List[Any]):
@@ -166,13 +164,13 @@ class _RequestBackends:
         recorder = self._real.recorder
         if recorder is None or request.call is None:
             return
-        limit = request.params.get("max_tokens")
+        limit, reasons = request.params.get("max_tokens"), lambda: request.finish_reasons
         if request.single and len(request.prompts) == 1:
             recorder.generation(request.call, request.prompts[0], lambda: outputs[0],
-                                limit=limit)
+                                limit=limit, reasons=reasons)
         else:
             recorder.generation_batch(request.call, request.prompts, lambda: list(outputs),
-                                      limit=limit)
+                                      limit=limit, reasons=reasons)
 
 
 class DragPlusPipeline:

@@ -47,6 +47,7 @@ class Request:
     call: Any = None
     single: bool = True
     result: Any = None
+    finish_reasons: Optional[List[str]] = None
     error: Optional[BaseException] = None
     done: bool = False
 

@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Any, Callable, Dict, List, MutableMapping, Optional
 
 from ..instrument.timing import whitespace_tokens
-from ..judge.logprob import ScoredGenerator
+from ..judge.logprob import ScoredGenerator, needs_scores
 from ..retrieval.cache import CachingRetriever, index_identity
 from . import fake
 
@@ -231,7 +231,7 @@ def build_flashrag_backend(source: Path, overrides: Dict[str, Any], rows: List[d
         return build_generator(config, flags, get_generator, VLLMGenerator, BaseGenerator)
     generator, retriever = build_rag_objects(base, flags.faiss_gpu, generator_factory,
                                              get_retriever)
-    generator = ScoredGenerator(generator) if flags.judge_scoring == "logprob" else generator
+    generator = ScoredGenerator(generator) if needs_scores(flags) else generator
     tokenizer = AutoTokenizer.from_pretrained(overrides["model2path"][overrides["generator_model"]])
     def make_template(arm: str, dataset: str) -> Any:
         config = config_for(dataset, first["split"], arm)

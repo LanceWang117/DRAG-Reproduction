@@ -5,16 +5,20 @@ only when profiling is on, so a run with ``profile_calls`` off makes the bare ba
 call and pays one ``if``. Rows land in the question's own ``calls`` list; the runner adds
 run, variant and question columns when it writes the log.
 
-FlashRAG's generator returns text only, so the real vLLM request metadata is unavailable
-here (server track). J08 infers ``finish_reason`` from a per-call budget: ``length`` when
-the output reaches ``max_tokens``, ``stop`` when a budget is set but not reached, and null
-without a budget (the baseline call).
+``finish_reason`` is the server's own when the generator reports one (J24: the local
+Ollama backend, and the vLLM log-prob scorer, through ``last_finish_reasons``). A batch
+row is ``length`` if any prompt was cut, otherwise the shared reason, otherwise
+``mixed``. FlashRAG's text-only ``generate`` reports none, so J08's inference applies
+there: ``length`` when the output reaches ``max_tokens``, ``stop`` when a budget is set
+but not reached, and null without a budget (the baseline call).
 """
 from __future__ import annotations
 
 import json
 from dataclasses import dataclass
-from typing import Any, Callable, List, Optional
+from typing import Any, Callable, List, Optional, Sequence
+
+Reasons = Optional[Callable[[], Optional[Sequence[str]]]]
 
 STAGES = ("retrieval", "query_agent", "query_judge", "query_judge_retry",
           "answer_agent", "answer_moderator", "rerank", "gate")
@@ -46,6 +50,15 @@ def _finish_reason(output_tokens: int, limit: Optional[int]) -> Optional[str]:
     return "length" if output_tokens >= limit else "stop"
 
 
+def observed_reason(reasons: Optional[Sequence[str]]) -> Optional[str]:
+    """One row's reason from the server's per-prompt reasons; None when there are none."""
+    if not reasons:
+        return None
+    if "length" in reasons:
+        return "length"
+    return reasons[0] if len(set(reasons)) == 1 else "mixed"
+
+
 def _batch_finish_reason(tokens: List[int], limit: Optional[int]) -> Optional[str]:
     """One row per batch: report ``length`` if any output reached its cap."""
     reasons = [_finish_reason(count, limit) for count in tokens]
@@ -63,25 +76,28 @@ class CallRecorder:
         self._count = count_tokens
 
     def generation(self, info: CallInfo, prompt: Any, call: Callable[[], str],
-                   limit: Optional[int] = None) -> str:
+                   limit: Optional[int] = None, reasons: Reasons = None) -> str:
         start = self._clock()
         output = call()
         output_tokens = self._count(_as_text(output))
+        reason = observed_reason(reasons() if reasons else None)
         row = self._row(info, start, 1, self._count(_as_text(prompt)), output_tokens,
-                        _finish_reason(output_tokens, limit))
+                        reason or _finish_reason(output_tokens, limit))
         info.sink.append(row)
         return output
 
     def generation_batch(self, info: CallInfo, prompts: List[Any],
                          call: Callable[[], List[str]],
-                         limit: Optional[int] = None) -> List[str]:
+                         limit: Optional[int] = None, reasons: Reasons = None) -> List[str]:
         """One backend call for several prompts: one row, ``batch_size`` = prompt count."""
         start = self._clock()
         outputs = call()
         output_tokens = [self._count(_as_text(output)) for output in outputs]
+        reason = observed_reason(reasons() if reasons else None)
         row = self._row(info, start, len(outputs),
                         sum(self._count(_as_text(prompt)) for prompt in prompts),
-                        sum(output_tokens), _batch_finish_reason(output_tokens, limit))
+                        sum(output_tokens),
+                        reason or _batch_finish_reason(output_tokens, limit))
         info.sink.append(row)
         return outputs
 

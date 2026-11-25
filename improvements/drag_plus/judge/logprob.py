@@ -91,6 +91,19 @@ def resolve_scored(orders: Sequence[ScoredOutput], tau: float,
     return ScoredVerdict(fallback, status, None)
 
 
+def needs_scores(flags: Any) -> bool:
+    """The log-prob Judge (J12) and the lazy Opponent (J14) both make scored calls."""
+    return flags.judge_scoring == "logprob" or bool(flags.lazy_query_opponent)
+
+
+def _finish(output: Any) -> str:
+    """vLLM's ``CompletionOutput.finish_reason`` (``stop``/``length``), else unknown."""
+    try:
+        return str(output.outputs[0].finish_reason or "unknown")
+    except (AttributeError, IndexError, TypeError):
+        return "unknown"
+
+
 class ScoredGenerator:
     """FlashRAG's ``VLLMGenerator`` plus ``generate_with_scores`` for the Judge.
 
@@ -109,8 +122,10 @@ class ScoredGenerator:
         self._generator = generator
         self._tokenizer = generator.tokenizer
         self._logprob_k = max(int(logprob_k), 2)
+        self.last_finish_reasons: Optional[List[str]] = None
 
     def generate(self, prompts: Any, **params: Any) -> List[str]:
+        self.last_finish_reasons = None  # FlashRAG returns text only on this path
         return self._generator.generate(prompts, **params)
 
     def generate_with_scores(self, prompts: Any, labels: Sequence[str],
@@ -124,6 +139,7 @@ class ScoredGenerator:
                    "logprobs": max(self._logprob_k, 2 * len(labels) + 4)}
         options.update(params)
         raw = self._generator.generate(batch, **options)
+        self.last_finish_reasons = [_finish(output) for output in raw]
         return [self._score_one(output, labels) for output in raw]
 
     def _score_one(self, output: Any, labels: Sequence[str]) -> ScoredOutput:

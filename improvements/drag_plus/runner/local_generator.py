@@ -5,6 +5,12 @@ string built with a template), retries a timeout, a dropped connection or an HTT
 most ``retries`` times, and returns outputs in input order. Ollama truncates an over-long
 prompt without saying so, and the OpenAI endpoint cannot set the context size, so the
 adapter fits every prompt to the context limit itself and counts what it trimmed.
+
+``generate_with_scores`` (J24) asks the same endpoint for the first positions' top
+log-probabilities and maps label prefixes to scores (``label_scores``), so the J12
+log-prob Judge and the J14 sufficiency scorer run off the A100. ``last_finish_reasons``
+holds the server's real ``finish_reason`` per prompt of the latest call, for the
+per-call timing rows.
 """
 from __future__ import annotations
 
@@ -14,7 +20,10 @@ import time
 import urllib.error
 import urllib.request
 from dataclasses import dataclass, field
-from typing import Any, Callable, Dict, List, Set, Tuple
+from typing import Any, Callable, Dict, List, Optional, Sequence, Set, Tuple
+
+from ..judge.logprob import ScoredOutput
+from .label_scores import first_position, label_logprobs
 
 DEFAULT_MODEL = "llama3.2:3b"
 DEFAULT_URL = "http://localhost:11434/v1"
@@ -22,6 +31,8 @@ CONTEXT_TOKENS = 4096
 MAX_TOKENS = 256
 SEED = 2024
 RETRIES = 2
+SCORE_TOKENS = 8  # enough for the label itself, so the text fallback still parses
+TOP_LOGPROBS = 20
 TIMEOUT_SECONDS = 180.0
 CHARS_PER_TOKEN = 3  # deliberately low, so the estimate errs on the side of trimming
 TRIM_MARK = "\n[... trimmed to fit the local context ...]\n"
@@ -110,10 +121,26 @@ class OllamaGenerator:
         self.stats = GeneratorStats()
         self._timeout, self._retries, self._max_tokens = timeout, retries, max_tokens
         self._context, self._opener, self._sleep = context_tokens, opener, sleep
+        self.last_finish_reasons: Optional[List[str]] = None
 
     def generate(self, prompts: Any, **params: Any) -> List[str]:
         options = self._options(params)
-        return [self._complete(messages, options) for messages in as_conversations(prompts)]
+        self.last_finish_reasons = []
+        return [self._text(self._choice(messages, options))
+                for messages in as_conversations(prompts)]
+
+    def generate_with_scores(self, prompts: Any, labels: Sequence[str],
+                             **params: Any) -> List[ScoredOutput]:
+        """One scored completion per prompt: the text plus one log-prob per label."""
+        options = self._options({"max_tokens": SCORE_TOKENS, **params})
+        options.update(logprobs=True, top_logprobs=TOP_LOGPROBS)
+        self.last_finish_reasons = []
+        outputs = []
+        for messages in as_conversations(prompts):
+            choice = self._choice(messages, options)
+            outputs.append(ScoredOutput(self._text(choice),
+                                        label_logprobs(first_position(choice), labels)))
+        return outputs
 
     def _options(self, params: Dict[str, Any]) -> Dict[str, Any]:
         options = {"temperature": 0.0, "max_tokens": self._max_tokens, "seed": self.seed}
@@ -127,13 +154,18 @@ class OllamaGenerator:
             self.stats.clamped_max_tokens += 1
         return options
 
-    def _complete(self, messages: List[dict], options: Dict[str, Any]) -> str:
+    def _choice(self, messages: List[dict], options: Dict[str, Any]) -> Dict[str, Any]:
         fitted, trimmed = fit_messages(messages, self._context - options["max_tokens"])
         self.stats.trimmed_prompts += int(trimmed)
         payload = {"model": self.model, "messages": fitted, "stream": False, **options}
         body = self._request(json.dumps(payload).encode("utf-8"))
         self.stats.calls += 1
-        return self._text(body)
+        try:
+            choice = body["choices"][0]
+            choice["message"]["content"]
+        except (KeyError, IndexError, TypeError) as error:
+            raise LocalGeneratorError(f"unexpected response shape: {str(body)[:200]}") from error
+        return choice
 
     def _request(self, data: bytes) -> Dict[str, Any]:
         attempt = 0
@@ -173,14 +205,12 @@ class OllamaGenerator:
             return _Retryable(f"HTTP {error.code}: {detail}")
         return LocalGeneratorError(f"HTTP {error.code} from {self.base_url}: {detail}")
 
-    def _text(self, body: Dict[str, Any]) -> str:
-        try:
-            choice = body["choices"][0]
-            text = choice["message"]["content"]
-        except (KeyError, IndexError, TypeError) as error:
-            raise LocalGeneratorError(f"unexpected response shape: {str(body)[:200]}") from error
+    def _text(self, choice: Dict[str, Any]) -> str:
+        text = choice["message"]["content"]
         reason = choice.get("finish_reason") or "unknown"
         self.stats.finish_reasons[reason] = self.stats.finish_reasons.get(reason, 0) + 1
+        if self.last_finish_reasons is not None:
+            self.last_finish_reasons.append(reason)
         if not text or not text.strip():
             self.stats.empty_outputs += 1
             return ""

@@ -3,14 +3,18 @@
 Outputs are a pure function of the prompt text, so the same question always produces the
 same debate, which lets tests compare a resumed run with an uninterrupted one. The
 answers are meaningless; this backend exists to exercise the path, never to give results.
+``generate_with_scores`` (J24) returns hashed label log-probabilities, so the log-prob
+Judge and the lazy Opponent run offline too.
 """
 from __future__ import annotations
 
 import hashlib
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Sequence
 
 from ..adapters import prompt_count
 from ..analysis.score import score_answer
+from ..judge.logprob import ScoredOutput
+from .label_scores import fake_label_logprobs
 
 
 def _bucket(text: str, size: int) -> int:
@@ -22,8 +26,18 @@ class FakeGenerator:
 
     def generate(self, prompts: Any, **params: Any) -> List[str]:
         batch = prompts if prompt_count(prompts) > 1 else [prompts]
-        return [self._reply(prompt if isinstance(prompt, str) else "\n".join(prompt))
-                for prompt in batch]
+        return [self._reply(_joined(prompt)) for prompt in batch]
+
+    def generate_with_scores(self, prompts: Any, labels: Sequence[str],
+                             **params: Any) -> List[ScoredOutput]:
+        """The highest-scoring label as text, with every label's hashed log-prob."""
+        batch = prompts if prompt_count(prompts) > 1 else [prompts]
+        outputs = []
+        for prompt in batch:
+            scores = fake_label_logprobs(_joined(prompt), labels)
+            best = max(labels, key=lambda label: scores[label]) if labels else ""
+            outputs.append(ScoredOutput(best, scores))
+        return outputs
 
     @staticmethod
     def _reply(text: str) -> str:
@@ -37,6 +51,10 @@ class FakeGenerator:
         if "moderator in a debate competition" in text:
             return f"The answer is: {answer}"
         return f"Reasoning from the documents. The answer is: {answer}"
+
+
+def _joined(prompt: Any) -> str:
+    return prompt if isinstance(prompt, str) else "\n".join(prompt)
 
 
 class FakeRetriever:
