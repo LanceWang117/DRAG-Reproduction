@@ -153,6 +153,9 @@ class WeightedPipelineTests(unittest.TestCase):
         signals = _signals(state)
         self.assertEqual(signals["London"]["s_faith"], 1.0)
         self.assertEqual(signals["Paris"]["s_faith"], 0.0)
+        weights_log = dict(state.outputs)["AnswerStage_Aggregator_Weights"]
+        self.assertEqual(weights_log["scorer"], "heuristic")
+        self.assertEqual(weights_log["training_split"], "train")
         self.assertEqual(len(generator.calls), 2)
         self.assertEqual([row["conf"] for row in signals.values()], [0.5, 0.5])
 

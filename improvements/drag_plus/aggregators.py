@@ -17,8 +17,8 @@ every ``The answer is: ...`` segment while keeping the reasoning around it.
 
 ``aggregator="weighted"`` takes one answer per agent and maximises the fitted linear
 score ``w_conf*conf + w_faith*s_faith + w_agr*agr`` (J19). The weights JSON and the
-optional MiniCheck scorer are validated in ``grounding.scorer``; the signals of every
-distinct answer are emitted for the run record.
+optional MiniCheck scorer are validated in ``grounding.scorer``; the resolved weights
+and the signals of every distinct answer are emitted for the run record.
 """
 from __future__ import annotations
 
@@ -206,6 +206,9 @@ def run_weighted(ctx: StageContext, state: QuestionState) -> None:
     answer, reason, rows = select_weighted(
         [(candidate.source, candidate.answer) for candidate in candidates],
         passage_texts(state.query_pool), scorer, weights)
+    state.emit("AnswerStage_Aggregator_Weights",
+               {"scorer": ctx.flags.faithfulness_scorer or "heuristic",
+                **weights.as_dict()})
     state.emit("AnswerStage_Aggregator_Signals", rows)
     _finish(state, candidates, answer, reason, "weighted")
 

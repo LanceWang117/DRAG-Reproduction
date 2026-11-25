@@ -64,7 +64,7 @@ class MiniCheckFaithfulness:
             return 0.0
         _, probabilities, _, _ = self._model().score(
             docs=docs, claims=[claim] * len(docs))
-        values = [float(value) for value in probabilities or []]
+        values = [float(value) for value in ([] if probabilities is None else probabilities)]
         if not values:
             return 0.0
         return min(max(max(values), 0.0), 1.0)
