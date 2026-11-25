@@ -80,12 +80,8 @@ FLAG_SPECS: Tuple[FlagSpec, ...] = (
     FlagSpec("agent_max_tokens", int, None, optional=True, minimum=1, doc="Per-call max_tokens for answer agents; null leaves the backend default."),
     FlagSpec("moderator_max_tokens", int, None, optional=True, minimum=1, doc="Per-call max_tokens for the answer moderator; null leaves the default."),
     FlagSpec("concise_agents", bool, False, doc="Ask answer agents for at most two sentences before the answer marker."),
-    FlagSpec("faiss_gpu", bool, False,
-             doc="Place the FAISS index on the GPUs in fp16 before vLLM reserves its pool."),
-    FlagSpec("gpu_memory_utilization", float, 0.85, minimum=0.0, maximum=1.0,
-             strict_minimum=True,
-             doc="vLLM's per-GPU reservation ratio (0, 1]; lower it when the index is "
-                 "on the GPU."),
+    FlagSpec("faiss_gpu", bool, False, doc="Place the FAISS index on the GPUs in fp16 before vLLM reserves its pool."),
+    FlagSpec("gpu_memory_utilization", float, 0.85, minimum=0.0, maximum=1.0, strict_minimum=True, doc="vLLM's per-GPU reservation ratio (0, 1]; lower it when the index is on the GPU."),
     FlagSpec("omp_threads", int, 12, minimum=1, doc="OMP/MKL threads, set before imports."),
     FlagSpec("evidence_store", str, "dict", choices=("dict", "anchored"), doc="dict keeps the baseline query pool; anchored keeps an append-only, doc-id-keyed store whose original passages can never be evicted."),
     FlagSpec("evidence_delimiters", bool, False, doc="Render each passage in a labelled <document> data block with a notice that retrieved text is not instructions."),
@@ -119,7 +115,9 @@ FLAG_SPECS: Tuple[FlagSpec, ...] = (
                  "is above escalation_tau; an unavailable score runs the Opponent."),
     FlagSpec("opponent_mode", str, "closed_book", choices=("closed_book", "grounded"), doc="closed_book keeps the baseline parametric Opponent; grounded uses a Conflict Auditor with the evidence pool and an Evidence Synthesizer Proponent that cites [E...] labels."),
     FlagSpec("verdict_sequestration", bool, False, doc="Withhold every peer 'The answer is:' line when relaying an answer; keep the reasoning."),
-    FlagSpec("aggregator", str, "moderator", choices=("moderator", "vote", "self_consistency"), doc="moderator runs the debate; vote takes one answer per agent; self_consistency samples one grounded answer m times."),
+    FlagSpec("aggregator", str, "moderator", choices=("moderator", "vote", "self_consistency", "weighted"), doc="moderator runs the debate; vote takes one answer per agent; self_consistency samples one grounded answer m times; weighted maximizes w_conf*conf + w_faith*s_faith + w_agr*agr."),
+    FlagSpec("faithfulness_scorer", str, None, choices=("heuristic", "minicheck"), optional=True, doc="Soft evidence-support scorer; null leaves the J14 stub in gate features and uses the heuristic for weighted aggregation; minicheck lazily imports the optional adapter."),
+    FlagSpec("aggregator_weights", str, None, optional=True, doc="Path to the fitted weighted-aggregator JSON; required by aggregator='weighted'."),
     FlagSpec("self_consistency_samples", int, 5, minimum=1, doc="Samples per question for aggregator='self_consistency'."),
     FlagSpec("self_consistency_temperature", float, 0.7, minimum=0.0, strict_minimum=True, doc="Sampling temperature for aggregator='self_consistency'; do_sample is set only on those calls."),
 )
@@ -211,6 +209,8 @@ class Flags:
                 "escalation_gate='risk' requires escalation_model and escalation_tau")
         if resolved["lazy_query_opponent"] and resolved["escalation_tau"] is None:
             raise FlagError("lazy_query_opponent requires escalation_tau")
+        if resolved["aggregator"] == "weighted" and resolved["aggregator_weights"] is None:
+            raise FlagError("aggregator='weighted' requires aggregator_weights")
         object.__setattr__(self, "_values", resolved)
 
     def __getattr__(self, name: str) -> Any:

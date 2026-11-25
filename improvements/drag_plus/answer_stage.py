@@ -24,6 +24,7 @@ from .answers import FINAL_ANSWER_PREFIX
 from .evidence import layout
 from .gates.escalation import MAX_GATE_ROUNDS, decide
 from .gates.features import compute_features
+from .grounding.scorer import build_scorer
 from .query_stage import AGENTS
 from .state import QuestionState
 
@@ -203,7 +204,9 @@ def _gate_limit(ctx: StageContext, rounds: int) -> int:
 
 def _record_gate(ctx: StageContext, state: QuestionState, round_index: int):
     """Compute the label-free features and calibrated risk after one response round."""
-    features = compute_features(state, ctx.strategy_qa)
+    scorer = (build_scorer(ctx.flags.faithfulness_scorer, ctx.strategy_qa)
+              if ctx.flags.faithfulness_scorer else None)
+    features = compute_features(state, ctx.strategy_qa, scorer)
     decision = decide(features, ctx.gate_model, ctx.flags.escalation_tau)
     state.gate_features = dict(features)
     state.gate_risk = decision.risk

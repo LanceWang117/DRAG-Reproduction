@@ -16,6 +16,7 @@ exactly like the recorded v1.0.1 baseline (`src/reproduction_changes/model/drag.
 | `scheduling/refill.py` | J16 request/result types and `RefillWindow`: a finished question's slot refills immediately; `gather_search` caps and stitches the step's search queries |
 | `retrieval/cache.py` | Caching retriever proxy: `search` is `batch_search([q])[0]`, one JSONL line per query |
 | `analysis/` | Scoring, the unified answer extractor and paired statistics |
+| `grounding/` | J19 soft faithfulness scorers (heuristic, lazy MiniCheck) and the weighted aggregation rule |
 
 The package imports without FlashRAG, vLLM, torch or FAISS; the runner injects those
 objects. Its only third-party imports are the light `Levenshtein` (query-pool edit

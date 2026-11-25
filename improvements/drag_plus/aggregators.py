@@ -14,6 +14,11 @@ budget.
 
 Also holds ``sequester_verdict``, the relay redaction used by the debate mode: it removes
 every ``The answer is: ...`` segment while keeping the reasoning around it.
+
+``aggregator="weighted"`` takes one answer per agent and maximises the fitted linear
+score ``w_conf*conf + w_faith*s_faith + w_agr*agr`` (J19). The weights JSON and the
+optional MiniCheck scorer are validated in ``grounding.scorer``; the resolved weights
+and the signals of every distinct answer are emitted for the run record.
 """
 from __future__ import annotations
 
@@ -26,6 +31,8 @@ from . import prompts
 from .adapters import StageContext
 from .answers import unified_pred
 from .evidence import layout
+from .gates.features import passage_texts
+from .grounding.scorer import build_scorer, load_weights, select_weighted
 from .query_stage import AGENTS
 from .state import QuestionState
 
@@ -183,11 +190,36 @@ def run_self_consistency(ctx: StageContext, state: QuestionState) -> None:
     _finish(state, candidates, answer, reason, "self_consistency")
 
 
+def run_weighted(ctx: StageContext, state: QuestionState) -> None:
+    """One answer per agent; maximise the fitted confidence/faithfulness/agreement score."""
+    state.round = 0
+    weights = load_weights(ctx.flags.aggregator_weights)
+    scorer = build_scorer(ctx.flags.faithfulness_scorer, ctx.strategy_qa)
+    prefix = _prefix(ctx, state)
+    candidates = []
+    for agent in AGENTS:
+        prompt = _agent_prompt(ctx, state, agent, prefix)
+        raw = ctx.backends.complete(prompt, call=state.call("answer_agent", agent),
+                                    **_budget(ctx))
+        _record(state, agent, prompt, raw)
+        candidates.append(_candidate(agent, raw, ctx))
+    answer, reason, rows = select_weighted(
+        [(candidate.source, candidate.answer) for candidate in candidates],
+        passage_texts(state.query_pool), scorer, weights)
+    state.emit("AnswerStage_Aggregator_Weights",
+               {"scorer": ctx.flags.faithfulness_scorer or "heuristic",
+                **weights.as_dict()})
+    state.emit("AnswerStage_Aggregator_Signals", rows)
+    _finish(state, candidates, answer, reason, "weighted")
+
+
 def run_aggregator(ctx: StageContext, state: QuestionState) -> None:
     """Dispatch a non-moderator aggregator; the moderator path stays in answer_stage."""
     if ctx.flags.aggregator == "vote":
         run_vote(ctx, state)
     elif ctx.flags.aggregator == "self_consistency":
         run_self_consistency(ctx, state)
+    elif ctx.flags.aggregator == "weighted":
+        run_weighted(ctx, state)
     else:
         raise ValueError(f"not a non-debate aggregator: {ctx.flags.aggregator!r}")

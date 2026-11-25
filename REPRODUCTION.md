@@ -133,6 +133,37 @@ window admits one row at a time.
 different variant or `--interleave` setting. The logs of a resumed run equal those of an
 uninterrupted one. The fake backend's answers are meaningless: it exists to test the path.
 
+### Faithfulness signal and weighted aggregation (J19)
+
+`aggregator="weighted"` takes one answer per agent and picks
+`argmax_a w_conf*conf(a) + w_faith*s_faith(a) + w_agr*agr(a)`. `conf` is the answer's
+plurality share, `agr` its mean token-F1 to the other distinct answers, and `s_faith`
+a soft evidence-support score in [0, 1]. Exact ties keep the first-seen answer.
+
+| Flag | Default | Meaning |
+| --- | --- | --- |
+| `aggregator` | `moderator` | `weighted` enables the linear aggregator; `moderator`, `vote` and `self_consistency` are unchanged |
+| `aggregator_weights` | `null` | fitted weights JSON; required by `aggregator="weighted"` |
+| `faithfulness_scorer` | `null` | `heuristic` or `minicheck`; null uses the heuristic for weighted aggregation and leaves the J14 gate feature stub alone |
+
+The heuristic normalises the answer with E(.) and returns the fraction of cited passages
+that contain it as a whole word; yes/no answers return 0.5 (unknown). The optional
+MiniCheck adapter is imported only when `faithfulness_scorer="minicheck"`; a missing
+package is a configuration error, never a silent fallback. It scores one
+`(passage, answer)` pair per cited passage and takes the maximum support probability.
+
+The weights file records `weights` = {`conf`, `s_faith`, `agr`}, the `training_split`
+and the SHA-256 of the input manifest. The loader refuses a `test` split. Fit weights
+from JSONL candidate rows (`features` plus a `[0, 1]` correctness `target`) with:
+
+```bash
+PYTHONPATH=improvements python scripts/fit_aggregator.py \
+    --input dev-candidates.jsonl --out improvements/configs/weights-j19.json --split dev
+```
+
+The fit is non-negative least squares; a singular design or an all-zero fit exits 2.
+Defaults reproduce the baseline and T0 byte for byte.
+
 ### Local smoke run
 
 `scripts/smoke_local.py` runs 1 to 5 dev questions end to end with a **real** small model,

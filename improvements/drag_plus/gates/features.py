@@ -12,7 +12,8 @@ Features (``FEATURE_NAMES`` order):
 * ``s_bar_O`` - ``sigmoid(judge_score)``, the J12 Opponent-minus-Proponent margin as
   a probability; ``0.5`` when the query stage recorded no score;
 * ``evidence_support`` - fraction of the extracted answer's tokens that occur in the
-  retrieved passages. This is the J14 stub; ``support_scorer`` is the J19 hook.
+  retrieved passages. This is the J14 stub; ``support_scorer`` is the J19 hook, supplied
+  by ``grounding.build_scorer`` when ``faithfulness_scorer`` is configured.
 """
 from __future__ import annotations
 
@@ -74,7 +75,8 @@ def cluster_entropy(answers: Sequence[str]) -> float:
     return entropy / math.log(len(counts))
 
 
-def _passage_texts(query_pool) -> List[str]:
+def passage_texts(query_pool) -> List[str]:
+    """Every retrieved passage's text, in pool order (the J19 scorers' evidence view)."""
     texts = []
     for passages in query_pool.values():
         texts.extend(str(passage.get("contents", "")) for passage in passages)
@@ -117,7 +119,7 @@ def compute_features(state, yes_no: bool = False,
         "disagreement": disagreement(answers),
         "cluster_entropy": cluster_entropy(answers),
         "s_bar_O": s_bar_o(getattr(state, "judge_score", None)),
-        "evidence_support": evidence_support(answer, _passage_texts(state.query_pool),
+        "evidence_support": evidence_support(answer, passage_texts(state.query_pool),
                                              support_scorer),
     }
     return {name: float(values[name]) for name in FEATURE_NAMES}
