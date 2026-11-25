@@ -30,6 +30,7 @@ BASELINE = {"max_query_debate_rounds": 3, "max_answer_debate_rounds": 3, "profil
             "escalation_model": None, "escalation_tau": None,
             "lazy_query_opponent": False, "opponent_mode": "closed_book",
             "verdict_sequestration": False, "aggregator": "moderator",
+            "faithfulness_scorer": None, "aggregator_weights": None,
             "self_consistency_samples": 5, "self_consistency_temperature": 0.7}
 
 
@@ -79,6 +80,14 @@ class FlagValidationTests(unittest.TestCase):
             Flags({"retrieval_cache": 3})
         with self.assertRaisesRegex(FlagError, "must not be blank"):
             Flags({"retrieval_cache": "  "})
+
+    def test_weighted_aggregator_requires_a_weights_file(self):
+        with self.assertRaisesRegex(FlagError, "requires aggregator_weights"):
+            Flags({"aggregator": "weighted"})
+        flags = Flags({"aggregator": "weighted", "aggregator_weights": "weights.json"})
+        self.assertEqual(flags.aggregator, "weighted")
+        with self.assertRaisesRegex(FlagError, "must be one of"):
+            Flags({"faithfulness_scorer": "nli"})
 
     def test_retrieval_flags_validate_their_ranges(self):
         self.assertEqual(Flags({"dense_weight": 2}).dense_weight, 2.0)
