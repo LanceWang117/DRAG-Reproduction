@@ -54,7 +54,10 @@ class FakeGenerator:
 
 
 def _joined(prompt: Any) -> str:
-    return prompt if isinstance(prompt, str) else "\n".join(prompt)
+    """A text prompt as is; a list of strings or chat messages joined by newlines."""
+    if isinstance(prompt, str):
+        return prompt
+    return "\n".join(part["content"] if isinstance(part, dict) else part for part in prompt)
 
 
 class FakeRetriever:

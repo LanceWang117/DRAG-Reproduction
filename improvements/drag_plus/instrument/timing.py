@@ -21,7 +21,7 @@ from typing import Any, Callable, List, Optional, Sequence
 Reasons = Optional[Callable[[], Optional[Sequence[str]]]]
 
 STAGES = ("retrieval", "query_agent", "query_judge", "query_judge_retry",
-          "answer_agent", "answer_moderator", "rerank", "gate")
+          "query_sufficiency", "answer_agent", "answer_moderator", "rerank", "gate")
 ROW_FIELDS = ("stage", "round", "role", "batch_size", "prompt_tokens", "output_tokens",
               "finish_reason", "cache_hit", "t_start", "elapsed_ms")
 LOG_FIELDS = ("run_id", "variant", "arm", "dataset", "split", "id") + ROW_FIELDS
