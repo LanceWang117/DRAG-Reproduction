@@ -19,7 +19,7 @@ import json
 import math
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Sequence, Tuple
+from typing import Any, Dict, List, Sequence
 
 from drag_plus.grounding.scorer import SIGNAL_NAMES, AggregatorWeights
 
@@ -125,6 +125,8 @@ def fit_weights(rows: Sequence[Row], l2: float = 0.0) -> Dict[str, float]:
             weights = {name: 0.0 for name in SIGNAL_NAMES}
             for index, value in zip(active, solution):
                 weights[SIGNAL_NAMES[index]] = max(0.0, value)
+            if not all(math.isfinite(value) for value in weights.values()):
+                raise FitError("fit produced a non-finite weight")
             if sum(weights.values()) <= 0.0:
                 raise FitError("fit is all zero")
             return weights
