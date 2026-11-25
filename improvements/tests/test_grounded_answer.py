@@ -67,6 +67,17 @@ class GroundedPromptTests(unittest.TestCase):
                              for system in systems))
         self.assertEqual(state.pred, "The answer is: Paris")
 
+    def test_evidence_first_puts_one_labelled_prefix_on_both_agent_roles(self):
+        _, generator, _ = _run(
+            ["Proponent sees E1-1.\nThe answer is: Paris",
+             "Auditor sees E1-1.\nThe answer is: Paris",
+             "The answer is: Paris"],
+            opponent_mode="grounded", prompt_layout="evidence_first")
+        for call in generator.calls[:2]:
+            system = _content(call[0])
+            self.assertEqual(system.count("E1-1(Title:"), 1)
+            self.assertIn("evidence is in the shared context above", system.lower())
+
     def test_sequestration_hides_peer_verdicts_but_keeps_reasoning(self):
         state, generator, _ = _run(VERDICTS, max_answer_debate_rounds=2,
                                    verdict_sequestration=True)

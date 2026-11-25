@@ -45,6 +45,11 @@ class SelectAnswerTests(unittest.TestCase):
         self.assertEqual(select_answer(candidates, "no place names", "London"),
                          ("London", "fallback"))
 
+    def test_tie_with_both_supported_uses_the_fallback(self):
+        candidates = [Candidate("a", "Paris", 1), Candidate("b", "London", 1)]
+        self.assertEqual(select_answer(candidates, "Paris and London", "London"),
+                         ("London", "fallback"))
+
     def test_empty_answers_are_an_empty_result(self):
         candidates = [Candidate("a", "", 2), Candidate("b", "", 3)]
         self.assertEqual(select_answer(candidates, "anything"), ("", "empty"))
