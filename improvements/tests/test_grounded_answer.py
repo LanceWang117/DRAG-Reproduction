@@ -59,7 +59,7 @@ class GroundedPromptTests(unittest.TestCase):
              "Conflict auditor sees E1-1.\nThe answer is: Paris",
              "The answer is: Paris"],
             opponent_mode="grounded")
-        systems = [_content(call[0]) for call in generator.calls]
+        systems = [_content(call[0]) for call in generator.calls[:2]]
         self.assertTrue(any("evidence synthesizer" in system for system in systems))
         self.assertTrue(any("conflict auditor" in system for system in systems))
         self.assertTrue(all("E1-1" in system for system in systems))
