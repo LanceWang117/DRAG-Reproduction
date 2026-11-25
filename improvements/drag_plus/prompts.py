@@ -8,6 +8,8 @@ from __future__ import annotations
 
 from typing import Optional
 
+from .evidence.format import format_pool
+
 PROCEED = "Proceed with your role instructions."
 _EVIDENCE_ABOVE = "The evidence is in the shared context above. "
 
@@ -54,6 +56,10 @@ _ANSWER_FORMAT_YES_NO = (
     "Explain your answer, and always put the answer after 'The answer is: ', "
     "e.g.'The answer is: Yes.', at the end of your response."
 )
+_GROUNDED_ROLES = {
+    "Proponent": "You are an evidence synthesizer. Answer only from the retrieved evidence and cite every supporting passage as [E<query>-<rank>], e.g. [E1-1]. ",
+    "Opponent": "You are a conflict auditor. Compare the evidence with the question, name contradictions, missing support and unsupported claims, and use only the retrieved evidence. ",
+}
 _CONCISE_ANSWER = (
     "Use at most 2 sentences, then put the answer after 'The answer is: ', "
     "e.g.'The answer is: answer.'."
@@ -108,11 +114,13 @@ def format_reference(retrieval_result) -> str:
     return out
 
 
-def format_query_pool(query_pool) -> str:
+def format_query_pool(query_pool, grounded: bool = False) -> str:
     """Render the pool; an evidence-aware pool supplies its own labelled layout."""
     render = getattr(query_pool, "format_evidence", None)
     if callable(render):
         return render()
+    if grounded:
+        return format_pool(query_pool)
     out = ""
     for i, query in enumerate(query_pool):
         out += f"Query {i+1}: {query}\nRetrieved Content: {format_reference(query_pool[query])}"
@@ -179,10 +187,22 @@ def question_user(question: str, prefix: Optional[str] = None) -> dict:
     return {"role": "user", "content": f"Question: {question}\n"}
 
 
+def _grounded_system(agent_name: str, query_pool, fmt: str,
+                     prefix: Optional[str]) -> dict:
+    """Grounded role: an Evidence Synthesizer or a Conflict Auditor, both with [E..] labels."""
+    role = _GROUNDED_ROLES[_agent_role(agent_name)]
+    docs = _EVIDENCE_ABOVE if prefix is not None else \
+        f"Evidence:\n{format_query_pool(query_pool, grounded=True)}"
+    return {"role": "system", "content": _with_prefix(f"{role}{fmt} {docs}", prefix)}
+
+
 def answer_agent_system(agent_name: str, query_pool, strategy_qa: bool,
-                        concise: bool = False, prefix: Optional[str] = None) -> dict:
-    """Grounded Proponent or closed-book Opponent system message."""
+                        concise: bool = False, prefix: Optional[str] = None,
+                        grounded: bool = False) -> dict:
+    """Agent system message; ``grounded`` selects the J18 Synthesizer/Auditor roles."""
     fmt = _answer_format(strategy_qa, concise)
+    if grounded:
+        return _grounded_system(agent_name, query_pool, fmt, prefix)
     if "Proponent" in agent_name:
         docs = (_EVIDENCE_ABOVE if prefix is not None
                 else f"The following are given documents.\n{format_query_pool(query_pool)}")

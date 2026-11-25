@@ -28,7 +28,9 @@ BASELINE = {"max_query_debate_rounds": 3, "max_answer_debate_rounds": 3, "profil
             "judge_tau": 0.0, "opponent_action_schema": False,
             "judge_sees_refined_query": False, "escalation_gate": "none",
             "escalation_model": None, "escalation_tau": None,
-            "lazy_query_opponent": False}
+            "lazy_query_opponent": False, "opponent_mode": "closed_book",
+            "verdict_sequestration": False, "aggregator": "moderator",
+            "self_consistency_samples": 5, "self_consistency_temperature": 0.7}
 
 
 class FlagDefaultTests(unittest.TestCase):
