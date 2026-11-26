@@ -243,3 +243,8 @@ def run_answer_stage(ctx: StageContext, state: QuestionState) -> None:
             _moderate(ctx, state, round_index, prefix)
         if stop:
             return
+
+
+def run_answer_only(ctx, state) -> None:
+    """Answer directly from the pool, skipping the answer debate (J20 refine_only)."""
+    state.stage = "answer"; _answer_only(ctx, state, _answer_prefix(ctx, state, 0))

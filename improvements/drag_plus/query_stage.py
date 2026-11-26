@@ -229,7 +229,7 @@ def run_query_stage(ctx: StageContext, state: QuestionState) -> None:
     rounds = ctx.flags.max_query_debate_rounds
     for round_index in range(max(rounds, 1)):
         state.round = round_index
-        if round_index == 0:
+        if round_index == 0 and not state.query_pool:
             prepare_pool(ctx, state)
             question = state.question
             passages = search(ctx, state, question)
