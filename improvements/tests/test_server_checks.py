@@ -25,6 +25,15 @@ DOCS = [{"id": "11", "contents": "Hamlet\nby Shakespeare"}, {"id": "12", "conten
 
 
 class Template:
+    """The Llama-3 chat layout with a generation prompt, as FlashRAG renders it."""
+
+    def get_string(self, messages=None, **_):
+        body = "".join(f"<|start_header_id|>{m['role']}<|end_header_id|>\n\n{m['content']}<|eot_id|>"
+                       for m in messages)
+        return "<|begin_of_text|>" + body + "<|start_header_id|>assistant<|end_header_id|>\n\n"
+
+
+class PlainTemplate:
     def get_string(self, messages=None, **_):
         return "\n".join(m["content"] for m in messages)
 
@@ -39,14 +48,22 @@ class ServerGenerator:
         self.last_finish_reasons = None
         if params.get("return_raw_output"):
             return [SimpleNamespace(outputs=[SimpleNamespace(finish_reason=self.reason)])]
-        return [str(p).split()[-1] for p in prompts]
+        return [_last_word(p) for p in prompts]
 
     def generate_with_scores(self, prompts, labels, **params):
         self.last_finish_reasons = [SCORED] * len(prompts)
         return [ScoredOutput(labels[0], {labels[0]: self.score, labels[1]: -1.0}) for _ in prompts]
 
 
+def _last_word(prompt):
+    content = str(prompt).split("<|eot_id|>")[0]
+    return content.split()[-1]
+
+
 class Retriever:
+    def search(self, query):
+        return list(DOCS)
+
     def batch_search(self, queries, return_score=False):
         rows = [list(DOCS) for _ in queries]
         return (rows, [[0.9, 0.8] for _ in queries]) if return_score else rows
@@ -59,13 +76,16 @@ class Faiss:
     def omp_get_max_threads(self):
         return 12
 
+    def get_num_threads(self):  # stands in for torch too
+        return 12
+
 
 def context(**changes):
     values = dict(backend="flashrag", generator=ServerGenerator(), retriever=Retriever(),
                   make_template=lambda arm, dataset: Template(), flags=Flags(),
                   stored=[("who wrote hamlet", ["11", "12"], DOCS)], index_path=__file__,
                   environ={"OMP_NUM_THREADS": "12", "MKL_NUM_THREADS": "12"},
-                  import_module=lambda name: Faiss(), read_gpu_gib=lambda: 79.2)
+                  import_module=lambda name: Faiss(), read_gpu_rows=lambda: [79.2])
     values.update(changes)
     return ProbeContext(**values)
 
@@ -122,18 +142,40 @@ class ProbeTests(unittest.TestCase):
             "scored_judge_coverage": context(generator=ServerGenerator(score=None)),
             "batch_search_matches_stored_naive": context(stored=[("q", ["99"], DOCS)]),
             "faiss_gpus": context(import_module=lambda name: SimpleNamespace(get_num_gpus=lambda: 0)),
-            "thread_env": context(environ={"OMP_NUM_THREADS": "12", "MKL_NUM_THREADS": "4"}),
-            "nvidia_smi": context(read_gpu_gib=lambda: 6.0),
-            "template_renders_messages": context(make_template=lambda a, d: SimpleNamespace(
-                get_string=lambda messages=None: messages)),
+            "thread_env": context(import_module=lambda name: SimpleNamespace(
+                omp_get_max_threads=lambda: 12, get_num_threads=lambda: 4)),
+            "nvidia_smi": context(read_gpu_rows=lambda: [6.0]),
+            "template_renders_messages": context(make_template=lambda a, d: PlainTemplate()),
+            "index_identity_fast": context(index_path="/no/such/index.faiss"),
+            "b2_search_vs_batch": context(retriever=SimpleNamespace(
+                search=lambda q: [{"id": "x"}], batch_search=lambda qs: [list(DOCS)])),
         }
         for name, ctx in cases.items():
             ok, detail = PROBES[name][0](ctx)
             self.assertFalse(ok, f"{name} should fail: {detail}")
 
+    def test_two_cards_summing_to_80_gib_are_not_one_a100(self):
+        self.assertFalse(probes.nvidia_smi(context(read_gpu_rows=lambda: [40.0, 40.0]))[0])
+        self.assertEqual(probes.parse_gpu_rows("81920\n\n"), [80.0])
+
+    def test_the_template_must_end_with_the_generation_prompt(self):
+        class NoGeneration(Template):
+            def get_string(self, messages=None, **_):
+                return super().get_string(messages).rsplit("<|start_header_id|>assistant", 1)[0]
+        ctx = context(make_template=lambda a, d: NoGeneration())
+        self.assertFalse(probes.template_renders_messages(ctx)[0])
+
+    def test_b2_divergence_on_the_long_query_is_reported_not_failed(self):
+        retriever = SimpleNamespace(
+            search=lambda q: [{"id": "short"}] if len(q) < 64 else [{"id": "truncated"}],
+            batch_search=lambda qs: [[{"id": "short"}] if len(qs[0]) < 64 else [{"id": "full"}]])
+        ok, detail = probes.b2_search_vs_batch(context(retriever=retriever))
+        self.assertTrue(ok, detail)
+        self.assertIn("B2 reproduced", detail)
+
     def test_unordered_batches_and_stale_reasons_fail(self):
         shuffled = ServerGenerator()
-        shuffled.generate = lambda prompts, **p: list(reversed([str(x).split()[-1] for x in prompts]))
+        shuffled.generate = lambda prompts, **p: list(reversed([_last_word(x) for x in prompts]))
         self.assertFalse(probes.batch_order_preserved(context(generator=shuffled))[0])
         stale = ServerGenerator()
         stale.generate = lambda prompts, **p: ["text"]  # never clears last_finish_reasons
@@ -163,6 +205,11 @@ class RunnerTests(unittest.TestCase):
         skipped = {r["probe"] for r in fake if r["status"] == "skipped"}
         self.assertEqual(skipped, {n for n, (_, req) in PROBES.items() if req == "server"})
         self.assertTrue(passed(fake))
+        self.assertFalse(passed(fake, on_server=True))  # a skip on the server is a failure
+
+    def test_nothing_run_is_never_a_pass(self):
+        self.assertFalse(passed([]))
+        self.assertFalse(passed([{"status": "skipped"}]))
 
 
 class ScriptTests(unittest.TestCase):
@@ -176,6 +223,12 @@ class ScriptTests(unittest.TestCase):
         self.assertIn("**J09-1**", result.stdout)
         self.assertNotIn("## E01", result.stdout)
 
+    def test_a_run_that_would_test_nothing_is_refused(self):
+        for args in (("--owner", "E01"), ("--owner", "e00"), ("--tier", "smoke")):
+            result = self.script("--run", "--backend", "fake", *args)
+            self.assertEqual(result.returncode, 2, (args, result.stdout))
+            self.assertIn("server_checks:", result.stderr)
+
     def test_run_on_the_fake_backend_writes_a_passing_report(self):
         with tempfile.TemporaryDirectory() as folder:
             result = self.script("--run", "--backend", "fake", "--out", folder)
@@ -184,6 +237,7 @@ class ScriptTests(unittest.TestCase):
         self.assertTrue(report["passed"])
         self.assertEqual(report["summary"]["fail"] + report["summary"]["error"], 0)
         self.assertGreaterEqual(report["summary"]["pass"], 3)
+        self.assertIn("versions", report)
 
 
 if __name__ == "__main__":

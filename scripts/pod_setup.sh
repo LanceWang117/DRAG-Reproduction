@@ -28,12 +28,20 @@ missing() { echo "  MISSING  $*"; MISSING=$((MISSING + 1)); }
 have() { command -v "$1" >/dev/null 2>&1; }
 
 teardown() {
-  local pids owner own=""
+  local pids owner own="" query
   have nvidia-smi || { echo "  ok       no nvidia-smi: no GPU processes"; return 0; }
-  pids="$(nvidia-smi --query-compute-apps=pid --format=csv,noheader 2>/dev/null | tr -d ' ')"
+  if ! query="$(nvidia-smi --query-compute-apps=pid --format=csv,noheader 2>&1)"; then
+    echo "  FAILED   nvidia-smi could not list GPU processes: $query"
+    return 1
+  fi
+  pids="$(printf '%s\n' "$query" | tr -d ' ')"
   for pid in $pids; do
     owner="$(stat -c %u "/proc/$pid" 2>/dev/null || ps -o uid= -p "$pid" 2>/dev/null | tr -d ' ')"
-    [ "$owner" = "$(id -u)" ] && own="$own $pid($(cat "/proc/$pid/comm" 2>/dev/null || echo '?'))"
+    if [ -z "$owner" ]; then  # e.g. a host PID seen from a container: never assume it is gone
+      own="$own $pid(owner unknown)"
+    elif [ "$owner" = "$(id -u)" ]; then
+      own="$own $pid($(cat "/proc/$pid/comm" 2>/dev/null || echo '?'))"
+    fi
   done
   if [ -n "$own" ]; then
     echo "  LEFT     your GPU processes:$own (stop them before ending the session)"

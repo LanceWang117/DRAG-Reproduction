@@ -120,7 +120,10 @@ def summarise(results: Sequence[Mapping[str, Any]]) -> Dict[str, int]:
     return counts
 
 
-def passed(results: Sequence[Mapping[str, Any]]) -> bool:
-    """True only when nothing failed or errored (skips are allowed off the server)."""
+def passed(results: Sequence[Mapping[str, Any]], on_server: bool = False) -> bool:
+    """Fail closed: something ran, nothing failed or errored, and on the server nothing
+    was skipped (skips are expected only off the server)."""
     counts = summarise(results)
-    return counts["fail"] == 0 and counts["error"] == 0
+    ran = counts["pass"] + counts["fail"] + counts["error"]
+    clean = counts["fail"] == 0 and counts["error"] == 0
+    return ran > 0 and clean and not (on_server and counts["skipped"])

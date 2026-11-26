@@ -12,22 +12,27 @@ when nothing failed or errored, 1 otherwise, 2 for bad input.
 from __future__ import annotations
 
 import argparse
+import gc
+from importlib import metadata
 import json
 from datetime import datetime, timezone
 from pathlib import Path
+import subprocess
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import run_variant  # noqa: E402  (puts improvements/ on sys.path)
 from run_evaluation import PROJECT, resolve_paths  # noqa: E402
 
-from drag_plus.server.probes import ProbeContext  # noqa: E402
+from drag_plus.server.probes import ProbeContext, parse_gpu_rows  # noqa: E402
 from drag_plus.server.registry import (TIERS, RegistryError, format_list, load_checks,  # noqa: E402
                                        passed, run_auto, select, summarise)
 
 REGISTRY = PROJECT / "improvements/configs/server-checks.json"
 DEFAULT_VARIANT = PROJECT / "improvements/configs/arms/E02b/D.json"
 STORED_COUNT = 3
+PACKAGES = ("flashrag-dev", "vllm", "torch", "transformers", "faiss-gpu", "faiss-cpu", "faiss")
+SMI_ROWS = ["nvidia-smi", "--query-gpu=memory.total", "--format=csv,noheader,nounits"]
 
 
 def parse_args(argv):
@@ -73,34 +78,71 @@ def build_context(args, out_dir: Path) -> ProbeContext:
     backend = run_variant.build_backend(rv_args, variant.flags, rows, out_dir)
     index_path, gpu_reader = None, None
     if args.backend == "flashrag":
-        import preflight_gpu
         index_path = resolve_paths(json.loads(args.config.read_text()), args.config.parent)["index_path"]
-        gpu_reader = preflight_gpu.read_gpu_total_gib
+        gpu_reader = read_gpu_rows
+    template = backend.make_template("drag", "NQ")  # once: each FlashRAG Config makes a save_dir
     return ProbeContext(backend=args.backend, generator=backend.generator,
-                        retriever=backend.retriever, make_template=backend.make_template,
+                        retriever=backend.retriever, make_template=lambda arm, dataset: template,
                         flags=variant.flags, stored=load_stored(args.manifest, args.retrieval),
-                        index_path=index_path, read_gpu_gib=gpu_reader)
+                        index_path=index_path, read_gpu_rows=gpu_reader)
+
+
+def read_gpu_rows():
+    done = subprocess.run(SMI_ROWS, capture_output=True, text=True, check=True, timeout=15)
+    return parse_gpu_rows(done.stdout)
+
+
+def versions():
+    found = {}
+    for name in PACKAGES:
+        try:
+            found[name] = metadata.version(name)
+        except metadata.PackageNotFoundError:
+            continue
+    return found
+
+
+def release_gpu() -> None:
+    """Drop the engine, free cached CUDA memory, and show what still holds the card."""
+    gc.collect()
+    torch = sys.modules.get("torch")
+    if torch is not None and torch.cuda.is_available():
+        torch.cuda.empty_cache()
+    try:
+        used = subprocess.run(["nvidia-smi", "--query-gpu=memory.used", "--format=csv,noheader"],
+                              capture_output=True, text=True, timeout=15).stdout.strip()
+        print("GPU memory still used by this process and others:", used or "unknown")
+    except (OSError, subprocess.SubprocessError):
+        pass
 
 
 def write_report(out_dir: Path, args, results) -> Path:
     out_dir.mkdir(parents=True, exist_ok=True)
     report = {"generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-              "backend": args.backend, "variant": str(args.variant),
-              "summary": summarise(results), "passed": passed(results), "checks": results}
+              "backend": args.backend, "variant": str(args.variant), "versions": versions(),
+              "summary": summarise(results),
+              "passed": passed(results, on_server=args.backend == "flashrag"), "checks": results}
     path = out_dir / "server-checks.json"
     path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     return path
 
 
 def run(args) -> int:
-    checks = load_checks(args.registry)
+    if args.tier not in (None, "auto"):
+        raise ValueError("--run executes only the auto tier; use --list for smoke and measure")
+    chosen = select(load_checks(args.registry), tier="auto", owner=args.owner)
+    if not chosen:
+        raise ValueError(f"no automatic checks for owner {args.owner!r}; owners are E-job IDs like E00")
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     out_dir = args.out or PROJECT / "new-runs/server-checks" / stamp
-    results = run_auto(select(checks, owner=args.owner), build_context(args, out_dir))
+    try:
+        results = run_auto(chosen, build_context(args, out_dir))
+    finally:
+        release_gpu()
     for result in results:
         print(f"{result['status']:>7}  {result['id']:<6} {result['probe']}: {result['detail'][:120]}")
     print("summary:", summarise(results), "| report:", write_report(out_dir, args, results))
-    return 0 if passed(results) else 1
+    return 0 if passed(results, on_server=args.backend == "flashrag") else 1
 
 
 def main(argv=None) -> int:

@@ -76,6 +76,14 @@ class PodSetupTests(unittest.TestCase):
         self.assertIn(f"LEFT     your GPU processes: {os.getpid()}(", result.stdout)
         smi.write_text("#!/bin/sh\n")
         self.assertEqual(run(POD_SETUP, "--teardown", env={**self.env, **path}).returncode, 0)
+        smi.write_text("#!/bin/sh\necho 999999999\n")  # a PID this namespace cannot see
+        unknown = run(POD_SETUP, "--teardown", env={**self.env, **path})
+        self.assertEqual(unknown.returncode, 1)
+        self.assertIn("999999999(owner unknown)", unknown.stdout)
+        smi.write_text("#!/bin/sh\necho 'driver not loaded' >&2\nexit 9\n")
+        failed = run(POD_SETUP, "--teardown", env={**self.env, **path})
+        self.assertEqual(failed.returncode, 1)
+        self.assertIn("FAILED", failed.stdout)
 
     def test_an_unknown_option_exits_2(self):
         self.assertEqual(run(POD_SETUP, "--force", env=self.env).returncode, 2)
@@ -105,13 +113,41 @@ class PackSyncTests(unittest.TestCase):
         self.assertEqual((self.server / "docs/jobs/E00.md").read_text(), "pc docs/jobs/E00.md\n")
         self.assertEqual(git(self.server, "status", "--porcelain").stdout, "")
 
-    def test_push_stops_when_pack_files_are_staged_on_the_server(self):
+    def test_push_stops_when_pack_files_are_staged_or_tracked_on_the_server(self):
         (self.server / "AGENTS.md").write_text("server\n")
         git(self.server, "add", "AGENTS.md")
         result = self.push()
         self.assertEqual(result.returncode, 1)
-        self.assertIn("staged", result.stderr)
+        self.assertIn("tracks or stages", result.stderr)
         self.assertEqual((self.server / "AGENTS.md").read_text(), "server\n")
+        git(self.server, "-c", "user.name=t", "-c", "user.email=t@example.invalid",
+            "commit", "-q", "-m", "tracked")
+        self.assertEqual(self.push().returncode, 1)
+        self.assertEqual((self.server / "AGENTS.md").read_text(), "server\n")
+
+    def test_only_the_checked_folders_are_copied(self):
+        (self.pc / "docs/README.md").write_text("not part of the pack\n")
+        self.assertEqual(self.push().returncode, 0)
+        self.assertFalse((self.server / "docs/README.md").exists())
+        self.assertTrue((self.server / "docs/prompts/E00.md").exists())
+
+    def test_an_empty_pack_is_an_error(self):
+        empty = make_repo(self.pc.parent / "empty", EXCLUDE)
+        result = run(PACK_SYNC, "push", str(self.server), env={"PACK_SYNC_ROOT": str(empty)})
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("no pack files", result.stderr)
+
+    def test_a_worktree_pushes_the_main_checkouts_pack(self):
+        (self.pc / "scripts").mkdir()
+        shutil.copy(PACK_SYNC, self.pc / "scripts/pack_sync.sh")
+        git(self.pc, "add", "scripts/pack_sync.sh")
+        git(self.pc, "-c", "user.name=t", "-c", "user.email=t@example.invalid",
+            "commit", "-q", "-m", "script")
+        worktree = self.pc.parent / "wt"
+        git(self.pc, "worktree", "add", "-q", str(worktree))
+        result = run(worktree / "scripts/pack_sync.sh", "push", str(self.server))
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual((self.server / "docs/jobs/E00.md").read_text(), "pc docs/jobs/E00.md\n")
 
     def test_push_stops_when_the_pc_has_no_exclude_block(self):
         (self.pc / ".git/info/exclude").write_text("# nothing\n")

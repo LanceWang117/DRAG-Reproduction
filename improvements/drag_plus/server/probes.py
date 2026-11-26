@@ -26,6 +26,11 @@ DEBATES = (("the passages name the answer directly", "the passages are about a d
            ("two passages agree on the date", "the date is missing from every passage"),
            ("the title passage states the fact", "the query needs the year, not the place"))
 ORDER_WORDS = ("apple", "river", "violet", "marble")
+LONG_QUERY = ("which british biscuit maker won a 1991 vat tribunal arguing that its orange "
+              "sponge snack is legally a cake")  # > 64 characters: B2 truncated these
+LLAMA3_SYSTEM = "<|start_header_id|>system<|end_header_id|>"
+LLAMA3_GENERATION = "<|start_header_id|>assistant<|end_header_id|>\n\n"
+MIB_PER_GIB = 1024.0
 
 
 @dataclass
@@ -41,7 +46,7 @@ class ProbeContext:
     index_path: Optional[str] = None
     environ: Mapping[str, str] = field(default_factory=lambda: os.environ)
     import_module: Callable[[str], Any] = importlib.import_module
-    read_gpu_gib: Optional[Callable[[], float]] = None
+    read_gpu_rows: Optional[Callable[[], List[float]]] = None  # GiB per visible card
     clock: Callable[[], float] = time.perf_counter
 
 
@@ -57,11 +62,42 @@ def generate_returns_text(ctx: ProbeContext) -> Result:
     return ok, f"outputs={str(outputs)[:80]!r}"
 
 
+def _llama3_ok(text: Any, *marks: str) -> bool:
+    """System header, the marks in order, and the assistant generation header last."""
+    if not isinstance(text, str) or LLAMA3_SYSTEM not in text or not text.endswith(LLAMA3_GENERATION):
+        return False
+    positions = [text.find(mark) for mark in marks]
+    return all(p >= 0 for p in positions) and positions == sorted(positions)
+
+
 def template_renders_messages(ctx: ProbeContext) -> Result:
-    text = _render(ctx, [{"role": "system", "content": "ALPHA-SYSTEM-MARK"},
+    """The Llama-3.1 chat template with a generation prompt, for both prompt shapes."""
+    both = _render(ctx, [{"role": "system", "content": "ALPHA-SYSTEM-MARK"},
                          {"role": "user", "content": "BETA-USER-MARK"}])
-    ok = isinstance(text, str) and "ALPHA-SYSTEM-MARK" in text and "BETA-USER-MARK" in text
-    return ok, f"rendered {type(text).__name__} of length {len(text)}"
+    system_only = _render(ctx, [{"role": "system", "content": "GAMMA-JUDGE-MARK"}])
+    ok = _llama3_ok(both, "ALPHA-SYSTEM-MARK", "BETA-USER-MARK") and \
+        _llama3_ok(system_only, "GAMMA-JUDGE-MARK")
+    return ok, f"system+user ends {str(both)[-60:]!r}; system-only ends {str(system_only)[-60:]!r}"
+
+
+def _ids(docs: Any) -> List[str]:
+    return [doc["id"] for doc in docs]
+
+
+def b2_search_vs_batch(ctx: ProbeContext) -> Result:
+    """B2 on the real index: raw search(q) vs batch_search([q])[0].
+
+    A short query must agree on both paths. For a query over 64 characters the detail
+    records whether raw ``search`` diverges (B2's root cause predicts it does; without
+    ``retrieval_cache`` the DRAG query stage uses that raw path).
+    """
+    short = "who wrote hamlet"
+    agree = _ids(ctx.retriever.search(short)) == _ids(ctx.retriever.batch_search([short])[0])
+    long_single = _ids(ctx.retriever.search(LONG_QUERY))
+    long_batch = _ids(ctx.retriever.batch_search([LONG_QUERY])[0])
+    verdict = "B2 reproduced: long query diverges" if long_single != long_batch else \
+        "B2 not reproduced: long query agrees"
+    return agree and bool(long_batch), f"short agrees={agree}; {verdict} ({long_single[:3]} vs {long_batch[:3]})"
 
 
 def batch_order_preserved(ctx: ProbeContext) -> Result:
@@ -110,7 +146,8 @@ def index_identity_fast(ctx: ProbeContext) -> Result:
     start = ctx.clock()
     identity = index_identity(ctx.index_path)
     elapsed = ctx.clock() - start
-    return elapsed < 1.0, f"{identity} in {elapsed:.3f} s"
+    has_stat = identity.count(":") >= 2  # '<path>:<size>:<mtime_ns>'; a bare path means stat failed
+    return elapsed < 1.0 and has_stat, f"{identity} in {elapsed:.3f} s"
 
 
 def faiss_gpus(ctx: ProbeContext) -> Result:
@@ -119,18 +156,26 @@ def faiss_gpus(ctx: ProbeContext) -> Result:
 
 
 def thread_env(ctx: ProbeContext) -> Result:
-    want = str(ctx.flags.omp_threads)
-    seen = {name: ctx.environ.get(name) for name in ("OMP_NUM_THREADS", "MKL_NUM_THREADS")}
+    """What FAISS (OpenMP) and torch (intra-op, MKL) actually use, not what env says."""
+    want = ctx.flags.omp_threads
     faiss_threads = ctx.import_module("faiss").omp_get_max_threads()
-    ok = all(value == want for value in seen.values()) and str(faiss_threads) == want
-    return ok, f"want {want}; env {seen}; faiss {faiss_threads}"
+    torch_threads = ctx.import_module("torch").get_num_threads()
+    env = {name: ctx.environ.get(name) for name in ("OMP_NUM_THREADS", "MKL_NUM_THREADS")}
+    ok = faiss_threads == want and torch_threads == want
+    return ok, f"want {want}; faiss {faiss_threads}; torch {torch_threads}; env {env}"
+
+
+def parse_gpu_rows(text: str) -> List[float]:
+    """``nvidia-smi --query-gpu=memory.total --format=csv,noheader,nounits`` -> GiB per card."""
+    return [float(line) / MIB_PER_GIB for line in text.splitlines() if line.strip()]
 
 
 def nvidia_smi(ctx: ProbeContext) -> Result:
-    if ctx.read_gpu_gib is None:
+    if ctx.read_gpu_rows is None:
         return False, "no GPU reader"
-    gib = ctx.read_gpu_gib()
-    return 70.0 <= gib <= 90.0, f"one card, {gib:.1f} GiB"
+    rows = ctx.read_gpu_rows()
+    ok = len(rows) == 1 and 70.0 <= rows[0] <= 90.0
+    return ok, f"{len(rows)} visible card(s): {[round(r, 1) for r in rows]} GiB"
 
 
 def _scored(ctx: ProbeContext, prompts: List[Any], labels: Sequence[str]) -> Tuple[int, int]:
@@ -171,6 +216,7 @@ PROBES: Dict[str, Tuple[Callable[[ProbeContext], Result], str]] = {
     "batch_order_preserved": (batch_order_preserved, "server"),
     "raw_finish_reason": (raw_finish_reason, "server"),
     "batch_search_matches_stored_naive": (batch_search_matches_stored_naive, "server"),
+    "b2_search_vs_batch": (b2_search_vs_batch, "server"),
     "batch_search_scores": (batch_search_scores, "server"),
     "index_identity_fast": (index_identity_fast, "server"),
     "faiss_gpus": (faiss_gpus, "server"),
