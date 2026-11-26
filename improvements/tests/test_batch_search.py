@@ -74,12 +74,23 @@ class WrapperTests(unittest.TestCase):
         cached = Flags({"search_via_batch": True, "retrieval_cache": "cache.jsonl"})
         self.assertIs(with_batch_search(inner, cached), inner)  # the cache is the batch path
 
-    def test_grouping_questions_requires_the_fix(self):
-        with self.assertRaisesRegex(FlagError, "question_batch_size > 1 requires search_via_batch"):
+    def test_grouping_questions_requires_every_search_to_take_the_batch_path(self):
+        with self.assertRaisesRegex(FlagError, "requires search_via_batch"):
             Flags({"question_batch_size": 2})
-        self.assertEqual(Flags({"question_batch_size": 2, "search_via_batch": True})
-                         .question_batch_size, 2)
-        self.assertEqual(Flags({"refill_window": True}).question_batch_size, 1)  # B = 1 never groups
+        for safe in ({"search_via_batch": True}, {"retrieval_cache": "cache.jsonl"},
+                     {"retriever": "hybrid", "bm25_index": "bm25"}):
+            self.assertEqual(Flags({"question_batch_size": 4, **safe}).question_batch_size, 4)
+        self.assertEqual(Flags({"refill_window": True}).question_batch_size, 1)  # B = 1
+
+    def test_an_explicit_batch_override_obeys_the_same_rule(self):
+        from drag_plus.pipeline import DragPlusPipeline
+        from fakes import FakeRetriever, IdentityTemplate, RecordingItem
+        from drag_plus.runner.fake import FakeGenerator
+        pipeline = DragPlusPipeline(Flags(), FakeGenerator(), FakeRetriever(), IdentityTemplate(), "NQ")
+        with self.assertRaisesRegex(ValueError, "requires search_via_batch"):
+            pipeline.run_batch([(RecordingItem("q"), None)], batch_size=4)
+        with self.assertRaisesRegex(ValueError, "at least 1"):
+            pipeline.run_batch([(RecordingItem("q"), None)], batch_size=0)
 
     def test_the_wrapper_survives_copying(self):
         import copy

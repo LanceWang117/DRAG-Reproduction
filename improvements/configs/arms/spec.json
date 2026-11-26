@@ -50,7 +50,8 @@
       "D": {"layers": ["P", "b2fix", "logprob"]},
       "E": {"layers": ["P", "b2fix", "anchored", "logprob", "schema"]},
       "F": {"layers": ["P", "b2fix", "anchored", "layout", "apc"], "note": "run twice on the E00 60-question subset"},
-      "opt-no-b2fix": {"layers": ["P"], "note": "optional: arm A without the B2 fix, to measure what the fix changes"}
+      "opt-no-b2fix": {"layers": ["P", "q1"],
+                       "note": "optional: arm A without the B2 fix, at B = 1 (grouping needs the fix), to measure what the fix changes"}
     },
     "E03": {
       "B1": {"layers": ["P", "b2fix", "q1"]},
