@@ -1,0 +1,13 @@
+{
+  "name": "E03-B1",
+  "description": "E03 arm B1: layers P, q1; PROVISIONAL P (E01 arm C until E01 promotes a configuration)",
+  "flags": {
+    "batch_agents_in_round": true,
+    "moderator_final_only": true,
+    "question_batch_size": 1
+  },
+  "arms": [
+    "drag",
+    "naive"
+  ]
+}

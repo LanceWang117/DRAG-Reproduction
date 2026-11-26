@@ -1,0 +1,33 @@
+{
+  "name": "PC-full-stack-generative",
+  "description": "PC arm full-stack-generative: layers unified, final, batch, q4, novelty, r1, budgets, anchored, audit, layout, schema, refined, lazy, grounded, vote; the full stack with the generative Judge",
+  "flags": {
+    "agent_max_tokens": 128,
+    "aggregator": "vote",
+    "answer_extractor": "unified",
+    "batch_agents_in_round": true,
+    "concise_agents": true,
+    "context_token_budget": 2500,
+    "escalation_tau": 0.5,
+    "evidence_delimiters": true,
+    "evidence_store": "anchored",
+    "judge_sees_refined_query": true,
+    "lazy_query_opponent": true,
+    "moderator_final_only": true,
+    "moderator_max_tokens": 32,
+    "opponent_action_schema": true,
+    "opponent_mode": "grounded",
+    "prompt_layout": "evidence_first",
+    "question_batch_size": 4,
+    "refill_window": true,
+    "response_rounds": 1,
+    "rewrite_novelty_audit": true,
+    "skip_duplicate_query": true,
+    "verdict_sequestration": true,
+    "zero_novelty_exit": true
+  },
+  "arms": [
+    "drag",
+    "naive"
+  ]
+}

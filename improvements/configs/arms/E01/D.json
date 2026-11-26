@@ -1,0 +1,14 @@
+{
+  "name": "E01-D",
+  "description": "E01 arm D: layers final, batch, gpu_faiss",
+  "flags": {
+    "batch_agents_in_round": true,
+    "faiss_gpu": true,
+    "gpu_memory_utilization": 0.45,
+    "moderator_final_only": true
+  },
+  "arms": [
+    "drag",
+    "naive"
+  ]
+}

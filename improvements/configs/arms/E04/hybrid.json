@@ -1,0 +1,18 @@
+{
+  "name": "E04-hybrid",
+  "description": "E04 arm hybrid: layers P, best_hybrid; PROVISIONAL P (E01 arm C until E01 promotes a configuration); best_hybrid (configs/hybrid.json settings until E04 picks the best hybrid)",
+  "flags": {
+    "batch_agents_in_round": true,
+    "bm25_index": "wiki_corpus/bm25",
+    "bm25_top_k": 20,
+    "dense_top_k": 20,
+    "hybrid_top_k": 3,
+    "moderator_final_only": true,
+    "retriever": "hybrid",
+    "rrf_k": 60
+  },
+  "arms": [
+    "drag",
+    "naive"
+  ]
+}

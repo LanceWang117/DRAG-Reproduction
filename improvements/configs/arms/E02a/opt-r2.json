@@ -1,0 +1,13 @@
+{
+  "name": "E02a-opt-r2",
+  "description": "E02a arm opt-r2: layers P, r2; PROVISIONAL P (E01 arm C until E01 promotes a configuration); optional, only if the time budget allows",
+  "flags": {
+    "batch_agents_in_round": true,
+    "moderator_final_only": true,
+    "response_rounds": 2
+  },
+  "arms": [
+    "drag",
+    "naive"
+  ]
+}

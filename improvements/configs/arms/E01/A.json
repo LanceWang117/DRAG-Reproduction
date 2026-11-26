@@ -1,0 +1,9 @@
+{
+  "name": "E01-A",
+  "description": "E01 arm A: layers none (the baseline)",
+  "flags": {},
+  "arms": [
+    "drag",
+    "naive"
+  ]
+}

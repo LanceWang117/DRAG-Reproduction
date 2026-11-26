@@ -1,0 +1,11 @@
+{
+  "name": "E01-B",
+  "description": "E01 arm B: layers final",
+  "flags": {
+    "moderator_final_only": true
+  },
+  "arms": [
+    "drag",
+    "naive"
+  ]
+}
