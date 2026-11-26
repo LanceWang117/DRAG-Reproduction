@@ -20,6 +20,7 @@ from test_runner_fake import make_request, read_lines
 FULL_STACK = {
     "answer_extractor": "unified", "moderator_final_only": True,
     "batch_agents_in_round": True, "question_batch_size": 4, "refill_window": True,
+    "search_via_batch": True,
     "skip_duplicate_query": True, "zero_novelty_exit": True, "response_rounds": 1,
     "agent_max_tokens": 128, "moderator_max_tokens": 32, "concise_agents": True,
     "evidence_store": "anchored", "evidence_delimiters": True,
@@ -103,7 +104,8 @@ class GroupedBatchTests(unittest.TestCase):
     def test_each_question_gets_its_own_slice_of_a_grouped_call(self):
         generator = ReportingGenerator()
         flags = Flags({"max_query_debate_rounds": 1, "max_answer_debate_rounds": 1,
-                       "question_batch_size": 2, "profile_calls": True})
+                       "question_batch_size": 2, "search_via_batch": True,
+                       "profile_calls": True})
         pipeline = DragPlusPipeline(flags, generator, FakeRetriever(), IdentityTemplate(),
                                     "NQ", recorder=CallRecorder(StepClock()))
         states = pipeline.run([RecordingItem("alpha question?", "q0"),

@@ -213,7 +213,8 @@ characters of a query (including E5's `"query: "` prefix). `batch_search([query]
 which Naive uses, embeds all of it. `search_via_batch: true` makes DRAG's single-query
 search exactly `batch_search([q])[0]`. The default `false` keeps the recorded baseline
 path. Every generated arm after E01 sets it (`improvements/configs/arms/`), and
-`E02b/opt-no-b2fix` measures what the fix changes. The retrieval cache below applies
+`E02b/opt-no-b2fix` measures what the fix changes. Grouped searches always take the
+batch path, so `question_batch_size > 1` is refused unless `search_via_batch` is on. The retrieval cache below applies
 the same batch path on its own.
 
 ### Retrieval cache

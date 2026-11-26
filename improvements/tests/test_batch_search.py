@@ -6,7 +6,7 @@ import tempfile
 import unittest
 
 import frozen  # noqa: F401  (puts improvements/ and the test helpers on sys.path)
-from drag_plus.flags import Flags
+from drag_plus.flags import FlagError, Flags
 from drag_plus.retrieval.batch_search import BatchSearchRetriever, with_batch_search
 from drag_plus.runner.backends import build_fake_backend
 from drag_plus.runner.run import run_variant
@@ -73,6 +73,13 @@ class WrapperTests(unittest.TestCase):
                               BatchSearchRetriever)
         cached = Flags({"search_via_batch": True, "retrieval_cache": "cache.jsonl"})
         self.assertIs(with_batch_search(inner, cached), inner)  # the cache is the batch path
+
+    def test_grouping_questions_requires_the_fix(self):
+        with self.assertRaisesRegex(FlagError, "question_batch_size > 1 requires search_via_batch"):
+            Flags({"question_batch_size": 2})
+        self.assertEqual(Flags({"question_batch_size": 2, "search_via_batch": True})
+                         .question_batch_size, 2)
+        self.assertEqual(Flags({"refill_window": True}).question_batch_size, 1)  # B = 1 never groups
 
     def test_the_wrapper_survives_copying(self):
         import copy

@@ -12,6 +12,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Mapping, Optional, Tuple
 
+from .flag_rules import COMBINATIONS as _COMBINATIONS
+
 
 class FlagError(ValueError):
     """A variant file or caller supplied an unknown or invalid flag."""
@@ -203,16 +205,9 @@ class Flags:
             raise FlagError(
                 f"unknown flag(s) {unknown}; known flags: {sorted(_SPECS_BY_NAME)}")
         resolved = {s.name: _check(s, values.get(s.name, s.default)) for s in FLAG_SPECS}
-        if resolved["judge_order_balance"] and resolved["judge_scoring"] != "logprob":
-            raise FlagError("judge_order_balance requires judge_scoring='logprob'")
-        if resolved["escalation_gate"] == "risk" and (
-                resolved["escalation_model"] is None or resolved["escalation_tau"] is None):
-            raise FlagError(
-                "escalation_gate='risk' requires escalation_model and escalation_tau")
-        if resolved["lazy_query_opponent"] and resolved["escalation_tau"] is None:
-            raise FlagError("lazy_query_opponent requires escalation_tau")
-        if resolved["aggregator"] == "weighted" and resolved["aggregator_weights"] is None:
-            raise FlagError("aggregator='weighted' requires aggregator_weights")
+        for broken, message in _COMBINATIONS:
+            if broken(resolved):
+                raise FlagError(message)
         object.__setattr__(self, "_values", resolved)
 
     def __getattr__(self, name: str) -> Any:

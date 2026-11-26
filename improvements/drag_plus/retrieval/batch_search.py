@@ -12,10 +12,11 @@ With ``search_via_batch`` on, ``search(q)`` is exactly ``batch_search([q])[0]``,
 baseline path, so T0 and E01's baseline arms are unchanged. The retrieval cache already
 takes the batch path, so the runner applies this wrapper only without it.
 
-With the flag off and ``question_batch_size`` > 1, a search grouped with others goes
-through ``batch_search`` (full query) while a lone one goes through ``search``
-(truncated). That mix predates J30 (J15/J16 grouping); every generated arm that groups
-questions sets this flag, so no arm mixes the two paths.
+Grouped searches (``question_batch_size`` > 1, J15/J16) always go through
+``batch_search``, so with this flag off a lone search would be truncated while a grouped
+one was not. ``Flags`` therefore refuses ``question_batch_size`` > 1 without this flag
+(J31, ``flag_rules.py``): every run embeds either all queries in full or, at B = 1 with
+the flag off, exactly the recorded baseline path.
 """
 from __future__ import annotations
 
