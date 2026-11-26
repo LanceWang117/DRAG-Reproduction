@@ -1,0 +1,13 @@
+{
+  "name": "E02a-C",
+  "description": "E02a arm C: layers P, r1; PROVISIONAL P (E01 arm C until E01 promotes a configuration)",
+  "flags": {
+    "batch_agents_in_round": true,
+    "moderator_final_only": true,
+    "response_rounds": 1
+  },
+  "arms": [
+    "drag",
+    "naive"
+  ]
+}

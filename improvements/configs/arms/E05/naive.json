@@ -1,0 +1,11 @@
+{
+  "name": "E05-naive",
+  "description": "E05 arm naive: layers P; PROVISIONAL P (E01 arm C until E01 promotes a configuration); route arm",
+  "flags": {
+    "batch_agents_in_round": true,
+    "moderator_final_only": true
+  },
+  "arms": [
+    "naive"
+  ]
+}

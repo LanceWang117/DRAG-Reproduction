@@ -1,0 +1,18 @@
+{
+  "P": {
+    "provisional": true,
+    "source": "E01 arm C until E01 promotes a configuration",
+    "flags": {"moderator_final_only": true, "batch_agents_in_round": true}
+  },
+  "threads": {
+    "provisional": true,
+    "source": "24 of 27 CPU-equivalents until E00 measures the best thread count",
+    "flags": {"omp_threads": 24}
+  },
+  "best_hybrid": {
+    "provisional": true,
+    "source": "configs/hybrid.json settings until E04 picks the best hybrid",
+    "flags": {"retriever": "hybrid", "bm25_index": "wiki_corpus/bm25", "dense_top_k": 20,
+              "bm25_top_k": 20, "hybrid_top_k": 3, "rrf_k": 60}
+  }
+}

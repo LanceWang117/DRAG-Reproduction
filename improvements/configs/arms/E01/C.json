@@ -1,0 +1,12 @@
+{
+  "name": "E01-C",
+  "description": "E01 arm C: layers final, batch",
+  "flags": {
+    "batch_agents_in_round": true,
+    "moderator_final_only": true
+  },
+  "arms": [
+    "drag",
+    "naive"
+  ]
+}

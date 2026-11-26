@@ -1,0 +1,13 @@
+{
+  "name": "E01-E",
+  "description": "E01 arm E: layers final, batch, threads; PROVISIONAL threads (24 of 27 CPU-equivalents until E00 measures the best thread count); fallback if D fails",
+  "flags": {
+    "batch_agents_in_round": true,
+    "moderator_final_only": true,
+    "omp_threads": 24
+  },
+  "arms": [
+    "drag",
+    "naive"
+  ]
+}

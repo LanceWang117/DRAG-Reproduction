@@ -1,0 +1,17 @@
+{
+  "name": "E02b-E",
+  "description": "E02b arm E: layers P, anchored, logprob, schema; PROVISIONAL P (E01 arm C until E01 promotes a configuration)",
+  "flags": {
+    "batch_agents_in_round": true,
+    "evidence_delimiters": true,
+    "evidence_store": "anchored",
+    "judge_order_balance": true,
+    "judge_scoring": "logprob",
+    "moderator_final_only": true,
+    "opponent_action_schema": true
+  },
+  "arms": [
+    "drag",
+    "naive"
+  ]
+}
