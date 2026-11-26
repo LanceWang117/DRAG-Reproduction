@@ -63,8 +63,9 @@
       "hybrid": {"layers": ["P", "best_hybrid"]}
     },
     "E05": {
-      "naive": {"layers": ["P"], "arms": ["naive"], "note": "route arm"},
-      "drag": {"layers": ["P"], "arms": ["drag"], "note": "route arm; refine-only and decompose need J20/J22"}
+      "naive": {"layers": ["P", "best_batch"], "arms": ["naive"], "note": "route arm"},
+      "drag": {"layers": ["P", "promoted_drag", "best_batch"], "arms": ["drag"],
+               "note": "route arm; refine-only and decompose need J20/J22"}
     },
     "PC": {
       "full-stack": {"layers": ["unified", "final", "batch", "q4", "novelty", "r1", "budgets",

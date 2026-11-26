@@ -9,7 +9,9 @@ cannot drift apart:
   `source`:
   - `P`: E01's promoted configuration;
   - `threads`: E00's best CPU thread count;
-  - `best_hybrid`: E04's best hybrid settings.
+  - `best_hybrid`: E04's best hybrid settings;
+  - `promoted_drag`: flags promoted by E02a/E02b, used by E05;
+  - `best_batch`: E03's promoted question batch size, used by E05.
 
 ```bash
 python scripts/make_arms.py            # regenerate after editing either file

@@ -12,7 +12,16 @@
   "best_hybrid": {
     "provisional": true,
     "source": "configs/hybrid.json settings until E04 picks the best hybrid",
-    "flags": {"retriever": "hybrid", "bm25_index": "wiki_corpus/bm25", "dense_top_k": 20,
-              "bm25_top_k": 20, "hybrid_top_k": 3, "rrf_k": 60}
+    "flags": {"retriever": "hybrid", "bm25_index": "wiki_corpus/bm25", "dense_top_k": 20, "bm25_top_k": 20, "hybrid_top_k": 3, "rrf_k": 60}
+  },
+  "promoted_drag": {
+    "provisional": true,
+    "source": "flags promoted by E02a/E02b; none until they report",
+    "flags": {}
+  },
+  "best_batch": {
+    "provisional": true,
+    "source": "question_batch_size 4 with refill until E03 promotes B",
+    "flags": {"question_batch_size": 4, "refill_window": true}
   }
 }

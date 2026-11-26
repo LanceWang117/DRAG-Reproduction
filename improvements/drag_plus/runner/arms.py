@@ -19,7 +19,8 @@ from typing import Any, Dict, List, Mapping, Sequence, Tuple
 
 from .variant import ARMS, VariantError, parse_variant
 
-ROOT_FILES = ("spec.json", "measured.json", "README.md")
+ARM_KEYS = {"layers", "arms", "note"}
+MEASURED_KEYS = {"provisional", "source", "flags"}
 
 
 class ArmSpecError(ValueError):
@@ -33,9 +34,13 @@ class Layer:
     source: str = ""
 
 
-def _object(value: Any, where: str) -> Dict[str, Any]:
+def _object(value: Any, where: str, keys: Any = None) -> Dict[str, Any]:
+    """A JSON object; with ``keys``, any other key is a typo and is refused."""
     if not isinstance(value, dict):
         raise ArmSpecError(f"{where} must be a JSON object")
+    unknown = sorted(set(value) - set(keys)) if keys is not None else []
+    if unknown:
+        raise ArmSpecError(f"{where}: unknown key(s) {unknown}; known: {sorted(keys)}")
     return value
 
 
@@ -45,14 +50,16 @@ def layers_from(spec: Mapping[str, Any], measured: Mapping[str, Any]) -> Dict[st
     layers = {name: Layer(dict(_object(flags, f"layer {name!r}")))
               for name, flags in plain.items()}
     for name, entry in _object(measured, "measured layers").items():
-        entry = _object(entry, f"measured layer {name!r}")
+        entry = _object(entry, f"measured layer {name!r}", MEASURED_KEYS)
         if name in layers:
             raise ArmSpecError(f"layer {name!r} is defined in both spec and measured")
-        source = entry.get("source")
+        source, provisional = entry.get("source"), entry.get("provisional")
         if not isinstance(source, str) or not source.strip():
             raise ArmSpecError(f"measured layer {name!r} needs a 'source'")
+        if not isinstance(provisional, bool):
+            raise ArmSpecError(f"measured layer {name!r} needs 'provisional': true or false")
         layers[name] = Layer(dict(_object(entry.get("flags"), f"measured {name!r} flags")),
-                             bool(entry.get("provisional", True)), source)
+                             provisional, source)
     return layers
 
 
@@ -81,7 +88,8 @@ def build_arm(job: str, arm: str, entry: Mapping[str, Any],
               layers: Mapping[str, Layer]) -> Dict[str, Any]:
     """One variant document, validated with the variant parser."""
     where = f"{job} arm {arm}"
-    names = entry.get("layers", [])
+    _object(entry, where, ARM_KEYS)
+    names = entry.get("layers")
     if not isinstance(names, list) or not all(isinstance(n, str) for n in names):
         raise ArmSpecError(f"{where}: 'layers' must be a list of layer names")
     flags = merge(names, layers, where)  # first: it refuses unknown layer names

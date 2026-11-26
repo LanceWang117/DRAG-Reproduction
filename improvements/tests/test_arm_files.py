@@ -69,7 +69,8 @@ class CommittedArmTests(unittest.TestCase):
 
 class SpecTests(unittest.TestCase):
     LAYERS = layers_from({"layers": {"a": {"response_rounds": 1}, "b": {"response_rounds": 2}}},
-                         {"P": {"source": "test", "flags": {"moderator_final_only": True}}})
+                         {"P": {"provisional": True, "source": "test",
+                                "flags": {"moderator_final_only": True}}})
 
     def test_a_later_layer_wins(self):
         document = build_arm("E9", "X", {"layers": ["a", "b"]}, self.LAYERS)
@@ -85,11 +86,30 @@ class SpecTests(unittest.TestCase):
         with self.assertRaisesRegex(ArmSpecError, "judge_order_balance"):
             build_arm("E9", "Y", {"layers": ["bal"]}, layers)
 
-    def test_measured_layers_need_a_source_and_a_unique_name(self):
+    def test_measured_layers_need_a_source_a_boolean_and_known_keys(self):
         with self.assertRaisesRegex(ArmSpecError, "needs a 'source'"):
-            layers_from({}, {"P": {"flags": {}}})
+            layers_from({}, {"P": {"provisional": True, "flags": {}}})
+        for bad in ("false", None, 0):
+            with self.assertRaisesRegex(ArmSpecError, "true or false"):
+                layers_from({}, {"P": {"provisional": bad, "source": "s", "flags": {}}})
+        with self.assertRaisesRegex(ArmSpecError, "provisonal"):
+            layers_from({}, {"P": {"provisonal": False, "provisional": True, "source": "s",
+                                   "flags": {}}})
         with self.assertRaisesRegex(ArmSpecError, "both spec and measured"):
-            layers_from({"layers": {"P": {}}}, {"P": {"source": "s", "flags": {}}})
+            layers_from({"layers": {"P": {}}},
+                        {"P": {"provisional": False, "source": "s", "flags": {}}})
+
+    def test_a_misspelt_or_missing_layers_key_is_refused(self):
+        for entry in ({"layer": ["a"]}, {"Layers": ["a"]}, {}, {"layers": ["a"], "nots": "x"}):
+            with self.assertRaises(ArmSpecError, msg=entry):
+                build_arm("E9", "X", entry, self.LAYERS)
+        self.assertEqual(build_arm("E9", "Z", {"layers": []}, self.LAYERS)["flags"], {})
+
+    def test_route_arms_carry_the_batch_and_promotion_layers(self):
+        description = load_variant(ARMS_DIR / "E05/drag.json").raw["description"]
+        for name in ("PROVISIONAL P", "promoted_drag", "best_batch"):
+            self.assertIn(name, description)
+        self.assertEqual(load_variant(ARMS_DIR / "E05/drag.json").flags.question_batch_size, 4)
 
     def test_check_reports_missing_changed_and_stale_files(self):
         with tempfile.TemporaryDirectory() as folder:

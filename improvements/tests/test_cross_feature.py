@@ -19,12 +19,14 @@ DATASETS = ("NQ", "StrategyQA", "2wiki")
 ROWS = [{"dataset": dataset, "split": "dev", "id": f"{dataset}-{index}",
          "question": f"{dataset} question {index}: who wrote the {index}th book?",
          "golden_answers": ["answer 1"]}
-        for dataset in DATASETS for index in range(2)]
+        for dataset, count in zip(DATASETS, (2, 2, 1)) for index in range(count)]
 COMBINED = ("PC/full-stack", "PC/full-stack-generative", "PC/grounded-vote",
             "E02a/D", "E02b/C", "E02b/E", "E03/B4")
 
 
-class CrossFeatureCase(unittest.TestCase):
+class CrossFeatureMixin:
+    """Run helpers only: no test methods, so subclasses never inherit generated tests."""
+
     def run_arm(self, relative):
         variant = load_variant(ARMS_DIR / f"{relative}.json")
         with tempfile.TemporaryDirectory() as folder:
@@ -57,11 +59,15 @@ def _make_test(relative):
     return test
 
 
+class CrossFeatureTests(CrossFeatureMixin, unittest.TestCase):
+    """One generated test per combined arm (below)."""
+
+
 for _relative in COMBINED:
-    setattr(CrossFeatureCase, _make_test(_relative).__name__, _make_test(_relative))
+    setattr(CrossFeatureTests, _make_test(_relative).__name__, _make_test(_relative))
 
 
-class CombinedBehaviourTests(CrossFeatureCase):
+class CombinedBehaviourTests(CrossFeatureMixin, unittest.TestCase):
     def test_the_log_prob_judge_never_retries_in_the_full_stack(self):
         _, timings = self.check_arm("PC/full-stack")
         stages = {row["stage"] for row in timings if row["arm"] == "drag"}
