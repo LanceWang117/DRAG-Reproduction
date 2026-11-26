@@ -18,6 +18,7 @@ from .answer_stage import run_answer_stage
 from .flag_rules import check_group_size
 from .flags import Flags
 from .gates.escalation import load_model
+from .gates.router import run_routed
 from .instrument.timing import whitespace_tokens
 from .query_stage import run_query_stage
 from .scheduling.barrier import (BarrierContractError, BarrierScheduler, GENERATE,
@@ -234,9 +235,10 @@ class DragPlusPipeline:
         return states
 
     def _run_state(self, ctx: StageContext, state: QuestionState) -> None:
-        run_query_stage(ctx, state)
-        state.emit("QueryStage_QueryPool", state.query_pool)
-        run_answer_stage(ctx, state)
+        if not run_routed(ctx, state):
+            run_query_stage(ctx, state)
+            state.emit("QueryStage_QueryPool", state.query_pool)
+            run_answer_stage(ctx, state)
         self._finish(state)
         state.status = "done"
 

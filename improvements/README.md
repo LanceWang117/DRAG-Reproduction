@@ -17,6 +17,7 @@ exactly like the recorded v1.0.1 baseline (`src/reproduction_changes/model/drag.
 | `retrieval/cache.py` | Caching retriever proxy: `search` is `batch_search([q])[0]`, one JSONL line per query |
 | `analysis/` | Scoring, the unified answer extractor and paired statistics |
 | `grounding/` | J19 soft faithfulness scorers (heuristic, lazy MiniCheck) and the weighted aggregation rule |
+| `gates/router_features.py`, `gates/router.py` | J20 four pre-debate features (retrieval margin, `s_bar_O`, answer agreement, Naive-answer entropy) and the fitted cost-aware router: `argmax_r P(correct \| r) - lambda*cost(r)`; `router` defaults to null |
 
 The package imports without FlashRAG, vLLM, torch or FAISS; the runner injects those
 objects. Its only third-party imports are the light `Levenshtein` (query-pool edit

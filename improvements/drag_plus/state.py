@@ -32,6 +32,9 @@ class QuestionState:
     gate_features: Optional[dict] = None
     gate_risk: Optional[float] = None
     sufficiency_score: Optional[float] = None
+    router_route: Optional[str] = None
+    router_features: Optional[dict] = None
+    router_cost: Optional[float] = None
     outputs: List[Tuple[str, Any]] = field(default_factory=list)
     stage: str = "query"
     round: int = 0

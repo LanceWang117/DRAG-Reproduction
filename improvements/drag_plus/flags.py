@@ -124,6 +124,8 @@ FLAG_SPECS: Tuple[FlagSpec, ...] = (
     FlagSpec("aggregator_weights", str, None, optional=True, doc="Path to the fitted weighted-aggregator JSON; required by aggregator='weighted'."),
     FlagSpec("self_consistency_samples", int, 5, minimum=1, doc="Samples per question for aggregator='self_consistency'."),
     FlagSpec("self_consistency_temperature", float, 0.7, minimum=0.0, strict_minimum=True, doc="Sampling temperature for aggregator='self_consistency'; do_sample is set only on those calls."),
+    FlagSpec("router", str, None, optional=True, doc="Path to a fitted J20 router JSON; null keeps the baseline pipeline."),
+    FlagSpec("router_cost_weight", float, None, optional=True, minimum=0.0, doc="Cost weight lambda in P(correct|r) - lambda*cost(r); null uses the model's fitted value."),
 )
 _SPECS_BY_NAME = {spec.name: spec for spec in FLAG_SPECS}
 
