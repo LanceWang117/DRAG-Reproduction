@@ -19,7 +19,8 @@ from test_barrier_scheduler import CountingGenerator, RaggedGenerator, StopRun
 
 def flags(size=1, **changes):
     values = {"max_query_debate_rounds": 1, "max_answer_debate_rounds": 1,
-              "question_batch_size": size, "refill_window": True, **changes}
+              "question_batch_size": size, "refill_window": True,
+              "search_via_batch": size > 1, **changes}
     return Flags(values)
 
 
@@ -171,7 +172,7 @@ class RefillResumeTests(unittest.TestCase):
 
     def request(self, out, backend, resume=False):
         variant = parse_variant({"name": "t", "arms": ["drag"], "flags": {
-            "question_batch_size": 2, "refill_window": True,
+            "question_batch_size": 2, "refill_window": True, "search_via_batch": True,
             "max_query_debate_rounds": 3, "max_answer_debate_rounds": 1}})
         return RunRequest(rows=self.ROWS, variant=variant, backend=backend, out_dir=out,
                           resume=resume, clock=lambda: 0.0,

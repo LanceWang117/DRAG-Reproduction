@@ -15,6 +15,7 @@ from typing import Any, Callable, Iterable, List, Optional, Tuple
 from .adapters import Backends, StageContext, last_finish_reasons
 from .answers import unified_pred
 from .answer_stage import run_answer_stage
+from .flag_rules import check_group_size
 from .flags import Flags
 from .gates.escalation import load_model
 from .instrument.timing import whitespace_tokens
@@ -201,8 +202,7 @@ class DragPlusPipeline:
         """Run ``(item, key)`` entries; ``on_finish(item, state)`` runs per finish."""
         entries = list(entries)
         size = self._ctx.flags.question_batch_size if batch_size is None else batch_size
-        if size < 1:
-            raise ValueError("question_batch_size must be at least 1")
+        check_group_size(size, self._ctx.flags)  # J31: never mix truncated and full search
         if self._ctx.flags.refill_window:
             states = self._run_chunk(entries, on_finish, window=size)
         else:

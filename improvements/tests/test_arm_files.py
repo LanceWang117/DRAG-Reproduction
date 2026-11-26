@@ -61,6 +61,7 @@ class CommittedArmTests(unittest.TestCase):
             if variant.flags.question_batch_size > 1:
                 self.assertTrue(variant.flags.search_via_batch, path)
         control = dict(load_variant(ARMS_DIR / "E02b/opt-no-b2fix.json").raw["flags"])
+        self.assertEqual(control.pop("question_batch_size"), 1)  # pinned: grouping needs the fix
         arm_a = dict(load_variant(ARMS_DIR / "E02b/A.json").raw["flags"])
         self.assertEqual(arm_a, {**control, "search_via_batch": True})
 
