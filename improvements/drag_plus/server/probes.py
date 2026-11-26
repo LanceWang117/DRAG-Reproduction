@@ -88,8 +88,9 @@ def b2_search_vs_batch(ctx: ProbeContext) -> Result:
     """B2 on the real index: raw search(q) vs batch_search([q])[0].
 
     A short query must agree on both paths. For a query over 64 characters the detail
-    records whether raw ``search`` diverges (B2's root cause predicts it does; without
-    ``retrieval_cache`` the DRAG query stage uses that raw path).
+    records whether raw ``search`` diverges (B2's root cause predicts it does). DRAG
+    takes that raw path only when neither ``search_via_batch`` (J30, set in every arm
+    after E01) nor ``retrieval_cache`` is on.
     """
     short = "who wrote hamlet"
     agree = _ids(ctx.retriever.search(short)) == _ids(ctx.retriever.batch_search([short])[0])

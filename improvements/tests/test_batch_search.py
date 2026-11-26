@@ -71,6 +71,13 @@ class WrapperTests(unittest.TestCase):
         self.assertIs(with_batch_search(inner, Flags()), inner)
         self.assertIsInstance(with_batch_search(inner, Flags({"search_via_batch": True})),
                               BatchSearchRetriever)
+        cached = Flags({"search_via_batch": True, "retrieval_cache": "cache.jsonl"})
+        self.assertIs(with_batch_search(inner, cached), inner)  # the cache is the batch path
+
+    def test_the_wrapper_survives_copying(self):
+        import copy
+        wrapped = copy.deepcopy(BatchSearchRetriever(TruncatingRetriever()))
+        self.assertEqual(wrapped.search("q"), docs_for("q"))
 
 
 class EndToEndTests(unittest.TestCase):
@@ -96,6 +103,11 @@ class EndToEndTests(unittest.TestCase):
         baseline, calls = self.run_with({})
         self.assertIn(f"doc::{ROWS[0]['question'][:ENCODED]}\"", baseline["q0"])
         self.assertTrue([c for c in calls if c[0] == "search"])
+
+    def test_the_fix_and_the_cache_together_run_on_the_fake_backend(self):
+        pools, calls = self.run_with({"search_via_batch": True, "retrieval_cache": "cache.jsonl"})
+        self.assertIn(f"doc::{ROWS[0]['question']}\"", pools["q0"])
+        self.assertFalse([c for c in calls if c[0] == "search"])
 
     def test_short_questions_are_unchanged_by_the_fix(self):
         fixed, _ = self.run_with({"search_via_batch": True})

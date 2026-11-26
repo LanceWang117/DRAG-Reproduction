@@ -57,6 +57,9 @@ class CommittedArmTests(unittest.TestCase):
                 self.assertFalse(fixed, path)
             else:
                 self.assertTrue(fixed, path)
+        for path, variant in committed().items():  # grouped searches must not mix paths
+            if variant.flags.question_batch_size > 1:
+                self.assertTrue(variant.flags.search_via_batch, path)
         control = dict(load_variant(ARMS_DIR / "E02b/opt-no-b2fix.json").raw["flags"])
         arm_a = dict(load_variant(ARMS_DIR / "E02b/A.json").raw["flags"])
         self.assertEqual(arm_a, {**control, "search_via_batch": True})
