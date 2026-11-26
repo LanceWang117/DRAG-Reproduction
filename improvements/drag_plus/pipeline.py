@@ -17,6 +17,7 @@ from .answers import unified_pred
 from .answer_stage import run_answer_stage
 from .flag_rules import check_group_size
 from .flags import Flags
+from .gates.conformal import apply_conformal
 from .gates.escalation import load_model
 from .gates.router import run_routed
 from .instrument.timing import whitespace_tokens
@@ -25,7 +26,6 @@ from .scheduling.barrier import (BarrierContractError, BarrierScheduler, GENERAT
                                  SCORES, SEARCH, Request)
 from .scheduling.refill import RefillWindow, gather_search, targets_for
 from .state import QuestionState
-
 Entry = Tuple[Any, Optional[Tuple[Any, ...]]]
 
 
@@ -243,8 +243,8 @@ class DragPlusPipeline:
         state.status = "done"
 
     def _finish(self, state: QuestionState) -> None:
-        if self._ctx.flags.answer_extractor == "native":
-            return
-        state.emit("raw_pred", state.raw_pred)
-        state.pred = unified_pred(state.raw_pred, self._ctx.dataset_name)
-        state.emit("pred", state.pred)
+        if self._ctx.flags.answer_extractor != "native":
+            state.emit("raw_pred", state.raw_pred)
+            state.pred = unified_pred(state.raw_pred, self._ctx.dataset_name)
+            state.emit("pred", state.pred)
+        apply_conformal(self._ctx, state)

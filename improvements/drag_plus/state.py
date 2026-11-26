@@ -35,6 +35,10 @@ class QuestionState:
     router_route: Optional[str] = None
     router_features: Optional[dict] = None
     router_cost: Optional[float] = None
+    conformal_qhat: Optional[float] = None
+    conformal_set: Optional[List[str]] = None
+    conformal_abstained: bool = False
+    conformal_escalated: bool = False
     outputs: List[Tuple[str, Any]] = field(default_factory=list)
     stage: str = "query"
     round: int = 0
