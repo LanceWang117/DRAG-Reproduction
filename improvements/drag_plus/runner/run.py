@@ -17,6 +17,7 @@ from ..instrument import logs, manifest
 from ..instrument.timing import CallRecorder
 from ..naive import NaivePipeline
 from ..pipeline import DragPlusPipeline
+from ..retrieval.batch_search import with_batch_search
 from ..retrieval.hybrid import config_fingerprint
 from . import records, resume
 from .backends import Backend, build_retriever
@@ -72,7 +73,7 @@ class _Pipelines:
         cached; a relative cache path is relative to the run directory, like the logs.
         """
         backend = self._request.backend
-        retriever = build_retriever(self._flags, backend.retriever)
+        retriever = with_batch_search(build_retriever(self._flags, backend.retriever), self._flags)
         path = self._flags.retrieval_cache
         if path is None:
             return retriever

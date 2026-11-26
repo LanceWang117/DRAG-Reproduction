@@ -1,11 +1,12 @@
 {
   "name": "E02b-D",
-  "description": "E02b arm D: layers P, logprob; PROVISIONAL P (E01 arm C until E01 promotes a configuration)",
+  "description": "E02b arm D: layers P, b2fix, logprob; PROVISIONAL P (E01 arm C until E01 promotes a configuration)",
   "flags": {
     "batch_agents_in_round": true,
     "judge_order_balance": true,
     "judge_scoring": "logprob",
-    "moderator_final_only": true
+    "moderator_final_only": true,
+    "search_via_batch": true
   },
   "arms": [
     "drag",

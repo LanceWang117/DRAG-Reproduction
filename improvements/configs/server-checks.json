@@ -106,7 +106,7 @@
     {"id": "J19-2", "job": "J19", "tier": "smoke", "owner": "E00",
      "expect": "MiniCheck weight licences confirmed on Hugging Face (model cards needed login)"},
     {"id": "J26-1", "job": "J26", "tier": "auto", "owner": "E00", "probe": "b2_search_vs_batch",
-     "expect": "B2 on the real index: raw search(q) and batch_search([q])[0] agree on a short query; the report records whether a >64-character query diverges (B2 predicts it does; without retrieval_cache the DRAG query stage takes that raw path)"},
+     "expect": "B2 on the real index: raw search(q) and batch_search([q])[0] agree on a short query; the report records whether a >64-character query diverges (B2 predicts it does; DRAG takes that raw path only when neither search_via_batch nor retrieval_cache is set, i.e. E01's arms)"},
     {"id": "J24-1", "job": "J24", "tier": "auto", "owner": "E00", "probe": "scored_finish_reasons",
      "expect": "ScoredGenerator.last_finish_reasons is 'scored' per prompt; the text path reports none"},
     {"id": "J24-2", "job": "J24", "tier": "smoke", "owner": "E00",

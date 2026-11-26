@@ -1,11 +1,12 @@
 {
   "name": "E02b-B",
-  "description": "E02b arm B: layers P, anchored; PROVISIONAL P (E01 arm C until E01 promotes a configuration)",
+  "description": "E02b arm B: layers P, b2fix, anchored; PROVISIONAL P (E01 arm C until E01 promotes a configuration)",
   "flags": {
     "batch_agents_in_round": true,
     "evidence_delimiters": true,
     "evidence_store": "anchored",
-    "moderator_final_only": true
+    "moderator_final_only": true,
+    "search_via_batch": true
   },
   "arms": [
     "drag",

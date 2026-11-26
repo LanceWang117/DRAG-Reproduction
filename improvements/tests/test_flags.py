@@ -12,7 +12,7 @@ BASELINE = {"max_query_debate_rounds": 3, "max_answer_debate_rounds": 3, "profil
             "answer_extractor": "native", "moderator_final_only": False,
             "batch_agents_in_round": False, "question_batch_size": 1,
             "refill_window": False, "retrieval_batch_size": 64,
-            "retrieval_cache": None, "retriever": "e5",
+            "search_via_batch": False, "retrieval_cache": None, "retriever": "e5",
             "dense_top_k": 20, "bm25_top_k": 20, "hybrid_top_k": 3, "rrf_k": 60,
             "dense_weight": 1.0, "bm25_weight": 1.0, "dense_score_floor": None,
             "bm25_score_floor": None, "bm25_index": None, "rerank_k": None,

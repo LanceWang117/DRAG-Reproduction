@@ -1,0 +1,12 @@
+{
+  "name": "E02b-opt-no-b2fix",
+  "description": "E02b arm opt-no-b2fix: layers P; PROVISIONAL P (E01 arm C until E01 promotes a configuration); optional: arm A without the B2 fix, to measure what the fix changes",
+  "flags": {
+    "batch_agents_in_round": true,
+    "moderator_final_only": true
+  },
+  "arms": [
+    "drag",
+    "naive"
+  ]
+}
