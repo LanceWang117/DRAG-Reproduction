@@ -236,9 +236,8 @@ class FailureStatusTests(unittest.TestCase):
         out = Path(folder.name) / "run"
         backend = build_fake_backend()
         backend.retriever = BoomRetriever()
-        variant = parse_variant({"name": "t", "arms": ["drag"],
-                                 "flags": {"question_batch_size": 2,
-                                           "search_via_batch": True}})
+        variant = parse_variant({"name": "t", "arms": ["drag"], "flags": {
+            "question_batch_size": 2, "search_via_batch": True}})
         request = RunRequest(rows=self.ROWS, variant=variant, backend=backend, out_dir=out,
                              clock=lambda: 0.0, now=lambda: "2026-01-01T00:00:00Z",
                              environment=lambda: {}, command=[])
