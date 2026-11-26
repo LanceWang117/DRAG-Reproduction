@@ -416,3 +416,26 @@ python scripts/run_variant.py --variant improvements/configs/s2-gpu-faiss.json \
 `improvements/configs/s2-gpu-faiss.json` sets `faiss_gpu=true`,
 `gpu_memory_utilization=0.45` and `omp_threads=12`. E01 measures the speed and memory;
 this section only makes the configuration safe and reproducible.
+
+## Server readiness (before the first E-job)
+
+Arm files for every E-job are generated in `improvements/configs/arms/` (see its
+README). Before the first measurement on an A100 pod:
+
+```bash
+bash scripts/pod_setup.sh --write-config     # tools, logins, config.local.json, data paths, pack
+python scripts/server_checks.py --list --owner E00            # the checklist E00 works through
+python scripts/server_checks.py --run --config config.local.json   # automatic probes, ~minutes
+bash scripts/pod_setup.sh --teardown         # at the end: no GPU process may remain
+```
+
+`server_checks.py --run` builds the same backend as `run_variant.py` and runs each
+automatic probe once. It writes `new-runs/server-checks/<stamp>/server-checks.json` and
+exits non-zero if any probe fails or raises. `--backend fake` runs the same runner on
+the PC, with server-only probes skipped.
+
+The registry is `improvements/configs/server-checks.json`. It holds every item the PC
+jobs could not verify, each tagged `auto` (a probe), `smoke` (E00's one-question runs)
+or `measure` (inside the owning E-job). `scripts/pack_sync.sh push|pull <host:/repo>`
+copies the team's local-only job notes to and from a server clone; code always travels
+through git.
