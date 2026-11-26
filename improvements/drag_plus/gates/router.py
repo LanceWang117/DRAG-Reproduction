@@ -194,16 +194,13 @@ def _judge_probe(ctx, state, own_answer: str, retrieval_answer: str) -> Optional
     return resolve_scored(scored, 0.0, False).score
 
 
-def _record(state, model: RouterModel, decision: RouterDecision,
-            probe: Optional[float]) -> None:
+def _record(state, decision: RouterDecision, probe: Optional[float]) -> None:
     state.router_route = decision.route
     state.router_features = dict(decision.features)
     state.router_cost = decision.costs[decision.route]
     state.emit("Router_Features", dict(decision.features))
     state.emit("Router_Route", decision.route)
-    state.emit("Router_Probabilities", dict(decision.probabilities))
     state.emit("Router_RouteCost", decision.costs[decision.route])
-    state.emit("Router_JudgeProbe", "unavailable" if probe is None else probe)
     state.decisions.append({
         "stage": "router", "round": 0, "decision": "route", "status": decision.route,
         "features": dict(decision.features), "probabilities": dict(decision.probabilities),
@@ -212,10 +209,12 @@ def _record(state, model: RouterModel, decision: RouterDecision,
 
 def _finish_naive(ctx, state, raw: str) -> None:
     state.raw_pred = raw
-    state.emit("raw_pred", raw)
-    state.pred = (native_pred("naive", raw) if ctx.flags.answer_extractor == "native"
-                  else unified_pred(raw, ctx.dataset_name))
-    state.emit("pred", state.pred)
+    if ctx.flags.answer_extractor == "native":
+        state.pred = native_pred("naive", raw)
+        state.emit("raw_pred", raw)
+        state.emit("pred", state.pred)
+    else:
+        state.pred = unified_pred(raw, ctx.dataset_name)
     state.stage = "answer"
 
 
@@ -245,6 +244,6 @@ def run_routed(ctx, state) -> bool:
         passages=top_passages(state.query_pool), judge_score=probe,
         own_answer=own_answer, retrieval_answer=retrieval_answer))
     decision = decide_route(features, model, ctx.flags.router_cost_weight)
-    _record(state, model, decision, probe)
+    _record(state, decision, probe)
     _execute_route(ctx, state, decision.route, raw)
     return True
