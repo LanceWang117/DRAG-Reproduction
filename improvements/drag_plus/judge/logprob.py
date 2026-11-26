@@ -96,12 +96,7 @@ def needs_scores(flags: Any) -> bool:
     return flags.judge_scoring == "logprob" or bool(flags.lazy_query_opponent)
 
 
-def _finish(output: Any) -> str:
-    """vLLM's ``CompletionOutput.finish_reason`` (``stop``/``length``), else unknown."""
-    try:
-        return str(output.outputs[0].finish_reason or "unknown")
-    except (AttributeError, IndexError, TypeError):
-        return "unknown"
+SCORED = "scored"  # finish reason of a label-scoring call: the short budget is by design
 
 
 class ScoredGenerator:
@@ -139,7 +134,7 @@ class ScoredGenerator:
                    "logprobs": max(self._logprob_k, 2 * len(labels) + 4)}
         options.update(params)
         raw = self._generator.generate(batch, **options)
-        self.last_finish_reasons = [_finish(output) for output in raw]
+        self.last_finish_reasons = [SCORED] * len(raw)
         return [self._score_one(output, labels) for output in raw]
 
     def _score_one(self, output: Any, labels: Sequence[str]) -> ScoredOutput:

@@ -6,9 +6,9 @@ call and pays one ``if``. Rows land in the question's own ``calls`` list; the ru
 run, variant and question columns when it writes the log.
 
 ``finish_reason`` is the server's own when the generator reports one (J24: the local
-Ollama backend, and the vLLM log-prob scorer, through ``last_finish_reasons``). A batch
-row is ``length`` if any prompt was cut, otherwise the shared reason, otherwise
-``mixed``. FlashRAG's text-only ``generate`` reports none, so J08's inference applies
+Ollama backend through ``last_finish_reasons``; label-scoring calls on any backend say
+``scored``, since their short budget is by design). A batch row is ``length`` if any
+prompt was cut, otherwise the shared reason, otherwise ``mixed``. FlashRAG's text-only ``generate`` reports none, so J08's inference applies
 there: ``length`` when the output reaches ``max_tokens``, ``stop`` when a budget is set
 but not reached, and null without a budget (the baseline call).
 """
@@ -51,7 +51,11 @@ def _finish_reason(output_tokens: int, limit: Optional[int]) -> Optional[str]:
 
 
 def observed_reason(reasons: Optional[Sequence[str]]) -> Optional[str]:
-    """One row's reason from the server's per-prompt reasons; None when there are none."""
+    """One row's reason from the server's per-prompt reasons; None when there are none.
+
+    ``unknown`` (no reason in the response) is dropped, so the budget inference applies.
+    """
+    reasons = [reason for reason in reasons or () if reason != "unknown"]
     if not reasons:
         return None
     if "length" in reasons:

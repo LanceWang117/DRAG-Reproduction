@@ -1,13 +1,17 @@
 """Label log-probabilities for the backends that have no tokenizer (J24).
 
 The vLLM scorer (``judge.logprob.ScoredGenerator``) maps a label to token IDs. The local
-Ollama server returns token *strings* instead (OpenAI shape, verified on 0.34.4): the
-first position's ``top_logprobs`` holds entries such as ``Opp``, `` Opp``, ``Op``,
-``Pro`` and ``Prop``. A label's score is the log-sum-exp of every entry whose stripped
-token is a case-insensitive prefix of that label and at least two characters long, so
-``I`` never counts for ``insufficient`` and ``O`` never counts for ``Opponent``. An
-entry that prefixes two labels counts for neither; a label with no entry scores None, so
-the caller falls back to the generated text, exactly as for vLLM.
+Ollama server returns token *strings* instead (OpenAI shape, verified on 0.34.4): a
+position's ``top_logprobs`` holds entries such as ``Opp``, `` Opp``, ``Pro`` and
+``Prop``. The scored position is the first one whose chosen token is not bare
+punctuation (``**``, a quote, a newline), at most ``MAX_SKIPPED`` in. A label's score is
+the log-sum-exp of every entry whose stripped token is a case-insensitive prefix of the
+label and at least three characters long, so prose openings such as ``In`` or ``I``
+never count for ``insufficient``. An entry that prefixes two labels counts for neither.
+
+Scores are trusted only when the reply itself starts with a label (after the same
+punctuation): a reply opening with prose ("The Opponent...") scores None for every
+label, so the caller falls back to parsing the text, exactly as for a missing vLLM score.
 
 The fake backend scores labels from a hash of the prompt: finite, deterministic and
 meaningless, enough to exercise the log-prob path offline.
@@ -18,7 +22,9 @@ import hashlib
 import math
 from typing import Dict, Iterable, List, Optional, Sequence, Tuple
 
-MIN_PREFIX = 2
+MIN_PREFIX = 3
+MAX_SKIPPED = 3
+_PUNCTUATION = " \t\r\n*_\"'`([{<:-."
 
 
 def _finite(value: object) -> Optional[float]:
@@ -57,14 +63,31 @@ def label_logprobs(top: Iterable[Tuple[str, object]],
             for label, values in found.items()}
 
 
+def starts_with_label(text: str, labels: Sequence[str]) -> bool:
+    """True when the reply, after leading punctuation, begins with one of the labels."""
+    head = text.lstrip(_PUNCTUATION).lower() if isinstance(text, str) else ""
+    return any(label and head.startswith(label.lower()) for label in labels)
+
+
 def first_position(choice: object) -> List[Tuple[str, object]]:
-    """The ``(token, logprob)`` pairs of an OpenAI-shaped choice's first position."""
+    """``(token, logprob)`` pairs at the first position that is not bare punctuation."""
     try:
         content = choice["logprobs"]["content"]  # type: ignore[index]
-        entries = content[0].get("top_logprobs") or [content[0]]
-        return [(entry.get("token"), entry.get("logprob")) for entry in entries]
+        for position in content[:MAX_SKIPPED + 1]:
+            if str(position.get("token", "")).strip(_PUNCTUATION):
+                entries = position.get("top_logprobs") or [position]
+                return [(entry.get("token"), entry.get("logprob")) for entry in entries]
+        return []
     except (KeyError, IndexError, TypeError, AttributeError):
         return []
+
+
+def scored_labels(choice: object, text: str,
+                  labels: Sequence[str]) -> Dict[str, Optional[float]]:
+    """Label scores for one reply, or all None when the reply does not open with a label."""
+    if not starts_with_label(text, labels):
+        return {label: None for label in labels}
+    return label_logprobs(first_position(choice), labels)
 
 
 def fake_label_logprobs(text: str, labels: Sequence[str]) -> Dict[str, Optional[float]]:

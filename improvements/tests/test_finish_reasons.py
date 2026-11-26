@@ -50,7 +50,9 @@ class ObservedReasonTests(unittest.TestCase):
     def test_length_wins_agreement_is_kept_and_disagreement_is_mixed(self):
         self.assertEqual(observed_reason(["stop", "length"]), "length")
         self.assertEqual(observed_reason(["stop", "stop"]), "stop")
-        self.assertEqual(observed_reason(["stop", "unknown"]), "mixed")
+        self.assertEqual(observed_reason(["stop", "scored"]), "mixed")
+        self.assertEqual(observed_reason(["stop", "unknown"]), "stop")
+        self.assertIsNone(observed_reason(["unknown", "unknown"]))
         self.assertIsNone(observed_reason([]))
         self.assertIsNone(observed_reason(None))
 
@@ -81,6 +83,20 @@ class ObservedReasonTests(unittest.TestCase):
                                  [{"role": "user", "content": "beta"}]], call=info)
         backends.complete([{"role": "user", "content": "alpha"}], call=info)
         self.assertEqual([row["finish_reason"] for row in rows], ["length", "length", "stop"])
+
+    def test_one_conversation_is_one_scored_prompt_in_its_row(self):
+        class Scorer(fake.FakeGenerator):
+            def generate_with_scores(self, prompts, labels, **params):
+                self.last_finish_reasons = ["scored"]
+                return super().generate_with_scores(prompts, labels, **params)
+
+        rows = []
+        backends = Backends(Scorer(), FakeRetriever(), IdentityTemplate(),
+                            CallRecorder(StepClock()))
+        messages = [{"role": "system", "content": "judge"}, {"role": "user", "content": "q"}]
+        backends.complete_with_scores(messages, labels=("Proponent", "Opponent"),
+                                      call=CallInfo("query_judge", 0, "judge", rows))
+        self.assertEqual((rows[0]["batch_size"], rows[0]["finish_reason"]), (1, "scored"))
 
 
 class GroupedBatchTests(unittest.TestCase):
@@ -122,7 +138,7 @@ class ScorerWiringTests(unittest.TestCase):
 
         scorer = ScoredGenerator(Inner())
         scorer.generate_with_scores(["a", "b"], labels=("Proponent", "Opponent"))
-        self.assertEqual(scorer.last_finish_reasons, ["length", "unknown"])
+        self.assertEqual(scorer.last_finish_reasons, ["scored", "scored"])
         scorer.generate("a")
         self.assertIsNone(scorer.last_finish_reasons)
 

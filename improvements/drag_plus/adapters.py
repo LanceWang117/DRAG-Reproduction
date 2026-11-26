@@ -132,7 +132,7 @@ class Backends:
             captured.extend(invoke())
             return [output.text for output in captured]
 
-        batch = prompts if isinstance(prompts, list) else [prompts]
+        batch = prompts if prompt_count(prompts) > 1 else [prompts]
         self.recorder.generation_batch(call, batch, timed, limit=params.get("max_tokens"),
                                        reasons=self._reasons(len(batch)))
         return captured

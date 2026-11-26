@@ -22,8 +22,8 @@ import urllib.request
 from dataclasses import dataclass, field
 from typing import Any, Callable, Dict, List, Optional, Sequence, Set, Tuple
 
-from ..judge.logprob import ScoredOutput
-from .label_scores import first_position, label_logprobs
+from ..judge.logprob import SCORED, ScoredOutput
+from .label_scores import scored_labels
 
 DEFAULT_MODEL = "llama3.2:3b"
 DEFAULT_URL = "http://localhost:11434/v1"
@@ -31,7 +31,7 @@ CONTEXT_TOKENS = 4096
 MAX_TOKENS = 256
 SEED = 2024
 RETRIES = 2
-SCORE_TOKENS = 8  # enough for the label itself, so the text fallback still parses
+SCORE_TOKENS = 12  # the label plus leading markup, so the text fallback still parses
 TOP_LOGPROBS = 20
 TIMEOUT_SECONDS = 180.0
 CHARS_PER_TOKEN = 3  # deliberately low, so the estimate errs on the side of trimming
@@ -97,6 +97,7 @@ class GeneratorStats:
     empty_outputs: int = 0
     trimmed_prompts: int = 0
     clamped_max_tokens: int = 0
+    scored_calls: int = 0
     finish_reasons: Dict[str, int] = field(default_factory=dict)
     ignored_params: Set[str] = field(default_factory=set)
 
@@ -104,6 +105,7 @@ class GeneratorStats:
         return {"calls": self.calls, "retries": self.retries, "empty_outputs": self.empty_outputs,
                 "trimmed_prompts": self.trimmed_prompts,
                 "clamped_max_tokens": self.clamped_max_tokens,
+                "scored_calls": self.scored_calls,
                 "finish_reasons": dict(self.finish_reasons),
                 "ignored_params": sorted(self.ignored_params)}
 
@@ -138,8 +140,10 @@ class OllamaGenerator:
         outputs = []
         for messages in as_conversations(prompts):
             choice = self._choice(messages, options)
-            outputs.append(ScoredOutput(self._text(choice),
-                                        label_logprobs(first_position(choice), labels)))
+            text = choice["message"]["content"] or ""
+            self.stats.scored_calls += 1
+            self.last_finish_reasons.append(SCORED)
+            outputs.append(ScoredOutput(text, scored_labels(choice, text, labels)))
         return outputs
 
     def _options(self, params: Dict[str, Any]) -> Dict[str, Any]:
