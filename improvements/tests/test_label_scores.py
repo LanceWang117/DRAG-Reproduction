@@ -6,7 +6,7 @@ import frozen  # noqa: F401  (puts improvements/ and the test helpers on sys.pat
 from drag_plus.judge.logprob import LABELS, margin
 from drag_plus.runner.fake import FakeGenerator
 from drag_plus.runner.label_scores import (fake_label_logprobs, first_position, label_logprobs,
-                                           scored_labels, starts_with_label)
+                                           scored_labels, starts_with_label, strip_role_header)
 from drag_plus.runner.local_generator import OllamaGenerator
 from fake_ollama import FakeOllama
 
@@ -92,6 +92,51 @@ class LabelMatchingTests(unittest.TestCase):
         self.assertIsNotNone(margin(scored_labels(choice, "Opponent.", LABELS)))
         self.assertEqual(scored_labels(choice, "The Opponent wins", LABELS),
                          {"Proponent": None, "Opponent": None})
+
+
+def header_body(content="assistant\n\nOpponent"):
+    """The live llama3.2 reply to a system-only prompt: a leaked role header first."""
+    def position(token, *top):
+        return {"token": token, "logprob": top[0][1],
+                "top_logprobs": [{"token": t, "logprob": v} for t, v in top]}
+    content_positions = [position("assistant", ("assistant", -0.0), ("system", -13.4)),
+                         position("\n\n", ("\n\n", 0.0)),
+                         position("Opp", ("Opp", -0.41), ("Pro", -1.11), ("Op", -6.13))]
+    return {"choices": [{"index": 0, "finish_reason": "stop",
+                         "message": {"role": "assistant", "content": content},
+                         "logprobs": {"content": content_positions}}]}
+
+
+class RoleHeaderTests(unittest.TestCase):
+    def test_only_a_leading_assistant_header_is_removed(self):
+        self.assertEqual(strip_role_header("assistant\n\nOpponent"), "Opponent")
+        self.assertEqual(strip_role_header("  Assistant \nProponent Agent"), "Proponent Agent")
+        self.assertEqual(strip_role_header("assistant is here"), "assistant is here")
+        self.assertEqual(strip_role_header("Opponent\nassistant\n"), "Opponent\nassistant\n")
+
+    def test_a_system_only_prompt_is_scored_after_the_header(self):
+        with FakeOllama(script=[("raw", header_body())]) as server:
+            generator = OllamaGenerator("tiny:1b", server.base_url, retries=0)
+            output = generator.generate_with_scores(
+                [{"role": "system", "content": "Judge. Output only the agent's name."}],
+                labels=LABELS)[0]
+        self.assertEqual(output.text, "Opponent")
+        self.assertEqual(output.label_logprobs, {"Proponent": -1.11, "Opponent": -0.41})
+        self.assertEqual(generator.stats.stripped_headers, 1)
+
+    def test_the_header_is_kept_when_a_user_turn_ends_the_prompt(self):
+        with FakeOllama(script=[("raw", header_body())]) as server:
+            generator = OllamaGenerator("tiny:1b", server.base_url, retries=0)
+            text = generator.generate([{"role": "system", "content": "s"},
+                                       {"role": "user", "content": "u"}])[0]
+        self.assertEqual(text, "assistant\n\nOpponent")
+        self.assertEqual(generator.stats.stripped_headers, 0)
+
+    def test_plain_generation_strips_the_header_too(self):
+        with FakeOllama(script=[("text", "assistant\n\nProponent Agent")]) as server:
+            generator = OllamaGenerator("tiny:1b", server.base_url, retries=0)
+            text = generator.generate([{"role": "system", "content": "judge"}])[0]
+        self.assertEqual(text, "Proponent Agent")
 
 
 class FakeScorerTests(unittest.TestCase):

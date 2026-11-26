@@ -23,7 +23,7 @@ from dataclasses import dataclass, field
 from typing import Any, Callable, Dict, List, Optional, Sequence, Set, Tuple
 
 from ..judge.logprob import SCORED, ScoredOutput
-from .label_scores import scored_labels
+from .label_scores import scored_labels, strip_role_header
 
 DEFAULT_MODEL = "llama3.2:3b"
 DEFAULT_URL = "http://localhost:11434/v1"
@@ -98,6 +98,7 @@ class GeneratorStats:
     trimmed_prompts: int = 0
     clamped_max_tokens: int = 0
     scored_calls: int = 0
+    stripped_headers: int = 0
     finish_reasons: Dict[str, int] = field(default_factory=dict)
     ignored_params: Set[str] = field(default_factory=set)
 
@@ -106,6 +107,7 @@ class GeneratorStats:
                 "trimmed_prompts": self.trimmed_prompts,
                 "clamped_max_tokens": self.clamped_max_tokens,
                 "scored_calls": self.scored_calls,
+                "stripped_headers": self.stripped_headers,
                 "finish_reasons": dict(self.finish_reasons),
                 "ignored_params": sorted(self.ignored_params)}
 
@@ -169,6 +171,11 @@ class OllamaGenerator:
             choice["message"]["content"]
         except (KeyError, IndexError, TypeError) as error:
             raise LocalGeneratorError(f"unexpected response shape: {str(body)[:200]}") from error
+        if messages and messages[-1].get("role") == "system":  # see label_scores
+            text = choice["message"]["content"]
+            cleaned = strip_role_header(text)
+            self.stats.stripped_headers += int(cleaned != text)
+            choice["message"]["content"] = cleaned
         return choice
 
     def _request(self, data: bytes) -> Dict[str, Any]:

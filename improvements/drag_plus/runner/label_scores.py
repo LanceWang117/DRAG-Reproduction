@@ -9,6 +9,12 @@ the log-sum-exp of every entry whose stripped token is a case-insensitive prefix
 label and at least three characters long, so prose openings such as ``In`` or ``I``
 never count for ``insufficient``. An entry that prefixes two labels counts for neither.
 
+A conversation that ends with a system message (DRAG's Judge prompt) gets no generation
+prompt from Ollama's Llama 3 template, so the model writes the ``assistant`` header
+itself; vLLM's chat template adds that header to the prompt instead. The header is
+stripped from the text and skipped as a position, which leaves the model in the same
+state as on the A100 (verified live: the label distribution follows the header).
+
 Scores are trusted only when the reply itself starts with a label (after the same
 punctuation): a reply opening with prose ("The Opponent...") scores None for every
 label, so the caller falls back to parsing the text, exactly as for a missing vLLM score.
@@ -20,11 +26,23 @@ from __future__ import annotations
 
 import hashlib
 import math
+import re
 from typing import Dict, Iterable, List, Optional, Sequence, Tuple
 
 MIN_PREFIX = 3
 MAX_SKIPPED = 3
 _PUNCTUATION = " \t\r\n*_\"'`([{<:-."
+_HEADER = re.compile(r"\A\s*assistant[ \t]*\r?\n+", re.IGNORECASE)
+
+
+def strip_role_header(text: str) -> str:
+    """Remove a leaked ``assistant`` role header at the start of a reply."""
+    return _HEADER.sub("", text, count=1) if isinstance(text, str) else text
+
+
+def _skippable(token: object) -> bool:
+    stripped = str(token or "").strip(_PUNCTUATION)
+    return not stripped or stripped.lower() == "assistant"
 
 
 def _finite(value: object) -> Optional[float]:
@@ -70,11 +88,11 @@ def starts_with_label(text: str, labels: Sequence[str]) -> bool:
 
 
 def first_position(choice: object) -> List[Tuple[str, object]]:
-    """``(token, logprob)`` pairs at the first position that is not bare punctuation."""
+    """``(token, logprob)`` pairs at the first position past markup and a role header."""
     try:
         content = choice["logprobs"]["content"]  # type: ignore[index]
         for position in content[:MAX_SKIPPED + 1]:
-            if str(position.get("token", "")).strip(_PUNCTUATION):
+            if not _skippable(position.get("token")):
                 entries = position.get("top_logprobs") or [position]
                 return [(entry.get("token"), entry.get("logprob")) for entry in entries]
         return []
