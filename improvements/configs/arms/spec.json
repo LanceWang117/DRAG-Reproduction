@@ -1,6 +1,7 @@
 {
   "layers": {
     "final": {"moderator_final_only": true},
+    "b2fix": {"search_via_batch": true},
     "batch": {"batch_agents_in_round": true},
     "gpu_faiss": {"faiss_gpu": true, "gpu_memory_utilization": 0.45},
     "novelty": {"skip_duplicate_query": true, "zero_novelty_exit": true},
@@ -35,48 +36,49 @@
       "E": {"layers": ["final", "batch", "threads"], "note": "fallback if D fails"}
     },
     "E02a": {
-      "A": {"layers": ["P"]},
-      "B": {"layers": ["P", "novelty"]},
-      "C": {"layers": ["P", "r1"]},
-      "D": {"layers": ["P", "r1", "budgets"]},
-      "opt-r2": {"layers": ["P", "r2"], "note": "optional, only if the time budget allows"},
-      "opt-tokens128": {"layers": ["P", "tokens128"], "note": "optional, only if the time budget allows"}
+      "A": {"layers": ["P", "b2fix"]},
+      "B": {"layers": ["P", "b2fix", "novelty"]},
+      "C": {"layers": ["P", "b2fix", "r1"]},
+      "D": {"layers": ["P", "b2fix", "r1", "budgets"]},
+      "opt-r2": {"layers": ["P", "b2fix", "r2"], "note": "optional, only if the time budget allows"},
+      "opt-tokens128": {"layers": ["P", "b2fix", "tokens128"], "note": "optional, only if the time budget allows"}
     },
     "E02b": {
-      "A": {"layers": ["P"]},
-      "B": {"layers": ["P", "anchored"]},
-      "C": {"layers": ["P", "anchored", "layout"]},
-      "D": {"layers": ["P", "logprob"]},
-      "E": {"layers": ["P", "anchored", "logprob", "schema"]},
-      "F": {"layers": ["P", "anchored", "layout", "apc"], "note": "run twice on the E00 60-question subset"}
+      "A": {"layers": ["P", "b2fix"]},
+      "B": {"layers": ["P", "b2fix", "anchored"]},
+      "C": {"layers": ["P", "b2fix", "anchored", "layout"]},
+      "D": {"layers": ["P", "b2fix", "logprob"]},
+      "E": {"layers": ["P", "b2fix", "anchored", "logprob", "schema"]},
+      "F": {"layers": ["P", "b2fix", "anchored", "layout", "apc"], "note": "run twice on the E00 60-question subset"},
+      "opt-no-b2fix": {"layers": ["P"], "note": "optional: arm A without the B2 fix, to measure what the fix changes"}
     },
     "E03": {
-      "B1": {"layers": ["P", "q1"]},
-      "B2": {"layers": ["P", "q2"]},
-      "B4": {"layers": ["P", "q4"]},
-      "B8": {"layers": ["P", "q8"]},
-      "B16": {"layers": ["P", "q16"]},
-      "B32": {"layers": ["P", "q32"]}
+      "B1": {"layers": ["P", "b2fix", "q1"]},
+      "B2": {"layers": ["P", "b2fix", "q2"]},
+      "B4": {"layers": ["P", "b2fix", "q4"]},
+      "B8": {"layers": ["P", "b2fix", "q8"]},
+      "B16": {"layers": ["P", "b2fix", "q16"]},
+      "B32": {"layers": ["P", "b2fix", "q32"]}
     },
     "E04": {
-      "e5": {"layers": ["P"]},
-      "hybrid": {"layers": ["P", "best_hybrid"]}
+      "e5": {"layers": ["P", "b2fix"]},
+      "hybrid": {"layers": ["P", "b2fix", "best_hybrid"]}
     },
     "E05": {
-      "naive": {"layers": ["P", "best_batch"], "arms": ["naive"], "note": "route arm"},
-      "drag": {"layers": ["P", "promoted_drag", "best_batch"], "arms": ["drag"],
+      "naive": {"layers": ["P", "b2fix", "best_batch"], "arms": ["naive"], "note": "route arm"},
+      "drag": {"layers": ["P", "b2fix", "promoted_drag", "best_batch"], "arms": ["drag"],
                "note": "route arm; refine-only and decompose need J20/J22"}
     },
     "PC": {
-      "full-stack": {"layers": ["unified", "final", "batch", "q4", "novelty", "r1", "budgets",
+      "full-stack": {"layers": ["unified", "b2fix", "final", "batch", "q4", "novelty", "r1", "budgets",
                                  "anchored", "audit", "layout", "logprob", "schema", "refined",
                                  "lazy", "grounded", "vote"],
                      "note": "every PC-runnable improvement at once; rehearsal and integration only"},
-      "full-stack-generative": {"layers": ["unified", "final", "batch", "q4", "novelty", "r1",
+      "full-stack-generative": {"layers": ["unified", "b2fix", "final", "batch", "q4", "novelty", "r1",
                                             "budgets", "anchored", "audit", "layout", "schema",
                                             "refined", "lazy", "grounded", "vote"],
                                 "note": "the full stack with the generative Judge"},
-      "grounded-vote": {"layers": ["unified", "grounded", "vote"],
+      "grounded-vote": {"layers": ["unified", "b2fix", "grounded", "vote"],
                         "note": "J18 answer stage with the vote aggregator"}
     }
   }

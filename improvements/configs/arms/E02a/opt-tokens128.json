@@ -1,10 +1,11 @@
 {
   "name": "E02a-opt-tokens128",
-  "description": "E02a arm opt-tokens128: layers P, tokens128; PROVISIONAL P (E01 arm C until E01 promotes a configuration); optional, only if the time budget allows",
+  "description": "E02a arm opt-tokens128: layers P, b2fix, tokens128; PROVISIONAL P (E01 arm C until E01 promotes a configuration); optional, only if the time budget allows",
   "flags": {
     "agent_max_tokens": 128,
     "batch_agents_in_round": true,
-    "moderator_final_only": true
+    "moderator_final_only": true,
+    "search_via_batch": true
   },
   "arms": [
     "drag",

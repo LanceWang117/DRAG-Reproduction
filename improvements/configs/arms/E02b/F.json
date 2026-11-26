@@ -1,6 +1,6 @@
 {
   "name": "E02b-F",
-  "description": "E02b arm F: layers P, anchored, layout, apc; PROVISIONAL P (E01 arm C until E01 promotes a configuration); run twice on the E00 60-question subset",
+  "description": "E02b arm F: layers P, b2fix, anchored, layout, apc; PROVISIONAL P (E01 arm C until E01 promotes a configuration); run twice on the E00 60-question subset",
   "flags": {
     "batch_agents_in_round": true,
     "context_token_budget": 2500,
@@ -8,7 +8,8 @@
     "evidence_delimiters": true,
     "evidence_store": "anchored",
     "moderator_final_only": true,
-    "prompt_layout": "evidence_first"
+    "prompt_layout": "evidence_first",
+    "search_via_batch": true
   },
   "arms": [
     "drag",

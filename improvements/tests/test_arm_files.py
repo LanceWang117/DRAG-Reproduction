@@ -16,7 +16,7 @@ PROJECT = Path(__file__).resolve().parents[2]
 ARMS_DIR = PROJECT / "improvements/configs/arms"
 EXPECTED = {"E01": {"A", "B", "C", "D", "E"},
             "E02a": {"A", "B", "C", "D", "opt-r2", "opt-tokens128"},
-            "E02b": {"A", "B", "C", "D", "E", "F"},
+            "E02b": {"A", "B", "C", "D", "E", "F", "opt-no-b2fix"},
             "E03": {"B1", "B2", "B4", "B8", "B16", "B32"},
             "E04": {"e5", "hybrid"}, "E05": {"naive", "drag"},
             "PC": {"full-stack", "full-stack-generative", "grounded-vote"}}
@@ -49,6 +49,17 @@ class CommittedArmTests(unittest.TestCase):
         self.assertNotIn("refill_window", flags["E03/B1"])
         self.assertEqual((flags["E03/B32"]["question_batch_size"], flags["E03/B32"]["refill_window"]),
                          (32, True))
+
+    def test_every_arm_after_e01_carries_the_b2_fix_except_its_control(self):
+        for path, variant in committed().items():
+            fixed = variant.flags.search_via_batch
+            if path.parent.name == "E01" or path.stem == "opt-no-b2fix":
+                self.assertFalse(fixed, path)
+            else:
+                self.assertTrue(fixed, path)
+        control = dict(load_variant(ARMS_DIR / "E02b/opt-no-b2fix.json").raw["flags"])
+        arm_a = dict(load_variant(ARMS_DIR / "E02b/A.json").raw["flags"])
+        self.assertEqual(arm_a, {**control, "search_via_batch": True})
 
     def test_arms_built_on_p_say_they_are_provisional(self):
         for path, variant in committed().items():

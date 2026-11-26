@@ -1,13 +1,14 @@
 {
   "name": "E02a-D",
-  "description": "E02a arm D: layers P, r1, budgets; PROVISIONAL P (E01 arm C until E01 promotes a configuration)",
+  "description": "E02a arm D: layers P, b2fix, r1, budgets; PROVISIONAL P (E01 arm C until E01 promotes a configuration)",
   "flags": {
     "agent_max_tokens": 128,
     "batch_agents_in_round": true,
     "concise_agents": true,
     "moderator_final_only": true,
     "moderator_max_tokens": 32,
-    "response_rounds": 1
+    "response_rounds": 1,
+    "search_via_batch": true
   },
   "arms": [
     "drag",

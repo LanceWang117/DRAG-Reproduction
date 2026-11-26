@@ -33,5 +33,11 @@ Not generated, because no flag exists for them:
 - E05's refine-only and decompose routes: they need J20 and J22;
 - E06's frozen arms: chosen from E-job evidence.
 
+Every arm after E01 carries the `b2fix` layer (`search_via_batch`): DRAG's
+single-query search then embeds the whole query, as Naive's `batch_search` already does
+(findings B2). E01 keeps the recorded path, because it measures speed against the
+baseline. `E02b/opt-no-b2fix` is arm A without the fix, so the fix's own effect can be
+measured.
+
 The `PC/` arms combine many features for rehearsals and integration tests. They are
 never results.

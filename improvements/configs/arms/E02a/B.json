@@ -1,9 +1,10 @@
 {
   "name": "E02a-B",
-  "description": "E02a arm B: layers P, novelty; PROVISIONAL P (E01 arm C until E01 promotes a configuration)",
+  "description": "E02a arm B: layers P, b2fix, novelty; PROVISIONAL P (E01 arm C until E01 promotes a configuration)",
   "flags": {
     "batch_agents_in_round": true,
     "moderator_final_only": true,
+    "search_via_batch": true,
     "skip_duplicate_query": true,
     "zero_novelty_exit": true
   },

@@ -206,6 +206,16 @@ The generator does not request log-probs. Ollama 0.34.4 returns them on the same
 smoke-tested locally once it asks for them. Smoke runs prove nothing about FlashRAG, vLLM,
 FAISS, the Llama-3.1 tokenizer or GPU memory; those stay on the A100.
 
+### Full-query search (B2 fix)
+
+At the pinned FlashRAG, `DenseRetriever.search(query)` embeds only the first 64
+characters of a query (including E5's `"query: "` prefix). `batch_search([query])`,
+which Naive uses, embeds all of it. `search_via_batch: true` makes DRAG's single-query
+search exactly `batch_search([q])[0]`. The default `false` keeps the recorded baseline
+path. Every generated arm after E01 sets it (`improvements/configs/arms/`), and
+`E02b/opt-no-b2fix` measures what the fix changes. The retrieval cache below applies
+the same batch path on its own.
+
 ### Retrieval cache
 
 Setting `retrieval_cache` to a path wraps the backend's retriever in one caching proxy

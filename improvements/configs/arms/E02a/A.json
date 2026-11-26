@@ -1,9 +1,10 @@
 {
   "name": "E02a-A",
-  "description": "E02a arm A: layers P; PROVISIONAL P (E01 arm C until E01 promotes a configuration)",
+  "description": "E02a arm A: layers P, b2fix; PROVISIONAL P (E01 arm C until E01 promotes a configuration)",
   "flags": {
     "batch_agents_in_round": true,
-    "moderator_final_only": true
+    "moderator_final_only": true,
+    "search_via_batch": true
   },
   "arms": [
     "drag",

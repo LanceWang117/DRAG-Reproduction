@@ -1,11 +1,12 @@
 {
   "name": "E05-drag",
-  "description": "E05 arm drag: layers P, promoted_drag, best_batch; PROVISIONAL P (E01 arm C until E01 promotes a configuration); promoted_drag (flags promoted by E02a/E02b; none until they report); best_batch (question_batch_size 4 with refill until E03 promotes B); route arm; refine-only and decompose need J20/J22",
+  "description": "E05 arm drag: layers P, b2fix, promoted_drag, best_batch; PROVISIONAL P (E01 arm C until E01 promotes a configuration); promoted_drag (flags promoted by E02a/E02b; none until they report); best_batch (question_batch_size 4 with refill until E03 promotes B); route arm; refine-only and decompose need J20/J22",
   "flags": {
     "batch_agents_in_round": true,
     "moderator_final_only": true,
     "question_batch_size": 4,
-    "refill_window": true
+    "refill_window": true,
+    "search_via_batch": true
   },
   "arms": [
     "drag"

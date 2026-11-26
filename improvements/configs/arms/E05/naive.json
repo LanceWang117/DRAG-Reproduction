@@ -1,11 +1,12 @@
 {
   "name": "E05-naive",
-  "description": "E05 arm naive: layers P, best_batch; PROVISIONAL P (E01 arm C until E01 promotes a configuration); best_batch (question_batch_size 4 with refill until E03 promotes B); route arm",
+  "description": "E05 arm naive: layers P, b2fix, best_batch; PROVISIONAL P (E01 arm C until E01 promotes a configuration); best_batch (question_batch_size 4 with refill until E03 promotes B); route arm",
   "flags": {
     "batch_agents_in_round": true,
     "moderator_final_only": true,
     "question_batch_size": 4,
-    "refill_window": true
+    "refill_window": true,
+    "search_via_batch": true
   },
   "arms": [
     "naive"

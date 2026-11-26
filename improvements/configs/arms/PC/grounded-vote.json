@@ -1,10 +1,11 @@
 {
   "name": "PC-grounded-vote",
-  "description": "PC arm grounded-vote: layers unified, grounded, vote; J18 answer stage with the vote aggregator",
+  "description": "PC arm grounded-vote: layers unified, b2fix, grounded, vote; J18 answer stage with the vote aggregator",
   "flags": {
     "aggregator": "vote",
     "answer_extractor": "unified",
     "opponent_mode": "grounded",
+    "search_via_batch": true,
     "verdict_sequestration": true
   },
   "arms": [

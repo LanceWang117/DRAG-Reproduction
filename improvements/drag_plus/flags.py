@@ -46,6 +46,8 @@ FLAG_SPECS: Tuple[FlagSpec, ...] = (
              doc="Admit the next question as soon as one finishes, keeping the batch full."),
     FlagSpec("retrieval_batch_size", int, 64, minimum=1,
              doc="Maximum queries per gathered batch_search; 20 crosses FAISS's BLAS path."),
+    FlagSpec("search_via_batch", bool, False,
+             doc="search(q) = batch_search([q])[0], embedding the whole query (B2 fix)."),
     FlagSpec("retrieval_cache", str, None, optional=True,
              doc="Path to retrieval-cache.jsonl; null disables the caching proxy."),
     FlagSpec("retriever", str, "e5", choices=("e5", "hybrid"),
