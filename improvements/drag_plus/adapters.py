@@ -23,6 +23,14 @@ BATCH_ROLE = "agents"
 """Timing-row role of a batched two-agent call: one backend call, two prompts."""
 
 
+def last_finish_reasons(generator: Any, count: int) -> Optional[List[str]]:
+    """The generator's per-prompt reasons for its latest call, if it reports ``count``."""
+    reasons = getattr(generator, "last_finish_reasons", None)
+    if not isinstance(reasons, list) or len(reasons) != count:
+        return None
+    return list(reasons) if all(isinstance(r, str) for r in reasons) else None
+
+
 def prompt_count(prompts: Any) -> int:
     """How many prompts one ``generate`` call carries.
 
@@ -75,7 +83,8 @@ class Backends:
             return self.generator.generate(prompt, **params)[0]
         if self.recorder is None or call is None:
             return invoke()
-        return self.recorder.generation(call, prompt, invoke, limit=params.get("max_tokens"))
+        return self.recorder.generation(call, prompt, invoke, limit=params.get("max_tokens"),
+                                        reasons=self._reasons(1))
 
     def complete_batch(self, prompts: List[Any], *, call: Optional[CallInfo] = None,
                        **params: Any) -> List[str]:
@@ -89,7 +98,8 @@ class Backends:
         if self.recorder is None or call is None:
             return invoke()
         return self.recorder.generation_batch(call, prompts, invoke,
-                                              limit=params.get("max_tokens"))
+                                              limit=params.get("max_tokens"),
+                                              reasons=self._reasons(len(prompts)))
 
     def complete_with_scores(self, prompts: List[Any], *, labels,
                              call: Optional[CallInfo] = None,
@@ -122,10 +132,13 @@ class Backends:
             captured.extend(invoke())
             return [output.text for output in captured]
 
-        batch = prompts if isinstance(prompts, list) else [prompts]
-        self.recorder.generation_batch(call, batch, timed,
-                                       limit=params.get("max_tokens"))
+        batch = prompts if prompt_count(prompts) > 1 else [prompts]
+        self.recorder.generation_batch(call, batch, timed, limit=params.get("max_tokens"),
+                                       reasons=self._reasons(len(batch)))
         return captured
+
+    def _reasons(self, count: int) -> Callable[[], Optional[List[str]]]:
+        return lambda: last_finish_reasons(self.generator, count)
 
     def search(self, query: str, *, call: Optional[CallInfo] = None) -> List[dict]:
         if self.recorder is None or call is None:
