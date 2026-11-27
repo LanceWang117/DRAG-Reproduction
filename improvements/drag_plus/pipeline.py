@@ -4,8 +4,7 @@ The pipeline holds no per-question data. ``run_batch`` puts one question state i
 worker and lets ``BarrierScheduler`` group its backend requests with the other questions
 at the same ``(stage, round, role)``. A group of one delegates to the existing
 ``Backends`` methods, so ``question_batch_size=1`` keeps the frozen call sequence (T0).
-An exception in one worker marks only that state ``failed``; the remaining questions
-continue and the runner reports the failed run.
+An exception in one worker marks only that state ``failed``; the rest continue.
 """
 from __future__ import annotations
 
@@ -26,6 +25,7 @@ from .scheduling.barrier import (BarrierContractError, BarrierScheduler, GENERAT
                                  SCORES, SEARCH, Request)
 from .scheduling.refill import RefillWindow, gather_search, targets_for
 from .state import QuestionState
+
 Entry = Tuple[Any, Optional[Tuple[Any, ...]]]
 
 

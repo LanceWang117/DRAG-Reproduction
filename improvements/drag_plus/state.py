@@ -6,7 +6,8 @@ to the dataset item and kept in order for transcripts. A barrier worker owns one
 at a time; ``status`` becomes ``failed`` with a traceback summary in ``error`` when that
 question raises, without touching the others. ``queries`` is the stable query
 trail (J13): ``{qid, text, source, round}`` in first-seen order, where a numeric ID is
-never reused even after its query leaves the active pool.
+never reused even after its query leaves the active pool. The ``conformal_*`` fields
+record the J21 prediction set, threshold and the abstain/escalate decision.
 """
 from __future__ import annotations
 

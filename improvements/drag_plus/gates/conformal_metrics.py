@@ -31,6 +31,8 @@ def _binom_cdf(successes: int, total: int, probability: float) -> float:
         return 0.0
     if successes >= total or probability <= 0.0:
         return 1.0
+    if probability >= 1.0:
+        return 0.0
     logs = [_log_pmf(i, total, probability) for i in range(successes + 1)]
     top = max(logs)
     return min(1.0, math.exp(top) * sum(math.exp(value - top) for value in logs))
