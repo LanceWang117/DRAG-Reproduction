@@ -12,7 +12,8 @@ the full Wikipedia corpus, and the E5 FAISS index.
 | `src/reproduction_changes/` | Our Judge fix and commented tests |
 | `scripts/` | Our runner, source preparation, and offline checks |
 | `results/` | Fixed questions, both answers, retrieval records, and scores |
-| `improvements/` | Reserved for later work; no improvement claimed yet |
+| `improvements/` | Team code: feature flags, analysis, E-job arm files |
+| `A100_RUNBOOK.md` | Operator guide for the A100 server jobs (E00–E06) |
 
 Original repository: [Huenao/Debate-Augmented-RAG](https://github.com/Huenao/Debate-Augmented-RAG),
 commit `c035ee1b7e6bc9fa67d5a104df1c2175a8300666`.
@@ -49,6 +50,7 @@ python3 scripts/run_evaluation.py --validate-only
 ```
 
 These commands need no GPU. See [REPRODUCTION.md](REPRODUCTION.md) to run a model,
+[A100_RUNBOOK.md](A100_RUNBOOK.md) to run the server jobs on an A100 pod,
 [ENVIRONMENT.md](ENVIRONMENT.md) for the combined environment record, and
 [DATA_DOWNLOADS.md](DATA_DOWNLOADS.md) for resource links. The configuration
 example sets model paths and run options; it is not an environment report.
