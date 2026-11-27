@@ -1,10 +1,9 @@
 """Orchestration only: build per-question state, batch requests, finish ``pred``.
-
 The pipeline holds no per-question data. ``run_batch`` puts one question state in one
 worker and lets ``BarrierScheduler`` group its backend requests with the other questions
 at the same ``(stage, round, role)``. A group of one delegates to the existing
 ``Backends`` methods, so ``question_batch_size=1`` keeps the frozen call sequence (T0).
-An exception in one worker marks only that state ``failed``; the rest continue.
+An exception marks only that state ``failed``; the rest continue.
 """
 from __future__ import annotations
 
@@ -14,6 +13,7 @@ from typing import Any, Callable, Iterable, List, Optional, Tuple
 from .adapters import Backends, StageContext, last_finish_reasons
 from .answers import unified_pred
 from .answer_stage import run_answer_stage
+from .decompose.route import run_decomposed
 from .flag_rules import check_group_size
 from .flags import Flags
 from .gates.conformal import apply_conformal
@@ -27,7 +27,6 @@ from .scheduling.refill import RefillWindow, gather_search, targets_for
 from .state import QuestionState
 
 Entry = Tuple[Any, Optional[Tuple[Any, ...]]]
-
 
 def _prompt_batch(prompts: Any) -> List[Any]:
     """A single rendered prompt (message list) or an explicit list of prompts."""
@@ -235,7 +234,8 @@ class DragPlusPipeline:
         return states
 
     def _run_state(self, ctx: StageContext, state: QuestionState) -> None:
-        if not run_routed(ctx, state):
+        if not (ctx.flags.decompose and run_decomposed(ctx, state)) \
+                and not run_routed(ctx, state):
             run_query_stage(ctx, state)
             state.emit("QueryStage_QueryPool", state.query_pool)
             run_answer_stage(ctx, state)

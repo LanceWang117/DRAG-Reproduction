@@ -20,6 +20,7 @@ from . import fake
 
 METRICS = ["em", "f1", "acc", "precision", "recall"]
 BACKEND_NAMES = ("fake", "flashrag", "local")
+COMPARISON_ARMS = ("ircot", "selfask")
 FAISS_GPU_HELP = ("faiss_gpu=true needs FAISS with GPU support; install the pinned "
                   "faiss-gpu build (see REPRODUCTION.md, 'GPU retrieval')")
 

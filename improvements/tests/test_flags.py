@@ -34,7 +34,7 @@ BASELINE = {"max_query_debate_rounds": 3, "max_answer_debate_rounds": 3, "profil
             "self_consistency_samples": 5, "self_consistency_temperature": 0.7,
             "router": None, "router_cost_weight": None,
             "conformal_alpha": None, "conformal_model": None,
-            "conformal_escalate": False}
+            "conformal_escalate": False, "decompose": False}
 
 
 class FlagDefaultTests(unittest.TestCase):
