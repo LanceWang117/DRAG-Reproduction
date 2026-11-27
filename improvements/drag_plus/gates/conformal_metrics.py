@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import math
 from pathlib import Path
-from typing import Any, Dict, List, Mapping, Sequence, Tuple
+from typing import Any, List, Mapping, Sequence, Tuple
 
 TARGETS = (0.5, 0.7, 0.9)
 
