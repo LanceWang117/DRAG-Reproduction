@@ -129,6 +129,7 @@ FLAG_SPECS: Tuple[FlagSpec, ...] = (
     FlagSpec("conformal_alpha", float, None, optional=True, minimum=0.0, maximum=1.0, doc="Split-conformal error rate in (0, 1); null answers every question."),
     FlagSpec("conformal_model", str, None, optional=True, doc="Path to a conformal calibration JSON; required with conformal_alpha."),
     FlagSpec("conformal_escalate", bool, False, doc="Mark an abstention for escalation instead of silent abstention."),
+    FlagSpec("decompose", bool, False, doc="Plan a multi-hop question into at most three grounded hops before the J20 router; a fallback continues the normal pipeline."),
 )
 _SPECS_BY_NAME = {spec.name: spec for spec in FLAG_SPECS}
 

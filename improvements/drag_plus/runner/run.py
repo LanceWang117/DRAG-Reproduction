@@ -13,6 +13,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple
 
+from ..decompose.compare import IRCoTPipeline, SelfAskPipeline
 from ..instrument import logs, manifest
 from ..instrument.timing import CallRecorder
 from ..naive import NaivePipeline
@@ -22,6 +23,9 @@ from ..retrieval.hybrid import config_fingerprint
 from . import records, resume
 from .backends import Backend, build_retriever
 from .variant import Variant
+
+PIPELINES = {"drag": DragPlusPipeline, "naive": NaivePipeline,
+             "ircot": IRCoTPipeline, "selfask": SelfAskPipeline}
 
 CHECKPOINTS, TIMINGS, TRANSCRIPTS = "checkpoints.jsonl", "stage-timings.jsonl", "transcripts.jsonl"
 MANIFEST, SUMMARY = "run-manifest.json", "summary.json"
@@ -87,7 +91,7 @@ class _Pipelines:
         """The pipeline for one (arm, dataset), built once per run."""
         if (arm, dataset) not in self._cache:
             backend = self._request.backend
-            cls = DragPlusPipeline if arm == "drag" else NaivePipeline
+            cls = PIPELINES[arm]
             extra = {"count_tokens": backend.count_tokens} if cls is DragPlusPipeline else {}
             self._cache[(arm, dataset)] = cls(
                 self._flags, backend.generator, self.retriever,

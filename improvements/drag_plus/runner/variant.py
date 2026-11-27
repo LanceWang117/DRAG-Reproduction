@@ -14,6 +14,7 @@ from typing import Any, Dict, Tuple
 from ..flags import Flags
 
 ARMS = ("drag", "naive")
+ALLOWED_ARMS = ARMS + ("ircot", "selfask")
 _KEYS = {"name", "description", "flags", "arms"}
 _NAME = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]*")
 
@@ -33,13 +34,15 @@ class Variant:
 def _arms(value: Any) -> Tuple[str, ...]:
     if not isinstance(value, list) or not value:
         raise VariantError("'arms' must be a non-empty list")
-    bad = [arm for arm in value if arm not in ARMS]
+    bad = [arm for arm in value if arm not in ALLOWED_ARMS]
     if bad or len(set(value)) != len(value):
-        raise VariantError(f"'arms' must be distinct names from {list(ARMS)}, got {value!r}")
+        raise VariantError(
+            f"'arms' must be distinct names from {list(ALLOWED_ARMS)}, got {value!r}")
     return tuple(value)
 
 
 def parse_variant(data: Any) -> Variant:
+    """Validate one variant document, including its allowed arms."""
     if not isinstance(data, dict):
         raise VariantError("a variant file must hold a JSON object")
     unknown = sorted(set(data) - _KEYS)
