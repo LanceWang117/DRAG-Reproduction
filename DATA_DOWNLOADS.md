@@ -4,6 +4,9 @@ Download large resources separately. The experiment used the full corpus and
 index without rebuilding embeddings. See each resource's upstream access and
 license terms.
 
+On a rented A100 pod, download onto the persistent network volume and follow
+[A100_RUNBOOK.md](A100_RUNBOOK.md) §2.5; the container disk is disposable.
+
 | Resource | Source / version | Example local path |
 | --- | --- | --- |
 | Llama 3.1 8B Instruct | [Hugging Face](https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct), revision `0e9e39f249a16976918f6564b8830bc894c89659` | `models/Llama-3.1-8B-Instruct` |

@@ -12,6 +12,25 @@ The checker validates the compact evidence hashes, fixed inputs, passage IDs
 and text, and aggregates the stored per-question scores. It does not regenerate
 answers or use an LLM for scoring.
 
+## Run the server jobs on an A100
+
+The measurement jobs (E00–E06) run on one A100 80 GB pod. The operator runbook is
+[A100_RUNBOOK.md](A100_RUNBOOK.md): pod setup, job order, per-job commands, cut lines
+and handback. It assumes the private pack (the agent prompts and job specs) has been
+unpacked at the repo root.
+
+For the first checks on a fresh pod:
+
+```bash
+bash scripts/pod_setup.sh --write-config
+python scripts/server_checks.py --list --owner E00
+python scripts/server_checks.py --run --config config.local.json
+bash scripts/pod_setup.sh --teardown
+```
+
+The jobs themselves are pasted from `docs/prompts/E00.md` … `E06.md`. The runbook says
+which one to run, in what order, and when to stop.
+
 ## Linux setup
 
 The tested platform was an NVIDIA A100 on Linux. Use an isolated environment:
