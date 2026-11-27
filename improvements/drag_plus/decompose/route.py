@@ -33,7 +33,7 @@ def _record_success(ctx: StageContext, state: QuestionState, plan, result,
     state.emit("Decompose_Plan", plan.as_dict())
     state.emit("Decompose_Ledger", [entry.as_dict() for entry in result.ledger])
     state.emit("Decompose_Calls", {"used": budget.used, "limit": budget.limit})
-    state.emit("Decompose_Beam", {"width": result.beams, "paths": len(result.ledger)})
+    state.emit("Decompose_Beam", {"beams": result.beams, "paths": len(result.ledger)})
     state.decisions.append({"stage": "decompose", "decision": "answer",
                             "status": "grounded", "calls": budget.used,
                             "call_cap": budget.limit, "beams": result.beams})

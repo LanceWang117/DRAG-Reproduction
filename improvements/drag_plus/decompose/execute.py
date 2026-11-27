@@ -195,6 +195,7 @@ def execute_plan(ctx: StageContext, state: QuestionState, plan: Plan, *,
         return None
     beams = [BeamState()]
     for step in plan.steps:
+        state.round = step.qid
         beams = _advance(ctx, state, step, beams, budget, answer_fn, candidate_fn,
                          margin, width)
         if not beams:
