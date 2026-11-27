@@ -18,6 +18,7 @@ exactly like the recorded v1.0.1 baseline (`src/reproduction_changes/model/drag.
 | `analysis/` | Scoring, the unified answer extractor and paired statistics |
 | `grounding/` | J19 soft faithfulness scorers (heuristic, lazy MiniCheck) and the weighted aggregation rule |
 | `gates/router_features.py`, `gates/router.py` | J20 four pre-debate features (retrieval margin, `s_bar_O`, answer agreement, Naive-answer entropy) and the fitted cost-aware router: `argmax_r P(correct \| r) - lambda*cost(r)`; `router` defaults to null |
+| `gates/conformal.py`, `gates/conformal_metrics.py`, `scripts/eval_conformal.py` | J21 split-conformal selective answering: score `1 - p_hat` over E(.) answer clusters, per-dataset `ceil((n+1)(1-alpha))/n` threshold with a below-`min_n` pooled fallback, abstain (or escalate) when the set is not a singleton; the script cross-fits five ways and reports Clopper-Pearson coverage, set size, abstention and selective accuracy with a dependency-free SVG curve; `conformal_alpha` defaults to null |
 
 The package imports without FlashRAG, vLLM, torch or FAISS; the runner injects those
 objects. Its only third-party imports are the light `Levenshtein` (query-pool edit

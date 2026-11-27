@@ -126,6 +126,9 @@ FLAG_SPECS: Tuple[FlagSpec, ...] = (
     FlagSpec("self_consistency_temperature", float, 0.7, minimum=0.0, strict_minimum=True, doc="Sampling temperature for aggregator='self_consistency'; do_sample is set only on those calls."),
     FlagSpec("router", str, None, optional=True, doc="Path to a fitted J20 router JSON; null keeps the baseline pipeline."),
     FlagSpec("router_cost_weight", float, None, optional=True, minimum=0.0, doc="Cost weight lambda in P(correct|r) - lambda*cost(r); null uses the model's fitted value."),
+    FlagSpec("conformal_alpha", float, None, optional=True, minimum=0.0, maximum=1.0, doc="Split-conformal error rate in (0, 1); null answers every question."),
+    FlagSpec("conformal_model", str, None, optional=True, doc="Path to a conformal calibration JSON; required with conformal_alpha."),
+    FlagSpec("conformal_escalate", bool, False, doc="Mark an abstention for escalation instead of silent abstention."),
 )
 _SPECS_BY_NAME = {spec.name: spec for spec in FLAG_SPECS}
 

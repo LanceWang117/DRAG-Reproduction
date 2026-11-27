@@ -40,4 +40,9 @@ COMBINATIONS = (
     # J31: grouped searches go through batch_search (whole query) and a lone search
     # through FlashRAG's search (first 64 characters, B2), so grouping would mix both.
     (lambda v: v["question_batch_size"] > 1 and not batch_path_only(v), GROUPING),
+    (lambda v: v["conformal_alpha"] is not None
+     and not 0.0 < v["conformal_alpha"] < 1.0,
+     "conformal_alpha must be in (0, 1)"),
+    (lambda v: v["conformal_alpha"] is not None and v["conformal_model"] is None,
+     "conformal_alpha requires conformal_model"),
 )

@@ -4,8 +4,7 @@ The pipeline holds no per-question data. ``run_batch`` puts one question state i
 worker and lets ``BarrierScheduler`` group its backend requests with the other questions
 at the same ``(stage, round, role)``. A group of one delegates to the existing
 ``Backends`` methods, so ``question_batch_size=1`` keeps the frozen call sequence (T0).
-An exception in one worker marks only that state ``failed``; the remaining questions
-continue and the runner reports the failed run.
+An exception in one worker marks only that state ``failed``; the rest continue.
 """
 from __future__ import annotations
 
@@ -17,6 +16,7 @@ from .answers import unified_pred
 from .answer_stage import run_answer_stage
 from .flag_rules import check_group_size
 from .flags import Flags
+from .gates.conformal import apply_conformal
 from .gates.escalation import load_model
 from .gates.router import run_routed
 from .instrument.timing import whitespace_tokens
@@ -243,8 +243,8 @@ class DragPlusPipeline:
         state.status = "done"
 
     def _finish(self, state: QuestionState) -> None:
-        if self._ctx.flags.answer_extractor == "native":
-            return
-        state.emit("raw_pred", state.raw_pred)
-        state.pred = unified_pred(state.raw_pred, self._ctx.dataset_name)
-        state.emit("pred", state.pred)
+        if self._ctx.flags.answer_extractor != "native":
+            state.emit("raw_pred", state.raw_pred)
+            state.pred = unified_pred(state.raw_pred, self._ctx.dataset_name)
+            state.emit("pred", state.pred)
+        apply_conformal(self._ctx, state)

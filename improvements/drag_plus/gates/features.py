@@ -32,7 +32,7 @@ def _tokens(text: str) -> List[str]:
     return _WORD.findall(text.lower())
 
 
-def _cluster_key(answer: str) -> str:
+def cluster_key(answer: str) -> str:
     """Normalise an answer so ``Paris`` and ``paris.`` land in one cluster."""
     return " ".join(_tokens(answer)) or answer.strip().lower()
 
@@ -50,7 +50,7 @@ def answer_clusters(answers: Sequence[str]) -> List[List[str]]:
     """Group answers by normalised string; empty answers form their own cluster."""
     groups = {}
     for answer in answers:
-        groups.setdefault(_cluster_key(answer), []).append(answer)
+        groups.setdefault(cluster_key(answer), []).append(answer)
     return list(groups.values())
 
 
